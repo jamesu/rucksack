@@ -1,0 +1,8 @@
+RuckSack
+========
+
+Simply put, this is an organisation tool. Very early stages so far, but you can start off by 
+running the following rake task:
+
+rake db:rucksack:install
+

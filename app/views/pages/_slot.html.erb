@@ -1,0 +1,12 @@
+<div class="pageWidget" url="<%= "#{slot.rel_object_type.downcase.pluralize}/#{slot.rel_object_id}" %>">
+  <div class="pageSlotHandle" id="page_slot_handle_<%= slot.id %>" style="display:none">
+    <div class="inner">
+      <ul>
+        <li class="slot_delete">-</li>
+        <li class="slot_edit"><%= :edit.l %></li>
+        <li class="slot_handle">+</li>
+      </ul>
+    </div>
+  </div>   
+  <%= render :partial => object.view_partial, :locals => {:object => object} %>
+</div>

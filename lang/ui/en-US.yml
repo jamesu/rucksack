@@ -1,0 +1,45 @@
+
+# Access
+login: Login
+username: Username
+password: Password
+email_address: Email Address
+forgot_password: Forgot password
+forgot_password_q: "Forgot password?"
+send_password: Send password
+use_openid: Use OpenID
+remember_me_for_days: Remember me for {days} days
+login_success: Login successful
+login_failure: Invalid login
+invalid_openid_server: "Unable to find openid server for <q>{openid_url}</q>"
+failed_verification_openid_url: "Verification of {openid_url} failed"
+failed_login_openid_url: "Failed login with identity {openid_url}"
+success_login_openid_url: "You have successfully logged in with {openid_url} as your identity"
+verification_failed: Verification failed
+verification_cancelled: Verification cancelled
+unknown_response_status: "Unknown response status: {status}"
+invalid_email: Invalid email address
+invalid_email_not_in_use: Invalid email address
+
+# Page view
+add_to_page: Add to page
+cancel: Cancel
+Note: Note
+List: List
+page_is_not_shared: "Page is not shared ({link})"
+page_is_shared: "Page is shared ({link})"
+page: Page
+pages: Pages
+edit: Edit
+page_back: Back
+insert_here: Insert Here
+page_list: Listing pages
+
+# Forms
+add_note: Add note
+edit_note: Edit note
+title: Title
+content: Content
+page_create: Create
+
+product_signature: Powered by Rucksack

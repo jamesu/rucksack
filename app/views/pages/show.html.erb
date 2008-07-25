@@ -1,0 +1,40 @@
+<%
+    @page_title = h(@page.title)
+%>
+
+<div id="pageWidgetForms">
+<% Page.widgets.each do |widget| -%>
+<%= render :partial => widget.form_partial, :locals => {:widget => widget} unless widget.form_partial.nil? %>
+<% end %>
+</div>
+
+<div id="slots" class="pageSlots">
+<!-- util widgets -->
+<div id="pageInsert" style="display:none"><p id="cpi"><%= :insert_here.l %></p></div>
+
+<div id="pageInsertItems">
+
+<div id="pageInsertItemsBar" style="display:none">
+  <div id="pageInsertItemCancel"><a href="#"><%= :cancel.l %></a></div>
+  <div class="pageInsertItemWidgets"><%= :add_to_page.l %>:
+    <span> <%= Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s}\" href=\"#\">#{widget.name.to_sym.l}</a>"}.join(', ') %></span>
+  </div>
+</div>
+<div id="pageTablet">
+  <div id="pageTabletContainer"></div>
+</div>
+
+</div>
+
+<!-- core slots -->
+<% @page.slots.each do |slot| -%>
+<div class="pageSlot" id="page_slot_<%= slot.id %>" slot="<%= slot.id %>">
+<%= render :partial => 'slot', :locals => {:object => slot.rel_object, :slot => slot} %>
+</div>
+<% end %>
+
+<!-- -->
+<div class="pageSlot pageFooter" slot="0" id="page_slot_footer"></div>
+</div>
+
+<%= link_to :page_back.l, pages_path %>

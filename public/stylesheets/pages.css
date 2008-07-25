@@ -1,0 +1,205 @@
+body { margin: 0px; padding: 0px; background-color: #fff; color: #333; }
+
+body, p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size:   13px;
+  line-height: 18px;
+}
+
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+header {
+    margin: 0pt auto;
+    width: 600px;
+    text-align: left;
+}
+
+/* outer wrapper for content. contains side background */
+#outerWrapper {
+    background: #ccc;
+}
+
+#innerWrapper {
+    margin: 0pt auto;
+    width: 600px;
+    text-align: left;
+}
+
+#pageContent {
+    border: 2px solid #000;
+    //background: green;
+}
+
+/* content floats left in the main box */
+#content {
+    float: left;
+    width: 400px;
+    background: #fff;
+    border-right: 2px solid #bbb;
+    
+    margin: 0px;
+}
+
+/* sidebar floats right in the main box */
+#sidebar {
+    width: 190px;
+    float: right;
+    
+    //background: red;
+    
+    margin: 0px;
+}
+
+#wrapper {
+  text-align: center;
+}
+
+.pageSlot {
+    background: #fff;
+    padding: 6px;
+    position: relative;
+}
+
+.pageSlots {
+    position: relative;
+}
+
+.pageWidget {
+    background: #fff;
+    padding: 16px 18px 0pt;
+}
+
+/* Page slot handle. This is positioned relative to the containing div,
+   so it starts at the top left of the widget. In addition width is set to 0 
+   so the right border is also on the left. */
+.pageSlotHandle {
+    position: relative;
+    left: 0pt;
+    width: 0pt; /* seems to trigger positioning on left? */
+}
+
+/* Page slot handle inner. This is positioned absolutely to the right of 
+   the containing div, so we essentially end up with content hanging off the
+   left of the widget (or the right of the handle). */
+.pageSlotHandle div.inner {
+    position: absolute;
+    right: 0px;
+    margin: 0px;
+    background: yellow;
+    width: 58px;
+}
+
+/* Page slot handle list. Inline and semantic */
+.pageSlotHandle ul {
+    display: inline;
+    padding: 0pt;
+    
+}
+
+.pageSlotHandle li {
+    display: inline;
+    padding-left: 0pt;
+}
+
+/* Page insert bar. Indicates current insertion point */
+#pageInsert {
+    position: relative;
+}
+
+/* Page insert bar. Inner p is positioned absolutely to the left of the containing div, 
+   so it hangs off the edge */
+#pageInsert p {
+    background: yellow;
+    left: -28px;
+    top: -15px;
+    position: absolute;
+    height: 20px;
+    z-index: 100;
+}
+
+/* Page insert items bar. Also contains forms for certain items */
+#pageInsertItems {
+    position: relative;
+    margin-left: -40px;
+}
+
+#pageInsertItemsBar {
+    background: red;
+    left: -50px;
+    padding-left: 50px;
+    top: -15px;
+    position: absolute;
+    height: 20px;
+    z-index: 100;
+}
+
+#pageTabletContainer {
+    margin-left: 40px;
+}
+
+#pageInsertItemCancel {
+    position: absolute;
+    left: 0px;
+}
+
+#pageInsertItems ul {
+    list-style-image: none;
+    list-style-position: none;
+    margin: 0px;
+    padding: 0pt 0px;
+}
+
+#pageInsertItems li {
+    display: inline;
+    margin: 5px 0pt;
+}
+
+/* Hidden forms container */
+#pageWidgetForms {
+    display: none;
+}
+
+a { color: #000; }
+a:visited { color: #666; }
+a:hover { color: #fff; background-color:#000; }
+
+.fieldWithErrors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+}
+
+#errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#errorExplanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
+

@@ -1,0 +1,14 @@
+<h1>New page</h1>
+
+<% form_for(@page) do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <label for="newpage_title"></label>
+    <%= text_field 'page', 'title', :id => 'newpage_title', :class => 'long' %>
+  </p>
+  <p>
+    <%= f.submit :page_create.l %>
+  </p>
+<% end %>
+
+<%= link_to :page_back.l, pages_path %>
