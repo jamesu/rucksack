@@ -273,7 +273,7 @@ var HoverSlotBar = Behavior.create({
     },
     
     _doEdit: function(resource) {
-        console.log('new ajax request');
+        //console.log('new ajax request');
         new Ajax.Request('/pages/' + PAGE_ID + '/' + resource + '/edit', 
                         {
                             asynchronous:true, evalScripts:true,
@@ -294,8 +294,8 @@ Event.addBehavior({
     },
     
     '.add_Note:click' : function(e) {
-        console.log('addNote: ');
-        console.log(Page.insert_element);
+        //console.log('addNote: ');
+        //console.log(Page.insert_element);
         // TODO: detect if this is on the bar. if not, reset insert point
         InsertionBar.set_widget_form($('add_NoteForm'));
         InsertionBar.hide();

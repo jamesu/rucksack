@@ -31,7 +31,6 @@ header {
 
 #pageContent {
     border: 2px solid #000;
-    //background: green;
 }
 
 /* content floats left in the main box */
@@ -48,8 +47,6 @@ header {
 #sidebar {
     width: 190px;
     float: right;
-    
-    //background: red;
     
     margin: 0px;
 }
@@ -144,18 +141,6 @@ header {
 #pageInsertItemCancel {
     position: absolute;
     left: 0px;
-}
-
-#pageInsertItems ul {
-    list-style-image: none;
-    list-style-position: none;
-    margin: 0px;
-    padding: 0pt 0px;
-}
-
-#pageInsertItems li {
-    display: inline;
-    margin: 5px 0pt;
 }
 
 /* Hidden forms container */

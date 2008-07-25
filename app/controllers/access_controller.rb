@@ -19,7 +19,7 @@ class AccessController < ApplicationController
         
         if !@logged_user.nil?
           error_status(false, :login_success)
-          redirect_back_or_default :controller => "dashboard"
+          redirect_back_or_default :controller => "pages"
           
           session['user_id'] = @logged_user.id
         else
@@ -43,7 +43,7 @@ class AccessController < ApplicationController
           error_status(true, :failed_login_openid_url, {:openid_url => identity_url})
         else
           error_status(false, :success_login_openid_url, {:openid_url => identity_url})
-          redirect_back_or_default :controller => 'dashboard'
+          redirect_back_or_default :controller => 'pages'
           session['user_id'] = log_user.id
           return
         end
