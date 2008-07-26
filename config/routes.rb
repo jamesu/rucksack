@@ -1,7 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :notes
-
-  map.resources :notes
 
   # The priority is based upon order of creation: first created -> highest priority.
 
@@ -39,7 +36,9 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.resources :pages, :member => {:reorder => :post} do |page|
-    page.resources :lists
+    page.resources :lists, :member => {:recorder => :post} do |list|
+        list.resources :list_items, :as => 'items'
+    end
     page.resources :notes
   end
 
