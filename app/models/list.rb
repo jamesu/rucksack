@@ -23,6 +23,7 @@ class List < ActiveRecord::Base
 	include ActionController::UrlWriter
 	
 	belongs_to :page
+	has_one :page_slot, :as => :rel_object
 	
 	belongs_to :completed_by, :class_name => 'User', :foreign_key => 'completed_by_id'
 	belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
@@ -81,6 +82,14 @@ class List < ActiveRecord::Base
 	 return self.completed_on != nil
 	end
 	
+	def open_items
+	 self.list_items.reject do |item| not item.completed_on.nil? end
+	end
+	
+	def completed_items
+	 self.list_items.reject do |item| item.completed_on.nil? end
+	end
+	
 	def last_edited_by_owner?
 	 return (self.created_by.member_of_owner? or (!self.updated_by.nil? and self.updated_by.member_of_owner?))
 	end
@@ -93,9 +102,7 @@ class List < ActiveRecord::Base
 	  project.is_active? and user.has_permission(project, :can_manage_tasks)
 	end
 	
-	def can_be_changed_by(user)      
-	 return false if ( !project.is_active? or !user.member_of(project) )
-	 
+	def can_be_changed_by(user)
 	 return true if user.is_admin
 	 
 	 return (!(self.is_private and !user.member_of_owner?) and user.id == created_by.id)
@@ -118,6 +125,10 @@ class List < ActiveRecord::Base
 	 
 	 return (completed_count > 0 and completed_count == self.project_tasks.length)
 	end
+    
+    def view_partial
+        "lists/show"
+    end
     
     def self.form_partial
         nil

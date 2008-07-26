@@ -38,6 +38,9 @@ page_list: Listing pages
 # Forms
 add_note: Add note
 edit_note: Edit note
+add_item: Add item
+edit_item: Edit item
+rename_list: Rename list
 title: Title
 content: Content
 page_create: Create

@@ -38,13 +38,13 @@ var HoverHandle = {
             
         // Different handle, make sure the old one is gone
         if (this.current_handle && this.current_handle != handle)
-            this.current_handle.style.display = 'none';
+            this.current_handle.hide();
         
         // Show the new handle
         if (this.current_handle != handle || handle.style.display == 'none')
         {
             handle.setOpacity(1.0);
-            handle.style.display = 'block';
+            handle.show();
         }
             
         // Disable insertion marker
@@ -63,7 +63,7 @@ var HoverHandle = {
             
         if (!this.enabled)
         {
-            this.current_handle.style.display = 'none';
+            this.current_handle.hide();
             return;
         }
         
@@ -92,10 +92,10 @@ var InsertionBar = {
     },
     show: function() {
         InsertionMarker.element.insert({after: this.element});
-        this.element_bar.style.display = 'block';
+        this.element_bar.show();
     },
     hide: function() {
-        this.element_bar.style.display = 'none';
+        this.element_bar.hide();
     },
     
     // Widget form
@@ -134,11 +134,11 @@ var InsertionMarker = {
     show: function(el, insert_before) {
         el.insert(insert_before ? { before: this.element } :
                                   { after : this.element });
-        this.element.style.display = 'block';
+        this.element.show();
         this.set(el, insert_before);
     },
     hide: function() {
-        this.element.style.display = 'none';
+        this.element.hide();
         if (this.enabled)
             this.set(null, true);
     },
@@ -159,14 +159,16 @@ var Page = {
         Insertion.set(null);
     },
     
-    insertWidgetForm: function(resource) {
-        // 
-        new Ajax.Request('/pages/' + PAGE_ID + '/' + 'testi', 
+    insertWidget: function(resource) {
+        // Insert 
+        new Ajax.Request('/pages/' + PAGE_ID + '/' + resource, 
                         {
                             asynchronous:true, evalScripts:true,
-                            method: 'get',
+                            method: 'post',
                             onComplete:function(request) {  },
-                            parameters: {'position[slot]': this.insert_element.getAttribute('slot') , 'position[before]': (this.insert_before ? '1' : '0')}
+                            parameters: {'position[slot]': this.insert_element.getAttribute('slot') , 
+                                         'position[before]': (this.insert_before ? '1' : '0'), 
+                                         'authenticity_token' : AUTH_TOKEN}
                         });
     },
     
@@ -196,12 +198,12 @@ document.observe('mousemove', function(evt){
     var el = evt.element();
     
     var hover = null;
-    var widget = el.up('.pageWidget');
-    if (widget)
-        hover = widget.down('.pageSlotHandle');
+    var handler = el.getAttribute('hover_handle');
+    if (handler)
+        hover = $(handler);
     else
         hover = el.up('.pageSlotHandle');
-    
+        
     if (hover)
         HoverHandle.setHandle(hover);
     else
@@ -288,7 +290,7 @@ var HoverSlotBar = Behavior.create({
 Event.addBehavior({
     // Insert widgets
     '.add_List:click' : function(e) {
-        Page.insertWidgetForm('lists/new');
+        Page.insertWidget('lists');
         InsertionBar.hide();
         InsertionMarker.setEnabled(true);
     },
@@ -302,6 +304,70 @@ Event.addBehavior({
         InsertionMarker.setEnabled(true);
         HoverHandle.setEnabled(true);
     },
+    
+    '.addItem form:submit': function(e) {
+        var el = e.element();
+        e.stop();
+        
+        el.request({evalScripts:true,
+            onComplete: function(transport){
+                // 
+                
+                Event.addBehavior.reload();
+                
+                return;
+            }
+            });
+    },
+    
+    // Add list item handlers
+    
+    '.newItem a:click' : function(e) {
+        var el = e.element();
+        e.stop();
+        
+        var newItem = el.parentNode;
+        var addItemInner = newItem.up('.addItem').down('.inner');
+        
+        addItemInner.show();
+        newItem.hide();
+    },
+    
+    '.cancel_addItemForm:click' : function(e) {
+        var el = e.element();
+        e.stop();
+        
+        var addItemInner = el.up('.inner');
+        var newItem = addItemInner.up('.addItem').down('.newItem');
+        
+        addItemInner.hide();
+        newItem.show();
+    },
+    
+    
+    // List edit form handlers
+    
+    '.pageListForm form:submit': function(e) {
+        var el = e.element();
+        e.stop();
+        
+        el.request({evalScripts:true,
+            onComplete: function(transport){ }
+            });
+    },
+    
+    '.cancel_ListForm:click' : function(e) {
+        var el = e.element();
+        e.stop();
+        
+        var pageList = el.up('.pageList');
+        
+        pageList.down('.pageListForm').hide();
+        pageList.down('.pageListHeader').show();
+    },
+    
+    
+    // Note form handlers
     
     '#add_NoteFormContent:submit': function(e) {
         var el = e.element();

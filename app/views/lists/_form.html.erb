@@ -1,0 +1,6 @@
+<%= form_tag( page_list_path(@page, @list), :method => :put) %>
+  <%= text_field 'list', 'name', :class => 'long' %>
+  <button class="submit" type="submit"><%= :rename_list.l %></button>
+  <a href="#" class="cancel_ListForm"><%= :cancel.l %></a>
+</form>
+</div>

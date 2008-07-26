@@ -1,0 +1,4 @@
+page["list_header_#{@list.id}_form"].hide
+page.replace_html "list_header_#{@list.id}_form", ""
+page.replace_html "list_header_#{@list.id}", "<h2>#{h(@list.name)}</h2>"
+page["list_header_#{@list.id}"].show
