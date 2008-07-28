@@ -1,19 +1,19 @@
 <% @page_title = :login.l %>
 
 <% if AppConfig.allow_openid %>
-<div id="login_header">
+<div id="header">
     <%= check_box "login", "use_openid", :size => 30, :id => 'loginOpenID', :class => 'checkbox', :onclick => 'login_toggle_openid();' %>
     <label class="checkbox" for="loginOpenID"><%= :use_openid.l %></label>
 </div>
 <% end %>
 
-<div id="normal_login" style="display: block;">
+<div class="inner" id="normal_login" style="display: block;">
 <%= form_tag :controller => 'access', :action => 'login' %>
-  <div id="loginUsernameDiv">
+  <div id="loginUsernameField">
     <label class="leftl"  for="loginUsername"><%= :username.l %>:</label>
     <%= text_field "login", "user", :size => 30, :id => 'loginUsername', :class => 'medium' %>
   </div>
-  <div id="loginPasswordDiv">
+  <div id="loginPasswordField">
     <label class="leftl" for="loginPassword"><%= :password.l %>:</label>
     <%= password_field "login", "password", :size => 30, :id => 'loginPassword', :class => 'medium' %>
   </div>
@@ -29,9 +29,9 @@
 </div>
     
 <% if AppConfig.allow_openid %>
-<div id="openid_login" style="display: none;">
+<div class="inner" id="openid_login" style="display: none;">
 <%= form_tag :controller => 'access', :action => 'openid_login' %>
-  <div id="loginUsernameDiv">
+  <div id="loginOpenIDField">
     <label for="loginOpenIDIdentity"><%= :openid.l %>:</label>
     <%= text_field_tag "openid_url", "", :size => 30, :id => 'loginOpenIDIdentity', :class => 'openid_login' %>
   </div>
