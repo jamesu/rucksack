@@ -513,6 +513,18 @@ Event.addBehavior({
             });
     },
     
+    '#update_NoteFormContent:submit': function(e) {
+        var el = e.element();
+        e.stop();
+        
+        el.request({evalScripts:true,
+            onComplete: function(transport){
+                Event.addBehavior.reload();
+                return;
+            }
+            });
+    },
+    
     '#update_SeparatorFormContent:submit': function(e) {
         var el = e.element();
         e.stop();
