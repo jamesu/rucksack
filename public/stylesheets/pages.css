@@ -57,8 +57,8 @@ header {
 
 .pageSlot {
     background: #fff;
-    padding: 6px;
     position: relative;
+    padding: 16px 18px 0pt;
 }
 
 .pageSlots {
@@ -67,7 +67,6 @@ header {
 
 .pageWidget {
     background: #fff;
-    padding: 16px 18px 0pt;
 }
 
 /* Page slot handle. This is positioned relative to the containing div,
@@ -77,6 +76,7 @@ header {
     position: relative;
     left: 0pt;
     width: 0pt; /* seems to trigger positioning on left? */
+    height: 0pt;
 }
 
 /* Page slot handle inner. This is positioned absolutely to the right of 
@@ -146,6 +146,16 @@ header {
 /* Hidden forms container */
 #pageWidgetForms {
     display: none;
+}
+
+/* List widget */
+
+div.pageList .listItems {
+    list-style-type: none;
+}
+
+div.pageList .completedItems {
+    color: #666666;
 }
 
 a { color: #000; }

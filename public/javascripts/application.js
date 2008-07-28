@@ -165,7 +165,7 @@ var Page = {
                         {
                             asynchronous:true, evalScripts:true,
                             method: 'post',
-                            onComplete:function(request) { Event.addBehaviour.reload(); },
+                            onComplete:function(request) { Event.addBehavior.reload(); },
                             parameters: {'position[slot]': this.insert_element.getAttribute('slot') , 
                                          'position[before]': (this.insert_before ? '1' : '0'), 
                                          'authenticity_token' : AUTH_TOKEN}
@@ -173,6 +173,11 @@ var Page = {
     },
     
     makeSortable: function() {
+        $$('.pageList .openItems .listItems').forEach(function(el) {
+          Page.makeListSortable(el);
+        });
+        
+        
         Sortable.create('slots', {handle: 'slot_handle', tag: 'div', only: 'pageSlot', 
                         onUpdate: function() { 
                           new Ajax.Request('/pages/' + PAGE_ID + '/reorder', 
@@ -183,6 +188,22 @@ var Page = {
                           });
                         
                         } });
+        
+    },
+    
+    makeListSortable: function(el) {
+        var list_url = el.up('.pageWidget').getAttribute('url');
+        
+        Sortable.create(el.id, { handle: 'slot_handle',
+                        onUpdate: function() { 
+                          new Ajax.Request('/pages/' + PAGE_ID + '/' + list_url + '/reorder', 
+                          {
+                              asynchronous:true, evalScripts:false,
+                              onComplete:function(request) {},
+                              parameters:Sortable.serialize(el.id, {name: 'items'}) + '&authenticity_token=' + AUTH_TOKEN
+                          });
+                        
+                        } });    
     }
 }
 
@@ -259,7 +280,7 @@ var HoverSlotBar = Behavior.create({
         var el = e.element();
         e.stop();
         
-        var url = this.element.up('.pageWidget').readAttribute('url');
+        var url = this.element.up(this.element.readAttribute('resType')).readAttribute('url');
         if (el.hasClassName('slot_delete')) return this._doDelete(url);
         if (el.hasClassName('slot_edit')) return this._doEdit(url);
     },
@@ -269,7 +290,7 @@ var HoverSlotBar = Behavior.create({
                         {
                             asynchronous:true, evalScripts:true,
                             method: 'delete',
-                            onComplete:function(request) { Event.addBehaviour.reload(); },
+                            onComplete:function(request) { Event.addBehavior.reload(); },
                             parameters:'authenticity_token=' + AUTH_TOKEN
                         });
     },
@@ -320,6 +341,36 @@ Event.addBehavior({
             });
     },
     
+    '.listItem form:submit': function(e) {
+        var el = e.element();
+        e.stop();
+        
+        el.request({evalScripts:true,
+            onComplete: function(transport){
+                // 
+                
+                Event.addBehavior.reload();
+                
+                return;
+            }
+            });
+    },
+    
+    '.cancel_ListItemForm:click': function(e) {
+        var el = e.element();
+        e.stop();
+        
+        var list_url = el.up('.pageWidget').getAttribute('url');
+        var item_id = el.up('.listItem').getAttribute('item_id');
+        
+        new Ajax.Request('/pages/' + PAGE_ID + '/' + list_url + '/items/' + item_id, 
+                        {
+                            asynchronous:true, evalScripts:true,
+                            method: 'get',
+                            onComplete:function(request) { }
+                        });
+    },
+    
     // List item completion
     
     '.pageList .checkbox:click': function(e) {
@@ -327,7 +378,7 @@ Event.addBehavior({
         e.stop();
         
         var list_url = el.up('.pageWidget').getAttribute('url');
-        var item_id = el.parentNode.getAttribute('item_id');
+        var item_id = el.up('.listItem').getAttribute('item_id');
         
         new Ajax.Request('/pages/' + PAGE_ID + '/' + list_url + '/items/' + item_id + '/status', 
                         {

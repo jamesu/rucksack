@@ -115,17 +115,21 @@ class ListsController < ApplicationController
     end
   end
   
-  # POST /pages/1/reorder
+  # POST /lists/1/reorder
   def reorder
     list = List.find(params[:id])
     order = params[:items].collect { |id| id.to_i }
     
-    list.items.each do |slot|
-        idx = order.index(slot.id)
-        slot.position = idx
-        slot.save!
+    list.list_items.each do |item|
+        idx = order.index(item.id)
+        item.position = idx
+        puts "pos=#{item.position}"
+        item.position ||= list.list_items.length
+        puts "pos=#{item.position}"
+        puts "--"
+        item.save!
     end
-
+    puts "!!"
     respond_to do |format|
       format.html { head :ok }
       format.json { head :ok }

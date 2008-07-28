@@ -49,7 +49,7 @@ class ListItem < ActiveRecord::Base
 	  if @update_completed.nil?
 		write_attribute("updated_on", Time.now.utc)
 		if @update_is_minor.nil?
-			ApplicationLog.new_log(self, self.updated_by)
+			ApplicationLog.new_log(self, self.updated_by, :edit)
 		end
 	  else
 		write_attribute("completed_on", @update_completed ? Time.now.utc : nil)

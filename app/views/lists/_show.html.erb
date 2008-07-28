@@ -10,14 +10,8 @@
 <% end %>
 
 <div class="openItems">
-    <ul class="listItems">
+    <ul class="listItems" id="sortable_list_<%= object.id %>">
 <%= render :partial => 'list_items/show', :collection => object.open_items %>
-    </ul>
-</div>
-
-<div class="completedItems">
-    <ul class="listItems">
-<%= render :partial => 'list_items/show', :collection => object.completed_items %>
     </ul>
 </div>
 
@@ -35,5 +29,11 @@
     <div class="newItem" style="display: <%= @new_list.nil? ? 'block' : 'nil' %>"><a href="#" hover_handle="page_slot_handle_<%= object.page_slot.id %>"><%= :add_item.l %></a></div>
 </div>
 <% end %>
+
+<div class="completedItems">
+    <ul class="listItems">
+<%= render :partial => 'list_items/show', :collection => object.completed_items %>
+    </ul>
+</div>
 
 </div>

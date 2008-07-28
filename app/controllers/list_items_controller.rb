@@ -21,6 +21,7 @@ class ListItemsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
+      format.js
       format.xml  { render :xml => @list_item }
     end
   end
@@ -98,6 +99,7 @@ class ListItemsController < ApplicationController
   def status
     @list_item = ListItem.find(params[:id])
     @list_item.set_completed(params[:list_item][:completed] == 'true', @logged_user)
+    @list_item.position = @list.list_items.length
     @list_item.save
 
     respond_to do |format|
