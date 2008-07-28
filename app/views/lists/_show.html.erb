@@ -1,4 +1,4 @@
-<div class="pageList">
+<div class="pageList" id="list_<%= object.id %>">
 <div id="<%= "list_header_#{object.id}" %>" class="pageListHeader">
 <h2 hover_handle="page_slot_handle_<%= object.page_slot.id %>"><%= h(object.name) %></h2>
 </div>
@@ -9,7 +9,7 @@
 </div>
 <% end %>
 
-<div id="openItems">
+<div class="openItems">
     <ul class="listItems">
 <%= render :partial => 'list_items/show', :collection => object.open_items %>
     </ul>

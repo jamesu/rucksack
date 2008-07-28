@@ -165,7 +165,7 @@ var Page = {
                         {
                             asynchronous:true, evalScripts:true,
                             method: 'post',
-                            onComplete:function(request) {  },
+                            onComplete:function(request) { Event.addBehaviour.reload(); },
                             parameters: {'position[slot]': this.insert_element.getAttribute('slot') , 
                                          'position[before]': (this.insert_before ? '1' : '0'), 
                                          'authenticity_token' : AUTH_TOKEN}
@@ -319,6 +319,26 @@ Event.addBehavior({
             }
             });
     },
+    
+    // List item completion
+    
+    '.pageList .checkbox:click': function(e) {
+        var el = e.element();
+        e.stop();
+        
+        var list_url = el.up('.pageWidget').getAttribute('url');
+        var item_id = el.parentNode.getAttribute('item_id');
+        
+        new Ajax.Request('/pages/' + PAGE_ID + '/' + list_url + '/items/' + item_id + '/status', 
+                        {
+                            asynchronous:true, evalScripts:true,
+                            method: 'put',
+                            onComplete:function(request) { },
+                            parameters: {'list_item[completed]': el.checked,
+                                        'authenticity_token': AUTH_TOKEN}
+                        });
+    },
+    
     
     // Add list item handlers
     

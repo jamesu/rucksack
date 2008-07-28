@@ -32,16 +32,16 @@ class ListItem < ActiveRecord::Base
 	before_create  :process_params
 	after_create   :process_create
 	before_update  :process_update_params
-	after_update   :update_task_list
+	after_update   :update_list
 	before_destroy :process_destroy
 	 
 	def process_params
 	  write_attribute("completed_on", nil)
-	  write_attribute("position", self.task_list.project_tasks.length)
+	  write_attribute("position", self.list.list_items.length)
 	end
 	
 	def process_create
-	  self.task_list.ensure_completed(!self.completed_on.nil?, self.created_by)
+	  self.list.ensure_completed(!self.completed_on.nil?, self.created_by)
 	  ApplicationLog.new_log(self, self.created_by, :add)
 	end
 	
@@ -62,12 +62,12 @@ class ListItem < ActiveRecord::Base
 	  ApplicationLog.new_log(self, self.updated_by, :delete)
 	end
 	
-	def update_task_list
+	def update_list
 	  if !@update_completed.nil?
-		task_list = self.task_list
+		list = self.list
 		
-		task_list.ensure_completed(@update_completed, self.completed_by)
-		task_list.save!
+		list.ensure_completed(@update_completed, self.completed_by)
+		list.save!
 	  end
 	end
 	
@@ -77,6 +77,10 @@ class ListItem < ActiveRecord::Base
 	
 	def object_url
 		"#{self.task_list.object_url}#openTasksList#{self.task_list_id}_#{self.id}"
+	end
+	
+	def is_completed?
+	 return self.completed_on != nil
 	end
 	
 	def set_completed(value, user=nil)
@@ -91,30 +95,21 @@ class ListItem < ActiveRecord::Base
 	end
 	
 	def self.can_be_created_by(user, task_list)
-	 return (task_list.project.is_active? and user.member_of(task_list.project) and (!(task_list.is_private and !user.member_of_owner?) and task_list.can_be_managed_by(user)))
+	 return (!(list.is_private and !user.member_of_owner?) and list.can_be_managed_by(user))
 	end
 	
 	def can_be_changed_by(user)
-	 project = task_list.project
-	 
-	 return false if !user.member_of(project) or !project.is_active?
 	 return true if user.is_admin
 	 
-	 task_assigned_to = assigned_to
-	 return true if ((task_assigned_to == user) or (task_assigned_to == user.company) or task_assigned_to.nil?)
-	 
-	 # Owner editable for 3 mins
-	 return true if (self.created_by_id == user.id and (self.created_on+(60*3)) < Time.now.utc)
-	 
-	 return task_list.can_be_changed_by(user)
+	 return list.can_be_changed_by(user)
 	end
 	
 	def can_be_deleted_by(user)
-	 task_list.can_be_deleted_by(user)
+	 list.can_be_deleted_by(user)
 	end
 	
 	def can_be_seen_by(user)
-	 return (can_be_changed_by(user) or task_list.can_be_seen_by(user))
+	 return (can_be_changed_by(user) or list.can_be_seen_by(user))
 	end
 	
 	# Accesibility

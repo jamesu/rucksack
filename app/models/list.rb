@@ -83,11 +83,11 @@ class List < ActiveRecord::Base
 	end
 	
 	def open_items
-	 self.list_items.reject do |item| not item.completed_on.nil? end
+	 self.list_items.reject do |item| item.is_completed? end
 	end
 	
 	def completed_items
-	 self.list_items.reject do |item| item.completed_on.nil? end
+	 self.list_items.reject do |item| !item.is_completed? end
 	end
 	
 	def last_edited_by_owner?
@@ -116,14 +116,14 @@ class List < ActiveRecord::Base
 	 return (user.member_of(self.project) and !(self.is_private and !user.member_of_owner?))
 	end
 	
-	def finished_all_tasks?
+	def finished_all_items?
 	 completed_count = 0
 	 
-	 self.project_tasks.each do |task|
+	 self.list_items.each do |task|
 	   completed_count += 1 unless task.completed_on.nil?
 	 end
 	 
-	 return (completed_count > 0 and completed_count == self.project_tasks.length)
+	 return (completed_count > 0 and completed_count == self.list_items.length)
 	end
     
     def view_partial

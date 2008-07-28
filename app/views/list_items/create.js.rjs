@@ -1,0 +1,2 @@
+select_class = @list_item.is_completed? ? 'completedItems' : 'openItems'
+page.select("\#list_#{@list.id} .#{select_class} ul").first.insert(render({:partial => 'show', :collection => [@list_item]}))

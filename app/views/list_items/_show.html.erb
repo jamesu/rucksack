@@ -1,0 +1,9 @@
+<li id="<%= "list_item_#{show.id}"%>" item_id="<%= show.id %>">
+
+<% if show.can_be_changed_by(@logged_user) %>
+        <input class="checkbox" type="checkbox" <% if show.is_completed? %>checked="checked"<% end %>/>
+<% else %>
+        <span class="taskCheckbox"><%= show.is_completed? ? render_icon('checked', :list_item_completed.l) : render_icon('not-checked', :list_item_open.l) %></span>
+<% end %>
+        <span class="itemText"><%= h object.content %></span>
+</li>
