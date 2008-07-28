@@ -55,6 +55,8 @@ header {
   text-align: center;
 }
 
+.pageListItem.hover { background: red; }
+
 .pageSlot {
     background: #fff;
     position: relative;

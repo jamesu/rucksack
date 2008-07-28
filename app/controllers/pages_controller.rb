@@ -114,6 +114,22 @@ class PagesController < ApplicationController
     end
   end
   
+  # PUT /pages/1/transfer
+  def transfer
+    page = Page.find(params[:id])
+    @slot = PageSlot.find(params[:page_slot][:id])
+    
+    @slot.page = page
+    @slot.position = page.slots.length
+    @slot.save
+
+    respond_to do |format|
+      format.html { head :ok }
+      format.js { }
+      format.xml  { head :ok }
+    end
+  end
+  
 protected
   
   def page_layout

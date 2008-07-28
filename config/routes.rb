@@ -34,7 +34,7 @@ ActionController::Routing::Routes.draw do |map|
     users.resources :journals
   end
   
-  map.resources :pages, :member => {:reorder => :post} do |page|
+  map.resources :pages, :member => {:reorder => :post, :transfer => :put} do |page|
     page.resources :lists, :member => {:reorder => :post} do |list|
         list.resources :list_items, :as => 'items', :member => {:status => :put}
     end

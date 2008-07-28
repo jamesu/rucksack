@@ -177,8 +177,12 @@ var Page = {
           Page.makeListSortable(el);
         });
         
-        
-        Sortable.create('slots', {handle: 'slot_handle', tag: 'div', only: 'pageSlot', 
+        // Add droppables
+       $$('.pageListItem').forEach(function(el) {
+        Droppables.add(el.identify(), {hoverclass:'hover', accept:'pageSlot', onDrop: function(el2) { Page.moveSlotTo(el2.getAttribute('slot'), el.getAttribute('page_id')); } });
+       });  
+       
+       Sortable.create('slots', {handle: 'slot_handle', tag: 'div', only: 'pageSlot',
                         onUpdate: function() { 
                           new Ajax.Request('/pages/' + PAGE_ID + '/reorder', 
                           {
@@ -188,7 +192,17 @@ var Page = {
                           });
                         
                         } });
-        
+                           
+    },
+    
+    moveSlotTo: function(slot_id, page_id) {
+        new Ajax.Request('/pages/' + page_id + '/' + 'transfer', 
+                        {
+                            asynchronous:true, evalScripts:true,
+                            method: 'put',
+                            onComplete:function(request) { },
+                            parameters: {'page_slot[id]': slot_id ,'authenticity_token' : AUTH_TOKEN}
+                        });
     },
     
     makeListSortable: function(el) {
