@@ -1,0 +1,1 @@
+page.replace_html "page_slot_#{@separator.page_slot.id}", :partial => 'form'

@@ -6,11 +6,11 @@ class Separator < ActiveRecord::Base
 	belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
     
     def view_partial
-        "separator/show"
+        "separators/show"
     end
     
     def self.form_partial
-        "separator/form"
+        "separators/form"
     end
     
 	# Accesibility

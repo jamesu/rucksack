@@ -326,6 +326,14 @@ Event.addBehavior({
         HoverHandle.setEnabled(true);
     },
     
+    '.add_Separator:click' : function(e) {
+        // TODO: detect if this is on the bar. if not, reset insert point
+        InsertionBar.set_widget_form($('add_SeparatorForm'));
+        InsertionBar.hide();
+        InsertionMarker.setEnabled(true);
+        HoverHandle.setEnabled(true);
+    },
+    
     '.addItem form:submit': function(e) {
         var el = e.element();
         e.stop();
@@ -457,7 +465,41 @@ Event.addBehavior({
             });
     },
     
-    '#update_NoteFormContent:submit': function(e) {
+    '#add_NoteFormContent:submit': function(e) {
+        var el = e.element();
+        e.stop();
+        
+        el.request({evalScripts:true,
+            onComplete: function(transport){
+                // Clean up state
+                InsertionBar.hide();
+                InsertionBar.clearWidgetForm();
+                
+                Event.addBehavior.reload();
+                
+                return;
+            }
+            });
+    },
+    
+    '#add_SeparatorFormContent:submit': function(e) {
+        var el = e.element();
+        e.stop();
+        
+        el.request({evalScripts:true,
+            onComplete: function(transport){
+                // Clean up state
+                InsertionBar.hide();
+                InsertionBar.clearWidgetForm();
+                
+                Event.addBehavior.reload();
+                
+                return;
+            }
+            });
+    },
+    
+    '#update_SeparatorFormContent:submit': function(e) {
         var el = e.element();
         e.stop();
         

@@ -38,7 +38,7 @@ class Page < ActiveRecord::Base
 	before_destroy :process_destroy
 	
 	def self.widgets
-	   [List, Note]
+	   [List, Note, Separator]
 	end
 	 
 	def process_params

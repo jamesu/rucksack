@@ -26,6 +26,7 @@ add_to_page: Add to page
 cancel: Cancel
 Note: Note
 List: List
+Separator: Separator
 page_is_not_shared: "Page is not shared ({link})"
 page_is_shared: "Page is shared ({link})"
 page: Page
@@ -38,6 +39,8 @@ page_list: Listing pages
 # Forms
 add_note: Add note
 edit_note: Edit note
+add_separator: Add separator
+edit_separator: Edit separator
 add_item: Add item
 edit_item: Edit item
 rename_item: Rename item
