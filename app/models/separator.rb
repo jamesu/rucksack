@@ -1,4 +1,4 @@
-class Seperator < ActiveRecord::Base
+class Separator < ActiveRecord::Base
     belongs_to :page
     has_one :page_slot, :as => :rel_object
 	
@@ -6,18 +6,16 @@ class Seperator < ActiveRecord::Base
 	belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
     
     def view_partial
-        "seperator/show"
+        "separator/show"
     end
     
     def self.form_partial
-        "seperator/form"
+        "separator/form"
     end
     
 	# Accesibility
 	
-	attr_accessible :title, :content
-	
+	attr_accessible :title
+		
 	# Validation
-	
-	validates_presence_of :title
 end
