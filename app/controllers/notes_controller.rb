@@ -5,7 +5,7 @@ class NotesController < ApplicationController
   # GET /notes
   # GET /notes.xml
   def index
-    @notes = Note.find(:all)
+    @notes = @page.notes.find(:all)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,7 +16,7 @@ class NotesController < ApplicationController
   # GET /notes/1
   # GET /notes/1.xml
   def show
-    @note = Note.find(params[:id])
+    @note = @page.notes.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -37,7 +37,7 @@ class NotesController < ApplicationController
 
   # GET /notes/1/edit
   def edit
-    @note = Note.find(params[:id])
+    @note = @page.notes.find(params[:id])
 
     respond_to do |format|
       format.html
@@ -86,7 +86,7 @@ class NotesController < ApplicationController
   # PUT /notes/1
   # PUT /notes/1.xml
   def update
-    @note = Note.find(params[:id])
+    @note = @page.notes.find(params[:id])
 
     respond_to do |format|
       if @note.update_attributes(params[:note])
@@ -105,7 +105,7 @@ class NotesController < ApplicationController
   # DELETE /notes/1
   # DELETE /notes/1.xml
   def destroy
-    @note = Note.find(params[:id])
+    @note = @page.notes.find(params[:id])
     @slot_id = @note.page_slot.id
     @note.page_slot.destroy
     @note.destroy

@@ -5,7 +5,7 @@ class ListsController < ApplicationController
   # GET /lists
   # GET /lists.xml
   def index
-    @lists = List.find(:all)
+    @lists = @page.lists.find(:all)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,7 +16,7 @@ class ListsController < ApplicationController
   # GET /lists/1
   # GET /lists/1.xml
   def show
-    @list = List.find(params[:id])
+    @list = @page.lists.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -37,7 +37,7 @@ class ListsController < ApplicationController
 
   # GET /lists/1/edit
   def edit
-    @list = List.find(params[:id])
+    @list = @page.lists.find(params[:id])
   end
 
   # POST /lists
@@ -84,7 +84,7 @@ class ListsController < ApplicationController
   # PUT /lists/1
   # PUT /lists/1.xml
   def update
-    @list = List.find(params[:id])
+    @list = @page.lists.find(params[:id])
 
     respond_to do |format|
       if @list.update_attributes(params[:list])
@@ -103,7 +103,7 @@ class ListsController < ApplicationController
   # DELETE /lists/1
   # DELETE /lists/1.xml
   def destroy
-    @list = List.find(params[:id])
+    @list = @page.lists.find(params[:id])
     @slot_id = @list.page_slot.id
     @list.page_slot.destroy
     @list.destroy
@@ -117,7 +117,7 @@ class ListsController < ApplicationController
   
   # POST /lists/1/reorder
   def reorder
-    list = List.find(params[:id])
+    list = @page.lists.find(params[:id])
     order = params[:items].collect { |id| id.to_i }
     
     list.list_items.each do |item|

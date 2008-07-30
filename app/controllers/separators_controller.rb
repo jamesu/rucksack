@@ -5,7 +5,7 @@ class SeparatorsController < ApplicationController
   # GET /separators
   # GET /separators.xml
   def index
-    @separators = Separator.find(:all)
+    @separators = @page.separators.find(:all)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,7 +16,7 @@ class SeparatorsController < ApplicationController
   # GET /separators/1
   # GET /separators/1.xml
   def show
-    @separator = Separator.find(params[:id])
+    @separator = @page.separators.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -37,7 +37,7 @@ class SeparatorsController < ApplicationController
 
   # GET /separators/1/edit
   def edit
-    @separator = Separator.find(params[:id])
+    @separator = @page.separators.find(params[:id])
 
     respond_to do |format|
       format.html
@@ -87,7 +87,7 @@ class SeparatorsController < ApplicationController
   # PUT /separators/1
   # PUT /separators/1.xml
   def update
-    @separator = Separator.find(params[:id])
+    @separator = @page.separators.find(params[:id])
 
     respond_to do |format|
       if @separator.update_attributes(params[:separator])
@@ -106,7 +106,7 @@ class SeparatorsController < ApplicationController
   # DELETE /separators/1
   # DELETE /separators/1.xml
   def destroy
-    @separator = Separator.find(params[:id])
+    @separator = @page.separators.find(params[:id])
     @slot_id = @separator.page_slot.id
     @separator.page_slot.destroy
     @separator.destroy

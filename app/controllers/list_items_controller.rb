@@ -6,7 +6,7 @@ class ListItemsController < ApplicationController
   # GET /list_items
   # GET /list_items.xml
   def index
-    @list_items = ListItem.find(:all)
+    @list_items = @list.list_items.find(:all)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -17,7 +17,7 @@ class ListItemsController < ApplicationController
   # GET /list_items/1
   # GET /list_items/1.xml
   def show
-    @list_item = ListItem.find(params[:id])
+    @list_item = @list.list_items.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -39,13 +39,13 @@ class ListItemsController < ApplicationController
 
   # GET /list_items/1/edit
   def edit
-    @list_item = ListItem.find(params[:id])
+    @list_item = @list.list_items.find(params[:id])
   end
 
   # POST /list_items
   # POST /list_items.xml
   def create
-    @list_item = ListItem.new(params[:list_item])
+    @list_item = @list.list_items.new(params[:list_item])
     @list_item.list = @list
     @list_item.created_by = @logged_user
 
@@ -66,7 +66,7 @@ class ListItemsController < ApplicationController
   # PUT /list_items/1
   # PUT /list_items/1.xml
   def update
-    @list_item = ListItem.find(params[:id])
+    @list_item = @list.list_items.find(params[:id])
 
     respond_to do |format|
       if @list_item.update_attributes(params[:list_item])
@@ -85,7 +85,7 @@ class ListItemsController < ApplicationController
   # DELETE /list_items/1
   # DELETE /list_items/1.xml
   def destroy
-    @list_item = ListItem.find(params[:id])
+    @list_item = @list.list_items.find(params[:id])
     @list_item.destroy
 
     respond_to do |format|
@@ -97,7 +97,7 @@ class ListItemsController < ApplicationController
   
   # PUT /list_items/1
   def status
-    @list_item = ListItem.find(params[:id])
+    @list_item = @list.list_items.find(params[:id])
     @list_item.set_completed(params[:list_item][:completed] == 'true', @logged_user)
     @list_item.position = @list.list_items.length
     @list_item.save
@@ -114,7 +114,7 @@ protected
 
   def grab_list
     begin
-        @list = List.find(params[:list_id])
+        @list = @page.lists.find(params[:list_id])
     rescue ActiveRecord::RecordNotFound
         error_status(true, :error_cannot_find_list)
         return false

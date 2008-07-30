@@ -31,6 +31,7 @@ class Page < ActiveRecord::Base
 	
 	has_many :lists
 	has_many :notes
+	has_many :separators
 	
 	before_create  :process_params
 	after_create   :process_create
