@@ -49,7 +49,10 @@ class UsersController < ApplicationController
     user_attribs = params[:user]
     
     @user = User.new(user_attribs)
-    @user.username = user_attribs[:username] if @logged_user.is_admin
+    if @logged_user.is_admin
+        @user.is_admin = user_attribs[:is_admin]
+        @user.username = user_attribs[:username]
+    end
     
     if user_attribs.has_key? :password and !user_attribs[:password].empty?
         @user.password = user_attribs[:password]
@@ -74,7 +77,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     
     user_attribs = params[:user]
-    @user.username = user_attribs[:username] if @logged_user.is_admin
+    if @logged_user.is_admin
+        @user.is_admin = user_attribs[:is_admin]
+        @user.username = user_attribs[:username]
+    end
+    
     if user_attribs.has_key? :password and !user_attribs[:password].empty?
         @user.password = user_attribs[:password]
         @user.password_confirmation = user_attribs[:password_confirmation]
@@ -96,7 +103,7 @@ class UsersController < ApplicationController
   # DELETE /users/1.xml
   def destroy
     @user = User.find(params[:id])
-    @user.destroy unless @user.is_admin # TODO
+    @user.destroy unless !@logged_user.is_admin or @user.is_admin # TODO
 
     respond_to do |format|
       format.html { redirect_to(users_url) }

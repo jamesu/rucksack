@@ -95,13 +95,13 @@ class ListItem < ActiveRecord::Base
 	end
 	
 	def self.can_be_created_by(user, task_list)
-	 return (!(list.is_private and !user.member_of_owner?) and list.can_be_managed_by(user))
+	 return true
 	end
 	
 	def can_be_changed_by(user)
 	 return true if user.is_admin
 	 
-	 return list.can_be_changed_by(user)
+	 return true
 	end
 	
 	def can_be_deleted_by(user)
@@ -109,7 +109,7 @@ class ListItem < ActiveRecord::Base
 	end
 	
 	def can_be_seen_by(user)
-	 return (can_be_changed_by(user) or list.can_be_seen_by(user))
+	 return true
 	end
 	
 	# Accesibility

@@ -95,25 +95,25 @@ class List < ActiveRecord::Base
 	end
 
 	def self.can_be_created_by(user, project)
-	  project.is_active? and user.has_permission(project, :can_manage_tasks)
+	 return true
 	end
 	
 	def can_be_managed_by(user)
-	  project.is_active? and user.has_permission(project, :can_manage_tasks)
+	 return true
 	end
 	
 	def can_be_changed_by(user)
 	 return true if user.is_admin
 	 
-	 return (!(self.is_private and !user.member_of_owner?) and user.id == created_by.id)
+	 return true
 	end
 	
 	def can_be_deleted_by(user)
-	 project.is_active? and user.member_of(project) and user.is_admin
+	 return true
 	end
 	
 	def can_be_seen_by(user)
-	 return (user.member_of(self.project) and !(self.is_private and !user.member_of_owner?))
+	 return true
 	end
 	
 	def finished_all_items?
