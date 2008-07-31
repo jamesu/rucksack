@@ -27,7 +27,7 @@ class SeparatorsController < ApplicationController
   # GET /separators/new
   # GET /separators/new.xml
   def new
-    @separator = @pahe.separators.build
+    @separator = @page.separators.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -60,7 +60,7 @@ class SeparatorsController < ApplicationController
     end
     
     # Make the darn note
-    @separator = @page.separators.build(params[:note])
+    @separator = @page.separators.build(params[:separator])
     @separator.page = @page
     saved = @separator.save
     

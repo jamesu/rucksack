@@ -150,6 +150,11 @@ header {
     display: none;
 }
 
+/* Separator */
+.pageSeparator {
+    border-bottom: 2px solid #000;
+}
+
 /* List widget */
 
 div.pageList .listItems {
