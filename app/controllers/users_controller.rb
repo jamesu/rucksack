@@ -46,7 +46,15 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.xml
   def create
-    @user = User.new(params[:user])
+    user_attribs = params[:user]
+    
+    @user = User.new(user_attribs)
+    @user.username = user_attribs[:username] if @logged_user.is_admin
+    
+    if user_attribs.has_key? :password and !user_attribs[:password].empty?
+        @user.password = user_attribs[:password]
+        @user.password_confirmation = user_attribs[:password_confirmation]
+    end
 
     respond_to do |format|
       if @user.save
@@ -64,9 +72,16 @@ class UsersController < ApplicationController
   # PUT /users/1.xml
   def update
     @user = User.find(params[:id])
+    
+    user_attribs = params[:user]
+    @user.username = user_attribs[:username] if @logged_user.is_admin
+    if user_attribs.has_key? :password and !user_attribs[:password].empty?
+        @user.password = user_attribs[:password]
+        @user.password_confirmation = user_attribs[:password_confirmation]
+    end
 
     respond_to do |format|
-      if @user.update_attributes(params[:user])
+      if @user.update_attributes(user_attribs)
         flash[:notice] = 'user was successfully updated.'
         format.html { redirect_to(@user) }
         format.xml  { head :ok }

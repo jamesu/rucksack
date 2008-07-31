@@ -26,6 +26,14 @@
     <label for="userFormEmail"><%= :email_address.l %>:</label>
     <%= text_field 'user', 'email', :id => 'userFormEmail', :class => 'long' %>
   </div>
+
+<% if AppConfig.allow_openid %>
+  <div>
+    <label for="userFormOpenID"><%= :openid.l %>:</label>
+    <%= text_field 'user', 'identity_url', :id => 'userFormOpenID', :class => 'openid_login' %>
+    <p class="desc"><%= :openid_info.l %></p>
+  </div>
+<% end %>
   
   <div>
     <label for="userFormPassword"><%= :password.l %>: </label>

@@ -5,7 +5,7 @@
     @user_navigation_items = user_tabs(:my_profile)
 %>
 
-<% form_tag( users_path(), :method => :post) do |f| %>
+<%= form_tag( users_path(), :method => :post) %>
   <%= render :partial => 'form' %>
   <button class="submit" type="submit"><%= :save.l %></button>
 </form>

@@ -28,7 +28,12 @@ class User < ActiveRecord::Base
 	belongs_to :company
 	belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
 	
+	before_validation_on_create :process_create
 	before_destroy :process_destroy
+	
+	def process_create
+	   @cached_password ||= ''
+	end
 	
 	def process_destroy
 		# Explicitly remove these
@@ -86,12 +91,17 @@ class User < ActiveRecord::Base
 			break if (calc_twister[0] != '0')
 		end
 		
-		@cached_password = value
+		@cached_password = value.clone
 		self.twister_array = calc_twister
 	end
 	
 	def password
-		return @cached_password || ''
+		@cached_password
+	end
+	
+	def password_changed?
+	    puts "password_changed == " + ( !@cached_password.nil? ? 'yes' : 'no')
+	    !@cached_password.nil?
 	end
 	
 	def password_reset_key
@@ -291,11 +301,16 @@ class User < ActiveRecord::Base
 	
 	# Validation
 	
+	validates_presence_of :username, :on => :create
 	validates_length_of :username, :within => 3..40
-	validates_presence_of :username
-	#validates_presence_of :password, :on => create
-	validates_uniqueness_of :username, :on => :create
+	
+	validates_presence_of :password, :if => :password_changed?
+	validates_length_of :password, :minimum => 4, :if => :password_changed?
+	
+	validates_confirmation_of :password, :if => :password_changed?
+	
+	validates_presence_of :display_name
+	validates_uniqueness_of :username
 	validates_uniqueness_of :email
 	validates_uniqueness_of :identity_url, :if => Proc.new { |user| !(user.identity_url.nil? or user.identity_url.empty? ) }
-	validates_confirmation_of :password, :on => :create, :if => Proc.new { |user| !user.password.empty? }
 end
