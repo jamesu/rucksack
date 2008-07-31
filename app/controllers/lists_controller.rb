@@ -27,7 +27,7 @@ class ListsController < ApplicationController
   # GET /lists/new
   # GET /lists/new.xml
   def new
-    @list = List.new
+    @list = @page.lists.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -55,9 +55,8 @@ class ListsController < ApplicationController
     end
     
     # Make the darn note
-    @list = List.new(params[:list])
+    @list = @page.lists.build(params[:list])
     @list.name ||= :List.l
-    @list.page = @page
     saved = @list.save
     
     # And the slot, don't forget the slot

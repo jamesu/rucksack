@@ -29,7 +29,7 @@ class ListItemsController < ApplicationController
   # GET /list_items/new
   # GET /list_items/new.xml
   def new
-    @list_item = ListItem.new
+    @list_item = @list.list_items.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -45,8 +45,7 @@ class ListItemsController < ApplicationController
   # POST /list_items
   # POST /list_items.xml
   def create
-    @list_item = @list.list_items.new(params[:list_item])
-    @list_item.list = @list
+    @list_item = @list.list_items.build(params[:list_item])
     @list_item.created_by = @logged_user
 
     respond_to do |format|

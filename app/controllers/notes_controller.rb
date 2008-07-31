@@ -27,7 +27,7 @@ class NotesController < ApplicationController
   # GET /notes/new
   # GET /notes/new.xml
   def new
-    @note = Note.new
+    @note = @page.notes.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -60,8 +60,7 @@ class NotesController < ApplicationController
     end
     
     # Make the darn note
-    @note = Note.new(params[:note])
-    @note.page = @page
+    @note = @page.notes.build(params[:note])
     saved = @note.save
     
     # And the slot, don't forget the slot
