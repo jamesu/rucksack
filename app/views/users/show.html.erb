@@ -1,3 +1,9 @@
+<%
+    @page_title = :show_user.l_with_args(:name => h(@user.display_name))
+    
+    @tabbed_navigation_items = common_tabs(nil)
+    @user_navigation_items = user_tabs(:my_profile)
+%>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

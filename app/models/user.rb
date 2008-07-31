@@ -52,7 +52,9 @@ class User < ActiveRecord::Base
 		salt = nil
 		token = nil
 		
-		if value.empty?
+		return if value.empty?
+		
+		if value.nil?
 			self.salt = nil
 			self.token = nil
 			return
@@ -84,11 +86,12 @@ class User < ActiveRecord::Base
 			break if (calc_twister[0] != '0')
 		end
 		
+		@cached_password = value
 		self.twister_array = calc_twister
 	end
 	
 	def password
-		return self.token
+		return @cached_password || ''
 	end
 	
 	def password_reset_key
@@ -289,9 +292,10 @@ class User < ActiveRecord::Base
 	# Validation
 	
 	validates_length_of :username, :within => 3..40
-	validates_presence_of :username, :password
+	validates_presence_of :username
+	#validates_presence_of :password, :on => create
 	validates_uniqueness_of :username, :on => :create
 	validates_uniqueness_of :email
 	validates_uniqueness_of :identity_url, :if => Proc.new { |user| !(user.identity_url.nil? or user.identity_url.empty? ) }
-	#validates_confirmation_of :password, :on => :create  
+	validates_confirmation_of :password, :on => :create, :if => Proc.new { |user| !user.password.empty? }
 end

@@ -3,6 +3,7 @@
 login: Login
 username: Username
 password: Password
+repeat_password: Repeat password
 email_address: Email Address
 forgot_password: Forgot password
 forgot_password_q: "Forgot password?"
@@ -40,6 +41,9 @@ page_back: Back
 insert_here: Insert Here
 page_list: Listing pages
 
+user_list: Listing users
+show_user: "{name}"
+
 # Forms
 add_note: Add note
 edit_note: Edit note
@@ -52,6 +56,19 @@ rename_list: Rename list
 title: Title
 content: Content
 page_create: Create
+save: Save
+save_changes: Save changes
+user_administration_options: Administration Options
+display_name: Display name
+timezone: Timezone
+options: Options
+create_user: Create user
+update_profile: Update profile
+update_user: "Update '{name}'"
+user_is_admin: Is administrator
+
+yesno_yes: "Yes"
+yesno_no: "No"
 
 # Errors
 page_not_found: Page not found

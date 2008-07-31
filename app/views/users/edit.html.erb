@@ -1,12 +1,11 @@
-<h1>Editing user</h1>
+<%
+    @page_title = (@user == @logged_user) ? :update_profile.l : :update_user.l_with_args(:name => h(@user.display_name))
+    
+    @tabbed_navigation_items = common_tabs(nil)
+    @user_navigation_items = user_tabs(:my_profile)
+%>
 
-<% form_for(@user) do |f| %>
-  <%= f.error_messages %>
-
-  <p>
-    <%= f.submit "Update" %>
-  </p>
-<% end %>
-
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>
+<%= form_tag( user_path(@user), :method => :put) %>
+  <%= render :partial => 'form' %>
+  <button class="submit" type="submit"><%= :save_changes.l %></button>
+</form>

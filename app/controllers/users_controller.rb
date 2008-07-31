@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  
+  layout 'pages'
     
   before_filter :login_required
   after_filter  :user_track
@@ -79,7 +81,7 @@ class UsersController < ApplicationController
   # DELETE /users/1.xml
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
+    @user.destroy unless @user.is_admin # TODO
 
     respond_to do |format|
       format.html { redirect_to(users_url) }

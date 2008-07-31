@@ -1,4 +1,9 @@
-<h1>Listing users</h1>
+<%
+    @page_title = :user_list.l
+    
+    @tabbed_navigation_items = common_tabs(nil)
+    @user_navigation_items = user_tabs(:my_profile)
+%>
 
 <table>
   <tr>
@@ -6,7 +11,7 @@
 
 <% for user in @users %>
   <tr>
-    <td><%= link_to 'Show', user %></td>
+    <td><%= link_to h(user.display_name), user %></td>
     <td><%= link_to 'Edit', edit_user_path(user) %></td>
     <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
