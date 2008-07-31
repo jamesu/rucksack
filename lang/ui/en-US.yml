@@ -53,4 +53,7 @@ title: Title
 content: Content
 page_create: Create
 
+# Errors
+page_not_found: Page not found
+
 product_signature: Powered by Rucksack

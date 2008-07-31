@@ -21,6 +21,8 @@ class PagesController < ApplicationController
   def show
     @page = Page.find(params[:id])
     @content_for_sidebar = 'page_sidebar'
+    
+    session['page_id'] = @page.id
 
     respond_to do |format|
       format.html # show.html.erb
@@ -128,6 +130,16 @@ class PagesController < ApplicationController
       format.js { }
       format.xml  { head :ok }
     end
+  end
+  
+  def current
+    begin
+      page = Page.find(session['page_id'])
+    rescue
+      render :head => :not_found, :text => :page_not_found.l
+    end
+    
+    redirect_to(page) unless page.nil?
   end
   
 protected
