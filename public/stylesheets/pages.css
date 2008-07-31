@@ -33,6 +33,52 @@ header {
     border: 2px solid #000;
 }
 
+/* tabs */
+#tabsWrapper {
+    margin: 0pt auto;
+    width: 600px;
+    text-align: left;
+}
+
+#tabsWrapper ul {
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    
+    margin: 0pt;
+    padding: 0 12px;
+}
+
+#tabsWrapper ul li {
+    float: left;
+    margin: 0pt 1px;
+}
+
+#tabsWrapper ul li a {
+    display: block;
+    
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    
+    padding: 2px 12px;
+    color: #fff;
+    
+    background: #a9a9a9;
+}
+
+#tabsWrapper ul li.active a {
+    background: #000;
+}
+
+#tabs {
+    float:left;
+}
+
+#userTabs {
+    float: right;
+}
+
 /* content floats left in the main box */
 #content {
     float: left;

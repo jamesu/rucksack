@@ -21,6 +21,10 @@ unknown_response_status: "Unknown response status: {status}"
 invalid_email: Invalid email address
 invalid_email_not_in_use: Invalid email address
 
+# Tabs
+overview: Overview
+my_profile: My Profile
+
 # Page view
 add_to_page: Add to page
 cancel: Cancel

@@ -1,4 +1,9 @@
-<h1><%= :page_list.l %></h1>
+<%
+    @page_title = :pages.l
+    
+    @tabbed_navigation_items = common_tabs(:pages)
+    @user_navigation_items = user_tabs(nil)
+%>
 
 <table>
   <tr>
@@ -6,9 +11,7 @@
 
 <% for page in @pages %>
   <tr>
-    <td><%= h(page.title) %></td>
-    <td><%= link_to 'Show', page %></td>
-    <td><%= link_to 'Edit', edit_page_path(page) %></td>
+    <td><%= link_to h(page.title), page %></td>
     <td><%= link_to 'Destroy', page, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>

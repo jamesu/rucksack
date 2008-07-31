@@ -43,5 +43,21 @@ module ApplicationHelper
 		radio_button_tag(name, "0", !is_yes, options.merge({:id => "#{options[:id]}No"})) +
 		" <label for=\"#{options[:id]}No\" class=\"#{options[:class]}\">#{:yesno_no.l}</label>"
 	end
+	
+	def common_tabs(current)
+	  items = [{:id => :overview, :url => '/dashboard/index'},
+	           {:id => :pages, :url => '/pages/current'}]
+	  
+	  @selected_navigation_item = current
+	  return items
+	end
+	
+	def user_tabs(current)
+	  items = [{:id => :my_profile, :url => '/users/current'}]
+	  
+	  @selected_user_item = current
+	  return items
+	end
+	
 
 end

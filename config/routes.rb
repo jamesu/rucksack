@@ -30,7 +30,7 @@ ActionController::Routing::Routes.draw do |map|
   #     admin.resources :products
   #   end
   
-  map.resources :users do |users|
+  map.resources :users, :collection => {:current => :get} do |users|
     users.resources :journals
   end
   

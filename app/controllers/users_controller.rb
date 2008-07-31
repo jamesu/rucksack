@@ -86,4 +86,11 @@ class UsersController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  # GET /users/current
+  def current
+    @user = @logged_user
+    
+    render :action => 'edit'
+  end
 end
