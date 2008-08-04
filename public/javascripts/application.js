@@ -209,9 +209,9 @@ var Page = {
     makeListSortable: function(el) {
         var list_url = el.up('.pageWidget').getAttribute('url');
         
-        Sortable.create(el.id, { handle: 'slot_handle',
+        Sortable.create(el.id, { handle: 'slot_handle', tag: 'div',
                         onUpdate: function() { 
-                          new Ajax.Request('/pages/' + PAGE_ID + '/' + list_url + '/reorder', 
+                          new Ajax.Request('/pages/' + PAGE_ID + list_url + '/reorder', 
                           {
                               asynchronous:true, evalScripts:false,
                               onComplete:function(request) {},
@@ -403,7 +403,7 @@ Event.addBehavior({
         var list_url = el.up('.pageWidget').getAttribute('url');
         var item_id = el.up('.listItem').getAttribute('item_id');
         
-        new Ajax.Request('/pages/' + PAGE_ID + '/' + list_url + '/items/' + item_id + '/status', 
+        new Ajax.Request('/pages/' + PAGE_ID + list_url + '/items/' + item_id + '/status', 
                         {
                             asynchronous:true, evalScripts:true,
                             method: 'put',

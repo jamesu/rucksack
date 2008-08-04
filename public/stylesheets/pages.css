@@ -230,7 +230,11 @@ header {
 /* List widget */
 
 div.pageList .listItems {
-    list-style-type: none;
+    padding: 0px;
+}
+
+div.pageList .listItem {
+    padding-left: 16px;
 }
 
 div.pageList .completedItems {

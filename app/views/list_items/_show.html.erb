@@ -1,7 +1,7 @@
 <%  if show.can_be_changed_by(@logged_user) %>
-<li class="listItem" id="<%= "list_item_#{show.id}"%>" item_id="<%= show.id %>" url="<%= "/lists/#{show.list_id}/items/#{show.id}" %>">
+<div class="listItem" id="<%= "list_item_#{show.id}"%>" item_id="<%= show.id %>" url="<%= "/lists/#{show.list_id}/items/#{show.id}" %>">
 <% else %>
-<li class="listItem" id="<%= "list_item_#{show.id}"%>" item_id="<%= show.id %>">
+<div class="listItem" id="<%= "list_item_#{show.id}"%>" item_id="<%= show.id %>">
 <% end %>
 <div class="listItemContent">
 <% if show.can_be_changed_by(@logged_user) %>
@@ -22,4 +22,4 @@
 <% end %>
   <span class="itemText" hover_handle="page_item_handle_<%= show.id %>"><%= h object.content %></span>
 </div>
-</li>
+</div>
