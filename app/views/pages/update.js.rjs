@@ -1,0 +1,4 @@
+page["page_header_form"].hide
+page.replace_html "page_header_form", ""
+page.replace_html "page_header", "<h1><span hover_handle=\"page_header_handle\">#{h(@page.title)}</span></h1>"
+page["page_header"].show

@@ -101,6 +101,17 @@ header {
   text-align: center;
 }
 
+.pageHeader {
+}
+
+.pageHeader h1 {
+    margin: 0px;
+}
+
+#pageTools div {
+    padding: 8px 12px 12px 12px;
+}
+
 .pageListItem.hover { background: red; }
 
 .pageSlot {

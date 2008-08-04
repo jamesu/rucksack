@@ -300,7 +300,7 @@ var HoverSlotBar = Behavior.create({
     },
     
     _doDelete: function(resource) {
-        new Ajax.Request('/pages/' + PAGE_ID + '/' + resource, 
+        new Ajax.Request('/pages/' + PAGE_ID + resource, 
                         {
                             asynchronous:true, evalScripts:true,
                             method: 'delete',
@@ -311,7 +311,7 @@ var HoverSlotBar = Behavior.create({
     
     _doEdit: function(resource) {
         //console.log('new ajax request');
-        new Ajax.Request('/pages/' + PAGE_ID + '/' + resource + '/edit', 
+        new Ajax.Request('/pages/' + PAGE_ID + resource + '/edit', 
                         {
                             asynchronous:true, evalScripts:true,
                             method: 'get',
@@ -457,6 +457,23 @@ Event.addBehavior({
         
         pageList.down('.pageListForm').hide();
         pageList.down('.pageListHeader').show();
+    },
+    
+    '#page_header_form form:submit': function(e) {
+        var el = e.element();
+        e.stop();
+        
+        el.request({evalScripts:true,
+            onComplete: function(transport){ }
+            });
+    },
+    
+    '.cancel_PageForm:click' : function(e) {
+        var el = e.element();
+        e.stop();
+        
+        $('page_header_form').hide();
+        $('page_header').show();
     },
     
     

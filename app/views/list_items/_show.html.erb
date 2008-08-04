@@ -1,5 +1,5 @@
 <%  if show.can_be_changed_by(@logged_user) %>
-<li class="listItem" id="<%= "list_item_#{show.id}"%>" item_id="<%= show.id %>" url="<%= "lists/#{show.list_id}/items/#{show.id}" %>">
+<li class="listItem" id="<%= "list_item_#{show.id}"%>" item_id="<%= show.id %>" url="<%= "/lists/#{show.list_id}/items/#{show.id}" %>">
 <% else %>
 <li class="listItem" id="<%= "list_item_#{show.id}"%>" item_id="<%= show.id %>">
 <% end %>

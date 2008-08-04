@@ -75,11 +75,11 @@ class PagesController < ApplicationController
       if @page.update_attributes(params[:page])
         flash[:notice] = 'Page was successfully updated.'
         format.html { redirect_to(@page) }
-        format.json { render :json => @page.to_json }
+        format.js { }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.json { render :json => @page.to_json }
+        format.js { }
         format.xml  { render :xml => @page.errors, :status => :unprocessable_entity }
       end
     end

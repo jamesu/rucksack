@@ -2,7 +2,7 @@
 <html>
   <head>
   	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-    <title><%= AppConfig.site_name %> - <%= h @page_title %></title>
+    <title><%= AppConfig.site_name %> - <%= h @page.title %></title>
     
 	<%= stylesheet_link_tag 'pages' %>
 	<% if not @additional_stylesheets.nil?
@@ -40,8 +40,24 @@
               <span> <%= Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s}\" href=\"#\">#{widget.name.to_sym.l}</a>"}.join(', ') %></span>
               </div>
               </div>
-            
-              <h1 id="pageTitle"><%= h @page_title %></h1>
+
+              <div class="pageHeader" url="">
+                <% if true %>
+                <div class="pageSlotHandle" id="page_header_handle" resType=".pageHeader" style="display:none">
+                  <div class="inner">
+                    <ul>
+                     <li class="slot_edit"><%= :edit.l %></li>
+                    </ul>
+                  </div>
+                </div>
+                <% end %>
+                <div class="inner" id="page_header"><h1><span hover_handle="page_header_handle"><%= h @page.title %></h1></span></div>
+                <% if true %>
+                <div class="pageHeaderForm" id="page_header_form" style="display: none"></div>
+                <% end %>
+              </div>
+                     
+              <h1 id="pageTitle"><span id="page_header_<%= %>"><%= h @page_title %></span></h1>
               <!-- Content -->
               <%= yield %>
               <!-- /Content -->

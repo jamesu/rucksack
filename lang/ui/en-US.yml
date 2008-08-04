@@ -53,6 +53,7 @@ add_item: Add item
 edit_item: Edit item
 rename_item: Rename item
 rename_list: Rename list
+rename_page: Rename page
 title: Title
 content: Content
 page_create: Create
