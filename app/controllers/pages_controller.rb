@@ -134,7 +134,11 @@ class PagesController < ApplicationController
   
   def current
     begin
-      page = Page.find(session['page_id'])
+      if !session['page_id'].nil?
+        page = Page.find(session['page_id'])
+      else
+        page = Page.find(:first)
+      end
     rescue
       render :head => :not_found, :text => :page_not_found.l
     end

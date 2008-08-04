@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :reminders
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
@@ -32,6 +34,8 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :users, :collection => {:current => :get} do |users|
     users.resources :journals
+    users.resources :reminders
+    users.resources :pages
   end
   
   map.resources :pages, :member => {:reorder => :post, :transfer => :put}, :collection => {:current => :get} do |page|

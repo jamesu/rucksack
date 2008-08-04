@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 2) do
+ActiveRecord::Schema.define(:version => 3) do
 
   create_table "application_logs", :force => true do |t|
     t.integer  "taken_by_id",     :limit => 10
@@ -67,6 +67,16 @@ ActiveRecord::Schema.define(:version => 2) do
   create_table "pages", :force => true do |t|
     t.integer  "list_id",       :limit => 10
     t.string   "title",         :limit => 100
+    t.integer  "created_by_id", :limit => 10
+    t.integer  "updated_by_id", :limit => 10
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "reminders", :force => true do |t|
+    t.text     "content"
+    t.datetime "at_time"
+    t.integer  "repeat_id",     :limit => 1
     t.integer  "created_by_id", :limit => 10
     t.integer  "updated_by_id", :limit => 10
     t.datetime "created_at"

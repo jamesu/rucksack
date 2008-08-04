@@ -51,5 +51,16 @@ protected
     
     true
   end
+  
+  def grab_user
+    begin
+        @user = params.has_key?(:user_id) ? User.find(params[:user_id]) : @logged_user
+    rescue ActiveRecord::RecordNotFound
+        error_status(true, :error_cannot_find_user)
+        return false
+    end
+    
+    true
+  end
 
 end

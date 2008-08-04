@@ -67,6 +67,16 @@ update_profile: Update profile
 update_user: "Update '{name}'"
 user_is_admin: Is administrator
 
+# Reminders
+reminders: Reminders
+add_reminder: Add reminder
+reminder_repeat_never: Never
+reminder_repeat_yearly: Yearly
+reminder_repeat_monthly: Monthly
+reminder_repeat_fortnightly: Fortnightly
+reminder_repeat_weekly: Weekly
+reminder_repeat_daily: Daily
+
 yesno_yes: "Yes"
 yesno_no: "No"
 

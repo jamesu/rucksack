@@ -1,0 +1,27 @@
+<%
+    @page_title = :reminders.l
+    
+    @tabbed_navigation_items = common_tabs(:reminders)
+    @user_navigation_items = user_tabs(nil)
+%>
+
+<div id="newReminderForm">
+<%= form_tag( reminders_path(), :method => (:post), :id => "add_ReminderForm") %>
+  <p>
+    <label for="newReminderAt"></label>
+    <%= text_field 'reminder', 'friendly_at_time', :id => 'newReminderAt', :class => 'long' %>
+  </p>
+  <p>
+    <button class="submit" type="submit"><%= :add_reminder.l %></button>
+  </p>
+</form>
+</div>
+
+<div id="reminderList">
+<% for reminder in @reminders %>
+<div id="reminder_<%= reminder.id%>" class="reminderEntry">
+  <div class="reminderContent"><%= h reminder.content %></div>
+  <div class="reminderTime"><%= reminder.at_time.to_s %></div>
+</div>
+<% end %>
+</div>

@@ -28,6 +28,7 @@ class User < ActiveRecord::Base
 	belongs_to :company
 	belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
 	
+	has_many :reminders, :foreign_key => 'created_by_id', :order => 'at_time ASC', :dependent => :destroy
 	before_validation_on_create :process_create
 	before_destroy :process_destroy
 	
@@ -100,7 +101,7 @@ class User < ActiveRecord::Base
 	end
 	
 	def password_changed?
-	    puts "password_changed == " + ( !@cached_password.nil? ? 'yes' : 'no')
+	    #puts "password_changed == " + ( !@cached_password.nil? ? 'yes' : 'no')
 	    !@cached_password.nil?
 	end
 	

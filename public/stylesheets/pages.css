@@ -211,6 +211,22 @@ div.pageList .completedItems {
     color: #666666;
 }
 
+/* Reminders */
+#reminderList {
+    padding: 12px;
+}
+
+.reminderEntry {
+    margin-bottom: 6px;
+}
+
+.reminderContent {
+}
+
+.reminderTime {
+    color: #8b8b8b;
+}
+
 a { color: #000; }
 a:visited { color: #666; }
 a:hover { color: #fff; background-color:#000; }
