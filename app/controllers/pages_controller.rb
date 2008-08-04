@@ -1,7 +1,8 @@
 class PagesController < ApplicationController
   layout :page_layout
-    
+  
   before_filter :login_required
+  before_filter :grab_user
   after_filter  :user_track
   
   # GET /pages
@@ -34,7 +35,7 @@ class PagesController < ApplicationController
   # GET /pages/new
   # GET /pages/new.xml
   def new
-    @page = Page.new
+    @page = @user.pages.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -51,7 +52,7 @@ class PagesController < ApplicationController
   # POST /pages
   # POST /pages.xml
   def create
-    @page = Page.new(params[:page])
+    @page = @user.pages.new(params[:page])
 
     respond_to do |format|
       if @page.save
@@ -150,6 +151,6 @@ protected
   
   def page_layout
     return nil unless action_name != 'add_widget'
-    ['index'].include?(action_name)?  'pages':'page'
+    ['index', 'new', 'edit'].include?(action_name)?  'pages':'page'
   end
 end

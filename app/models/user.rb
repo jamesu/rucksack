@@ -28,6 +28,7 @@ class User < ActiveRecord::Base
 	belongs_to :company
 	belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
 	
+	has_many :pages, :foreign_key => 'created_by_id', :dependent => :destroy
 	has_many :reminders, :foreign_key => 'created_by_id', :order => 'at_time ASC', :dependent => :destroy
 	before_validation_on_create :process_create
 	before_destroy :process_destroy

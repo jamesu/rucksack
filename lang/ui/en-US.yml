@@ -45,6 +45,7 @@ user_list: Listing users
 show_user: "{name}"
 
 # Forms
+new_page: New page
 add_note: Add note
 edit_note: Edit note
 add_separator: Add separator
