@@ -112,7 +112,22 @@ header {
     padding: 8px 12px 12px 12px;
 }
 
-.pageListItem.hover { background: red; }
+.pageListItems {
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    
+    font-size: 12px;
+    padding: 0px;
+}
+
+.pageListItems li {
+    padding: 4px 4px 4px 12px;
+}
+
+.pageListItems li.hover { background: red; }
+.pageListItems li.current { background: #000; }
+.pageListItems li.current a { color: #fff; }
 
 .pageSlot {
     background: #fff;
