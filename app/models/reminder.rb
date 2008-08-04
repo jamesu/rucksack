@@ -42,5 +42,5 @@ class Reminder < ActiveRecord::Base
 	
 	# Accesibility
 	
-	attr_accessible :display_name, :friendly_at_time, :at_time
+	attr_accessible :repeat, :friendly_at_time, :content, :at_time
 end
