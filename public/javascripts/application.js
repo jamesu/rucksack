@@ -209,7 +209,7 @@ var Page = {
     makeListSortable: function(el) {
         var list_url = el.up('.pageWidget').getAttribute('url');
         
-        Sortable.create(el.id, { handle: 'slot_handle', tag: 'div',
+        Sortable.create(el.id, { handle: 'slot_handle',
                         onUpdate: function() { 
                           new Ajax.Request('/pages/' + PAGE_ID + list_url + '/reorder', 
                           {

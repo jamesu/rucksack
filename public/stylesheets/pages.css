@@ -231,6 +231,7 @@ header {
 
 div.pageList .listItems {
     padding: 0px;
+    list-style-type: none;;
 }
 
 div.pageList .listItem {
