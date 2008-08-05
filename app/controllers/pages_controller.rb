@@ -1,7 +1,6 @@
 class PagesController < ApplicationController
   layout :page_layout
   
-  before_filter :login_required
   before_filter :grab_user
   after_filter  :user_track
   

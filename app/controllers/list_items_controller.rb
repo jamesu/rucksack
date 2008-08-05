@@ -1,6 +1,5 @@
 class ListItemsController < ApplicationController
   before_filter :grab_page
-  before_filter :login_required
   before_filter :grab_list
   
   # GET /list_items

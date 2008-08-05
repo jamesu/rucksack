@@ -1,6 +1,5 @@
 class SeparatorsController < ApplicationController
   before_filter :grab_page
-  before_filter :login_required
   
   # GET /separators
   # GET /separators.xml

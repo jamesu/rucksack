@@ -1,8 +1,7 @@
 class UsersController < ApplicationController
   
   layout 'pages'
-    
-  before_filter :login_required
+  
   after_filter  :user_track
     
   # GET /users

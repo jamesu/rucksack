@@ -1,6 +1,5 @@
 class ListsController < ApplicationController
   before_filter :grab_page
-  before_filter :login_required
   
   # GET /lists
   # GET /lists.xml
@@ -122,13 +121,13 @@ class ListsController < ApplicationController
     list.list_items.each do |item|
         idx = order.index(item.id)
         item.position = idx
-        puts "pos=#{item.position}"
+        #puts "pos=#{item.position}"
         item.position ||= list.list_items.length
-        puts "pos=#{item.position}"
-        puts "--"
+        #puts "pos=#{item.position}"
+        #puts "--"
         item.save!
     end
-    puts "!!"
+    #puts "!!"
     respond_to do |format|
       format.html { head :ok }
       format.json { head :ok }

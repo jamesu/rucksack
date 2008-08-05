@@ -1,6 +1,5 @@
 class NotesController < ApplicationController
   before_filter :grab_page
-  before_filter :login_required
   
   # GET /notes
   # GET /notes.xml

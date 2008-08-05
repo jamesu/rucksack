@@ -29,7 +29,40 @@ class User < ActiveRecord::Base
 	belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
 	
 	has_many :pages, :foreign_key => 'created_by_id', :dependent => :destroy
-	has_many :reminders, :foreign_key => 'created_by_id', :order => 'at_time ASC', :dependent => :destroy
+	has_many :reminders, :foreign_key => 'created_by_id', :order => 'at_time ASC', :dependent => :destroy do
+		def done()
+			find(:all, :conditions => ["(at_time < '#{Time.now.utc}')"])
+		end
+		def today(done=false)
+		    current = Time.now.utc
+		    if done
+		      now = Time.utc(current.year, current.month, current.day)
+		      now_until = current
+		    else
+		      now = Time.now
+		      now_until = (now.to_date+1).to_time(:utc)
+		    end
+		    find(:all, :conditions => ["(at_time >= ? AND at_time < ?)", now, now_until])
+		end
+		def in_days(days)
+		    day = Time.now.utc.to_date + days
+		    find(:all, :conditions => ["(at_time >= ? AND at_time < ?)", day, day+1])
+		end
+		def in_month(month)
+		    now = Time.now.utc
+		    month = Time.utc(now.year, month).to_date
+		    find(:all, :conditions => ["(at_time >= ? AND at_time < ?)", month, month>>1])
+		end
+		def in_months(months)
+		    puts "in #{months} months"
+		    month = Time.now.utc.to_date >> months
+		    find(:all, :conditions => ["(at_time >= ? AND at_time < ?)", month, month>>1])
+		end
+		def on_after(time)
+		    real_time = time.class == Date ? time.to_time(:utc) : time.utc
+		    find(:all, :conditions => ["(at_time >= ?)", real_time])
+		end
+    end
 	before_validation_on_create :process_create
 	before_destroy :process_destroy
 	

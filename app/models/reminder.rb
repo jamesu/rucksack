@@ -12,8 +12,8 @@ class Reminder < ActiveRecord::Base
     
     def friendly_at_time=(value)
         @cached_friendly_time = value
-        self.at_time = Chronic.parse(value)
-        self.at_time ||= Time.now + (60*60*3)
+        self.at_time = Chronic.parse(value, :now => Time.zone.now)
+        self.at_time ||= Time.zone.now + (60*60*3)
         # TODO: set default time if Chronic craps up. Also try extracting times from query
         self.content = value
     end

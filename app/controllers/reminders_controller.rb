@@ -1,14 +1,43 @@
 class RemindersController < ApplicationController
   layout :reminder_layout
   
-  before_filter :login_required
   before_filter :grab_user
   
   # GET /reminders
   # GET /reminders.xml
   def index
-    @reminders = @user.reminders.find(:all)
+    #@reminders = @user.reminders
+    
+    @grouped_reminders = []
+    
+    found = @user.reminders.done
+    @grouped_reminders << {:name => :reminder_done, :type => 'done', :reminders => found} unless found.empty?
+    #found = @user.reminders.today(true)
+    #@grouped_reminders << {:name => :reminder_due_today, :type => 'doneToday', :reminders => found} unless found.empty?
+    found = @user.reminders.today(false)
+    @grouped_reminders << {:name => :reminder_due_today, :type => 'dueToday', :reminders => found } unless found.empty?
+    found = @user.reminders.in_days(1)
+    @grouped_reminders << {:name => :reminder_due_tomorrow, :type => 'dueTomorrow', :reminders => found } unless found.empty?
 
+    
+    now = Time.now.utc
+    
+    # Rest of the current month (excluding tomorrow)
+    ((now.day+1)...(Date.civil(now.year, now.month, -1).day)).each do |day|
+        found = @user.reminders.in_days(day+1)
+        @grouped_reminders << {:name => :reminder_due_days, :type => "doneDays#{day}", :reminders => found } unless found.empty?
+    end
+    
+    # Rest of year (monthly)
+    ((now.month)...12).each do |month|
+        found = @user.reminders.in_month(month+1)
+        @grouped_reminders << {:name => :reminder_due_months, :type => "doneMonths#{month+1}", :reminders =>found } unless found.empty?
+    end
+    
+    # Distant future
+    found = @user.reminders.on_after(Date.civil(now.year+1))
+    @grouped_reminders << {:name => :reminder_due_future, :type => 'doneMonths', :reminders => found } unless found.empty?
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @reminders }

@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
   
+  before_filter :login_required
   before_filter :set_time_zone
   
 protected
@@ -32,13 +33,13 @@ protected
   def user_track
     if not @logged_user.nil?
       store_location
-	  @logged_user.update_attribute('last_visit', Time.now)
+	  @logged_user.update_attribute('last_visit', Time.now.utc)
     end
     true
   end
   
   def set_time_zone
-    Time.zone = @current_user.time_zone if @current_user
+    Time.zone = @logged_user.time_zone if @logged_user
   end
   
   def grab_page
