@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
 	has_many :pages, :foreign_key => 'created_by_id', :dependent => :destroy
 	has_many :reminders, :foreign_key => 'created_by_id', :order => 'at_time ASC', :dependent => :destroy do
 		def done()
-			find(:all, :conditions => ["(at_time < '#{Time.now.utc}')"])
+			find(:all, :conditions => ['at_time < ?', Time.now.utc])
 		end
 		def today(done=false)
 		    current = Time.now.utc

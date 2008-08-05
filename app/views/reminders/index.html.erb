@@ -18,15 +18,5 @@
 </div>
 
 <div id="reminderList">
-<% for group in @grouped_reminders %>
-<div class="reminderGroup">
-<h2><%= group[:name].l %></h2>
-<% for reminder in group[:reminders] %>
-<div id="reminder_<%= reminder.id%>" class="reminderEntry <%= group[:type] %>">
-  <div class="reminderContent"><%= h reminder.content %></div>
-  <div class="reminderTime"><%= reminder.at_time.to_s %></div>
-</div>
-<% end %>
-</div>
-<% end %>
+<%= render :partial => 'group', :collection => @grouped_reminders %>
 </div>

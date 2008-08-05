@@ -555,6 +555,18 @@ Event.addBehavior({
             });
     },
     
+    '#add_ReminderForm:submit': function(e) {
+        var el = e.element();
+        e.stop();
+        
+        el.request({evalScripts:true,
+            onComplete: function(transport){
+                Event.addBehavior.reload();
+                return;
+            }
+            });
+    },
+    
     // Widget forms
     '.cancel_WidgetForm:click' : function(e) {
         InsertionBar.clearWidgetForm();

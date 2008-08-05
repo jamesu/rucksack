@@ -1,0 +1,9 @@
+<div class="reminderGroup">
+<h2><%= group[:name].l %></h2>
+<% for reminder in group[:reminders] %>
+<div id="reminder_<%= reminder.id%>" class="reminderEntry <%= group[:type] %>">
+  <div class="reminderContent"><%= h reminder.content %></div>
+  <div class="reminderTime"><%= reminder.at_time.to_s %></div>
+</div>
+<% end %>
+</div>

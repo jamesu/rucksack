@@ -1,0 +1,3 @@
+unless @reminder_groups.nil?
+    page.replace_html "reminderList", :partial => 'group', :collection => @reminder_groups
+end
