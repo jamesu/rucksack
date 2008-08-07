@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(:version => 3) do
     t.text     "content"
     t.datetime "at_time"
     t.integer  "repeat_id",     :limit => 1
+    t.boolean  "sent",                        :default => false, :null => false
     t.integer  "created_by_id", :limit => 10
     t.integer  "updated_by_id", :limit => 10
     t.datetime "created_at"

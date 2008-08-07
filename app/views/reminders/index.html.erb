@@ -17,6 +17,7 @@
 </form>
 </div>
 
+<%= "Now == #{Time.zone.now.to_s}" %>
 <div id="reminderList">
 <%= render :partial => 'group', :collection => @grouped_reminders %>
 </div>

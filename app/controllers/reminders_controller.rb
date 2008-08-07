@@ -96,35 +96,24 @@ protected
   def get_groups
     groups = []
     
-    found = @user.reminders.done
-    groups << {:name => :reminder_done, :type => 'done', :reminders => found} unless found.empty?
-    #found = @user.reminders.today(true)
-    #@grouped_reminders << {:name => :reminder_due_today, :type => 'doneToday', :reminders => found} unless found.empty?
-    found = @user.reminders.today(false)
-    groups << {:name => :reminder_due_today, :type => 'dueToday', :reminders => found } unless found.empty?
-    found = @user.reminders.in_days(1)
-    groups << {:name => :reminder_due_tomorrow, :type => 'dueTomorrow', :reminders => found } unless found.empty?
-
-    
-    now = Time.now.utc
-    
-    # Rest of the current month (excluding tomorrow)
-    ((now.day+1)...(Date.civil(now.year, now.month, -1).day)).each do |day|
-        found = @user.reminders.in_days(day+1)
-        groups << {:name => :reminder_due_days, :type => "doneDays#{day}", :reminders => found } unless found.empty?
+    @now = Time.zone.now
+    return @user.reminders.on_after(@now.to_date).group_by do |obj|
+        time = obj.at_time
+        
+        if time.year > @now.year # Distant future
+            [time.strftime(:reminder_due_future.l), 'dueFuture', :date_format_md]
+        elsif time.month > @now.month # Rest of year (monthly)
+            [time.strftime(:reminder_due_months.l), "dueMonths#{time.month-now.month}", :date_format_mwd]
+        elsif time.day > @now.day+1 # Rest of the current month (excluding tomorrow)
+            [time.strftime(:reminder_due_days.l), "dueDays#{time.day-now.day}",  :date_format_time]
+        elsif time.day > @now.day # Tomorrow
+            [:reminder_due_tomorrow.l, 'dueTomorrow', :date_format_time]
+        elsif time.day == @now.day and time > @now
+            [:reminder_due_today.l, 'dueToday', (time.hour > @now.hour ? :due_format_hours : :due_upcomming)]
+        else
+            [:reminder_done.l, 'done', :done]
+        end
     end
-    
-    # Rest of year (monthly)
-    ((now.month)...12).each do |month|
-        found = @user.reminders.in_month(month+1)
-        groups << {:name => :reminder_due_months, :type => "doneMonths#{month+1}", :reminders =>found } unless found.empty?
-    end
-    
-    # Distant future
-    found = @user.reminders.on_after(Date.civil(now.year+1))
-    groups << {:name => :reminder_due_future, :type => 'doneMonths', :reminders => found } unless found.empty?
-    
-    groups
   end
   
   def reminder_layout

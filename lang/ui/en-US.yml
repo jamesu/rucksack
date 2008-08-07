@@ -83,9 +83,16 @@ reminder_done: Already done
 reminder_done_today: Done today
 reminder_due_today: Today
 reminder_due_tomorrow: Tomorrow
-reminder_due_days: Due in a few days
-reminder_due_months: Due in a few months
-reminder_due_future: Due in the far future
+reminder_due_days: "%a %b %d"
+reminder_due_months: "%B"
+reminder_due_future: "%Y"
+
+date_format_md: "%x"
+date_format_mwd: "%a %d"
+date_format_time: "%I:%M %p"
+due_format_hours: "pluralize{{hours}, hour}"
+due_upcomming: "Within the hour"
+done: "Done"
 
 yesno_yes: "Yes"
 yesno_no: "No"

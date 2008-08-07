@@ -12,9 +12,18 @@ class Reminder < ActiveRecord::Base
     
     def friendly_at_time=(value)
         @cached_friendly_time = value
-        self.at_time = Chronic.parse(value, :now => Time.zone.now)
-        self.at_time ||= Time.zone.now + (60*60*3)
-        # TODO: set default time if Chronic craps up. Also try extracting times from query
+        ctime = Chronic.parse(value, :now => Time.zone.now)
+        # TODO: possible to extract subject from query?
+        
+        if !ctime.nil?
+            # re-interpret time in local zone
+            ctime = Time.zone.local(ctime.year, ctime.mon, ctime.day, ctime.hour, ctime.min, ctime.sec)
+        else
+            # Default to now + 3 hours
+            ctime = (Time.zone.now + (60*60*3))
+        end
+        
+        self.at_time = ctime
         self.content = value
     end
   
@@ -30,8 +39,55 @@ class Reminder < ActiveRecord::Base
         self.repeat_id = @@repeat_lookup[val.to_sym]
     end
     
+    def expired?
+        self.sent and self.at_time <= 2.days.ago
+    end
+    
+    def done?
+        self.at_time <= Time.zone.now
+    end
+    
     def repeatable?
         self.repeat_id > 0
+    end
+    
+    def dispatch_notification
+        puts ""
+        reminder.sent = true
+    end
+    
+    def self.dispatch_and_clean
+        now = Time.now.utc
+        
+        Reminder.find(:all, :conditions => ['at_time <= ?', now], :order => 'at_time ASC').each do |reminder|
+            if reminder.expired?
+                reminder.destroy
+            elsif !reminder.sent
+                reminder.dispatch_notification
+                
+                if reminder.repeatable?
+                    interval = nil
+                    case reminder.repeat
+                        when :yearly
+                            interval = {:years => 1}
+                        when :monthly
+                            interval = {:months => 1}
+                        when :fortnightly
+                            interval = {:weeks => 2}
+                        when :weekly
+                            interval = {:weeks => 1}
+                        when :daily
+                            interval = {:days => 1}
+                    end
+                    
+                    unless interval.nil?
+                        reminder.at_time = reminder.at_time.advance() unless interval.nil?
+                    end
+                end
+                
+                reminder.save
+            end
+        end
     end
     
     def self.select_repeat

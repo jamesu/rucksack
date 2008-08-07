@@ -33,6 +33,9 @@ class User < ActiveRecord::Base
 		def done()
 			find(:all, :conditions => ['at_time < ?', Time.now.utc])
 		end
+		def upcomming()
+			find(:all, :conditions => ['at_time > ?', Time.now.utc])
+		end
 		def today(done=false)
 		    current = Time.now.utc
 		    if done
