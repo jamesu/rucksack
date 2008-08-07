@@ -4,13 +4,12 @@
 <div id="reminder_<%= reminder.id %>" class="reminderEntry <%= group[0][1] %>">
   <span class="reminderContent"><%= h reminder.content %></span>
   <span class="reminderTime">
-  <%= reminder.at_time.to_s %>
   <% if group[0][2] == :due_format_hours %>
   <%= group[0][2].l_with_args(:hours => (reminder.at_time.hour - @now.hour)) %>
   <% elsif group[0][2] == :due_upcomming %>
   <%= group[0][2].l %>
   <% elsif group[0][2] == :done %>
-  <%= "(Snooze, Delete?)"%>
+  <%= action_list actions_for_reminder(reminder), true %>
   <% else %>
   <%= reminder.at_time.strftime(group[0][2].l) %>
   <% end %>

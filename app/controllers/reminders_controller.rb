@@ -87,6 +87,7 @@ class RemindersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(reminders_url) }
+      format.js { @reminder_groups = get_groups; render :action => 'update' }
       format.xml  { head :ok }
     end
   end

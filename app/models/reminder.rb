@@ -26,6 +26,10 @@ class Reminder < ActiveRecord::Base
         self.at_time = ctime
         self.content = value
     end
+    
+    def snooze(interval={:minutes => 15})
+        self.at_time = self.at_time.advance(interval)
+    end
   
     def friendly_repeat
         "reminder_repeat_#{self.repeat}".to_sym.l
@@ -81,7 +85,7 @@ class Reminder < ActiveRecord::Base
                     end
                     
                     unless interval.nil?
-                        reminder.at_time = reminder.at_time.advance() unless interval.nil?
+                        reminder.at_time = reminder.at_time.advance(interval) unless interval.nil?
                     end
                 end
                 

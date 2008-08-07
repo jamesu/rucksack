@@ -30,6 +30,27 @@ module ApplicationHelper
 		"<img src='/images/icons/#{filename}.gif' alt='#{alt}' #{attr_values}/>"
 	end
 	
+	def action_list(actions, remote=false)
+		actions.collect do |action|
+			if action[:cond]
+				extras = {}
+				extras[:confirm] = action[:confirm] if action.has_key? :confirm
+				extras[:method] = action[:method] if action.has_key? :method
+				
+				if remote
+				    extras[:url] = action[:url]
+				    link_to_remote action[:name], extras, {:id => action[:id]}
+				else
+				    extras[:onclick] = action[:onclick] if action.has_key? :onclick
+				    extras[:id] = action[:id] if action.has_key? :id
+				    link_to action[:name], action[:url], extras
+				end
+			else
+				nil
+			end
+		end.compact.join(' | ')
+	end
+	
 	def yesno_toggle(object_name, method, options = {})
 		radio_button(object_name, method, "true", options.merge({:id => "#{options[:id]}Yes"})) +
 		" <label for=\"#{options[:id]}Yes\" class=\"#{options[:class]}\">#{:yesno_yes.l}</label> " +
@@ -58,6 +79,11 @@ module ApplicationHelper
 	  
 	  @selected_user_item = current
 	  return items
+	end
+	
+	def actions_for_reminder(reminder)
+	   [{:name => :snooze.l, :url => edit_reminder_path(reminder), :method => :get, :cond => true},
+	    {:name => :delete.l, :url => reminder_path(reminder), :method => :delete, :cond => true}]
 	end
 	
 

@@ -93,6 +93,8 @@ date_format_time: "%I:%M %p"
 due_format_hours: "pluralize{{hours}, hour}"
 due_upcomming: "Within the hour"
 done: "Done"
+snooze: Snooze
+delete: Delete
 
 yesno_yes: "Yes"
 yesno_no: "No"
