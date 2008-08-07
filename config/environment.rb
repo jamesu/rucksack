@@ -71,3 +71,6 @@ Rails::Initializer.run do |config|
 end
 
 Globalite.locale = :en_US
+
+# ActionMailer stuff
+ActionMailer::Base.delivery_method = :test

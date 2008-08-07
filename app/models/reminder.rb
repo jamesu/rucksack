@@ -57,6 +57,7 @@ class Reminder < ActiveRecord::Base
     
     def dispatch_notification
         #puts ""
+        Notifier.deliver_reminder(self)
         self.sent = true
     end
     

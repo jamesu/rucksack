@@ -70,6 +70,7 @@ update_user: "Update '{name}'"
 user_is_admin: Is administrator
 
 # Reminders
+reminder: Reminder
 reminders: Reminders
 add_reminder: Add reminder
 reminder_repeat_never: Never
@@ -101,5 +102,10 @@ yesno_no: "No"
 
 # Errors
 page_not_found: Page not found
+
+# Notification
+notifier_donotreply: "DO NOT REPLY TO THIS MESSAGE"
+notifier_reminder: "{content}"
+notifier_reminder_info: "This reminder can be modified at:"
 
 product_signature: Powered by Rucksack
