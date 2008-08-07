@@ -4,7 +4,7 @@ class Reminder < ActiveRecord::Migration
       t.text   "content"
       t.datetime "at_time"
       
-      t.integer "repeat_id", :limit => 1
+      t.integer "repeat_id", :limit => 1, :default => 0, :null => false
       t.boolean "sent", :default => false, :null => false
         
       t.integer  "created_by_id",          :limit => 10

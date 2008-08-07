@@ -56,8 +56,8 @@ class Reminder < ActiveRecord::Base
     end
     
     def dispatch_notification
-        puts ""
-        reminder.sent = true
+        #puts ""
+        self.sent = true
     end
     
     def self.dispatch_and_clean
@@ -65,6 +65,7 @@ class Reminder < ActiveRecord::Base
         
         Reminder.find(:all, :conditions => ['at_time <= ?', now], :order => 'at_time ASC').each do |reminder|
             if reminder.expired?
+                #puts "expired, remove!"
                 reminder.destroy
             elsif !reminder.sent
                 reminder.dispatch_notification
