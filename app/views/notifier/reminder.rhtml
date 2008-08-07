@@ -1,0 +1,9 @@
+------------------------------------------------------------
+ <%= :notifier_donotreply.l %>
+------------------------------------------------------------
+
+<%= :notifier_reminder.l_with_args(:content => @reminder.content) %>
+
+--
+<%= :notifier_reminder_info.l %>
+<%= "#{AppConfig.site_url}#{reminders_path}" %>

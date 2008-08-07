@@ -1,8 +1,4 @@
 <div class="sidebarBlock">
     <h2><%= :pages.l %></h2>
-    <ul class="pageListItems">
-<% Page.find(:all).each do |page| -%>
-    <li <% if page == @page %> class="current" <% end %> page_id="<%= page.id %>"><%= link_to h(page.title), page_path(page) %></li>
-<% end %>
-    </ul>
+    <%= render :partial => 'listed_pages' %>
 </div>
