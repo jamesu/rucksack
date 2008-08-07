@@ -112,7 +112,7 @@ header {
     padding: 8px 12px 12px 12px;
 }
 
-.pageListItems {
+#pageListItems {
     list-style-image: none;
     list-style-position: outside;
     list-style-type: none;
@@ -121,13 +121,13 @@ header {
     padding: 0px;
 }
 
-.pageListItems li {
+#pageListItems li {
     padding: 4px 4px 4px 12px;
 }
 
-.pageListItems li.hover { background: red; }
-.pageListItems li.current { background: #000; }
-.pageListItems li.current a { color: #fff; }
+#pageListItems li.hover { background: red; }
+#pageListItems li.current { background: #000; }
+#pageListItems li.current a { color: #fff; }
 
 .pageSlot {
     background: #fff;

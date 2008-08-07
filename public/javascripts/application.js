@@ -178,7 +178,7 @@ var Page = {
         });
         
         // Add droppables
-       $$('.pageListItems li').forEach(function(el) {
+       $$('#pageListItems li').forEach(function(el) {
         if (!el.hasClassName('current'))
         Droppables.add(el.identify(), {hoverclass:'hover', accept:'pageSlot', onDrop: function(el2) { Page.moveSlotTo(el2.getAttribute('slot'), el.getAttribute('page_id')); } });
        });  
