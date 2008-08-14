@@ -25,7 +25,7 @@ require 'gd2' unless AppConfig.no_gd2
 class User < ActiveRecord::Base
 	include ActionController::UrlWriter
   
-	belongs_to :company
+	belongs_to :account
 	belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
 	
 	has_many :pages, :foreign_key => 'created_by_id', :dependent => :destroy
@@ -221,25 +221,20 @@ class User < ActiveRecord::Base
 		return (user.member_of_owner? and user.is_admin)
 	end
 	
+	def can_be_edited_by(user)
+      return (self.id == user.id or (user.member_of_owner? and user.is_admin))
+	end
+	
 	def can_be_deleted_by(user)
 		return false if (self.owner_of_owner? or user.id == self.id)
 		return user.is_admin
 	end
 	
-	def can_be_viewed_by(user)
-		return (user.member_of_owner? or user.company_id == self.id or self.member_of_owner?)
+	def can_be_seen_by(user)
+		return (user.member_of_owner?)
 	end
 	
 	# Specific permissions
-	
-    def profile_can_be_updated_by(user)
-      return (self.id == user.id or (user.member_of_owner? and user.is_admin))
-    end
-    
-    def permissions_can_be_updated_by(user)
-      return false if self.owner_of_owner?
-      return (user.member_of_owner? and user.is_admin)
-    end
     
     def can_add_favourite(user)
         user.is_admin or user.id == self.id
@@ -247,11 +242,11 @@ class User < ActiveRecord::Base
     
     # Helpers	
 	def member_of_owner?
-		true
+		!self.account_id.nil?
 	end
 	
 	def owner_of_owner?
-		self.company.client_of.nil? and self.company.created_by.id == self.id
+		self.account_id.nil? and Account.owner.id == self.account_id
 	end
 	
 	def has_avatar?

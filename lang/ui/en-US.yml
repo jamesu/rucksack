@@ -40,7 +40,9 @@ edit: Edit
 page_back: Back
 insert_here: Insert Here
 page_list: Listing pages
+my_pages: My pages
 all_pages: All pages
+pages_shared_to_me: Pages shared to me
 
 user_list: Listing users
 show_user: "{name}"
@@ -104,11 +106,15 @@ yesno_no: "No"
 # Errors
 page_not_found: Page not found
 insufficient_permissions: Insufficient permissions
-cannot_create_page: Cannot create this page
+cannot_create_page: Cannot create a page
 cannot_edit_page: Cannot edit this page
 cannot_delete_page: Cannot delete this page
-cannot_create_page: Cannot create this page
 cannot_see_page: Cannot view this page
+
+cannot_create_user: Cannot create a user
+cannot_edit_user: Cannot edit this user
+cannot_delete_user: Cannot delete this user
+cannot_see_user: Cannot view this user
 
 # Notification
 notifier_donotreply: "DO NOT REPLY TO THIS MESSAGE"

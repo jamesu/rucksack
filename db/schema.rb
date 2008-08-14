@@ -9,7 +9,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 4) do
+ActiveRecord::Schema.define(:version => 5) do
+
+  create_table "accounts", :force => true do |t|
+    t.integer  "owner_id",   :limit => 10, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "application_logs", :force => true do |t|
     t.integer  "taken_by_id",     :limit => 10
@@ -103,23 +109,7 @@ ActiveRecord::Schema.define(:version => 4) do
     t.integer "user_id", :limit => 10
   end
 
-  create_table "users", :force => true do |t|
-    t.string   "username",      :limit => 50,  :default => "", :null => false
-    t.string   "email",         :limit => 100
-    t.string   "token",         :limit => 40,  :default => "", :null => false
-    t.string   "salt",          :limit => 13,  :default => "", :null => false
-    t.string   "twister",       :limit => 10,  :default => "", :null => false
-    t.string   "identity_url"
-    t.string   "display_name",  :limit => 50
-    t.string   "avatar_file",   :limit => 44
-    t.string   "time_zone",                                    :null => false
-    t.integer  "created_by_id", :limit => 10
-    t.datetime "last_login"
-    t.datetime "last_visit"
-    t.datetime "last_activity"
-    t.boolean  "is_admin"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+# Could not dump table "users" because of following StandardError
+#   Unknown type 'limit10' for column 'account_id'
 
 end

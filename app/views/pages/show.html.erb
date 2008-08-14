@@ -38,4 +38,4 @@
 <div class="pageSlot pageFooter" slot="0" id="page_slot_footer"></div>
 </div>
 
-<%= link_to :page_back.l, pages_path %> | <%= link_to 'Favourite', '#', :id => 'pageSetFavourite' %> | <%= link_to 'Not Favourite', '#', :id => 'pageSetNotFavourite' %>
+<%= link_to 'Favourite', '#', :id => 'pageSetFavourite', :style => (@page.is_favourite?(@user) ? 'display:none;' : nil) %> <%= link_to 'Not Favourite', '#', :id => 'pageSetNotFavourite', :style => (@page.is_favourite?(@user) ? nil : 'display:none;') %>

@@ -12,7 +12,9 @@ initial_user_password ||= 'password'
 initial_user_email ||= 'better.set.this@localhost'
 
 # Ensure owner user exists
-unless User.find(:first, :conditions => ['users.is_admin'])
+initial_user = nil
+owner_user = User.find(:first, :conditions => ['users.is_admin'])
+if owner_user.nil?
 	puts 'Creating owner user...'
 	initial_user = User.new(	:display_name => initial_user_displayname,
 								:email => initial_user_email)
@@ -39,3 +41,18 @@ unless User.find(:first, :conditions => ['users.is_admin'])
 		end
 	end
 end
+
+# Ensure the owner account exists
+owner_account = Account.find(:first)
+
+unless owner_account.nil?
+    owner_account = Account.new()
+    owner_account.owner = owner_account
+    owner_account.save
+end
+
+if !initial_user.nil?
+    owner_account.owner ||= initial_user
+    owner_account.save
+end
+

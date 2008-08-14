@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.xml
   def index
-    @users = User.find(:all)
+    @users = Account.owner.users.find(:all)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -18,7 +18,8 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.xml
   def show
-    @user = User.find(params[:id])
+    @user = Account.owner.users.find(params[:id])
+    return error_status(true, :cannot_see_user) unless (@user.can_be_seen_by(@logged_user))
 
     respond_to do |format|
       format.html # show.html.erb
@@ -29,7 +30,9 @@ class UsersController < ApplicationController
   # GET /users/new
   # GET /users/new.xml
   def new
-    @user = User.new
+    return error_status(true, :cannot_create_user) unless (User.can_be_created_by(@logged_user))
+    
+    @user = Account.owner.user.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -40,14 +43,17 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
+    return error_status(true, :cannot_edit_user) unless (@user.can_be_edited_by(@logged_user))
   end
 
   # POST /users
   # POST /users.xml
   def create
+    return error_status(true, :cannot_create_user) unless (User.can_be_created_by(@logged_user))
+    
     user_attribs = params[:user]
     
-    @user = User.new(user_attribs)
+    @user = Account.owner.users.new(user_attribs)
     if @logged_user.is_admin
         @user.is_admin = user_attribs[:is_admin]
         @user.username = user_attribs[:username]
@@ -73,7 +79,8 @@ class UsersController < ApplicationController
   # PUT /users/1
   # PUT /users/1.xml
   def update
-    @user = User.find(params[:id])
+    @user = Account.owner.users.find(params[:id])
+    return error_status(true, :cannot_edit_user) unless (@user.can_be_edited_by(@logged_user))
     
     user_attribs = params[:user]
     if @logged_user.is_admin
@@ -101,8 +108,10 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.xml
   def destroy
-    @user = User.find(params[:id])
-    @user.destroy unless !@logged_user.is_admin or @user.is_admin # TODO
+    @user = Account.owner.users.find(params[:id])
+    return error_status(true, :cannot_delete_user) unless (@user.can_be_deleted_by(@logged_user))
+    
+    @user.destroy
 
     respond_to do |format|
       format.html { redirect_to(users_url) }
