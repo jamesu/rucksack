@@ -1,11 +1,11 @@
-<%  if show.can_be_changed_by(@logged_user) %>
+<%  if show.can_be_completed_by(@logged_user) %>
 <li class="listItem" id="<%= "list_item_#{show.id}"%>" item_id="<%= show.id %>" url="<%= "/lists/#{show.list_id}/items/#{show.id}" %>">
 <% else %>
 <li class="listItem" id="<%= "list_item_#{show.id}"%>" item_id="<%= show.id %>">
 <% end %>
 <div class="listItemContent">
-<% if show.can_be_changed_by(@logged_user) %>
-<% unless show.is_completed? %>
+<% if show.can_be_completed_by(@logged_user) %>
+<% unless show.is_completed? or !show.can_be_edited_by(@logged_user) %>
 <div class="pageSlotHandle" id="page_item_handle_<%= show.id %>" resType=".listItem" style="display:none">
     <div class="inner">
       <ul>

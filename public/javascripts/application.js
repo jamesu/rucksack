@@ -173,6 +173,9 @@ var Page = {
     },
     
     insertWidget: function(resource) {
+        if (PAGE_READONLY)
+            return;
+        
         // Insert 
         new Ajax.Request('/pages/' + PAGE_ID + '/' + resource, 
                         {
@@ -186,6 +189,9 @@ var Page = {
     },
     
     makeSortable: function() {
+        if (PAGE_READONLY)
+            return;
+        
         $$('.pageList .openItems .listItems').forEach(function(el) {
           Page.makeListSortable(el);
         });

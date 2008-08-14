@@ -26,6 +26,8 @@ class ListsController < ApplicationController
   # GET /lists/new
   # GET /lists/new.xml
   def new
+    return error_status(true, :cannot_create_list) unless (List.can_be_created_by(@logged_user, @page))
+    
     @list = @page.lists.build
 
     respond_to do |format|
@@ -37,11 +39,14 @@ class ListsController < ApplicationController
   # GET /lists/1/edit
   def edit
     @list = @page.lists.find(params[:id])
+    return error_status(true, :cannot_edit_list) unless (@list.can_be_edited_by(@logged_user))
   end
 
   # POST /lists
   # POST /lists.xml
   def create
+    return error_status(true, :cannot_create_list) unless (List.can_be_created_by(@logged_user, @page))
+    
     # Calculate target position
     # TODO: move to main controller as util function?
     if !params[:position].nil?
@@ -83,6 +88,7 @@ class ListsController < ApplicationController
   # PUT /lists/1.xml
   def update
     @list = @page.lists.find(params[:id])
+    return error_status(true, :cannot_edit_list) unless (@list.can_be_edited_by(@logged_user))
 
     respond_to do |format|
       if @list.update_attributes(params[:list])
@@ -102,6 +108,8 @@ class ListsController < ApplicationController
   # DELETE /lists/1.xml
   def destroy
     @list = @page.lists.find(params[:id])
+    return error_status(true, :cannot_delete_list) unless (@list.can_be_deleted_by(@logged_user))
+    
     @slot_id = @list.page_slot.id
     @list.page_slot.destroy
     @list.destroy
@@ -116,6 +124,8 @@ class ListsController < ApplicationController
   # POST /lists/1/reorder
   def reorder
     list = @page.lists.find(params[:id])
+    return error_status(true, :cannot_edit_list) unless (list.can_be_edited_by(@logged_user))
+    
     order = params[:items].collect { |id| id.to_i }
     
     list.list_items.each do |item|

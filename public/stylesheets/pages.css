@@ -108,6 +108,10 @@ header {
     margin: 0px;
 }
 
+#pageTools {
+    margin-bottom: 12px;
+}
+
 #pageTools div {
     padding: 8px 12px 12px 12px;
 }

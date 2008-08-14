@@ -13,6 +13,24 @@ class Separator < ActiveRecord::Base
         "separators/form"
     end
     
+	# Common permissions
+
+	def self.can_be_created_by(user, page)
+	   page.can_add_widget(user, Separator)
+	end
+	
+	def can_be_edited_by(user)
+	   self.page.can_be_edited_by(user)
+	end
+	
+	def can_be_deleted_by(user)
+	   self.page.can_be_edited_by(user)
+	end
+	
+	def can_be_seen_by(user)
+	   self.page.can_be_seen_by(user)
+	end
+	   
 	# Accesibility
 	
 	attr_accessible :title

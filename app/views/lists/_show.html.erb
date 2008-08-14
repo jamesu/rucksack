@@ -3,7 +3,7 @@
 <h2 hover_handle="page_slot_handle_<%= object.page_slot.id %>"><%= h(object.name) %></h2>
 </div>
 
-<% if object.can_be_changed_by(@logged_user) %>
+<% if object.can_be_edited_by(@logged_user) %>
 <div id="<%= "list_header_#{object.id}_form" %>" class="pageListForm" style="display:none">
 <h2><%= h(object.name) %></h2>
 </div>
@@ -15,7 +15,7 @@
     </ul>
 </div>
 
-<% if object.can_be_changed_by(@logged_user) %>
+<% if object.can_be_edited_by(@logged_user) %>
 <div class="addItem">
     <div class="inner" style="display: <%= @new_list.nil? ? 'none' : 'block' %>">
       <%= form_tag page_list_list_items_path(object.page, object), :method => :post %>

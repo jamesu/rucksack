@@ -93,28 +93,36 @@ class List < ActiveRecord::Base
 	def last_edited_by_owner?
 	 return (self.created_by.member_of_owner? or (!self.updated_by.nil? and self.updated_by.member_of_owner?))
 	end
+	
+	# Common permissions
 
-	def self.can_be_created_by(user, project)
-	 return true
+	def self.can_be_created_by(user, page)
+	   page.can_add_widget(user, List)
 	end
 	
-	def can_be_managed_by(user)
-	 return true
-	end
-	
-	def can_be_changed_by(user)
-	 return true if user.is_admin
-	 
-	 return true
+	def can_be_edited_by(user)
+	   self.page.can_be_edited_by(user)
 	end
 	
 	def can_be_deleted_by(user)
-	 return true
+	   self.page.can_be_edited_by(user)
 	end
 	
 	def can_be_seen_by(user)
-	 return true
+	   self.page.can_be_seen_by(user)
 	end
+	
+	# Specific permissions
+	
+	def can_be_completed_by(user)
+	   self.can_be_edited_by(user)
+	end
+	
+	def item_can_be_added_by(user)
+	   self.can_be_edited_by(user)
+	end
+	
+	# Useful
 	
 	def finished_all_items?
 	 completed_count = 0
@@ -133,10 +141,6 @@ class List < ActiveRecord::Base
     def self.form_partial
         nil
     end
-	
-	def self.priv_scope(include_private)
-	  yield
-	end
 	
 	def self.select_list(project)
 	   List.find(:all, :select => 'id, name').collect do |list|

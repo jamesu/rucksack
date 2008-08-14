@@ -26,6 +26,8 @@ class SeparatorsController < ApplicationController
   # GET /separators/new
   # GET /separators/new.xml
   def new
+    return error_status(true, :cannot_create_separator) unless (Separator.can_be_created_by(@logged_user, @page))
+    
     @separator = @page.separators.build
 
     respond_to do |format|
@@ -37,6 +39,7 @@ class SeparatorsController < ApplicationController
   # GET /separators/1/edit
   def edit
     @separator = @page.separators.find(params[:id])
+    return error_status(true, :cannot_edit_separator) unless (@separator.can_be_edited_by(@logged_user))
 
     respond_to do |format|
       format.html
@@ -47,6 +50,8 @@ class SeparatorsController < ApplicationController
   # POST /separators
   # POST /separators.xml
   def create
+    return error_status(true, :cannot_create_separator) unless (Separator.can_be_created_by(@logged_user, @page))
+    
     # Calculate target position
     # TODO: move to main controller as util function?
     if !params[:position].nil?
@@ -87,6 +92,7 @@ class SeparatorsController < ApplicationController
   # PUT /separators/1.xml
   def update
     @separator = @page.separators.find(params[:id])
+    return error_status(true, :cannot_edit_separator) unless (@separator.can_be_edited_by(@logged_user))
 
     respond_to do |format|
       if @separator.update_attributes(params[:separator])
@@ -106,6 +112,8 @@ class SeparatorsController < ApplicationController
   # DELETE /separators/1.xml
   def destroy
     @separator = @page.separators.find(params[:id])
+    return error_status(true, :cannot_delete_separator) unless (@separator.can_be_deleted_by(@logged_user))
+    
     @slot_id = @separator.page_slot.id
     @separator.page_slot.destroy
     @separator.destroy

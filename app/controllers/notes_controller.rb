@@ -26,6 +26,8 @@ class NotesController < ApplicationController
   # GET /notes/new
   # GET /notes/new.xml
   def new
+    return error_status(true, :cannot_create_note) unless (Note.can_be_created_by(@logged_user, @page))
+    
     @note = @page.notes.build
 
     respond_to do |format|
@@ -37,6 +39,7 @@ class NotesController < ApplicationController
   # GET /notes/1/edit
   def edit
     @note = @page.notes.find(params[:id])
+    return error_status(true, :cannot_edit_note) unless (@note.can_be_edited_by(@logged_user))
 
     respond_to do |format|
       format.html
@@ -47,6 +50,8 @@ class NotesController < ApplicationController
   # POST /notes
   # POST /notes.xml
   def create
+    return error_status(true, :cannot_create_note) unless (Note.can_be_created_by(@logged_user, @page))
+    
     # Calculate target position
     # TODO: move to main controller as util function?
     if !params[:position].nil?
@@ -85,6 +90,7 @@ class NotesController < ApplicationController
   # PUT /notes/1.xml
   def update
     @note = @page.notes.find(params[:id])
+    return error_status(true, :cannot_edit_note) unless (@note.can_be_edited_by(@logged_user))
 
     respond_to do |format|
       if @note.update_attributes(params[:note])
@@ -104,6 +110,8 @@ class NotesController < ApplicationController
   # DELETE /notes/1.xml
   def destroy
     @note = @page.notes.find(params[:id])
+    return error_status(true, :cannot_delete_note) unless (@note.can_be_deleted_by(@logged_user))
+    
     @slot_id = @note.page_slot.id
     @note.page_slot.destroy
     @note.destroy

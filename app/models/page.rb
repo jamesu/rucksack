@@ -80,20 +80,24 @@ class Page < ActiveRecord::Base
 	end
 	
 	def can_be_edited_by(user)
-	 return (user.is_admin? or user.id == self.created_by_id or shared_user_ids.include?(user.id))
+	 return (user.is_admin or user.id == self.created_by_id or shared_user_ids.include?(user.id))
 	end
 	
 	def can_be_deleted_by(user)
-	 return (user.is_admin? or user.id == self.created_by_id)
+	 return (user.is_admin or user.id == self.created_by_id)
 	end
 	
 	def can_be_seen_by(user)
-	 return (user.is_admin? or user.id == self.created_by_id or shared_user_ids.include?(user.id))
+	 return (user.is_admin or user.id == self.created_by_id or shared_user_ids.include?(user.id))
 	end
 	
 	# Specific Permissions
 	def can_be_shared_by(user)
-	   return (user.is_admin? or user.id == self.created_by_id)
+	   return (user.is_admin or user.id == self.created_by_id)
+	end
+	
+	def can_add_widget(user, widget)
+	   return self.can_be_edited_by(user)
 	end
 	
 	# Helpers

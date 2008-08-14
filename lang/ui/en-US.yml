@@ -46,6 +46,9 @@ my_pages: My pages
 all_pages: All pages
 pages_shared_to_me: Pages shared to me
 
+list_item_completed: Completed
+list_item_open: Open
+
 user_list: Listing users
 show_user: "{name}"
 
@@ -118,6 +121,23 @@ cannot_create_user: Cannot create a user
 cannot_edit_user: Cannot edit this user
 cannot_delete_user: Cannot delete this user
 cannot_see_user: Cannot view this user
+
+cannot_create_note: Cannot create a note
+cannot_edit_note: Cannot edit this note
+cannot_delete_note: Cannot delete this note
+
+cannot_create_list: Cannot create a list
+cannot_edit_list: Cannot edit this list
+cannot_delete_list: Cannot delete this list
+cannot_find_list: Cannot find the specified list
+
+cannot_create_listitem: Cannot create a list item
+cannot_edit_listitem: Cannot edit this list item
+cannot_delete_listitem: Cannot delete this list item
+
+cannot_create_separator: Cannot create a separator
+cannot_edit_separator: Cannot edit this separator
+cannot_delete_separator: Cannot delete this separator
 
 # Notification
 notifier_donotreply: "DO NOT REPLY TO THIS MESSAGE"

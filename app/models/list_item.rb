@@ -94,22 +94,27 @@ class ListItem < ActiveRecord::Base
 	  self.updated_by = user unless user.nil?
 	end
 	
-	def self.can_be_created_by(user, task_list)
-	 return true
+	# Common permissions
+	
+	def self.can_be_created_by(user, in_list)
+	   in_list.item_can_be_added_by(user)
 	end
 	
-	def can_be_changed_by(user)
-	 return true if user.is_admin
-	 
-	 return true
+	def can_be_edited_by(user)
+	   list.can_be_edited_by(user)
 	end
 	
 	def can_be_deleted_by(user)
-	 list.can_be_deleted_by(user)
+	   list.can_be_deleted_by(user)
 	end
 	
 	def can_be_seen_by(user)
-	 return true
+	   list.can_be_seen_by(user)
+	end
+	
+	# Specific permissions
+	def can_be_completed_by(user)
+	   self.can_be_edited_by(user)
 	end
 	
 	# Accesibility

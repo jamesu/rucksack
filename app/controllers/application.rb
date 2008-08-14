@@ -57,6 +57,7 @@ protected
   def grab_page
     begin
         @page = Page.find(params[:page_id])
+        return error_status(true, :insufficient_permissions) unless @page.can_be_seen_by(@logged_user)
     rescue ActiveRecord::RecordNotFound
         error_status(true, :error_cannot_find_page)
         return false

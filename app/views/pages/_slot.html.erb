@@ -1,3 +1,4 @@
+<% if @page.can_be_edited_by(@logged_user) %>
 <div class="pageWidget" url="<%= "/#{slot.rel_object_type.downcase.pluralize}/#{slot.rel_object_id}" %>">
   <div class="pageSlotHandle" id="page_slot_handle_<%= slot.id %>" resType=".pageWidget" style="display:none">
     <div class="inner">
@@ -7,6 +8,9 @@
         <li class="slot_handle">+</li>
       </ul>
     </div>
-  </div>   
+  </div>
+<% else %>
+<div class="pageWidget">
+<% end %>  
   <%= render :partial => object.view_partial, :locals => {:object => object} %>
 </div>

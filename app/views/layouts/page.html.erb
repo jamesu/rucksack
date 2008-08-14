@@ -19,7 +19,7 @@
 	
 	<%= javascript_tag "const AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
 	
-	<%= javascript_tag "const PAGE_ID = #{@page.id};" %>
+	<%= javascript_tag "const PAGE_ID = #{@page.id}; const PAGE_READONLY = #{!@page.can_be_edited_by(@logged_user)};" %>
 
   </head>
   <body id="body">
@@ -36,14 +36,16 @@
           <div id="pageContent">
             <div id="content">
               <div id="pageTools">
+              <% if @page.can_be_edited_by(@logged_user) %>
               <div>
               <%= :add_to_page.l %>:
               <span> <%= Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s}\" href=\"#\">#{widget.name.to_sym.l}</a>"}.join(', ') %></span>
               </div>
+              <% end %>
               </div>
 
               <div class="pageHeader" url="">
-                <% if true %>
+                <% if @page.can_be_edited_by(@logged_user) %>
                 <div class="pageSlotHandle" id="page_header_handle" resType=".pageHeader" style="display:none">
                   <div class="inner">
                     <ul>
