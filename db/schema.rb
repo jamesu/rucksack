@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 3) do
+ActiveRecord::Schema.define(:version => 4) do
 
   create_table "application_logs", :force => true do |t|
     t.integer  "taken_by_id",     :limit => 10
@@ -21,6 +21,11 @@ ActiveRecord::Schema.define(:version => 3) do
     t.boolean  "is_private",                    :default => false, :null => false
     t.boolean  "is_silent",                     :default => false, :null => false
     t.integer  "action_id",       :limit => 1
+  end
+
+  create_table "favourite_pages", :id => false, :force => true do |t|
+    t.integer "page_id", :limit => 10
+    t.integer "user_id", :limit => 10
   end
 
   create_table "list_items", :force => true do |t|
@@ -91,6 +96,11 @@ ActiveRecord::Schema.define(:version => 3) do
     t.integer  "updated_by_id", :limit => 10,  :default => 0, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "shared_pages", :id => false, :force => true do |t|
+    t.integer "page_id", :limit => 10
+    t.integer "user_id", :limit => 10
   end
 
   create_table "users", :force => true do |t|
