@@ -7,7 +7,8 @@ class PagesController < ApplicationController
   # GET /pages
   # GET /pages.xml
   def index
-    @pages = Page.find(:all)
+    @pages = @user.pages
+    @shared_pages = @user.shared_pages
     @content_for_sidebar = 'page_sidebar'
 
     respond_to do |format|
@@ -30,7 +31,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @page.to_json }
-      format.xml  { render :xml => @page.to_xml(:include => [:slots, :notes, :lists]) }
+      format.xml  { render :xml => @page.to_xml }
     end
   end
 
