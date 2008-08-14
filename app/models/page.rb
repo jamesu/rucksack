@@ -92,6 +92,9 @@ class Page < ActiveRecord::Base
 	end
 	
 	# Specific Permissions
+	def can_be_shared_by(user)
+	   return (user.is_admin? or user.id == self.created_by_id)
+	end
 	
 	# Helpers
 	

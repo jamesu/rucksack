@@ -167,6 +167,49 @@ class PagesController < ApplicationController
     end
   end
   
+  def share
+    @page = Page.find(params[:id])
+    return error_status(true, :insufficient_permissions) unless (@page.can_be_shared_by(@logged_user))
+    
+    grab_users = Proc.new {|sid| 
+        begin
+            User.find(sid)
+        rescue ActiveRecord::RecordNotFound
+            nil
+        end}
+    
+    set_users = []
+    unless params[:page].nil?
+        set_users = params[:page][:shared_users]
+        set_users ||= []
+    end
+    
+    case request.method
+    when :get
+    when :post
+        # Set afresh
+        unless set_users.nil?
+            @page.shared_users = set_users.collect(&grab_users).compact
+        end
+    when :put
+        # Insert into list
+        unless set_users.nil?
+            set_users.collect(&grab_users).compact.each {|user| @page.shared_users << user unless @page.shared_users_ids.include?(user.id)}
+        end
+    when :delete
+        # Delete from list
+        unless set_users.nil?
+            set_users.collect(&grab_users).compact.each {|user| @page.shared_users.delete(user)}
+        end
+    end
+
+    respond_to do |format|
+      format.html { }
+      format.js { }
+      format.xml  { head :ok }
+    end
+  end
+  
   def current
     begin
       if !session['page_id'].nil?
