@@ -31,7 +31,8 @@
       </div>
       
       <div id="outerWrapper">
-        <div id="innerWrapper">   
+        <div id="innerWrapper">  
+          <div id="statusBar" class="<%= flash[:error] ? 'flash_error' : 'flash_success' %>" <% if flash[:message] %>><%= h flash[:message] %><% else %>style='display:none;'><% end %></div> 
           <div id="pageContent">
             <div id="content">
               <div id="pageTools">

@@ -25,9 +25,10 @@ class Page < ActiveRecord::Base
 	belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
 	belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
 	
-	has_many :page_shares
-	has_many :users, :through=> :page_shares
 	has_many :slots, :class_name => 'PageSlot', :order => 'position ASC'
+	
+	has_and_belongs_to_many :shared_users, :class_name => 'User', :join_table => 'shared_pages'
+	has_and_belongs_to_many :favourite_users, :class_name => 'User', :join_table => 'favourite_pages'
 	
 	has_many :lists
 	has_many :notes
@@ -53,7 +54,6 @@ class Page < ActiveRecord::Base
 	end
 	
 	def process_destroy
-	  ActiveRecord::Base.connection.execute("DELETE FROM page_shares WHERE page_id = #{self.id}")
 	  ApplicationLog.new_log(self, self.updated_by, :delete, true)
 	end
 	
@@ -66,25 +66,29 @@ class Page < ActiveRecord::Base
 	end
 	
 	def is_shared?
-	   false
+	   !shared_users.empty?
+	end
+	
+	def is_favourite?(user)
+	   favourite_user_ids.include?(user.id)
 	end
 		
 	# Core Permissions
 	
 	def self.can_be_created_by(user)
-	 return (user.member_of_owner? and user.is_admin)
+	 return (user.member_of_owner?)
 	end
 	
 	def can_be_edited_by(user)
-	 return (user.member_of_owner? and user.is_admin)
+	 return (user.is_admin? or user.id == self.created_by_id or shared_user_ids.include?(user.id))
 	end
 	
 	def can_be_deleted_by(user)
-	 return (user.member_of_owner? and user.is_admin)
+	 return (user.is_admin? or user.id == self.created_by_id)
 	end
 	
 	def can_be_seen_by(user)
-	 return (self.has_member(user) or (user.member_of_owner? and user.is_admin))
+	 return (user.is_admin? or user.id == self.created_by_id or shared_user_ids.include?(user.id))
 	end
 	
 	# Specific Permissions

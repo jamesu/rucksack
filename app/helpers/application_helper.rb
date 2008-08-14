@@ -86,5 +86,9 @@ module ApplicationHelper
 	    {:name => :delete.l, :url => reminder_path(reminder), :method => :delete, :cond => true}]
 	end
 	
+	def forced_user?
+	   params.has_key?(:user_id)
+	end
+	
 
 end

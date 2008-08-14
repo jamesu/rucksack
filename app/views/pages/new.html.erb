@@ -5,15 +5,15 @@
     @user_navigation_items = user_tabs(nil)
 %>
 
-<% form_for(@page) do |f| %>
-  <%= f.error_messages %>
+<%= form_tag pages_path(:use_route => nil) %>
+  <%= error_messages_for :page %>
   <p>
     <label for="newpage_title"></label>
     <%= text_field 'page', 'title', :id => 'newpage_title', :class => 'long' %>
   </p>
   <p>
-    <%= f.submit :page_create.l %>
+    <%= submit_tag :page_create.l %>
   </p>
-<% end %>
+</form>
 
 <%= link_to :page_back.l, pages_path %>

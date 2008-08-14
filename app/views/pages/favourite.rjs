@@ -1,0 +1,3 @@
+page.call "Page.setFavourite", @set_favourite
+page.replace "pageListItems", :partial => 'listed_pages'
+page.call "Page.makeSortable"

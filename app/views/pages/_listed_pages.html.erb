@@ -1,5 +1,6 @@
 <ul id="pageListItems">
-<% @logged_user.pages.each do |page| -%>
+<li <% if !@pages.nil? %> class="current" <% end %> page_id="0"><%= link_to :all_pages.l, pages_path %></li>
+<% @logged_user.favourite_pages.each do |page| -%>
     <li <% if page == @page %> class="current" <% end %> page_id="<%= page.id %>"><%= link_to h(page.title), page_path(page) %></li>
 <% end %>
 </ul>

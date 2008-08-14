@@ -24,9 +24,9 @@
       <div id="header">
         <%= render :partial => 'layouts/tabs' %>
       </div>
-      
       <div id="outerWrapper">
         <div id="innerWrapper">
+          <div id="statusBar" class="<%= flash[:error] ? 'flash_error' : 'flash_success' %>" <% if flash[:message] %>><%= h flash[:message] %><% else %>style='display:none;'><% end %></div>
           <div id="pageContent">
           
             <div id="content">
@@ -36,10 +36,12 @@
                 <%= yield %>
               </div>
               <!-- /Content -->
+            </div>
+            
               <div id="sidebar">
               <%= render :partial => (@content_for_sidebar.nil? ? 'layouts/blank_sidebar' : @content_for_sidebar ) %>
               </div>
-            </div>
+              
             <div style="clear:both"></div>
             
           </div>

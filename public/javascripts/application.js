@@ -159,6 +159,19 @@ var Page = {
         Insertion.set(null);
     },
     
+    setFavourite: function(favourite) {
+        if (favourite)
+        {
+            $('pageSetFavourite').hide();
+            $('pageSetNotFavourite').show();
+        }
+        else
+        {
+            $('pageSetNotFavourite').hide();
+            $('pageSetFavourite').show();
+        }
+    },
+    
     insertWidget: function(resource) {
         // Insert 
         new Ajax.Request('/pages/' + PAGE_ID + '/' + resource, 
@@ -565,6 +578,35 @@ Event.addBehavior({
                 return;
             }
             });
+    },
+    
+    // Favourites. Evil, yes.
+    '#pageSetFavourite:click' : function(e) {
+        var el = e.element();
+        e.stop();
+        
+        new Ajax.Request('/pages/' + PAGE_ID + '/favourite', 
+                        {
+                            asynchronous:true, evalScripts:true,
+                            method: 'put',
+                            onComplete:function(request) { },
+                            parameters: {'page[is_favourite]': '1',
+                                        'authenticity_token': AUTH_TOKEN}
+                        });
+    },
+    
+    '#pageSetNotFavourite:click' : function(e) {
+        var el = e.element();
+        e.stop();
+        
+        new Ajax.Request('/pages/' + PAGE_ID + '/favourite', 
+                        {
+                            asynchronous:true, evalScripts:true,
+                            method: 'put',
+                            onComplete:function(request) { },
+                            parameters: {'page[is_favourite]': '0',
+                                        'authenticity_token': AUTH_TOKEN}
+                        });
     },
     
     // Widget forms

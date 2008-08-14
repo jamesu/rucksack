@@ -29,6 +29,9 @@ class User < ActiveRecord::Base
 	belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
 	
 	has_many :pages, :foreign_key => 'created_by_id', :dependent => :destroy
+	has_and_belongs_to_many :shared_pages, :class_name => 'Page', :join_table => 'shared_pages'
+	has_and_belongs_to_many :favourite_pages, :class_name => 'Page', :join_table => 'favourite_pages'
+	
 	has_many :reminders, :foreign_key => 'created_by_id', :order => 'at_time ASC', :dependent => :destroy do
 		def done()
 			find(:all, :conditions => ['at_time < ?', Time.now.utc])
@@ -66,6 +69,7 @@ class User < ActiveRecord::Base
 		    find(:all, :conditions => ["(at_time >= ?)", real_time])
 		end
     end
+    
 	before_validation_on_create :process_create
 	before_destroy :process_destroy
 	
@@ -237,9 +241,13 @@ class User < ActiveRecord::Base
       return (user.member_of_owner? and user.is_admin)
     end
     
+    def can_add_favourite(user)
+        user.is_admin or user.id == self.id
+    end
+    
     # Helpers	
 	def member_of_owner?
-		self.company.client_of.nil?
+		true
 	end
 	
 	def owner_of_owner?

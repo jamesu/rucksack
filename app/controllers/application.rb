@@ -25,9 +25,21 @@ class ApplicationController < ActionController::Base
   
 protected
   
-  def error_status(error, message, args={})
+  def error_status(error, message, args={}, continue_ok=false)
   	flash[:error] = error
   	flash[:message] = message.l_with_args(args)
+  	
+  	return unless error or continue_ok
+  	
+  	# Construct a reply with a relevant error
+  	respond_to do |format|
+        format.html { redirect_back_or_default(@page) }
+        format.js { render(:update) do |page| 
+                      page.replace_html('statusBar', h(flash[:message]))
+                      page.show 'statusBar'
+                    end }
+        format.xml  { head(error ? :unprocessable_entity : :ok) }
+  	end
   end
   
   def user_track

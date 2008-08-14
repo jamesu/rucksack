@@ -40,6 +40,7 @@ edit: Edit
 page_back: Back
 insert_here: Insert Here
 page_list: Listing pages
+all_pages: All pages
 
 user_list: Listing users
 show_user: "{name}"
@@ -102,6 +103,12 @@ yesno_no: "No"
 
 # Errors
 page_not_found: Page not found
+insufficient_permissions: Insufficient permissions
+cannot_create_page: Cannot create this page
+cannot_edit_page: Cannot edit this page
+cannot_delete_page: Cannot delete this page
+cannot_create_page: Cannot create this page
+cannot_see_page: Cannot view this page
 
 # Notification
 notifier_donotreply: "DO NOT REPLY TO THIS MESSAGE"
