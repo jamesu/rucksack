@@ -33,6 +33,7 @@ Note: Note
 List: List
 Separator: Separator
 share_page: Share page
+change: Change
 page_is_not_shared: "Page is not shared ({link})"
 page_is_shared: "Page is shared ({link})"
 page: Page
@@ -62,6 +63,7 @@ rename_page: Rename page
 title: Title
 content: Content
 page_create: Create
+update: Update
 save: Save
 save_changes: Save changes
 user_administration_options: Administration Options

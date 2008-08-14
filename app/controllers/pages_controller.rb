@@ -204,7 +204,7 @@ class PagesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { }
+      format.html { if request.method != :get; redirect_to(page_url(@page)) end }
       format.js { }
       format.xml  { head :ok }
     end
@@ -214,8 +214,12 @@ class PagesController < ApplicationController
     begin
       if !session['page_id'].nil?
         page = Page.find(session['page_id'])
+        unless page.can_be_seen_by(@logged_user)
+            page = @user.pages.first
+            session['page_id'] = page.id
+        end
       else
-        page = Page.find(:first)
+        page = @user.pages.first
       end
     rescue
       render :head => :not_found, :text => :page_not_found.l
