@@ -104,9 +104,9 @@ protected
         if time.year > @now.year # Distant future
             [time.strftime(:reminder_due_future.l), 'dueFuture', :date_format_md]
         elsif time.month > @now.month # Rest of year (monthly)
-            [time.strftime(:reminder_due_months.l), "dueMonths#{time.month-now.month}", :date_format_mwd]
+            [time.strftime(:reminder_due_months.l), "dueMonths#{time.month-@now.month}", :date_format_mwd]
         elsif time.day > @now.day+1 # Rest of the current month (excluding tomorrow)
-            [time.strftime(:reminder_due_days.l), "dueDays#{time.day-now.day}",  :date_format_time]
+            [time.strftime(:reminder_due_days.l), "dueDays#{time.day-@now.day}",  :date_format_time]
         elsif time.day > @now.day # Tomorrow
             [:reminder_due_tomorrow.l, 'dueTomorrow', :date_format_time]
         elsif time.day == @now.day and time > @now
