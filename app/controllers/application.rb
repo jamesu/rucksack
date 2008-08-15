@@ -33,7 +33,7 @@ protected
   	
   	# Construct a reply with a relevant error
   	respond_to do |format|
-        format.html { redirect_back_or_default(@page) }
+        format.html { redirect_back_or_default('/') }
         format.js { render(:update) do |page| 
                       page.replace_html('statusBar', h(flash[:message]))
                       page.show 'statusBar'

@@ -18,19 +18,19 @@ class AccessController < ApplicationController
         @logged_user = User.authenticate(login_params['user'], login_params['password']) 
         
         if !@logged_user.nil?
-          error_status(false, :login_success)
+          error_status(false, :login_success, {}, true)
           redirect_back_or_default :controller => "pages"
           
           session['user_id'] = @logged_user.id
         else
-          error_status(true, :login_failure)
+          error_status(true, :login_failure, {}, true)
         end
     end
   end
   
   def openid_login
     unless AppConfig.allow_openid
-      error_status(true, :invalid_request)
+      error_status(true, :invalid_request, {}, true)
       redirect_to :action => 'login'
       return
     end
@@ -40,9 +40,9 @@ class AccessController < ApplicationController
         log_user = User.openid_login(identity_url)
         
         if log_user.nil?
-          error_status(true, :failed_login_openid_url, {:openid_url => identity_url})
+          error_status(true, :failed_login_openid_url, {:openid_url => identity_url}, true)
         else
-          error_status(false, :success_login_openid_url, {:openid_url => identity_url})
+          error_status(false, :success_login_openid_url, {:openid_url => identity_url}, true)
           redirect_back_or_default :controller => 'pages'
           session['user_id'] = log_user.id
           return
@@ -52,17 +52,17 @@ class AccessController < ApplicationController
       
       elsif result.unsuccessful?
         if result == :canceled
-          error_status(true, :verification_cancelled)
+          error_status(true, :verification_cancelled, {}, true)
         elsif !identity_url.nil?
-          error_status(true, :failed_verification_openid_url, {:openid_url => identity_url})
+          error_status(true, :failed_verification_openid_url, {:openid_url => identity_url}, true)
         else
-          error_status(true, :verification_failed)
+          error_status(true, :verification_failed, {}, true)
         end
         
         redirect_to :action => 'login'
         
       else
-        error_status(true, :unknown_response_status, {:status => result.message})
+        error_status(true, :unknown_response_status, {:status => result.message}, true)
         redirect_to :action => 'login'
       end
     end
@@ -79,19 +79,19 @@ class AccessController < ApplicationController
         @your_email = params[:your_email]
         
         if not @your_email =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
-          error_status(false, :invalid_email)
+          error_status(false, :invalid_email, {}, true)
           return
         end
         
         user = User.find(:first, :conditions => ['email = ?', @your_email])
         if user.nil?
-          error_status(false, :invalid_email_not_in_use)
+          error_status(false, :invalid_email_not_in_use, {}, true)
           return
         end
         
         # Send the reset!
         user.send_password_reset()
-        error_status(false, :forgot_password_sent_email)
+        error_status(false, :forgot_password_sent_email, {}, true)
         redirect_to :action => 'login'
     end
   end
@@ -100,13 +100,13 @@ class AccessController < ApplicationController
     begin
       @user = User.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-      error_status(false, :invalid_request)
+      error_status(false, :invalid_request, {}, true)
       redirect_to :action => 'login'
       return
     end
     
     unless @user.password_reset_key == params[:confirm]
-      error_status(false, :invalid_request)
+      error_status(false, :invalid_request, {}, true)
       redirect_to :action => 'login'
     end
     
@@ -130,7 +130,7 @@ class AccessController < ApplicationController
         @user.password = @password_data[:password]
         @user.save
         
-        error_status(false, :password_changed)
+        error_status(false, :password_changed, {}, true)
         redirect_to :action => 'login'
         return
     end
