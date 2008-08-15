@@ -25,11 +25,11 @@ class ApplicationController < ActionController::Base
   
 protected
   
-  def error_status(error, message, args={}, continue_ok=false)
+  def error_status(error, message, args={}, continue_ok=true)
   	flash[:error] = error
   	flash[:message] = message.l_with_args(args)
   	
-  	return unless error or continue_ok
+  	return unless (error and continue_ok)
   	
   	# Construct a reply with a relevant error
   	respond_to do |format|
