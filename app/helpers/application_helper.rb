@@ -90,5 +90,15 @@ module ApplicationHelper
 	   params.has_key?(:user_id)
 	end
 	
-
+	def textilize(text, lite=false)
+	   if text.blank?
+	       ""
+	   else
+	       options = [ :hard_breaks, :filter_html ]
+	       options << :lite_mode if lite
+	       textilized = RedCloth.new(text, options)
+	       textilized.hard_breaks = true if textilized.respond_to?("hard_breaks=")
+	       textilized.to_html
+	   end
+	end
 end
