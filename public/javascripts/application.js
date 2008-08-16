@@ -348,6 +348,7 @@ Event.addBehavior({
         Page.insertWidget('lists');
         InsertionBar.hide();
         InsertionMarker.setEnabled(true);
+        HoverHandle.setEnabled(true);
     },
     
     '.add_Note:click' : function(e) {
