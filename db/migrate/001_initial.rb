@@ -39,7 +39,7 @@ class Initial < ActiveRecord::Migration
         t.integer  "priority"
         
         t.string   "name",            :limit => 100
-        t.datetime "completed_on"
+        t.datetime "completed_on",    :default => nil
         
         t.integer  "completed_by_id", :limit => 10
         t.integer  "created_by_id",   :limit => 10,  :default => 0,     :null => false
@@ -52,7 +52,7 @@ class Initial < ActiveRecord::Migration
         t.integer  "list_id",           :limit => 10
         
         t.text     "content"
-        t.datetime "completed_on"
+        t.datetime "completed_on",      :default => nil
         
         t.integer  "completed_by_id",        :limit => 10
         t.integer  "created_by_id",          :limit => 10

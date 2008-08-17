@@ -12,6 +12,15 @@ class Note < ActiveRecord::Base
     def self.form_partial
         "notes/form"
     end
+    
+    def duplicate(new_page)
+        new_note = self.clone
+        new_note.created_by = new_page.created_by
+        new_note.page = new_page
+        
+        new_note.save!
+        new_note
+    end
 
 	# Common permissions
 

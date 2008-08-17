@@ -96,6 +96,10 @@ class Page < ActiveRecord::Base
 	   return (user.is_admin or user.id == self.created_by_id)
 	end
 	
+	def can_be_duplicated_by(user)
+	   return (self.can_be_edited_by(user) and Page.can_be_created_by(user))
+	end
+	
 	def can_add_widget(user, widget)
 	   return self.can_be_edited_by(user)
 	end
@@ -127,6 +131,29 @@ class Page < ActiveRecord::Base
        
        return @slot
        end      
+	end
+	
+	def duplicate(new_owner)
+	   Page.transaction do
+	   
+	   new_page = self.clone
+	   new_page.title = :copy_of_page.l_with_args(:title => self.title)
+	   new_page.created_by = new_owner
+	   new_page.save!
+	   
+	   # Duplicate in the slots...
+	   new_page.slots = self.slots.collect do |slot|
+	       new_slot = slot.clone
+	       
+	       # The related object
+	       new_obj = slot.rel_object.duplicate(new_page)
+	       
+	       new_slot.rel_object = new_obj
+	       new_slot
+	   end
+	   
+	   return new_page
+	   end
 	end
 	
 	def self.select_list

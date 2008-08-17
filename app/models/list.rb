@@ -31,14 +31,10 @@ class List < ActiveRecord::Base
 	
 	has_many :list_items, :order => 'position ASC, completed_on ASC', :dependent => :destroy
 	
-	before_create  :process_params
+	#before_create  :process_params
 	after_create   :process_create
 	before_update  :process_update_params
 	before_destroy :process_destroy
-	
-	def process_params
-	  write_attribute("completed_on", nil)
-	end
 	
 	def process_create
 	  ApplicationLog.new_log(self, self.created_by, :add)
@@ -93,6 +89,22 @@ class List < ActiveRecord::Base
 	def last_edited_by_owner?
 	 return (self.created_by.member_of_owner? or (!self.updated_by.nil? and self.updated_by.member_of_owner?))
 	end
+    
+    def duplicate(new_page)
+        new_list = self.clone
+        new_list.created_by = new_page.created_by
+        new_list.page = new_page
+        new_list.save!
+        
+        new_list.list_items = self.list_items.collect do |item|
+            new_item = item.clone
+            new_item.created_by = new_list.created_by
+            new_item.completed_by = item.completed_by
+            new_item
+        end
+        
+        new_list
+    end
 	
 	# Common permissions
 

@@ -602,6 +602,20 @@ Event.addBehavior({
                         });
     },
     
+    // Duplicate. Evil, yes.
+    '#pageDuplicate:click' : function(e) {
+        var el = e.element();
+        e.stop();
+        
+        new Ajax.Request('/pages/' + PAGE_ID + '/duplicate', 
+                        {
+                            asynchronous:true, evalScripts:true,
+                            method: 'post',
+                            onComplete:function(request) { },
+                            parameters: {'authenticity_token': AUTH_TOKEN}
+                        });
+    },
+    
     '#pageSetNotFavourite:click' : function(e) {
         var el = e.element();
         e.stop();

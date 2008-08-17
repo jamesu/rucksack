@@ -228,6 +228,25 @@ class PagesController < ApplicationController
     redirect_to(page) unless page.nil?
   end
   
+  def duplicate
+    @page = Page.find(params[:id])
+    return error_status(true, :cannot_duplicate_page) unless (@page.can_be_duplicated_by(@logged_user))
+    
+    begin
+        @new_page = @page.duplicate(@logged_user)
+        @logged_user.favourite_pages << @new_page
+    rescue Object => o
+        logger.warn o
+        return error_status(true, :cannot_duplicate_page)
+    end
+    
+    respond_to do |format|
+      format.html { head :ok }
+      format.js { }
+      format.xml  { head :ok }
+    end 
+  end
+  
 protected
   
   def page_layout

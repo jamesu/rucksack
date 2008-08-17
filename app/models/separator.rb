@@ -13,6 +13,15 @@ class Separator < ActiveRecord::Base
         "separators/form"
     end
     
+    def duplicate(new_page)
+        new_separator = self.clone
+        new_separator.created_by = new_page.created_by
+        new_separator.page = new_page
+        
+        new_separator.save!
+        new_separator
+    end
+    
 	# Common permissions
 
 	def self.can_be_created_by(user, page)

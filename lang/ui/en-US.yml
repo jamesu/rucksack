@@ -36,6 +36,7 @@ share_page: Share page
 change: Change
 page_is_not_shared: "Page is not shared ({link})"
 page_is_shared: "Page is shared ({link})"
+duplicate_page: Duplicate
 page: Page
 pages: Pages
 edit: Edit
@@ -45,6 +46,7 @@ page_list: Listing pages
 my_pages: My pages
 all_pages: All pages
 pages_shared_to_me: Pages shared to me
+copy_of_page: "{title} (Copy)"
 
 list_item_completed: Completed
 list_item_open: Open
@@ -116,6 +118,7 @@ cannot_create_page: Cannot create a page
 cannot_edit_page: Cannot edit this page
 cannot_delete_page: Cannot delete this page
 cannot_see_page: Cannot view this page
+cannot_duplicate_page: Cannot duplicate this page
 
 cannot_create_user: Cannot create a user
 cannot_edit_user: Cannot edit this user

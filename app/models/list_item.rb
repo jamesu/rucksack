@@ -36,7 +36,6 @@ class ListItem < ActiveRecord::Base
 	before_destroy :process_destroy
 	 
 	def process_params
-	  write_attribute("completed_on", nil)
 	  write_attribute("position", self.list.list_items.length)
 	end
 	
