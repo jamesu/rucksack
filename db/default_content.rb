@@ -45,14 +45,8 @@ end
 # Ensure the owner account exists
 owner_account = Account.find(:first)
 
-unless owner_account.nil?
+if owner_account.nil?
     owner_account = Account.new()
-    owner_account.owner = owner_account
+    owner_account.owner = owner_user.nil? initial_user : owner_user
     owner_account.save
 end
-
-if !initial_user.nil?
-    owner_account.owner ||= initial_user
-    owner_account.save
-end
-

@@ -5,7 +5,7 @@ class CreateAccounts < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_column :users, 'account_id', :limit => 10, :default => nil
+    add_column :users, 'account_id', :integer, :limit => 10, :default => nil
   end
 
   def self.down
