@@ -1,5 +1,7 @@
 log/*.log
 tmp/restart.txt
 tmp/**/*
+config/database.yml
+config/*.sqlite3
 index/**
 .DS_Store
