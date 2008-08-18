@@ -126,10 +126,12 @@ var InsertionBar = {
 var InsertionMarker = {
     element: null,
     enabled: false,
+    visible: false,
     
     init: function() {
         this.element = $('pageInsert');
         this.enabled = true;
+        this.visible = false;
     },
     setEnabled: function(val) {
         this.enabled = val;
@@ -138,12 +140,16 @@ var InsertionMarker = {
         el.insert(insert_before ? { before: this.element } :
                                   { after : this.element });
         this.element.show();
+        this.visible = true;
         this.set(el, insert_before);
     },
     hide: function() {
-        this.element.hide();
-        if (this.enabled)
-            this.set(null, true);
+        if (this.visible) {
+            this.element.hide();
+            this.visible = false;
+            if (this.enabled)
+                this.set(null, true);
+        }
     },
     set: function(element, insert_before) {
         var el = element ? element : $('slots').down('.pageSlot');
@@ -282,7 +288,7 @@ document.observe('mousemove', function(evt){
     var offset = el.cumulativeOffset();
     
     if (!(pt.x - offset.left > Page.MARGIN))
-    {       
+    {   
         if (el.hasClassName('pageSlot'))
         {   
             var h = el.getHeight(), thr = Math.min(h / 2, Page.SLOT_VERGE);
