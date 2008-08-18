@@ -9,6 +9,9 @@ Event.observe(window, 'load', function(evt){
     HoverHandle.init();
     
     Page.makeSortable();
+    
+    $('slots').observe('mousemove', PageHoverHandlerFunc);
+    $('slots').observe('mouseout', PageHoverHandlerCancelFunc);
 });
 
 
@@ -246,7 +249,7 @@ var Page = {
 
 
 // Hover observer for HoverHandle
-document.observe('mousemove', function(evt){
+var PageHoverHandlerFunc = function(evt){
     if (!HoverHandle.enabled)
         return;
     
@@ -258,12 +261,16 @@ document.observe('mousemove', function(evt){
         hover = $(handler);
     else if (el.hasClassName('innerHandle'))
         hover = el.up('.pageSlotHandle');
-        
+       
     if (hover)
         HoverHandle.setHandle(hover);
     else
         HoverHandle.clearHandle();
-});
+};
+
+var PageHoverHandlerCancelFunc = function(evt){
+    HoverHandle.clearHandle();
+};
 
 // Hover observer for InsertionMarker
 document.observe('mousemove', function(evt){    
@@ -637,6 +644,9 @@ Event.addBehavior({
     
     // Insertion bars
     '#pageInsert:click' : function(e) {
+        var el = e.element();
+        e.stop();
+        
         InsertionBar.show();
         InsertionMarker.setEnabled(false);
         HoverHandle.setEnabled(false);
@@ -644,6 +654,9 @@ Event.addBehavior({
         InsertionMarker.hide();
     },
     '#pageInsertItemCancel a:click' : function(e) {
+        var el = e.element();
+        e.stop();
+        
         InsertionBar.hide();
         InsertionMarker.setEnabled(true);
         HoverHandle.setEnabled(true);
