@@ -46,13 +46,7 @@
 
               <div class="pageHeader" url="">
                 <% if @page.can_be_edited_by(@logged_user) %>
-                <div class="pageSlotHandle" id="page_header_handle" resType=".pageHeader" style="display:none">
-                  <div class="inner">
-                    <ul>
-                     <li class="slot_edit"><%= :edit.l %></li>
-                    </ul>
-                  </div>
-                </div>
+                <%= page_handle [ ['edit', :edit.l] ], 'page_header_handle', '.pageHeader' %>
                 <% end %>
                 <div class="inner" id="page_header"><h1><span hover_handle="page_header_handle"><%= h @page.title %></h1></span></div>
                 <% if true %>

@@ -6,15 +6,7 @@
 <div class="listItemContent">
 <% if show.can_be_completed_by(@logged_user) %>
 <% unless show.is_completed? or !show.can_be_edited_by(@logged_user) %>
-<div class="pageSlotHandle" id="page_item_handle_<%= show.id %>" resType=".listItem" style="display:none">
-    <div class="inner">
-      <ul>
-        <li class="slot_delete">-</li>
-        <li class="slot_edit"><%= :edit.l %></li>
-        <li class="slot_handle">+</li>
-      </ul>
-    </div>
-  </div>
+<%= page_handle [ ['delete', '-'], ['edit', :edit.l], ['handle', '+'] ], "page_item_handle_#{show.id}", '.listItem' %>
 <% end %>
   <input class="checkbox" type="checkbox" hover_handle="page_item_handle_<%= show.id %>" <% if show.is_completed? %>checked="checked"<% end %>/>
 <% else %>

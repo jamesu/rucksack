@@ -51,6 +51,14 @@ module ApplicationHelper
 		end.compact.join(' | ')
 	end
 	
+	# Accepts a list of actions, [class, representation]
+	def page_handle(actions, id, resType)
+	   items = actions.collect do |action|
+	       "<li class=\"slot_#{action[0]} innerHandle\">#{action[1]}</li>\n"
+	   end.join('')
+	   "<div class=\"pageSlotHandle\" id=\"#{id}\" resType=\"#{resType}\" style=\"display:none\"><div class=\"inner innerHandle\">\n<ul>#{items}</ul>\n</div></div>"
+	end
+	
 	def yesno_toggle(object_name, method, options = {})
 		radio_button(object_name, method, "true", options.merge({:id => "#{options[:id]}Yes"})) +
 		" <label for=\"#{options[:id]}Yes\" class=\"#{options[:class]}\">#{:yesno_yes.l}</label> " +

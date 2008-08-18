@@ -256,7 +256,7 @@ document.observe('mousemove', function(evt){
     var handler = el.getAttribute('hover_handle');
     if (handler)
         hover = $(handler);
-    else
+    else if (el.hasClassName('innerHandle'))
         hover = el.up('.pageSlotHandle');
         
     if (hover)
