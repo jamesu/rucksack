@@ -39,7 +39,7 @@
               <% if @page.can_be_edited_by(@logged_user) %>
               <div>
               <%= :add_to_page.l %>:
-              <span> <%= Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s}\" href=\"#\">#{widget.name.to_sym.l}</a>"}.join(', ') %></span>
+              <span> <%= Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s} atTop\" href=\"#\">#{widget.name.to_sym.l}</a>"}.join(', ') %></span>
               </div>
               <% end %>
               </div>

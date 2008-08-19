@@ -361,6 +361,10 @@ Event.addBehavior({
         var el = e.element();
         e.stop();
         
+        // Set to top of page if on top toolbar
+        if (el.hasClassName('atTop'))
+            InsertionMarker.set(null, false);
+        
         Page.insertWidget('lists');
         InsertionBar.hide();
         InsertionMarker.setEnabled(true);
@@ -371,9 +375,10 @@ Event.addBehavior({
         var el = e.element();
         e.stop();
         
-        //console.log('addNote: ');
-        //console.log(Page.insert_element);
-        // TODO: detect if this is on the bar. if not, reset insert point
+        // Set to top of page if on top toolbar
+        if (el.hasClassName('atTop'))
+            InsertionMarker.set(null, false);
+        
         InsertionBar.set_widget_form($('add_NoteForm'));
         InsertionBar.hide();
         InsertionMarker.setEnabled(true);
@@ -384,7 +389,10 @@ Event.addBehavior({
         var el = e.element();
         e.stop();
         
-        // TODO: detect if this is on the bar. if not, reset insert point
+        // Set to top of page if on top toolbar
+        if (el.hasClassName('atTop'))
+            InsertionMarker.set(null, false);
+        
         InsertionBar.set_widget_form($('add_SeparatorForm'));
         InsertionBar.hide();
         InsertionMarker.setEnabled(true);
