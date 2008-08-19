@@ -74,7 +74,7 @@ module ApplicationHelper
 	end
 	
 	def common_tabs(current)
-	  items = [{:id => :overview, :url => '/dashboard/index'},
+	  items = [{:id => :overview, :url => '/dashboard'},
 	           {:id => :pages, :url => '/pages/current'},
 	           {:id => :reminders, :url => '/reminders'}]
 	  
