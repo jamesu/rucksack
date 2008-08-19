@@ -56,7 +56,7 @@ class ApplicationLog < ActiveRecord::Base
       
       if action == :delete
         @log.page = obj.class == Page ? nil : obj.page
-        @log.rel_object_id = nil
+        @log.rel_object_id = user
         @log.rel_object_type = obj.class.to_s
       else
         @log.page = obj.page

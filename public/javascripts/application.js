@@ -358,6 +358,9 @@ var HoverSlotBar = Behavior.create({
 Event.addBehavior({
     // Insert widgets
     '.add_List:click' : function(e) {
+        var el = e.element();
+        e.stop();
+        
         Page.insertWidget('lists');
         InsertionBar.hide();
         InsertionMarker.setEnabled(true);
@@ -365,6 +368,9 @@ Event.addBehavior({
     },
     
     '.add_Note:click' : function(e) {
+        var el = e.element();
+        e.stop();
+        
         //console.log('addNote: ');
         //console.log(Page.insert_element);
         // TODO: detect if this is on the bar. if not, reset insert point
@@ -375,6 +381,9 @@ Event.addBehavior({
     },
     
     '.add_Separator:click' : function(e) {
+        var el = e.element();
+        e.stop();
+        
         // TODO: detect if this is on the bar. if not, reset insert point
         InsertionBar.set_widget_form($('add_SeparatorForm'));
         InsertionBar.hide();
@@ -654,10 +663,12 @@ Event.addBehavior({
         e.stop();
         
         InsertionBar.show();
+        console.log('IM SET');
         InsertionMarker.setEnabled(false);
+        InsertionMarker.hide();
+        console.log('IM DONE');
         HoverHandle.setEnabled(false);
         HoverHandle.clearHandle();
-        InsertionMarker.hide();
     },
     '#pageInsertItemCancel a:click' : function(e) {
         var el = e.element();
