@@ -29,6 +29,10 @@ class Note < ActiveRecord::Base
         "notes/form"
     end
     
+    def object_name
+        self.title
+    end
+    
     def duplicate(new_page)
         new_note = self.clone
         new_note.created_by = new_page.created_by

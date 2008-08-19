@@ -60,6 +60,7 @@ class ListsController < ApplicationController
     
     # Make the darn note
     @list = @page.lists.build(params[:list])
+    @list.created_by = @logged_user
     @list.name ||= :List.l
     saved = @list.save
     
@@ -89,6 +90,8 @@ class ListsController < ApplicationController
   def update
     @list = @page.lists.find(params[:id])
     return error_status(true, :cannot_edit_list) unless (@list.can_be_edited_by(@logged_user))
+    
+    @list.updated_by = @logged_user
 
     respond_to do |format|
       if @list.update_attributes(params[:list])
@@ -112,6 +115,7 @@ class ListsController < ApplicationController
     
     @slot_id = @list.page_slot.id
     @list.page_slot.destroy
+    @list.updated_by = @logged_user
     @list.destroy
 
     respond_to do |format|

@@ -20,6 +20,10 @@ class Separator < ActiveRecord::Base
 	def process_destroy
 	  ApplicationLog.new_log(self, self.updated_by, :delete)
 	end
+    
+    def object_name
+        self.title
+    end
 	    
     def view_partial
         "separators/show"

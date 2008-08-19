@@ -65,7 +65,7 @@ class SeparatorsController < ApplicationController
     
     # Make the darn note
     @separator = @page.separators.build(params[:separator])
-    @separator.page = @page
+    @separator.created_by = @logged_user
     saved = @separator.save
     
     # And the slot, don't forget the slot
@@ -93,6 +93,8 @@ class SeparatorsController < ApplicationController
   def update
     @separator = @page.separators.find(params[:id])
     return error_status(true, :cannot_edit_separator) unless (@separator.can_be_edited_by(@logged_user))
+    
+    @separator.updated_by = @logged_user
 
     respond_to do |format|
       if @separator.update_attributes(params[:separator])
@@ -116,6 +118,7 @@ class SeparatorsController < ApplicationController
     
     @slot_id = @separator.page_slot.id
     @separator.page_slot.destroy
+    @separator.updated_by = @logged_user
     @separator.destroy
 
     respond_to do |format|

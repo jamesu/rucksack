@@ -71,6 +71,8 @@ class ListItemsController < ApplicationController
   def update
     @list_item = @list.list_items.find(params[:id])
     return error_status(true, :cannot_edit_listitem) unless (@list_item.can_be_edited_by(@logged_user))
+    
+    @list_item.updated_by = @logged_user
 
     respond_to do |format|
       if @list_item.update_attributes(params[:list_item])
@@ -92,6 +94,7 @@ class ListItemsController < ApplicationController
     @list_item = @list.list_items.find(params[:id])
     return error_status(true, :cannot_edit_listitem) unless (@list_item.can_be_deleted_by(@logged_user))
     
+    @list_item.updated_by = @logged_user
     @list_item.destroy
 
     respond_to do |format|

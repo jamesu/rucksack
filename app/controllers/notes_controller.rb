@@ -65,6 +65,7 @@ class NotesController < ApplicationController
     
     # Make the darn note
     @note = @page.notes.build(params[:note])
+    @note.created_by = @logged_user
     saved = @note.save
     
     # And the slot, don't forget the slot
@@ -91,6 +92,8 @@ class NotesController < ApplicationController
   def update
     @note = @page.notes.find(params[:id])
     return error_status(true, :cannot_edit_note) unless (@note.can_be_edited_by(@logged_user))
+    
+    @note.updated_by = @logged_user
 
     respond_to do |format|
       if @note.update_attributes(params[:note])
@@ -114,6 +117,7 @@ class NotesController < ApplicationController
     
     @slot_id = @note.page_slot.id
     @note.page_slot.destroy
+    @note.updated_by = @logged_user
     @note.destroy
 
     respond_to do |format|

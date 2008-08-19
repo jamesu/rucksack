@@ -66,6 +66,7 @@ class RemindersController < ApplicationController
   # PUT /reminders/1.xml
   def update
     @reminder = @user.reminders.find(params[:id])
+    @reminder.updated_by = @logged_user
 
     respond_to do |format|
       if @reminder.update_attributes(params[:reminder])
@@ -83,6 +84,7 @@ class RemindersController < ApplicationController
   # DELETE /reminders/1.xml
   def destroy
     @reminder = @user.reminders.find(params[:id])
+    @reminder.updated_by = @logged_user
     @reminder.destroy
 
     respond_to do |format|
