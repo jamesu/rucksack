@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 5) do
+ActiveRecord::Schema.define(:version => 6) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "owner_id",   :limit => 10, :null => false
@@ -18,7 +18,6 @@ ActiveRecord::Schema.define(:version => 5) do
   end
 
   create_table "application_logs", :force => true do |t|
-    t.integer  "taken_by_id",     :limit => 10
     t.integer  "rel_object_id",   :limit => 10, :default => 0,     :null => false
     t.text     "object_name"
     t.string   "rel_object_type", :limit => 50
@@ -27,6 +26,7 @@ ActiveRecord::Schema.define(:version => 5) do
     t.boolean  "is_private",                    :default => false, :null => false
     t.boolean  "is_silent",                     :default => false, :null => false
     t.integer  "action_id",       :limit => 1
+    t.integer  "page_id",         :limit => 10
   end
 
   create_table "favourite_pages", :id => false, :force => true do |t|

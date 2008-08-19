@@ -4,7 +4,23 @@ class Separator < ActiveRecord::Base
 	
 	belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
 	belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
-    
+	
+	after_create   :process_create
+	before_update  :process_update_params
+	before_destroy :process_destroy
+	
+	def process_create
+	  ApplicationLog.new_log(self, self.created_by, :add)
+	end
+	
+	def process_update_params
+	  ApplicationLog.new_log(self, self.updated_by, :edit)
+	end
+	
+	def process_destroy
+	  ApplicationLog.new_log(self, self.updated_by, :delete)
+	end
+	    
     def view_partial
         "separators/show"
     end

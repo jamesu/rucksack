@@ -23,6 +23,7 @@ class ListItem < ActiveRecord::Base
 	include ActionController::UrlWriter
 	
 	belongs_to :list
+	belongs_to :page, :through => :list
 	
 	belongs_to :completed_by, :class_name => 'User', :foreign_key => 'completed_by_id'
 	

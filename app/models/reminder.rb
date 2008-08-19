@@ -1,10 +1,30 @@
 require 'chronic'
 
 class Reminder < ActiveRecord::Base
-	belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
+    belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
   
     @@repeat_lookup = {:never => 0, :yearly => 1, :monthly => 2, :fortnightly => 3, :weekly => 4, :daily => 5}
     @@repeat_id_lookup = @@repeat_lookup.invert
+
+    after_create   :process_create
+    before_update  :process_update_params
+    before_destroy :process_destroy
+    
+    def process_create
+      ApplicationLog.new_log(self, self.created_by, :add)
+    end
+    
+    def process_update_params
+      ApplicationLog.new_log(self, self.updated_by, :edit)
+    end
+    
+    def process_destroy
+      ApplicationLog.new_log(self, self.updated_by, :delete)
+    end
+    
+    def page
+      nil
+    end
     
     def friendly_at_time
         @cached_friendly_time || self.at_time.to_s

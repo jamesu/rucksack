@@ -1,0 +1,28 @@
+<%
+    @page_title = :overview.l
+    
+    @tabbed_navigation_items = common_tabs(:overview)
+    @user_navigation_items = user_tabs(nil)
+%>
+
+<div id="activityLogs">
+<% prev_user = nil; prev_id = nil %>
+<% @recent_activities.each do |items| %>
+<h2><%= items[0] %></h2>
+<% prev_start = true; logs = items[1] %>
+<% logs.reverse_each do |log| %>
+<% if prev_start or (prev_id != log.created_by_id and !log.created_by_id.nil?) %>
+
+<% if prev_id != log.created_by_id
+    prev_id = log.created_by_id;
+    prev_user = log.created_by
+   end %>
+<% prev_start = false; %>
+<div class="activityUser">
+<%= prev_user.display_name %>:
+</div>
+<% end %>
+<div class="activityEntry"><span><%= log.action %></span> - <%= log.object_name %> (<%= log.created_on.to_s %>)</div>
+<% end %>
+<% end %>
+</div>
