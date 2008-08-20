@@ -10,8 +10,8 @@ Event.observe(window, 'load', function(evt){
     
     Page.makeSortable();
     
-    $('slots').observe('mousemove', PageHoverHandlerFunc);
-    $('slots').observe('mouseout', PageHoverHandlerCancelFunc);
+    $('content').observe('mousemove', PageHoverHandlerFunc);
+    $('content').observe('mouseout', PageHoverHandlerCancelFunc);
 });
 
 

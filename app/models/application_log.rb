@@ -24,7 +24,7 @@ class ApplicationLog < ActiveRecord::Base
   belongs_to :rel_object, :polymorphic => true
   belongs_to :page
   
-  @@action_lookup = {:add => 0, :edit => 1, :delete => 2, :open => 3, :close => 4}
+  @@action_lookup = {:add => 0, :edit => 1, :delete => 2, :open => 3, :close => 4, :edit_content => 5}
   @@action_id_lookup = @@action_lookup.invert
   
   def friendly_action
