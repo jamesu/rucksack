@@ -113,7 +113,11 @@ yesno_no: "No"
 
 # Activity
 # activity_[add/edit/delete]_[class] -> {object}
-activity_add_Reminder: "Added {object}"
+activity_add_Page: "Created page {object}"
+activity_edit_Page: "Renamed page {object} to {name}"
+activity_modify_Page: "Changed page {object}"
+activity_add_Reminder: "Added a reminder: {object}"
+activity_edit_Reminder: "Changed reminder: {object}"
 
 # Errors
 page_not_found: Page not found

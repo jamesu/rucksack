@@ -58,6 +58,10 @@ class Page < ActiveRecord::Base
 	  ApplicationLog.new_log(self, self.updated_by, :delete)
 	end
 	
+	def page
+	   nil
+	end
+	
 	def object_name
 		self.title
 	end

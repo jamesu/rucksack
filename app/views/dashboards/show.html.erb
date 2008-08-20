@@ -23,12 +23,13 @@
 <%= prev_user.display_name %>:
 </div>
 <% end %>
-<div class="activityEntry"><span>
-<% if log.rel_object_type != 'Reminder' %>
-Modified <%= log.page.title %> <%# "(#{log.created_on.to_s})" %></div>
+<div class="activityEntry">
+<% unless log.page_id.nil? %>
+<%= "activity_modify_Page".to_sym.l_with_args(:object => link_to(h(log.page.title), url_for(log.page))) %> <%# "(#{log.created_on.to_s})" %>
 <% else %>
-<%= "activity_#{log.action}_#{log.rel_object_type}".to_sym.l_with_args(:object => h(log.object_name)) %></span> - <%= log.object_name %> <%# "(#{log.created_on.to_s})" %></div>
+<%= "activity_#{log.action}_#{log.rel_object_type}".to_sym.l_with_args(:object => link_to(h(log.rel_object.object_name), url_for(log.rel_object)), :name => h(log.object_name)) %> <%# "(#{log.created_on.to_s})" %>
 <% end %>
+</div>
 
 <% end %>
 <% end %>
