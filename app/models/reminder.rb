@@ -26,6 +26,10 @@ class Reminder < ActiveRecord::Base
       nil
     end
     
+    def object_name
+        self.content
+    end
+    
     def friendly_at_time
         @cached_friendly_time || self.at_time.to_s
     end

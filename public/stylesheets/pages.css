@@ -262,6 +262,12 @@ div.pageList .completedItems {
     color: #8b8b8b;
 }
 
+/* activity log */
+#activityLogs { }
+#activityLogs h2 { clear:both; }
+.activityUser { float: left; height: 32px; margin: 4px; font-weight: bolder; }
+.activityEntry { margin-left: 32px; }
+
 a { color: #000; }
 a:visited { color: #666; }
 a:hover { color: #fff; background-color:#000; }

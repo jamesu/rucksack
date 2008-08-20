@@ -111,6 +111,10 @@ delete: Delete
 yesno_yes: "Yes"
 yesno_no: "No"
 
+# Activity
+# activity_[add/edit/delete]_[class] -> {object}
+activity_add_Reminder: "Added {object}"
+
 # Errors
 page_not_found: Page not found
 insufficient_permissions: Insufficient permissions

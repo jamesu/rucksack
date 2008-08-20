@@ -7,7 +7,7 @@
 
 <div id="activityLogs">
 <% prev_user = nil; prev_id = nil %>
-<% @recent_activities.each do |items| %>
+<% @recent_activities.each do |items| -%>
 <h2><%= items[0] %></h2>
 <% prev_start = true; logs = items[1] %>
 <% logs.reverse_each do |log| %>
@@ -18,11 +18,18 @@
     prev_user = log.created_by
    end %>
 <% prev_start = false; %>
+<div style="clear:both;"></div>
 <div class="activityUser">
 <%= prev_user.display_name %>:
 </div>
 <% end %>
-<div class="activityEntry"><span><%= log.action %></span> - <%= log.object_name %> (<%= log.created_on.to_s %>)</div>
+<div class="activityEntry"><span>
+<% if log.rel_object_type != 'Reminder' %>
+Modified <%= log.page.title %> <%# "(#{log.created_on.to_s})" %></div>
+<% else %>
+<%= "activity_#{log.action}_#{log.rel_object_type}".to_sym.l_with_args(:object => h(log.object_name)) %></span> - <%= log.object_name %> <%# "(#{log.created_on.to_s})" %></div>
+<% end %>
+
 <% end %>
 <% end %>
 </div>
