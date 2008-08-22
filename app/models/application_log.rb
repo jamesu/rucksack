@@ -48,6 +48,9 @@ class ApplicationLog < ActiveRecord::Base
   end
      
   def self.new_log(obj, user, action, private=false)
+      #logger.warn("ACTION #{obj} by #{user.display_name}(#{user.to_s}) on #{obj.object_name}")
+      return if user.nil?
+      
       # Lets go...
       @log = ApplicationLog.new(:action => action,
                                 :object_name => obj.object_name,
