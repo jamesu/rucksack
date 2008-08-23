@@ -70,7 +70,7 @@ Rails::Initializer.run do |config|
   # config.active_record.observers = :cacher, :garbage_collector
 end
 
-Globalite.locale = :en_US
+Globalite.locale = "en-US".to_sym
 
 # ActionMailer stuff
 ActionMailer::Base.delivery_method = :test
