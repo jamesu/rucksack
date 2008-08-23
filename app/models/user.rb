@@ -236,11 +236,11 @@ class User < ActiveRecord::Base
 	
 	# Specific permissions
     
-    def can_add_favourite(user)
-        user.is_admin or user.id == self.id
-    end
+	def can_add_favourite(user)
+		user.is_admin or user.id == self.id
+	end
     
-    # Helpers	
+	# Helpers	
 	def member_of_owner?
 		!self.account_id.nil?
 	end

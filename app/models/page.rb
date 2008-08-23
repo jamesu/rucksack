@@ -101,6 +101,10 @@ class Page < ActiveRecord::Base
 	   return (user.is_admin or user.id == self.created_by_id)
 	end
 	
+	def can_be_favourited_by(user)
+	   return self.can_be_seen_by(user)
+	end
+	
 	def can_be_duplicated_by(user)
 	   return (self.can_be_edited_by(user) and Page.can_be_created_by(user))
 	end

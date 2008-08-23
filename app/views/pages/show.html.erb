@@ -38,6 +38,6 @@
 <div class="pageSlot pageFooter" slot="0" id="page_slot_footer"></div>
 </div>
 
-<%= link_to 'Favourite', '#', :id => 'pageSetFavourite', :style => (@page.is_favourite?(@user) ? 'display:none;' : nil) %> <%= link_to 'Not Favourite', '#', :id => 'pageSetNotFavourite', :style => (@page.is_favourite?(@user) ? nil : 'display:none;') %>
+<% if @page.can_be_favourited_by(@logged_user) %><%= link_to 'Favourite', '#', :id => 'pageSetFavourite', :style => (@page.is_favourite?(@user) ? 'display:none;' : nil) %> <%= link_to 'Not Favourite', '#', :id => 'pageSetNotFavourite', :style => (@page.is_favourite?(@user) ? nil : 'display:none;') %><% end %>
 <% if @page.can_be_shared_by(@logged_user) %> | <%= (@page.is_shared? ? :page_is_shared : :page_is_not_shared).l_with_args(:link => link_to(:change.l, hash_for_share_page_path.merge(:id => @page.id, :use_route => nil))) %><% end %>
 <% if @page.can_be_duplicated_by(@logged_user) %> | <%= link_to :duplicate_page.l, '#', :id => 'pageDuplicate' %><% end %>

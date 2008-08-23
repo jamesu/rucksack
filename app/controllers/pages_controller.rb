@@ -2,7 +2,7 @@ class PagesController < ApplicationController
   layout :page_layout
   
   before_filter :grab_user
-  after_filter  :user_track
+  after_filter  :user_track, :except => 'public'
   
   # GET /pages
   # GET /pages.xml
@@ -32,6 +32,16 @@ class PagesController < ApplicationController
       format.html # show.html.erb
       format.json { render :json => @page.to_json }
       format.xml  { render :xml => @page.to_xml }
+    end
+  end
+  
+  # GET /pages/1/public(.html)
+  def public
+    @page = Page.find(params[:id])
+    #return error_status(true, :cannot_see_page) unless (@page.can_be_seen_by(@logged_user))
+
+    respond_to do |format|
+      format.html { render :action => 'show' }
     end
   end
 
@@ -249,8 +259,19 @@ class PagesController < ApplicationController
   
 protected
   
+  def protect?(action)
+    if action == 'public'
+      # Make a temp anonymous user to check permissions
+      @logged_user = User.new(:username => 'anonymous', :display_name => 'Anonymous')
+      return false
+    end
+    
+    true
+  end
+  
   def page_layout
     return nil unless action_name != 'add_widget'
+    return 'public_page' if action_name == 'public'
     ['index', 'new', 'edit'].include?(action_name)?  'pages':'page'
   end
 end

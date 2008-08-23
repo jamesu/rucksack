@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+  	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title><%= AppConfig.site_name %> - <%= h @page.title %></title>
+    
+	<%= stylesheet_link_tag 'pages' %>
+	<% if not @additional_stylesheets.nil?
+	  @additional_stylesheets.each do |ss| -%>
+	  <%= stylesheet_link_tag ss %>
+	  <% end %>
+	<% end %>
+
+  </head>
+  <body id="body">
+  
+    <div id="wrapper">
+      
+      <div id="outerWrapper">
+        <div id="innerWrapper">
+          <div id="pageContent">
+            <div id="content">
+
+              <div class="pageHeader">
+                <div class="inner" id="page_header"><h1><span hover_handle="page_header_handle"><%= h @page.title %></h1></span></div>
+              </div>
+              <!-- Content -->
+              <%= yield %>
+              <!-- /Content -->
+            </div>
+              
+              <div id="sidebar">
+                <%= render :partial => (@content_for_sidebar.nil? ? 'layouts/blank_sidebar' : @content_for_sidebar ) %>
+              </div>
+            
+            
+            <div style="clear:both"></div>
+          </div>
+          
+        </div>
+        <%= render :partial => 'layouts/footer' %>
+      </div>
+      
+    </div>
+  </body>
+</html>
