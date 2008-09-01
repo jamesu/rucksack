@@ -47,8 +47,8 @@
                     %span{'hover_handle' => 'page_header_handle'}= h @page.title
                 #page_header_form.pageHeaderForm{:style => 'display: none'}
                 
-                -# Content
-                = yield
+              -# Content
+              = yield
             
             #sidebar
               = render :partial => (@content_for_sidebar.nil? ? 'layouts/blank_sidebar' : @content_for_sidebar )
