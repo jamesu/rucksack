@@ -1,0 +1,4 @@
+- form_tag page_path(@page), :method => :put do
+  != text_field 'page', 'title', :class => 'long'
+  %button{:class => 'submit', :type => 'submit'}= :rename_page.l
+  %a{:href => '#', :class => 'cancel_PageForm'}= :cancel.l

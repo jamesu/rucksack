@@ -1,0 +1,8 @@
+- cclass = @pages.nil? ? nil : 'current'
+
+%ul#pageListItems
+  %li{:class => cclass, :page_id => '0'}
+    %a{:href => pages_path}= :all_pages.l
+  - @logged_user.favourite_pages.each do |page|
+    %li{:class => (page == @page ? 'current' : nil), :page_id => page.id}
+      %a{:href => page_path(page)}= h page.title

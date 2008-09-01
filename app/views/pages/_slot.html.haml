@@ -1,0 +1,6 @@
+- page_url = @page.can_be_edited_by(@logged_user) ? "/#{slot.rel_object_type.downcase.pluralize}/#{slot.rel_object_id}" : ''
+
+.pageWidget{:url => page_url}
+  - if @page.can_be_edited_by(@logged_user)
+    != page_handle [ ['delete', '-'], ['edit', :edit.l], ['handle', '+'] ], "page_slot_handle_#{slot.id}", '.pageWidget'
+  != render :partial => object.view_partial, :locals => {:object => object}

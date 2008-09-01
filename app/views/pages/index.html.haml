@@ -1,0 +1,27 @@
+- @page_title = :pages.l
+- @tabbed_navigation_items = common_tabs(:pages)
+- @user_navigation_items = user_tabs(nil)
+
+%table
+  %tr
+    %td{:colspan => 2}
+      %h2= :my_pages.l
+  
+  - for page in @pages
+    %tr
+      %td
+        %a{:href => page}= h page.title
+      %td
+        != link_to 'Destroy', page, :confirm => 'Are you sure?', :method => :delete 
+  
+  %tr
+    %td{:colspan => 2}
+      %h2= :pages_shared_to_me.l
+  
+  - for page in @shared_pages
+    %tr
+      %td{:colspan => 2}
+        %a{:href => page}= h page.title
+
+%p
+  %a{:href => new_page_path}= :new_page.l

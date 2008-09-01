@@ -1,0 +1,17 @@
+- @tabbed_navigation_items = common_tabs(:pages)
+- @user_navigation_items = user_tabs(nil)
+
+- form_tag hash_for_share_page_path.merge(:id => @page.id, :use_route => nil), :method => :post do
+  != error_messages_for :page
+  
+  - Account.owner.users.each do |user|
+    - next if user.id == @page.created_by_id
+    
+    %div
+      %label= h user.display_name
+      != check_box_tag 'page[shared_users][]', user.id, @page.shared_user_ids.include?(user.id), :id => "pageShareUser#{user.id}"
+    %div
+      != submit_tag :update.l
+
+%p
+  %a{:href => url_for(hash_for_page_path.merge(:id => @page.id, :use_route => nil))}= :page_back.l 
