@@ -54,6 +54,9 @@ list_item_open: Open
 user_list: Listing users
 show_user: "{name}"
 
+favourite: Favourite
+not_favourite: Not favourite
+
 # Forms
 new_page: New page
 add_note: Add note
@@ -110,6 +113,7 @@ delete: Delete
 
 yesno_yes: "Yes"
 yesno_no: "No"
+or: or
 
 # Activity
 # activity_[add/edit/delete]_[class] -> {object}
