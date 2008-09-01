@@ -102,10 +102,12 @@ header {
 }
 
 .pageHeader {
+  padding-left: 14px;
 }
 
 .pageHeader h1 {
     margin: 0px;
+    padding-bottom: 8px;
 }
 
 #pageTools {
@@ -178,6 +180,11 @@ header {
 .pageSlotHandle li {
     display: inline;
     padding-left: 0pt;
+}
+
+.pageSlotHandle .slot_handle {
+    cursor: move;
+    
 }
 
 /* Page insert bar. Indicates current insertion point */
