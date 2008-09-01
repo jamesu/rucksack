@@ -24,7 +24,7 @@
 </div>
 <% end %>
 <div class="activityEntry">
-<%= "#{log.action} (#{log.rel_object_id} #{log.rel_object_type}) | p:#{log.page_id} by #{log.created_by_id}" %>
+<%# "#{log.action} (#{log.rel_object_id} #{log.rel_object_type}) | p:#{log.page_id} by #{log.created_by_id}" %>
 <% unless log.page_id.nil? %>
 <%= "activity_modify_Page".to_sym.l_with_args(:object => link_to(h(log.page.title), url_for(log.page))) %> <%# "(#{log.created_on.to_s})" %>
 <% else %>

@@ -73,4 +73,23 @@ class ApplicationLog < ActiveRecord::Base
       
       @log.save
   end
+  
+  def self.grouped_nicely
+    # Group by creator, page, and date so we eliminate multiple references to the same page in a single day.
+    # Non-page objectes are handled by a CASE.
+    # Also, offsetting of the date and concatenating the rel_object's id and type are mostly db-specific,
+    # so be sure to explicitly add support for other databases as needed.
+    
+    if connection.adapter_name == 'SQLite'
+      offset_date = "date(created_on, '+#{Time.zone.utc_offset} seconds')"
+      rel_group = "(rel_object_type || rel_object_id)"
+    else
+      offset_date = "date(created_on + INTERVAL #{Time.zone.utc_offset} SECOND)"
+      rel_group = "CONCAT(rel_object_type, rel_object_id)"
+    end
+    
+    find(:all, 
+         :order => 'created_on DESC', 
+         :group => "created_by_id, #{offset_date}, CASE #{sanitize_sql({'page_id' => nil})} WHEN 1 THEN #{rel_group} ELSE page_id END")
+  end
 end
