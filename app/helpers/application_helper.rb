@@ -56,7 +56,7 @@ module ApplicationHelper
 	   items = actions.collect do |action|
 	       "<li class=\"slot_#{action[0]} innerHandle\">#{action[1]}</li>\n"
 	   end.join('')
-	   "<div class=\"pageSlotHandle\" id=\"#{id}\" resType=\"#{resType}\" style=\"display:none\"><div class=\"inner innerHandle\">\n<ul class=\"innerHandle\">#{items}</ul>\n</div></div>"
+	   "<div class=\"pageSlotHandle\" id=\"#{id}\" restype=\"#{resType}\" style=\"display:none\"><div class=\"inner innerHandle\">\n<ul class=\"innerHandle\">#{items}</ul>\n</div></div>"
 	end
 	
 	def yesno_toggle(object_name, method, options = {})

@@ -327,7 +327,7 @@ var HoverSlotBar = Behavior.create({
         var el = e.element();
         e.stop();
         
-        var url = this.element.up(this.element.readAttribute('resType')).readAttribute('url');
+        var url = this.element.up(this.element.readAttribute('restype')).readAttribute('url');
         if (el.hasClassName('slot_delete')) return this._doDelete(url);
         if (el.hasClassName('slot_edit')) return this._doEdit(url);
     },
@@ -671,10 +671,10 @@ Event.addBehavior({
         e.stop();
         
         InsertionBar.show();
-        console.log('IM SET');
+        //console.log('IM SET');
         InsertionMarker.setEnabled(false);
         InsertionMarker.hide();
-        console.log('IM DONE');
+        //console.log('IM DONE');
         HoverHandle.setEnabled(false);
         HoverHandle.clearHandle();
     },
