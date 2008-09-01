@@ -38,7 +38,7 @@
               #pageTools
                 - if @page.can_be_edited_by(@logged_user)
                   -# Really need to clean this up!
-                  %div= "#{:add_to_page.l} <span> #{ Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s} atTop\" href=\"#\">#{widget.name.to_sym.l}</a>"}.join(', ') }</span>"
+                  %div= "#{:add_to_page.l} <span> #{ Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s} atTop\" href=\"#\">#{widget.name.to_sym.l}</a>"}.to_sentence(:connector => :or.l, :skip_last_comma => true) }</span>"
               .pageHeader{:url => ''}
                 = @page.can_be_edited_by(@logged_user) ? page_handle([ ['edit', :edit.l] ], 'page_header_handle', '.pageHeader') : ''
                 
