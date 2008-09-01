@@ -26,6 +26,7 @@ class Page < ActiveRecord::Base
 	belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
 	
 	has_many :slots, :class_name => 'PageSlot', :order => 'position ASC'
+	has_many :tags, :through => :rel_object, :dependent => :destroy
 	
 	has_and_belongs_to_many :shared_users, :class_name => 'User', :join_table => 'shared_pages'
 	has_and_belongs_to_many :favourite_users, :class_name => 'User', :join_table => 'favourite_pages'
@@ -39,6 +40,12 @@ class Page < ActiveRecord::Base
 	before_update  :process_update_params
 	before_destroy :process_destroy
 	
+	def update_tags
+	 return if @update_tags.nil?
+	 Tag.clear_by_object(self)
+	 Tag.set_to_object(self, @update_tags)
+	end
+	
 	def self.widgets
 	   [List, Note, Separator]
 	end
@@ -48,10 +55,12 @@ class Page < ActiveRecord::Base
 	
 	def process_create
 	  ApplicationLog.new_log(self, self.created_by, :add)
+	  update_tags
 	end
 	
 	def process_update_params
 	  ApplicationLog.new_log(self, self.created_by, :edit)
+	  update_tags
 	end
 	
 	def process_destroy
@@ -60,6 +69,18 @@ class Page < ActiveRecord::Base
 	
 	def page
 	   nil
+	end
+	
+	def tags
+	 return (@update_tags.nil? ? Tag.list_by_object(self) : @update_tags).join(',')
+	end
+	
+	def tags_with_spaces
+	 return Tag.list_by_object(self).join(' ')
+	end
+	
+	def tags=(val)
+	  @update_tags = val.split(',')
 	end
 	
 	def object_name
@@ -173,7 +194,7 @@ class Page < ActiveRecord::Base
 	
 	# Accesibility
 	
-	attr_accessible :title
+	attr_accessible :title, :tags
 	
 	# Validation
 	

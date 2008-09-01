@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 6) do
+ActiveRecord::Schema.define(:version => 7) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "owner_id",   :limit => 10, :null => false
@@ -106,6 +106,15 @@ ActiveRecord::Schema.define(:version => 6) do
   create_table "shared_pages", :id => false, :force => true do |t|
     t.integer "page_id", :limit => 10
     t.integer "user_id", :limit => 10
+  end
+
+  create_table "tags", :force => true do |t|
+    t.integer  "page_id",         :limit => 10
+    t.string   "name",            :limit => 30, :default => "", :null => false
+    t.integer  "rel_object_id",   :limit => 11, :default => 0,  :null => false
+    t.string   "rel_object_type", :limit => 50
+    t.datetime "created_on"
+    t.integer  "created_by_id",   :limit => 10, :default => 0,  :null => false
   end
 
   create_table "users", :force => true do |t|
