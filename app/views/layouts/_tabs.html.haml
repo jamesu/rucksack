@@ -1,0 +1,14 @@
+#tabsWrapper
+  - if !@tabbed_navigation_items.nil?
+    %ul#tabs
+      - @tabbed_navigation_items.each do |item|
+        %li{:id => "item_#{item[:id]}", :class => (item[:id] == @selected_navigation_item ? 'active' : nil)}
+          %a{:href => item[:url]}= item[:id].l
+  
+  - if !@user_navigation_items.nil?
+    %ul#userTabs
+      - @user_navigation_items.each do |item|
+        %li{:id => "item_#{item[:id]}", :class => (item[:id] == @selected_user_item ? 'active' : nil)}
+          %a{:href => item[:url]}= item[:id].l
+
+%div{:style => 'clear:both'}
