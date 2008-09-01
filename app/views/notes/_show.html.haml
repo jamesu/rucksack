@@ -1,0 +1,3 @@
+.pageNote
+  %h2{:hover_handle => "page_slot_handle_#{object.page_slot.id}"= h object.title
+  .pageNoteContent!= textilize object.content

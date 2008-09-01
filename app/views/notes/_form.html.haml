@@ -1,0 +1,29 @@
+#add_NoteForm
+  - if @note.nil? or @note.new_record?
+    - fpath = page_notes_path(@page)
+    - fmethod = :post
+    - fid = 'add_NoteFormContent'
+  - else
+    - fpath = page_note_path(@page, @note)
+    - fmethod = :put
+    - fid = 'update_NoteFormContent'
+  
+  - form_tag( fpath, :method => fmethod, :id => fid) do
+    - if @note.nil? or @note.new_record?
+      %h2= :add_note.l
+    
+    %div
+      != text_field 'note', 'title', :id => 'noteFormTitle', :class => 'long'
+    %div
+      %label{:for => 'noteFormTitle'}
+      != text_area 'note', 'content', :id => 'noteFormContent', :class => 'comment'
+    %div
+    
+    - if @note.nil? or @note.new_record?
+      %input#add_NoteFormBefore{:type => 'hidden', :name=> 'position[before]', :value => '0'}/
+      %input#add_NoteFormSlot{:type => 'hidden', :name=> 'position[slot]', :value => '0'}/
+      %button{:class => 'submit', :type => 'submit'}= :edit_note.l
+    - else
+      %button{:class => 'submit', :type => 'submit'}= :add_note.l
+    
+    %a{:href => '#', :class => 'cancel_WidgetForm'}= :cancel.l
