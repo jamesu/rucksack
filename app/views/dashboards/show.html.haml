@@ -20,9 +20,9 @@
       
       .activityEntry
         -# "#{log.action} (#{log.rel_object_id} #{log.rel_object_type}) | p:#{log.page_id} by #{log.created_by_id}"
-        - unless log.page_id.nil?
+        - if !log.page.nil?
           = "activity_modify_Page".to_sym.l_with_args(:object => link_to(h(log.page.title), url_for(log.page)))
           -# "(#{log.created_on.to_s})"
-        - else
+        - elsif !log.rel_object.nil?
           = "activity_#{log.action}_#{log.rel_object_type}".to_sym.l_with_args(:object => link_to(h(log.rel_object.object_name), url_for(log.rel_object)), :name => h(log.object_name))
           -# "(#{log.created_on.to_s})"
