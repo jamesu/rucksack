@@ -10,7 +10,7 @@
   - for page in @pages
     %tr
       %td
-        %a{:href => page}= h page.title
+        %a{:href => page_path(page)}= h page.title
       %td
         != link_to 'Destroy', page, :confirm => 'Are you sure?', :method => :delete 
   
@@ -21,7 +21,7 @@
   - for page in @shared_pages
     %tr
       %td{:colspan => 2}
-        %a{:href => page}= h page.title
+        %a{:href => page_path(page)}= h page.title
 
 %p
   %a{:href => new_page_path}= :new_page.l

@@ -15,6 +15,11 @@ namespace :db do
 			puts "\nLoading initial content..."
 			load("db/default_content.rb")
 		end
+
+		task :import_tiddlywiki => :environment do
+			puts "\Inmporting TiddlyWiki..."
+			load("db/import_tiddlywiki.rb")
+		end
 		
 		task :reload_config => :environment do
 		    puts "\nRe-loading configuration..."
