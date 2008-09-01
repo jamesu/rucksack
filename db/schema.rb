@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(:version => 6) do
 
   create_table "lists", :force => true do |t|
     t.integer  "page_id",         :limit => 10
-    t.integer  "priority"
+    t.integer  "priority",        :limit => 11
     t.string   "name",            :limit => 100
     t.datetime "completed_on"
     t.integer  "completed_by_id", :limit => 10
@@ -76,7 +76,6 @@ ActiveRecord::Schema.define(:version => 6) do
   end
 
   create_table "pages", :force => true do |t|
-    t.integer  "list_id",       :limit => 10
     t.string   "title",         :limit => 100
     t.integer  "created_by_id", :limit => 10
     t.integer  "updated_by_id", :limit => 10
@@ -109,7 +108,24 @@ ActiveRecord::Schema.define(:version => 6) do
     t.integer "user_id", :limit => 10
   end
 
-# Could not dump table "users" because of following StandardError
-#   Unknown type 'limit10' for column 'account_id'
+  create_table "users", :force => true do |t|
+    t.string   "username",      :limit => 50,  :default => "", :null => false
+    t.string   "email",         :limit => 100
+    t.string   "token",         :limit => 40,  :default => "", :null => false
+    t.string   "salt",          :limit => 13,  :default => "", :null => false
+    t.string   "twister",       :limit => 10,  :default => "", :null => false
+    t.string   "identity_url"
+    t.string   "display_name",  :limit => 50
+    t.string   "avatar_file",   :limit => 44
+    t.string   "time_zone",                    :default => "", :null => false
+    t.integer  "created_by_id", :limit => 10
+    t.datetime "last_login"
+    t.datetime "last_visit"
+    t.datetime "last_activity"
+    t.boolean  "is_admin"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "account_id",    :limit => 10
+  end
 
 end
