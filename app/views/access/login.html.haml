@@ -1,0 +1,33 @@
+- @page_title = :login.l
+
+- if AppConfig.allow_openid
+  #header
+    != check_box "login", "use_openid", :size => 30, :id => 'loginOpenID', :class => 'checkbox', :onclick => 'login_toggle_openid()'
+    %label.checkbox{:for => 'loginOpenID'}= :use_openid.l
+
+- form_tag :controller => 'access', :action => 'login' do
+  #normal_login.inner{:style => 'display: block'}
+    #loginUsernameField
+      %label{:for => 'loginUsername'}= :username.l
+      != text_field "login", "user", :size => 30, :id => 'loginUsername', :class => 'medium'
+    #loginPasswordField
+      %label{:for => 'loginPassword'}= :password.l
+      != password_field "login", "password", :size => 30, :id => 'loginPassword', :class => 'medium'
+    #loginCustom
+      != check_box "login", "remember", :id => 'loginRememberMe', :class => 'checkbox', :checked => false
+      %label.checkbox{:fork => 'loginRememberMe'}= :remember_me_for_days.l_with_args(:days => 14)
+      %p
+        (
+        != link_to :forgot_password_q.l , :controller => 'access', :action => 'forgot_password'
+        ) 
+  
+  - if AppConfig.allow_openid
+    #openid_login.inner{:style => 'display: none'}
+      #loginOpenIDField
+        %label{:for => 'loginOpenIDIdentity'}= :openid.l
+        != text_field_tag "openid_url", "", :size => 30, :id => 'loginOpenIDIdentity', :class => 'openid_login'
+  
+  #loginSubmit
+    %button.submit{:type => 'submit'}= :login.l
+    
+  
