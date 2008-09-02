@@ -2,17 +2,25 @@ class PagesController < ApplicationController
   layout :page_layout
   
   before_filter :grab_user
+  before_filter :search, :only => :index
   after_filter  :user_track, :except => 'public'
   
   # GET /pages
   # GET /pages.xml
   def index
-    @pages = @user.pages
-    @shared_pages = @user.shared_pages
+    if @find_opts.nil?
+      @pages = @user.pages
+      @shared_pages = @user.shared_pages
+    else
+      @pages = @user.pages.find(:all, @find_opts)
+      @shared_pages = @user.shared_pages(:all, @find_opts)
+    end
+    
     @content_for_sidebar = 'page_sidebar'
 
     respond_to do |format|
       format.html # index.html.erb
+      format.js
       format.json { render :json => @pages }
       format.xml  { render :xml => @pages }
     end
@@ -267,6 +275,17 @@ protected
     end
     
     true
+  end
+  
+  def search
+    @find_opts = nil
+    if !params[:tags].nil? and params[:tags].class == Array
+      @search_tags = params[:tags]
+      @find_opts = {:conditions => ['tags.name IN (?)', params[:tags]],
+                    :joins => Tag.find_object_join(Page),
+                    :group => "pages.id HAVING COUNT(tags.id) = #{params[:tags].length}"}
+      puts @find_opts
+    end
   end
   
   def page_layout

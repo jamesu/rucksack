@@ -26,7 +26,7 @@ class Page < ActiveRecord::Base
 	belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
 	
 	has_many :slots, :class_name => 'PageSlot', :order => 'position ASC'
-	has_many :tags, :through => :rel_object, :dependent => :destroy
+	has_many :linked_tags, :class_name => 'Tag', :as => :rel_object, :dependent => :destroy
 	
 	has_and_belongs_to_many :shared_users, :class_name => 'User', :join_table => 'shared_pages'
 	has_and_belongs_to_many :favourite_users, :class_name => 'User', :join_table => 'favourite_pages'

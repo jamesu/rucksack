@@ -2,6 +2,11 @@
 - @tabbed_navigation_items = common_tabs(:pages)
 - @user_navigation_items = user_tabs(nil)
 
+#tagCrumbsWrapper
+  %ul{:id => 'tagCrumbs'}
+    - unless @search_tags.nil?
+      != render :partial => 'tags/crumb', :collection => @search_tags
+
 %table
   %tr
     %td{:colspan => 2}
