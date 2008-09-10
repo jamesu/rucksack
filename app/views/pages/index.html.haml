@@ -3,13 +3,13 @@
 - @user_navigation_items = user_tabs(nil)
 
 #tagCrumbsWrapper
-  %p.floatleft Current tags:
+  %p.floatleft= :current_tags.l
   %ul{:id => 'tagCrumbs'}
     - unless @search_tags.nil?
       != render :partial => 'tags/crumb', :collection => @search_tags
 
 #tagNewCrumbsWrapper
-  %h3 Available Tags
+  %h3= :available_tags.l
   %ul{:id => 'tagNewCrumbs'}
     - unless @avail_tags.nil?
       != render :partial => 'tags/new_crumb', :collection => @avail_tags
