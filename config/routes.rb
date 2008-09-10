@@ -40,7 +40,13 @@ ActionController::Routing::Routes.draw do |map|
     users.resource :dashboard
   end
   
-  map.resources :pages, :member => {:reorder => :post, :transfer => :put, :favourite => :put, :duplicate => :post, :share => :any, :public => :get}, :collection => {:current => :get} do |page|
+  map.resources :pages, :member => {:reorder => :post, 
+                                    :transfer => :put,
+                                    :favourite => :put,
+                                    :duplicate => :post,
+                                    :share => :any,
+                                    :public => :get,
+                                    :tags => :any}, :collection => {:current => :get} do |page|
     page.resources :lists, :member => {:reorder => :post} do |list|
         list.resources :list_items, :as => 'items', :member => {:status => :put}
     end

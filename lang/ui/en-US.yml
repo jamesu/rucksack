@@ -48,6 +48,8 @@ all_pages: All pages
 pages_shared_to_me: Pages shared to me
 copy_of_page: "{title} (Copy)"
 
+tags: Tags
+edit_tags: Edit tags
 current_tags: Current tags
 available_tags: Available tags
 

@@ -77,7 +77,11 @@ class Page < ActiveRecord::Base
 	end
 	
 	def tags
-	 return (@update_tags.nil? ? Tag.list_by_object(self) : @update_tags).join(',')
+	 return tags_list.join(',')
+	end
+	
+	def tags_list
+	  @update_tags.nil? ? Tag.list_by_object(self) : @update_tags
 	end
 	
 	def tags_with_spaces

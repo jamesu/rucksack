@@ -690,6 +690,7 @@ Event.addBehavior({
     '.pageSlotHandle' : HoverSlotBar(),
     
     // Tags
+    
     '.pageTagAdd:click': function(e) {
         var el = e.element();
         e.stop();
@@ -744,6 +745,30 @@ Event.addBehavior({
                             onComplete:function(request) { },
                             parameters: tags + '&authenticity_token=' + AUTH_TOKEN
                         });
+    },
+     
+    '#edit_PageTags:click' : function(e) {
+        var el = e.element();
+        e.stop();
+        
+        new Ajax.Request('/pages/' + PAGE_ID + '/tags', 
+                        {
+                            asynchronous:true, evalScripts:true,
+                            method: 'get',
+                            onComplete:function(request) { }
+                        });
+    },
+    
+    '#edit_PageTagsForm:submit' : function(e) {
+        var el = e.element();
+        e.stop();
+        
+        el.request({evalScripts:true,
+            onComplete: function(transport){
+                Event.addBehavior.reload();
+                return;
+            }
+            });
     }
 });
 

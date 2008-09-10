@@ -5,6 +5,14 @@
   - Page.widgets.each do |widget|
     = render :partial => widget.form_partial, :locals => {:widget => widget} unless widget.form_partial.nil? 
 
+#pageTagsWrapper
+  %span.floatleft=:tags.l
+  %ul#page_tags
+    = render :partial => 'tags/show', :collection => @page.tags_list
+  #page_tags_form
+  #page_edit_tags
+    %a#edit_PageTags{:href => '#'}= :edit_tags.l
+
 #slots.pageSlots
   -# Util widgets
   #pageInsert{:style => 'display:none'}

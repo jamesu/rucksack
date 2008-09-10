@@ -266,6 +266,26 @@ class PagesController < ApplicationController
     end 
   end
   
+  def tags
+    @page = Page.find(params[:id])
+    return error_status(true, :cannot_edit_page) unless (@page.can_be_edited_by(@logged_user))
+       
+    case request.method
+      when :get
+        @view = 'tags_form'
+      when :post
+        @page.tags = params[:page][:tags]
+        @view = 'tags'
+        @page.save
+    end
+    
+    respond_to do |format|
+      format.html { head :ok }
+      format.js { render :action => @view }
+      format.xml  { head :ok }
+    end 
+  end
+  
 protected
   
   def protect?(action)

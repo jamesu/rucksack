@@ -268,7 +268,7 @@ div.pageList .completedItems {
   padding-left: 0;
 }
 
-#tagCrumbsWrapper li {
+#tagCrumbsWrapper li, #pageTagsWrapper li {
   display: inline;
   padding-right: 3px;
 }
