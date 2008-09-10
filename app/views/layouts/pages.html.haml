@@ -18,7 +18,15 @@
     
     - if protect_against_forgery?
       = javascript_tag "const AUTH_TOKEN = #{form_authenticity_token.inspect};"
-  
+    
+    - if @search_tags.nil?
+      = javascript_tag "var TAG_LIST = []"
+    - else
+      = javascript_tag "var TAG_LIST = [#{@search_tags.collect { |tag| "'#{tag}'" }.join(',')}];"
+    
+    - unless @search_tags.nil?
+      = javascript_tag "var PAGE_READONLY = true;"
+      
   %body#body
     #wrapper
       

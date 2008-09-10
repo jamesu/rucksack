@@ -46,7 +46,7 @@ class Tag < ActiveRecord::Base
 	end
 	
 	def self.list_in_page(page)
-		Tag.find(:all, :conditions => {'page_id' => page}).collect do |tag|
+		Tag.find(:all, :conditions => {'page_id' => page}, :group => 'name').collect do |tag|
 			tag.name
 		end
 	end

@@ -285,6 +285,10 @@ protected
                     :joins => Tag.find_object_join(Page),
                     :group => "pages.id HAVING COUNT(tags.id) = #{params[:tags].length}"}
       puts @find_opts
+      
+      @avail_tags = Tag.list_in_page(nil) - @search_tags
+    else
+      @avail_tags = Tag.list_in_page(nil)
     end
   end
   

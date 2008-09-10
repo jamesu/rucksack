@@ -3,30 +3,29 @@
 - @user_navigation_items = user_tabs(nil)
 
 #tagCrumbsWrapper
+  %p.floatleft Current tags:
   %ul{:id => 'tagCrumbs'}
     - unless @search_tags.nil?
       != render :partial => 'tags/crumb', :collection => @search_tags
 
+#tagNewCrumbsWrapper
+  %h3 Available Tags
+  %ul{:id => 'tagNewCrumbs'}
+    - unless @avail_tags.nil?
+      != render :partial => 'tags/new_crumb', :collection => @avail_tags
+
 %table
-  %tr
+  %tr#myPageHeader
     %td{:colspan => 2}
       %h2= :my_pages.l
   
-  - for page in @pages
-    %tr
-      %td
-        %a{:href => page_path(page)}= h page.title
-      %td
-        != link_to 'Destroy', page, :confirm => 'Are you sure?', :method => :delete 
+  != render :partial => 'index_page', :collection => @pages, :locals => {:shared => false}
   
-  %tr
+  %tr#sharedPageHeader
     %td{:colspan => 2}
       %h2= :pages_shared_to_me.l
   
-  - for page in @shared_pages
-    %tr
-      %td{:colspan => 2}
-        %a{:href => page_path(page)}= h page.title
+  != render :partial => 'index_page', :collection => @shared_pages, :locals => {:shared => true}
 
 %p
   %a{:href => new_page_path}= :new_page.l

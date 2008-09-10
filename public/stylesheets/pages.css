@@ -253,6 +253,51 @@ div.pageList .completedItems {
     color: #666666;
 }
 
+/* Page tags */
+
+#tagCrumbsWrapper {
+  padding: 4px;
+}
+
+#tagCrumbsWrapper p {
+  font-weight: bolder;
+}
+
+#tagCrumbsWrapper ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#tagCrumbsWrapper li {
+  display: inline;
+  padding-right: 3px;
+}
+
+#tagNewCrumbsWrapper {
+  padding: 4px;
+  float: right;
+  border-left: 1px solid #666;
+}
+
+#tagNewCrumbsWrapper h3 {
+  font-size: 12px;
+}
+
+#tagNewCrumbsWrapper ul {
+  list-style-type: none;
+  padding-left: 0;
+  
+  padding: 4px;
+}
+
+.pageTagRemove, .pageTagAdd {
+  cursor: pointer; 
+}
+
+.floatleft {
+  float: left;
+}
+
 /* Reminders */
 #reminderList {
     padding: 12px;

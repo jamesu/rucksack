@@ -1,0 +1,3 @@
+%li{:class => 'tagCrumb'}
+  %a{:href => url_for(hash_for_pages_url(:tags => [new_crumb]))}= h new_crumb
+  %span.pageTagAdd{:tag => new_crumb} (+)

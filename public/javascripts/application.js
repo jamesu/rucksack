@@ -14,7 +14,6 @@ Event.observe(window, 'load', function(evt){
     $('content').observe('mouseout', PageHoverHandlerCancelFunc);
 });
 
-
 // Handles the hover bar for modifying widgets 
 var HoverHandle = {
     enabled: false,
@@ -201,12 +200,12 @@ var Page = {
         if (PAGE_READONLY)
             return;
         
-        $$('.pageList .openItems .listItems').forEach(function(el) {
+        $$('.pageList .openItems .listItems').each(function(el) {
           Page.makeListSortable(el);
         });
         
         // Add droppables
-       $$('#pageListItems li').forEach(function(el) {
+       $$('#pageListItems li').each(function(el) {
         if (!el.hasClassName('current'))
         Droppables.add(el.identify(), {hoverclass:'hover', accept:'pageSlot', onDrop: function(el2) { Page.moveSlotTo(el2.getAttribute('slot'), el.getAttribute('page_id')); } });
        });  
@@ -689,6 +688,63 @@ Event.addBehavior({
     
     // Hover bars
     '.pageSlotHandle' : HoverSlotBar(),
+    
+    // Tags
+    '.pageTagAdd:click': function(e) {
+        var el = e.element();
+        e.stop();
+        
+        TAG_LIST.push(el.getAttribute('tag'));
+        
+        console.log(TAG_LIST);
+        
+        var tags = "";
+        for (var i=0; i<TAG_LIST.length; i++)
+        {
+          tags += 'tags[]=' + encodeURIComponent(TAG_LIST[i]);
+          if (i+1 < TAG_LIST.length)
+            tags += '&';
+        }
+        
+        console.log(tags);
+        
+        new Ajax.Request('/pages', 
+                        {
+                            asynchronous:true, evalScripts:true,
+                            method: 'put',
+                            onComplete:function(request) { },
+                            parameters: tags + '&authenticity_token=' + AUTH_TOKEN
+                        });
+    },
+    
+    '.pageTagRemove:click': function(e) {
+        var el = e.element();
+        e.stop();
+        
+        console.log(TAG_LIST);
+        
+        TAG_LIST = TAG_LIST.without(el.getAttribute('tag'));
+        
+        console.log(TAG_LIST);
+        
+        var tags = "";
+        for (var i=0; i<TAG_LIST.length; i++)
+        {
+          tags += 'tags[]=' + encodeURIComponent(TAG_LIST[i]);
+          if (i+1 < TAG_LIST.length)
+            tags += '&';
+        }
+        
+        console.log(tags);
+        
+        new Ajax.Request('/pages', 
+                        {
+                            asynchronous:true, evalScripts:true,
+                            method: 'put',
+                            onComplete:function(request) { },
+                            parameters: tags + '&authenticity_token=' + AUTH_TOKEN
+                        });
+    }
 });
 
 
