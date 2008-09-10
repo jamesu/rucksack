@@ -24,6 +24,8 @@ class List < ActiveRecord::Base
 	
 	belongs_to :page
 	has_one :page_slot, :as => :rel_object
+  
+  has_many :application_logs, :as => :rel_object, :dependent => :destroy
 	
 	belongs_to :completed_by, :class_name => 'User', :foreign_key => 'completed_by_id'
 	belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'

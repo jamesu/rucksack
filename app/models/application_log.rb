@@ -92,4 +92,8 @@ class ApplicationLog < ActiveRecord::Base
          :order => 'created_on DESC', 
          :group => "created_by_id, #{offset_date}, CASE #{sanitize_sql({'page_id' => nil})} WHEN 1 THEN #{rel_group} ELSE page_id END")
   end
+  
+  def self.clear_for_page(page)
+    ApplicationLog.destroy_all(['page_id = ? OR (rel_object_type = ? AND rel_object_id = ?)', page.id, 'Page', page.id])
+  end
 end

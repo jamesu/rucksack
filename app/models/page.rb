@@ -24,21 +24,22 @@ class Page < ActiveRecord::Base
 	
 	belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
 	belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
-	
-	has_many :slots, :class_name => 'PageSlot', :order => 'position ASC'
+
+	has_many :slots, :class_name => 'PageSlot', :order => 'position ASC', :dependent => :destroy
 	has_many :linked_tags, :class_name => 'Tag', :as => :rel_object, :dependent => :destroy
 	
 	has_and_belongs_to_many :shared_users, :class_name => 'User', :join_table => 'shared_pages'
 	has_and_belongs_to_many :favourite_users, :class_name => 'User', :join_table => 'favourite_pages'
 	
-	has_many :lists
-	has_many :notes
-	has_many :separators
+	has_many :lists, :dependent => :destroy
+	has_many :notes, :dependent => :destroy
+	has_many :separators, :dependent => :destroy
 	
 	before_create  :process_params
 	after_create   :process_create
 	before_update  :process_update_params
 	before_destroy :process_destroy
+	after_destroy  :process_after_destroy
 	
 	def update_tags
 	 return if @update_tags.nil?
@@ -65,6 +66,10 @@ class Page < ActiveRecord::Base
 	
 	def process_destroy
 	  ApplicationLog.new_log(self, self.updated_by, :delete)
+	end
+	
+	def process_after_destroy
+	  ApplicationLog.clear_for_page(self) # Clear delete logs (amongst other things)
 	end
 	
 	def page

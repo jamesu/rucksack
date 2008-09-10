@@ -240,7 +240,8 @@ class PagesController < ApplicationController
         page = @user.pages.first
       end
     rescue
-      render :head => :not_found, :text => :page_not_found.l
+      page = @user.pages.first
+      session['page_id'] = page.id
     end
     
     redirect_to(page) unless page.nil?

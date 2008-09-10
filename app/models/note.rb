@@ -1,11 +1,13 @@
 class Note < ActiveRecord::Base
-    belongs_to :page
-    has_one :page_slot, :as => :rel_object
+  belongs_to :page
+  has_one :page_slot, :as => :rel_object
+  
+  has_many :application_logs, :as => :rel_object, :dependent => :destroy
 	
 	belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
 	belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
 	
-	has_many :tags, :through => :rel_object, :dependent => :destroy
+	has_many :tags, :as => :rel_object, :dependent => :destroy
 
 	after_create   :process_create
 	before_update  :process_update_params
