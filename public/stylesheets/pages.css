@@ -298,6 +298,10 @@ div.pageList .completedItems {
   float: left;
 }
 
+.clear {
+  clear: both;
+}
+
 /* Reminders */
 #reminderList {
     padding: 12px;

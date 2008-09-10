@@ -8,6 +8,8 @@
     - unless @search_tags.nil?
       != render :partial => 'tags/crumb', :collection => @search_tags
 
+.clear
+
 #tagNewCrumbsWrapper
   %h3= :available_tags.l
   %ul{:id => 'tagNewCrumbs'}
