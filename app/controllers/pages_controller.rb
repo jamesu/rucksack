@@ -157,6 +157,8 @@ class PagesController < ApplicationController
     return error_status(true, :insufficient_permissions) unless (page.can_be_edited_by(@logged_user) and @slot.page.can_be_edited_by(@logged_user))
     
     @slot.page = page
+    @slot.rel_object.page = page
+    @slot.rel_object.save
     @slot.position = page.slots.length
     @slot.save
 
