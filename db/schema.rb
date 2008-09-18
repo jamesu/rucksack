@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 7) do
+ActiveRecord::Schema.define(:version => 8) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "owner_id",   :limit => 10, :null => false
@@ -34,6 +34,13 @@ ActiveRecord::Schema.define(:version => 7) do
     t.integer "user_id", :limit => 10
   end
 
+  create_table "journals", :force => true do |t|
+    t.integer  "user_id",    :limit => 10, :null => false
+    t.string   "content",                  :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "list_items", :force => true do |t|
     t.integer  "list_id",         :limit => 10
     t.text     "content"
@@ -48,7 +55,7 @@ ActiveRecord::Schema.define(:version => 7) do
 
   create_table "lists", :force => true do |t|
     t.integer  "page_id",         :limit => 10
-    t.integer  "priority",        :limit => 11
+    t.integer  "priority"
     t.string   "name",            :limit => 100
     t.datetime "completed_on"
     t.integer  "completed_by_id", :limit => 10
@@ -108,10 +115,16 @@ ActiveRecord::Schema.define(:version => 7) do
     t.integer "user_id", :limit => 10
   end
 
+  create_table "statuses", :force => true do |t|
+    t.integer  "user_id",    :limit => 10, :null => false
+    t.text     "content",                  :null => false
+    t.datetime "updated_on"
+  end
+
   create_table "tags", :force => true do |t|
     t.integer  "page_id",         :limit => 10
     t.string   "name",            :limit => 30, :default => "", :null => false
-    t.integer  "rel_object_id",   :limit => 11, :default => 0,  :null => false
+    t.integer  "rel_object_id",                 :default => 0,  :null => false
     t.string   "rel_object_type", :limit => 50
     t.datetime "created_on"
     t.integer  "created_by_id",   :limit => 10, :default => 0,  :null => false
@@ -126,7 +139,7 @@ ActiveRecord::Schema.define(:version => 7) do
     t.string   "identity_url"
     t.string   "display_name",  :limit => 50
     t.string   "avatar_file",   :limit => 44
-    t.string   "time_zone",                    :default => "", :null => false
+    t.string   "time_zone",                                    :null => false
     t.integer  "created_by_id", :limit => 10
     t.datetime "last_login"
     t.datetime "last_visit"

@@ -1,0 +1,1 @@
+page.replace_html "userJournals", :partial => 'list', :collection => @journals

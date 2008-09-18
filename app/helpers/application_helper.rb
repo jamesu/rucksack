@@ -76,7 +76,8 @@ module ApplicationHelper
 	def common_tabs(current)
 	  items = [{:id => :overview, :url => '/dashboard'},
 	           {:id => :pages, :url => '/pages/current'},
-	           {:id => :reminders, :url => '/reminders'}]
+	           {:id => :reminders, :url => '/reminders'},
+	           {:id => :journal, :url => '/journals'}]
 	  
 	  @selected_navigation_item = current
 	  return items

@@ -120,6 +120,15 @@ yesno_yes: "Yes"
 yesno_no: "No"
 or: or
 
+# Journal / Status
+journal: Journal
+status: Status
+
+journal_date_today: "Today"
+journal_date_format: "%a, %b %d"
+journal_date_extended_format: "%a, %b %d %Y"
+add_entry: Add entry
+
 # Activity
 # activity_[add/edit/delete]_[class] -> {object}
 activity_add_Page: "Created page {object}"

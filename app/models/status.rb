@@ -1,4 +1,4 @@
-class Journal < ActiveRecord::Base
+class Status < ActiveRecord::Base
   belongs_to :user
 	
 	# Accesibility

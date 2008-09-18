@@ -1,4 +1,17 @@
+@import 'reset.css';
+
+h1 { font-size: 28px; font-weight: bolder; padding-bottom: 6px; }
+
+h2 { font-size: 18px; font-weight: bolder; padding-bottom: 6px; }
+
+h3 { font-size: 16px; font-weight: bolder; padding-bottom: 6px; }
+
 body { margin: 0px; padding: 0px; background-color: #fff; color: #333; }
+
+
+ul { padding-left: 24px; }
+
+pre { overflow: auto; }
 
 body, p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
@@ -33,11 +46,17 @@ header {
     border: 2px solid #000;
 }
 
+#innerContent {
+    padding: 16px 18px 0px;
+}
+
 /* tabs */
 #tabsWrapper {
     margin: 0pt auto;
     width: 600px;
     text-align: left;
+    
+    padding: 6px;
 }
 
 #tabsWrapper ul {
@@ -138,7 +157,7 @@ header {
 .pageSlot {
     background: #fff;
     position: relative;
-    padding: 16px 18px 0pt;
+    padding: 16px 18px 0px;
 }
 
 .pageSlots {
@@ -316,6 +335,14 @@ div.pageList .completedItems {
 
 .reminderTime {
     color: #8b8b8b;
+}
+
+/* Journal & Status */
+
+#userStatus {
+  border: 1px dashed #ccc;
+  padding: 4px 6px 4px 6px;
+  cursor: pointer;
 }
 
 /* activity log */

@@ -769,6 +769,45 @@ Event.addBehavior({
                 return;
             }
             });
+    },
+    
+    // Journal + Status
+
+    
+    '#edit_UserStatus:submit' : function(e) {
+        var el = e.element();
+        e.stop();
+        
+        el.request({evalScripts:true,
+            onComplete: function(transport){
+                Event.addBehavior.reload();
+                return;
+            }
+            });
+    },
+    
+    '#user_status:click' : function(e) {
+        var el = e.element();
+        if (el.tagName == 'A')
+          return;
+        e.stop();
+        
+        $('user_status').hide();
+        $('user_status_form').show();
+    },
+    
+    '#add_JournalForm:submit' : function(e) {
+        var el = e.element();
+        e.stop();
+        
+        el.request({evalScripts:true,
+            onComplete: function(transport){
+                Event.addBehavior.reload();
+                return;
+            }
+            });
+            
+       el.reset();
     }
 });
 

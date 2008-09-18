@@ -32,6 +32,9 @@ class User < ActiveRecord::Base
 	has_and_belongs_to_many :shared_pages, :class_name => 'Page', :join_table => 'shared_pages'
 	has_and_belongs_to_many :favourite_pages, :class_name => 'Page', :join_table => 'favourite_pages'
 	
+	has_one :status, :dependent => :destroy
+	has_many :journals, :order => 'created_at DESC', :dependent => :destroy
+	
 	has_many :reminders, :foreign_key => 'created_by_id', :order => 'at_time ASC', :dependent => :destroy do
 		def done()
 			find(:all, :conditions => ['at_time < ?', Time.now.utc])

@@ -1,0 +1,29 @@
+<%
+  @page_title = :journal.l
+  @tabbed_navigation_items = common_tabs(:journal)
+  @user_navigation_items = user_tabs(nil)
+%>
+
+<h2>Status</h2>
+
+<div id="userStatus">
+  <div class="inner" id="user_status">
+    <%= textilize @status.content %>
+  </div>
+  <div class="form" id="user_status_form" style="display: none;">
+  <%= render :partial => 'statuses/form', :object => @status %>
+  </div>
+</div>
+
+<div id="userJournal">
+  <div class="inner">
+    <%= form_tag user_journals_path(@user), :id => 'add_JournalForm' %>
+      <label for="journalContent"><%= :add_entry.l %></label>
+      <%= text_field 'journal', 'content', :class => 'long', :id => 'journalContent' %>
+    </form>
+  </div>
+</div>
+
+<div id="userJournals">
+<%= render :partial => 'list', :collection => @journals %>
+</div>

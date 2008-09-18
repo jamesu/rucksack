@@ -24,8 +24,7 @@
     - else
       = javascript_tag "var TAG_LIST = [#{@search_tags.collect { |tag| "'#{tag}'" }.join(',')}];"
     
-    - unless @search_tags.nil?
-      = javascript_tag "var PAGE_READONLY = true;"
+    = javascript_tag "var PAGE_READONLY = true;"
       
   %body#body
     #wrapper
@@ -41,7 +40,7 @@
           
           #pageContent
             #content
-              %div
+              #innerContent
                 %h1= h @page_title
                 -# Content
                 = yield
