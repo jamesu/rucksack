@@ -14,13 +14,8 @@ else
 end
 
 # Clear old results
-page.select('.myPageEntry').each do |entry|
-  entry.remove
-end
-
-page.select('.sharedPageEntry').each do |entry|
-  entry.remove
-end
+page.remove('.myPageEntry')
+page.remove('.sharedPageEntry')
 
 # Add new results
 page.insert_html(:after, 'myPageHeader', :partial => 'index_page', :collection => @pages, :locals => {:shared => false})

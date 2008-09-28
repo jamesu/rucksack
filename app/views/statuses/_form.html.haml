@@ -1,4 +1,4 @@
 - form_tag statuses_path(), :method => :put, :id => 'edit_UserStatus' do
   != text_area 'status', 'content', :class => 'long'
   %button{:class => 'submit', :type => 'submit'}= :update.l
-  %a{:href => '#', :class => 'cancel_PageForm'}= :cancel.l
+  %a{:href => '#', :class => 'cancel'}= :cancel.l

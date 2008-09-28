@@ -19,6 +19,7 @@ class SeparatorsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
+      format.js
       format.xml  { render :xml => @separator }
     end
   end

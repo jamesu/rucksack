@@ -1,4 +1,4 @@
-- form_tag tags_page_path(@page), :method => :post, :id => 'edit_PageTagsForm' do
+- form_tag tags_page_path(@page), :method => :post do
   != text_field 'page', 'tags', :class => 'long'
   %button{:class => 'submit', :type => 'submit'}= :update.l
-  %a{:href => '#', :class => 'cancel_PageForm'}= :cancel.l
+  %a{:href => '#', :class => 'cancel'}= :cancel.l

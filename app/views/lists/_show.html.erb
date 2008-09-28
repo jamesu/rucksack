@@ -19,10 +19,10 @@
 <div class="addItem">
     <div class="inner" style="display: <%= @new_list.nil? ? 'none' : 'block' %>">
       <%= form_tag page_list_list_items_path(object.page, object), :method => :post %>
-      <%= text_field 'list_item', 'content', :class => 'long' %>
+      <%= text_field 'list_item', 'content', :class => 'autofocus long' %>
       <div>
         <button class="submit" type="submit" ><%= :add_item.l %></button>
-        <a href="#" class="cancel_addItemForm"><%= :cancel.l %></a>
+        <a href="#" class="cancel"><%= :cancel.l %></a>
       </div>
       </form>
     </div>

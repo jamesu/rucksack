@@ -3,15 +3,17 @@
 
 #pageWidgetForms
   - Page.widgets.each do |widget|
-    = render :partial => widget.form_partial, :locals => {:widget => widget} unless widget.form_partial.nil? 
+    - next if widget.form_partial.nil?
+    %div{:id => "add_#{widget.to_s}Form"}
+      = render :partial => widget.form_partial, :locals => {:widget => widget} unless widget.form_partial.nil?
 
 #pageTagsWrapper
   %span.floatleft=:tags.l
-  %ul#page_tags
+  %ul#pageTags
     = render :partial => 'tags/show', :collection => @page.tags_list
-  #page_tags_form
-  #page_edit_tags
-    %a#edit_PageTags{:href => '#'}= :edit_tags.l
+  #pageTagsForm
+  #pageEditTags
+    %a.edit{:href => '#'}= :edit_tags.l
 
 #slots.pageSlots
   -# Util widgets

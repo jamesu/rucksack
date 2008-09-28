@@ -17,7 +17,7 @@
 
 <div id="userJournal">
   <div class="inner">
-    <%= form_tag user_journals_path(@user), :id => 'add_JournalForm' %>
+    <%= form_tag user_journals_path(@user) %>
       <label for="journalContent"><%= :add_entry.l %></label>
       <%= text_field 'journal', 'content', :class => 'long', :id => 'journalContent' %>
     </form>

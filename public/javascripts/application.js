@@ -3,15 +3,164 @@
 
 // TODO: re-write and consolidate where needed
 
-Event.observe(window, 'load', function(evt){
+// Quick jQuery extensions for missing prototype functions
+
+jQuery.fn.extend({
+  cumulativeOffset: function() {
+    var valueT = 0, valueL = 0;
+    var element = this;
+    do {
+      valueT += element[0].offsetTop  || 0;
+      valueL += element[0].offsetLeft || 0;
+      element = element.getOffsetParent();
+    } while (element);
+    
+    var res = [valueL, valueT];
+    res.left = valueL;
+    res.top = valueT;
+    return res;
+  },
+
+  getOffsetParent: function() {
+    var element = this[0];
+    if (element == document.body) return null;
+    
+    while ((element = element.parentNode) && element != document.body)
+    {
+      var el = $(element);
+      if (el.css('position') != 'static')
+        return el;
+    }
+    
+    return $(document.body);
+  },
+    
+  getWidth: function() {
+    return this.getDimensions().width;
+  },
+  
+  getHeight: function() {
+    return this.getDimensions().height;
+  },
+  
+  getDimensions: function() {
+    var element = this[0];
+    var display = $(element).css('display');
+    if (display != 'none' && display != null) {// Safari bug
+      var res = [element.offsetWidth, element.offsetHeight];
+      res.width = element.offsetWidth; res.height = element.offsetHeight;
+    }
+    // All *Width and *Height properties give 0 on elements with display none,
+    // so enable the element temporarily
+    var els = element.style;
+    var originalVisibility = els.visibility;
+    var originalPosition = els.position;
+    var originalDisplay = els.display;
+    els.visibility = 'hidden';
+    els.position = 'absolute';
+    els.display = 'block';
+    var originalWidth = element.clientWidth;
+    var originalHeight = element.clientHeight;
+    els.display = originalDisplay;
+    els.position = originalPosition;
+    els.visibility = originalVisibility;
+    
+    var res = [element.offsetWidth, element.offsetHeight];
+    res.width = element.offsetWidth; res.height = element.offsetHeight;
+    return res;
+  },
+  
+  request: function( callback, type ) {
+   var el = $(this[0]);
+	 return jQuery.ajax({
+	   type: el.attr('method'),
+	   url: el.attr('action'),
+	   data: el.serialize(),
+	   success: callback,
+	   dataType: type
+	 });
+	},
+	
+	autofocus: function() {
+	  this.find('.autofocus:first').focus();
+	}
+});
+
+// jQuery object extensions
+
+jQuery.extend({
+  delete: function( url, data, callback, type ) {
+		if ( jQuery.isFunction( data ) ) {
+			callback = data;
+			data = {};
+		}
+		
+		data = data == null ? {} : data;
+		if (!data['_method'])
+		{
+		  if (typeof data == 'string')
+		    data += '&_method=DELETE';
+		  else
+		    data['_method'] = 'DELETE';
+		}
+
+		return jQuery.ajax({
+			type: "POST",
+			url: url,
+			data: data,
+			success: callback,
+			dataType: type
+		});
+	},
+	
+	put: function( url, data, callback, type ) {
+		if ( jQuery.isFunction( data ) ) {
+			callback = data;
+			data = {};
+		}
+		
+		data = data == null ? {} : data;
+		if (!data['_method'])
+		{
+		  if (typeof data == 'string')
+		    data += '&_method=PUT';
+		  else
+		    data['_method'] = 'PUT';
+		}
+		
+		return jQuery.ajax({
+			type: "POST",
+			url: url,
+			data: data,
+			success: callback,
+			dataType: type
+		});
+	}
+});
+
+// authenticity_token fix
+
+$(document).ajaxSend(function(event, request, settings) {
+  if (typeof(AUTH_TOKEN) == "undefined" || request.type == 'GET') return;
+  settings.data = settings.data ? (settings.data + '&') : "";
+  settings.data += "authenticity_token=" + encodeURIComponent(AUTH_TOKEN);
+});
+
+// Main entrypoint
+
+$(document).ready(function(){
     InsertionMarker.init();
     InsertionBar.init();
     HoverHandle.init();
     
     Page.makeSortable();
     
-    $('content').observe('mousemove', PageHoverHandlerFunc);
-    $('content').observe('mouseout', PageHoverHandlerCancelFunc);
+    $('#content').mousemove(PageHoverHandlerFunc);
+    $('#content').mouseout(PageHoverHandlerCancelFunc);
+    
+    $(this).mousemove(InsertionMarkerFunc);
+    
+    Page.bind();
 });
 
 // Handles the hover bar for modifying widgets 
@@ -20,7 +169,6 @@ var HoverHandle = {
     
     init: function() {
         this.current_handle = null;
-        this.current_effect = null;
         this.enabled = true;
     },
     
@@ -30,25 +178,21 @@ var HoverHandle = {
     
     setHandle: function(handle) {
         // Cancel any running effects
-        if (this.current_effect)
-        {
-            this.current_effect.cancel();
-            if (this.current_handle)
-                this.current_handle.setOpacity(1.0);
-            this.current_effect = null;
-        }
-            
+        if (this.current_handle)
+            this.current_handle.stop().show().css('opacity', 1.0);
+        
+        var is_new = this.current_handle == null || (this.current_handle[0] != handle[0]);
+        //if (is_new)
+          //console.log('handle=' + handle.attr('id'), 'current_handle=' + (this.current_handle == null ? null : this.current_handle.attr('id')));
+        
         // Different handle, make sure the old one is gone
-        if (this.current_handle && this.current_handle != handle)
+        if (this.current_handle && is_new)
             this.current_handle.hide();
         
         // Show the new handle
-        if (this.current_handle != handle || handle.style.display == 'none')
-        {
-            handle.setOpacity(1.0);
-            handle.show();
-        }
-            
+        if (is_new || handle.is(':hidden'))
+            handle.css('opacity', 1.0).show();
+           
         // Disable insertion marker
         if (InsertionMarker.enabled)
         {
@@ -70,11 +214,8 @@ var HoverHandle = {
         }
         
         // Make sure the old one vanishes
-        if (this.current_effect == null)
-            this.current_effect = new Effect.Fade(this.current_handle, 
-                                                 {duration: 0.8, 
-                                                  afterFinish: function() { this.current_handle = null; this.current_effect = null; } 
-                                                 });
+        if (!this.current_handle.is(':animated'))
+           this.current_handle.fadeOut(800, function() { this.current_handle = null; });
         if (!InsertionMarker.enabled)
             InsertionMarker.setEnabled(true);
     }
@@ -88,12 +229,12 @@ var InsertionBar = {
     current_form: null,
     
     init: function() {
-        this.element = $('pageInsertItems');
-        this.element_bar  = $('pageInsertItemsBar');
-        this.element_tablet = $('pageTabletContainer');
+        this.element = $('#pageInsertItems');
+        this.element_bar  = $('#pageInsertItemsBar');
+        this.element_tablet = $('#pageTabletContainer');
     },
     show: function() {
-        InsertionMarker.element.insert({after: this.element});
+        InsertionMarker.element.before(this.element);
         this.element_bar.show();
     },
     hide: function() {
@@ -101,22 +242,26 @@ var InsertionBar = {
     },
     
     // Widget form
-    set_widget_form: function(template) {
+    setWidgetForm: function(template) {
         if (this.current_form)
             this.clearWidgetForm();
         
         // Set insertion position
-        $(template.id + 'Before').value = Page.insert_before ? '1' : '0';
-        $(template.id + 'Slot').value = Page.insert_element.getAttribute('slot');
+        $('#' + template.attr('id') + 'Before').attr('value', Page.insert_before ? '1' : '0');
+        $('#' + template.attr('id') + 'Slot').attr('value', Page.insert_element.attr('slot'));
         
         // Form should go in the insertion bar, so we can change the insertion location and maintain
         // state
-        this.element_tablet.insert(template);
+        this.element_tablet.append(template);
         this.current_form = template;
     },
     
     clearWidgetForm: function() {
-        $('pageWidgetForms').insert(this.current_form);
+        if (!this.current_form)
+          return;
+        
+        this.current_form.children('form').reset();
+        $('#pageWidgetForms').append(this.current_form);
         this.current_form = null;
     }
 };
@@ -128,7 +273,7 @@ var InsertionMarker = {
     visible: false,
     
     init: function() {
-        this.element = $('pageInsert');
+        this.element = $('#pageInsert');
         this.enabled = true;
         this.visible = false;
     },
@@ -136,8 +281,11 @@ var InsertionMarker = {
         this.enabled = val;
     },
     show: function(el, insert_before) {
-        el.insert(insert_before ? { before: this.element } :
-                                  { after : this.element });
+        if (insert_before)
+          el.before(this.element);
+        else
+          el.after(this.element);
+        
         this.element.show();
         this.visible = true;
         this.set(el, insert_before);
@@ -151,7 +299,7 @@ var InsertionMarker = {
         }
     },
     set: function(element, insert_before) {
-        var el = element ? element : $('slots').down('.pageSlot');
+        var el = element ? element : $('#slots').children('.pageSlot:first');
         
         Page.insert_element = el;
         Page.insert_before = insert_before;
@@ -167,16 +315,347 @@ var Page = {
         Insertion.set(null);
     },
     
+    bind: function() {
+      // NOTE: this is a mess, especially considering there are a ton
+      //       of closures here. Need to tidy it up!
+      
+      $('.pageSlotHandle').click(HoverSlotBar);
+
+      $('.widgetForm').submit(function(evt) {
+        $(this).request(JustRebind, 'script');  
+  
+        return false;
+      });
+
+      $('.widgetForm .cancel').click(function(evt) {
+        var form = $(evt.target).parents('form:first');
+        
+        $.get(form.attr('action'), {}, JustRebind, 'script');
+        return false;
+      });
+
+      $('.fixedWidgetForm').submit(function(evt) {
+        $(this).request(ResetAndRebind, 'script');
+        
+        return false;
+      });
+
+      $('.fixedWidgetForm .cancel').click(function(evt) {
+        InsertionBar.clearWidgetForm();
+        
+        return false;
+      });
+      
+      // Page header
+      $('#page_header_form form').submit(function(evt) {
+        $(this).request(JustRebind, 'script');
+
+        return false;
+      });
+
+      $('#page_header_form .cancel').click(function(evt) {        
+        $('#page_header_form').hide();
+        $('#page_header').show();
+        
+        return false;
+      });
+
+// Insert widgets
+      $('.add_List').click(function(evt) {
+        // Set to top of page if on top toolbar
+        if ($(this).hasClass('atTop'))
+          InsertionMarker.set(null, false);
+
+        Page.insertWidget('lists');
+        InsertionBar.hide();
+        InsertionMarker.setEnabled(true);
+        HoverHandle.setEnabled(true);
+          
+        return false;
+      });
+
+      $('.add_Note').click(function(evt) {
+  // Set to top of page if on top toolbar
+        if ($(this).hasClass('atTop'))
+          InsertionMarker.set(null, false);
+        
+        var form = $('#add_NoteForm');
+  
+        InsertionBar.setWidgetForm(form);
+        InsertionBar.hide();
+        InsertionMarker.setEnabled(true);
+        HoverHandle.setEnabled(true);
+        
+        form.autofocus();
+  
+        return false;
+      });
+
+      $('.add_Separator').click(function(evt) {
+        // Set to top of page if on top toolbar
+        if ($(this).hasClass('atTop'))
+          InsertionMarker.set(null, false);
+        
+        var form = $('#add_SeparatorForm');
+  
+        InsertionBar.setWidgetForm(form);
+        InsertionBar.hide();
+        InsertionMarker.setEnabled(true);
+        HoverHandle.setEnabled(true);
+        
+        form.autofocus();
+  
+        return false;
+      });
+      
+      $('#pageInsert').click(function(evt) {
+        InsertionBar.show();
+        //console.log('IM SET');
+        InsertionMarker.setEnabled(false);
+        InsertionMarker.hide();
+        //console.log('IM DONE');
+        HoverHandle.setEnabled(false);
+        HoverHandle.clearHandle();
+        
+        return false;
+      });
+      
+      $('#pageInsertItemCancel a').click(function(evt) {
+        InsertionBar.hide();
+        InsertionMarker.setEnabled(true);
+        HoverHandle.setEnabled(true);
+        
+        return false;
+      });
+      
+      $('#pageSetFavourite').click(function(evt) {
+        $.put('/pages/' + PAGE_ID + '/favourite', {'page[is_favourite]': '1'}, null, 'script');
+        return false;
+      });
+      
+      $('#pageSetNotFavourite').click(function(evt) {
+        $.put('/pages/' + PAGE_ID + '/favourite', {'page[is_favourite]': '0'}, null, 'script');
+        return false;
+      });
+      
+      $('#pageDuplicate').click(function(evt) {
+        $.post('/pages/' + PAGE_ID + '/duplicate', {'foo':1}, null, 'script');
+        return false;
+      });
+      
+      // Popup form for Add Item
+      $('.addItem form').submit(function(evt) {
+        $(this).request(JustRebind, 'script');
+        return false;
+      });
+      
+      $('.addItem form .cancel').click(function(evt) {
+        var addItemInner = $(evt.target).parents('.inner:first');
+        var newItem = addItemInner.parents('.addItem:first').find('.newItem:first');
+        
+        addItemInner.hide();
+        addItemInner.children('form').reset();
+        newItem.show();
+        
+        return false;
+      });
+      
+      // Add Item link
+      $('.newItem a').click(function(evt) {
+        var newItem = $(evt.target.parentNode);
+        var addItemInner = newItem.parents('.addItem:first').find('.inner:first');
+        
+        addItemInner.show();
+        addItemInner.autofocus();
+        newItem.hide();
+        
+        return false;
+      });
+      
+      $('.listItem form').submit(function(evt) {
+        $(this).request(JustRebind, 'script');
+        
+        return false;
+      });
+    
+      $('.listItem form .cancel').click(function(evt) {
+        var el = $(evt.target);
+        var list_url = el.parents('.pageWidget:first').attr('url');
+        var item_id = el.parents('.listItem:first').attr('item_id');
+        
+        $.get('/pages/' + PAGE_ID + list_url + '/items/' + item_id, null, JustRebind, 'script');
+        
+        return false;
+      });
+      
+      $('.pageList .checkbox').click(function(evt) {
+        var el = $(evt.target);
+        var list_url = el.parents('.pageWidget:first').attr('url');
+        var item_id = el.parents('.listItem:first').attr('item_id');
+        
+        $.put('/pages/' + PAGE_ID + list_url + '/items/' + item_id + '/status', {'list_item[completed]':evt.target.checked}, JustRebind, 'script');
+        
+        return false;
+      });
+      
+      $('.pageListForm form').submit(function(evt) {
+        $(this).request(JustRebind, 'script');
+        
+        return false;
+      });
+    
+      $('.pageListForm form .cancel').click(function(evt) {
+        var el = $(evt.target);
+        var pageList = el.parents('.pageList:first');
+        
+        pageList.find('.pageListForm:first').hide();
+        pageList.find('.pageListHeader:first').show();
+        
+        return false;
+      });
+      
+      // Page list tags
+      $('.pageTagAdd').click(function(evt) {
+        TAG_LIST.push($(evt.target).attr('tag'));
+        
+        $.get('/pages', {'tags[]': TAG_LIST}, null, JustRebind, 'script');
+        return false;
+      });
+    
+      $('.pageTagRemove').click(function(evt) {
+        var removed_tag = $(evt.target).attr('tag');
+        
+        TAG_LIST = $.grep(TAG_LIST, function(tag){
+          return (tag != removed_tag);
+        });
+        
+        $.get('/pages', {'tags[]': TAG_LIST}, null, JustRebind, 'script');
+        return false;
+      });
+     
+      $('#pageEditTags .edit').click(function(evt) {
+        $.get('/pages/' + PAGE_ID + '/tags', null, JustRebind, 'script');
+        return false;
+      });
+    
+      $('#pageTagsForm form').submit(function(evt) {
+        $(this).request(JustRebind, 'script');
+               
+        return false;
+      });
+    
+      $('#pageTagsForm .cancel').click(function(evt) {
+        $('#pageTagsForm').hide();
+        $('#pageTags').show();
+        $('#pageEditTags').show();
+        
+        return false;
+      });      
+      
+      // Reminder page
+      
+      $('#add_ReminderForm').submit(function(evt) {
+        $(this).request(JustRebind, 'script');
+        
+        return false;
+      });
+      
+      // Journal
+      $('#edit_UserStatus').submit(function(evt) {
+        $(this).request(JustRebind, 'script');
+        
+        return false;
+      });
+      
+      $('#edit_UserStatus .cancel').click(function(evt) {
+        
+        $('#user_status_form').hide();
+        $('#user_status').show();
+        
+        return false;
+      });
+    
+      $('#user_status').click(function(evt) {
+        if (this.tagName == 'A')
+          return true;
+        
+        $('#user_status').hide();
+        $('#user_status_form').show();
+        
+        return false;
+      });
+    
+      $('#userJournal form').submit(function(evt) {
+        var el = $(this);
+        
+        el.request(JustRebind, 'script');
+            
+        el.reset();
+       
+        return false;
+      });
+    
+    
+    },
+    
+    rebind: function () {
+      $('.pageSlotHandle').unbind();
+      $('.add_List').unbind();
+      $('.add_Note').unbind();
+      $('.add_Separator').unbind();
+      $('.widgetForm').unbind();
+      $('.fixedWidgetForm .cancel').unbind();
+      $('.fixedWidgetForm').unbind();
+      $('.fixedWidgetForm .cancel').unbind();
+      $('#page_header_form form').unbind();
+      $('#page_header_form .cancel').unbind();
+      
+      $('#pageInsert').unbind();
+      $('#pageInsertItemCancel a').unbind();
+      
+      $('#pageSetFavourite').unbind();
+      $('#pageSetNotFavourite').unbind();
+      $('#pageDuplicate').unbind();
+      
+      $('.addItem form').unbind();
+      $('.addItem form .cancel').unbind();
+      
+      $('.newItem a').unbind();
+      $('.listItem form').unbind();
+      $('.listItem form .cancel').unbind();
+      
+      $('.pageList .checkbox').unbind();
+      
+      $('.pageListForm form').unbind();
+      $('.pageListForm form .cancel').unbind();
+
+
+      $('.pageTagAdd').unbind();
+      $('.pageTagRemove').unbind();
+      $('#pageEditTags .edit').unbind();
+      $('#pageTagsForm form').unbind();
+      $('#pageTagsForm .cancel').unbind();
+      
+      $('#add_ReminderForm').unbind();
+
+      $('#edit_UserStatus').unbind();
+      $('#edit_UserStatus .cancel').unbind();
+      $('#user_status').unbind();
+      $('#userJournal form').unbind();
+            
+      Page.bind();
+    },
+    
     setFavourite: function(favourite) {
         if (favourite)
         {
-            $('pageSetFavourite').hide();
-            $('pageSetNotFavourite').show();
+            $('#pageSetFavourite').hide();
+            $('#pageSetNotFavourite').show();
         }
         else
         {
-            $('pageSetNotFavourite').hide();
-            $('pageSetFavourite').show();
+            $('#pageSetNotFavourite').hide();
+            $('#pageSetFavourite').show();
         }
     },
     
@@ -184,68 +663,55 @@ var Page = {
         if (PAGE_READONLY)
             return;
         
-        // Insert 
-        new Ajax.Request('/pages/' + PAGE_ID + '/' + resource, 
-                        {
-                            asynchronous:true, evalScripts:true,
-                            method: 'post',
-                            onComplete:function(request) { Event.addBehavior.reload(); },
-                            parameters: {'position[slot]': this.insert_element.getAttribute('slot') , 
-                                         'position[before]': (this.insert_before ? '1' : '0'), 
-                                         'authenticity_token' : AUTH_TOKEN}
-                        });
+        // Insert
+        $.post('/pages/' + PAGE_ID + '/' + resource, 
+              {'position[slot]': this.insert_element.attr('slot') , 
+               'position[before]': (this.insert_before ? '1' : '0')}, ResetAndRebind, 'script');
     },
     
     makeSortable: function() {
         if (PAGE_READONLY)
             return;
         
-        $$('.pageList .openItems .listItems').each(function(el) {
-          Page.makeListSortable(el);
+        $('.pageList .openItems .listItems').each(function(i) {
+          Page.makeListSortable($(this));
         });
         
         // Add droppables
-       $$('#pageListItems li').each(function(el) {
-        if (!el.hasClassName('current'))
-        Droppables.add(el.identify(), {hoverclass:'hover', accept:'pageSlot', onDrop: function(el2) { Page.moveSlotTo(el2.getAttribute('slot'), el.getAttribute('page_id')); } });
-       });  
+       $('#pageListItems li').each(function(i) {
+        var el = $(this);
+        if (!el.hasClass('current')) {
+          el.droppable('destroy');
+          el.droppable({ hoverClass:'hover', accept:'.pageSlot', drop: function(ev, ui) { Page.moveSlotTo(ui.draggable.attr('slot'), $(this).attr('page_id')); } });
+        }
+       });
        
-       Sortable.create('slots', {handle: 'slot_handle', tag: 'div', only: 'pageSlot',
-                        onUpdate: function() { 
-                          new Ajax.Request('/pages/' + PAGE_ID + '/reorder', 
-                          {
-                              asynchronous:true, evalScripts:false,
-                              onComplete:function(request) {},
-                              parameters:Sortable.serialize('slots', {name: 'slots'}) + '&authenticity_token=' + AUTH_TOKEN
-                          });
-                        
-                        } });
-                           
+       $('#slots').sortable('destroy');
+       $('#slots').sortable({
+         axis: 'y',
+         handle: '.slot_handle',
+         items: '> .pageSlot',
+         change: function(e, ui) {
+           $.post('/pages/' + PAGE_ID + '/reorder', $('#slots').sortable('serialize', {key: 'slots'}));
+         }
+       });                           
     },
     
     moveSlotTo: function(slot_id, page_id) {
-        new Ajax.Request('/pages/' + page_id + '/' + 'transfer', 
-                        {
-                            asynchronous:true, evalScripts:true,
-                            method: 'put',
-                            onComplete:function(request) { },
-                            parameters: {'page_slot[id]': slot_id ,'authenticity_token' : AUTH_TOKEN}
-                        });
+        $.put('/pages/' + page_id + '/' + 'transfer', {'page_slot[id]': slot_id }, null, 'script');
     },
     
     makeListSortable: function(el) {
-        var list_url = el.up('.pageWidget').getAttribute('url');
+        var list_url = el.parents('.pageWidget:first').attr('url');
         
-        Sortable.create(el.id, { handle: 'slot_handle',
-                        onUpdate: function() { 
-                          new Ajax.Request('/pages/' + PAGE_ID + list_url + '/reorder', 
-                          {
-                              asynchronous:true, evalScripts:false,
-                              onComplete:function(request) {},
-                              parameters:Sortable.serialize(el.id, {name: 'items'}) + '&authenticity_token=' + AUTH_TOKEN
-                          });
-                        
-                        } });    
+        el.sortable('destroy');
+        el.sortable({
+          axis: 'y',
+          handle: '.slot_handle',
+          change: function(e, ui) {
+            $.post('/pages/' + PAGE_ID + list_url + '/reorder', el.sortable('serialize', {key: 'items'}));
+          }
+        }); 
     }
 }
 
@@ -258,15 +724,15 @@ var PageHoverHandlerFunc = function(evt){
     if (!HoverHandle.enabled)
         return;
     
-    var el = evt.element();
+    var el = $(evt.target);
     
     var hover = null;
-    var handler = el.getAttribute('hover_handle');
+    var handler = el.attr('hover_handle');
     if (handler)
-        hover = $(handler);
-    else if (el.hasClassName('innerHandle'))
-        hover = el.up('.pageSlotHandle');
-       
+        hover = $('#' + handler);
+    else if (el.hasClass('innerHandle'))
+        hover = el.parents('.pageSlotHandle:first');
+    
     if (hover)
         HoverHandle.setHandle(hover);
     else
@@ -278,22 +744,23 @@ var PageHoverHandlerCancelFunc = function(evt){
 };
 
 // Hover observer for InsertionMarker
-document.observe('mousemove', function(evt){    
+var InsertionMarkerFunc = function(evt){    
     if (!InsertionMarker.enabled)
         return;
     
-    var el = evt.element();
-    var pt = evt.pointer();
+    var el = $(evt.target);
+    var pt = [evt.clientX, evt.clientY];
+    pt.x = pt[0]; pt.y = pt[1];
     var offset = el.cumulativeOffset();
     
     if (!(pt.x - offset.left > Page.MARGIN))
-    {   
-        if (el.hasClassName('pageSlot'))
+    {
+        if (el.hasClass('pageSlot'))
         {   
             var h = el.getHeight(), thr = Math.min(h / 2, Page.SLOT_VERGE);
             var t = offset.top, b = t + h;
         
-            if (el.hasClassName('pageFooter')) // before footer
+            if (el.hasClass('pageFooter')) // before footer
                 InsertionMarker.show(el, true);
             else if (pt.y - t <= thr) // before element
                 InsertionMarker.show(el, true);
@@ -306,7 +773,7 @@ document.observe('mousemove', function(evt){
     else
     {
         // Handle offset when hovering over insert bar
-        if (el.id == "cpi") 
+        if (el.attr('id') == "cpi") 
         {
             if (!(pt.x - offset.left > (48+Page.MARGIN)))
                 return;
@@ -314,501 +781,34 @@ document.observe('mousemove', function(evt){
         
         InsertionMarker.hide(); // *poof*
     }
-});
+};
 
+function JustRebind(data) {
+  Page.rebind();
+}
 
-// Behaviors
-
+function ResetAndRebind(data) {
+  // Clean up state
+  InsertionBar.hide();
+  InsertionBar.clearWidgetForm();
+  
+  Page.rebind();
+}
 
 // Hover bar which appears when hovering over widgets
-var HoverSlotBar = Behavior.create({
-    onclick: function(e) {
-        var el = e.element();
-        e.stop();
-        
-        var url = this.element.up(this.element.readAttribute('restype')).readAttribute('url');
-        if (el.hasClassName('slot_delete')) return this._doDelete(url);
-        if (el.hasClassName('slot_edit')) return this._doEdit(url);
-    },
-    
-    _doDelete: function(resource) {
-        new Ajax.Request('/pages/' + PAGE_ID + resource, 
-                        {
-                            asynchronous:true, evalScripts:true,
-                            method: 'delete',
-                            onComplete:function(request) { Event.addBehavior.reload(); },
-                            parameters:'authenticity_token=' + AUTH_TOKEN
-                        });
-    },
-    
-    _doEdit: function(resource) {
-        //console.log('new ajax request');
-        new Ajax.Request('/pages/' + PAGE_ID + resource + '/edit', 
-                        {
-                            asynchronous:true, evalScripts:true,
-                            method: 'get',
-                            onComplete:function(request) { Event.addBehavior.reload(); }
-                        });
-        
-    }
-});
 
-// Link-up
-Event.addBehavior({
-    // Insert widgets
-    '.add_List:click' : function(e) {
-        var el = e.element();
-        e.stop();
-        
-        // Set to top of page if on top toolbar
-        if (el.hasClassName('atTop'))
-            InsertionMarker.set(null, false);
-        
-        Page.insertWidget('lists');
-        InsertionBar.hide();
-        InsertionMarker.setEnabled(true);
-        HoverHandle.setEnabled(true);
-    },
-    
-    '.add_Note:click' : function(e) {
-        var el = e.element();
-        e.stop();
-        
-        // Set to top of page if on top toolbar
-        if (el.hasClassName('atTop'))
-            InsertionMarker.set(null, false);
-        
-        InsertionBar.set_widget_form($('add_NoteForm'));
-        InsertionBar.hide();
-        InsertionMarker.setEnabled(true);
-        HoverHandle.setEnabled(true);
-    },
-    
-    '.add_Separator:click' : function(e) {
-        var el = e.element();
-        e.stop();
-        
-        // Set to top of page if on top toolbar
-        if (el.hasClassName('atTop'))
-            InsertionMarker.set(null, false);
-        
-        InsertionBar.set_widget_form($('add_SeparatorForm'));
-        InsertionBar.hide();
-        InsertionMarker.setEnabled(true);
-        HoverHandle.setEnabled(true);
-    },
-    
-    '.addItem form:submit': function(e) {
-        var el = e.element();
-        e.stop();
-        
-        el.request({evalScripts:true,
-            onComplete: function(transport){
-                // 
-                
-                Event.addBehavior.reload();
-                
-                return;
-            }
-            });
-    },
-    
-    '.listItem form:submit': function(e) {
-        var el = e.element();
-        e.stop();
-        
-        el.request({evalScripts:true,
-            onComplete: function(transport){
-                // 
-                
-                Event.addBehavior.reload();
-                
-                return;
-            }
-            });
-    },
-    
-    '.cancel_ListItemForm:click': function(e) {
-        var el = e.element();
-        e.stop();
-        
-        var list_url = el.up('.pageWidget').getAttribute('url');
-        var item_id = el.up('.listItem').getAttribute('item_id');
-        
-        new Ajax.Request('/pages/' + PAGE_ID + '/' + list_url + '/items/' + item_id, 
-                        {
-                            asynchronous:true, evalScripts:true,
-                            method: 'get',
-                            onComplete:function(request) { }
-                        });
-    },
-    
-    // List item completion
-    
-    '.pageList .checkbox:click': function(e) {
-        var el = e.element();
-        e.stop();
-        
-        var list_url = el.up('.pageWidget').getAttribute('url');
-        var item_id = el.up('.listItem').getAttribute('item_id');
-        
-        new Ajax.Request('/pages/' + PAGE_ID + list_url + '/items/' + item_id + '/status', 
-                        {
-                            asynchronous:true, evalScripts:true,
-                            method: 'put',
-                            onComplete:function(request) { },
-                            parameters: {'list_item[completed]': el.checked,
-                                        'authenticity_token': AUTH_TOKEN}
-                        });
-    },
-    
-    
-    // Add list item handlers
-    
-    '.newItem a:click' : function(e) {
-        var el = e.element();
-        e.stop();
-        
-        var newItem = el.parentNode;
-        var addItemInner = newItem.up('.addItem').down('.inner');
-        
-        addItemInner.show();
-        newItem.hide();
-    },
-    
-    '.cancel_addItemForm:click' : function(e) {
-        var el = e.element();
-        e.stop();
-        
-        var addItemInner = el.up('.inner');
-        var newItem = addItemInner.up('.addItem').down('.newItem');
-        
-        addItemInner.hide();
-        newItem.show();
-    },
-    
-    
-    // List edit form handlers
-    
-    '.pageListForm form:submit': function(e) {
-        var el = e.element();
-        e.stop();
-        
-        el.request({evalScripts:true,
-            onComplete: function(transport){ }
-            });
-    },
-    
-    '.cancel_ListForm:click' : function(e) {
-        var el = e.element();
-        e.stop();
-        
-        var pageList = el.up('.pageList');
-        
-        pageList.down('.pageListForm').hide();
-        pageList.down('.pageListHeader').show();
-    },
-    
-    '#page_header_form form:submit': function(e) {
-        var el = e.element();
-        e.stop();
-        
-        el.request({evalScripts:true,
-            onComplete: function(transport){ }
-            });
-    },
-    
-    '.cancel_PageForm:click' : function(e) {
-        var el = e.element();
-        e.stop();
-        
-        $('page_header_form').hide();
-        $('page_header').show();
-    },
-    
-    
-    // Note form handlers
-    
-    '#add_NoteFormContent:submit': function(e) {
-        var el = e.element();
-        e.stop();
-        
-        el.request({evalScripts:true,
-            onComplete: function(transport){
-                // Clean up state
-                InsertionBar.hide();
-                InsertionBar.clearWidgetForm();
-                
-                Event.addBehavior.reload();
-                
-                return;
-            }
-            });
-    },
-    
-    '#add_NoteFormContent:submit': function(e) {
-        var el = e.element();
-        e.stop();
-        
-        el.request({evalScripts:true,
-            onComplete: function(transport){
-                // Clean up state
-                InsertionBar.hide();
-                InsertionBar.clearWidgetForm();
-                
-                Event.addBehavior.reload();
-                
-                return;
-            }
-            });
-    },
-    
-    '#add_SeparatorFormContent:submit': function(e) {
-        var el = e.element();
-        e.stop();
-        
-        el.request({evalScripts:true,
-            onComplete: function(transport){
-                // Clean up state
-                InsertionBar.hide();
-                InsertionBar.clearWidgetForm();
-                
-                Event.addBehavior.reload();
-                
-                return;
-            }
-            });
-    },
-    
-    '#update_NoteFormContent:submit': function(e) {
-        var el = e.element();
-        e.stop();
-        
-        el.request({evalScripts:true,
-            onComplete: function(transport){
-                Event.addBehavior.reload();
-                return;
-            }
-            });
-    },
-    
-    '#update_SeparatorFormContent:submit': function(e) {
-        var el = e.element();
-        e.stop();
-        
-        el.request({evalScripts:true,
-            onComplete: function(transport){
-                Event.addBehavior.reload();
-                return;
-            }
-            });
-    },
-    
-    '#add_ReminderForm:submit': function(e) {
-        var el = e.element();
-        e.stop();
-        
-        el.request({evalScripts:true,
-            onComplete: function(transport){
-                Event.addBehavior.reload();
-                return;
-            }
-            });
-    },
-    
-    // Favourites. Evil, yes.
-    '#pageSetFavourite:click' : function(e) {
-        var el = e.element();
-        e.stop();
-        
-        new Ajax.Request('/pages/' + PAGE_ID + '/favourite', 
-                        {
-                            asynchronous:true, evalScripts:true,
-                            method: 'put',
-                            onComplete:function(request) { },
-                            parameters: {'page[is_favourite]': '1',
-                                        'authenticity_token': AUTH_TOKEN}
-                        });
-    },
-    
-    // Duplicate. Evil, yes.
-    '#pageDuplicate:click' : function(e) {
-        var el = e.element();
-        e.stop();
-        
-        new Ajax.Request('/pages/' + PAGE_ID + '/duplicate', 
-                        {
-                            asynchronous:true, evalScripts:true,
-                            method: 'post',
-                            onComplete:function(request) { },
-                            parameters: {'authenticity_token': AUTH_TOKEN}
-                        });
-    },
-    
-    '#pageSetNotFavourite:click' : function(e) {
-        var el = e.element();
-        e.stop();
-        
-        new Ajax.Request('/pages/' + PAGE_ID + '/favourite', 
-                        {
-                            asynchronous:true, evalScripts:true,
-                            method: 'put',
-                            onComplete:function(request) { },
-                            parameters: {'page[is_favourite]': '0',
-                                        'authenticity_token': AUTH_TOKEN}
-                        });
-    },
-    
-    // Widget forms
-    '.cancel_WidgetForm:click' : function(e) {
-        InsertionBar.clearWidgetForm();
-    },
-    
-    // Insertion bars
-    '#pageInsert:click' : function(e) {
-        var el = e.element();
-        e.stop();
-        
-        InsertionBar.show();
-        //console.log('IM SET');
-        InsertionMarker.setEnabled(false);
-        InsertionMarker.hide();
-        //console.log('IM DONE');
-        HoverHandle.setEnabled(false);
-        HoverHandle.clearHandle();
-    },
-    '#pageInsertItemCancel a:click' : function(e) {
-        var el = e.element();
-        e.stop();
-        
-        InsertionBar.hide();
-        InsertionMarker.setEnabled(true);
-        HoverHandle.setEnabled(true);
-    },
-    
-    // Hover bars
-    '.pageSlotHandle' : HoverSlotBar(),
-    
-    // Tags
-    
-    '.pageTagAdd:click': function(e) {
-        var el = e.element();
-        e.stop();
-        
-        TAG_LIST.push(el.getAttribute('tag'));
-        
-        console.log(TAG_LIST);
-        
-        var tags = "";
-        for (var i=0; i<TAG_LIST.length; i++)
-        {
-          tags += 'tags[]=' + encodeURIComponent(TAG_LIST[i]);
-          if (i+1 < TAG_LIST.length)
-            tags += '&';
-        }
-        
-        console.log(tags);
-        
-        new Ajax.Request('/pages', 
-                        {
-                            asynchronous:true, evalScripts:true,
-                            method: 'put',
-                            onComplete:function(request) { },
-                            parameters: tags + '&authenticity_token=' + AUTH_TOKEN
-                        });
-    },
-    
-    '.pageTagRemove:click': function(e) {
-        var el = e.element();
-        e.stop();
-        
-        console.log(TAG_LIST);
-        
-        TAG_LIST = TAG_LIST.without(el.getAttribute('tag'));
-        
-        console.log(TAG_LIST);
-        
-        var tags = "";
-        for (var i=0; i<TAG_LIST.length; i++)
-        {
-          tags += 'tags[]=' + encodeURIComponent(TAG_LIST[i]);
-          if (i+1 < TAG_LIST.length)
-            tags += '&';
-        }
-        
-        console.log(tags);
-        
-        new Ajax.Request('/pages', 
-                        {
-                            asynchronous:true, evalScripts:true,
-                            method: 'put',
-                            onComplete:function(request) { },
-                            parameters: tags + '&authenticity_token=' + AUTH_TOKEN
-                        });
-    },
-     
-    '#edit_PageTags:click' : function(e) {
-        var el = e.element();
-        e.stop();
-        
-        new Ajax.Request('/pages/' + PAGE_ID + '/tags', 
-                        {
-                            asynchronous:true, evalScripts:true,
-                            method: 'get',
-                            onComplete:function(request) { }
-                        });
-    },
-    
-    '#edit_PageTagsForm:submit' : function(e) {
-        var el = e.element();
-        e.stop();
-        
-        el.request({evalScripts:true,
-            onComplete: function(transport){
-                Event.addBehavior.reload();
-                return;
-            }
-            });
-    },
-    
-    // Journal + Status
-
-    
-    '#edit_UserStatus:submit' : function(e) {
-        var el = e.element();
-        e.stop();
-        
-        el.request({evalScripts:true,
-            onComplete: function(transport){
-                Event.addBehavior.reload();
-                return;
-            }
-            });
-    },
-    
-    '#user_status:click' : function(e) {
-        var el = e.element();
-        if (el.tagName == 'A')
-          return;
-        e.stop();
-        
-        $('user_status').hide();
-        $('user_status_form').show();
-    },
-    
-    '#add_JournalForm:submit' : function(e) {
-        var el = e.element();
-        e.stop();
-        
-        el.request({evalScripts:true,
-            onComplete: function(transport){
-                Event.addBehavior.reload();
-                return;
-            }
-            });
-            
-       el.reset();
-    }
-});
-
-
+function HoverSlotBar(evt) {
+  var el = $(evt.target);
+  var cur = $(this);
+  
+  var url = cur.parents(cur.attr('restype') + ':first').attr('url');
+  
+  if (el.hasClass('slot_delete'))
+    $.delete('/pages/' + PAGE_ID + url, null, JustRebind, 'script');
+  else if (el.hasClass('slot_edit'))
+    $.get('/pages/' + PAGE_ID + url + '/edit', null, JustRebind, 'script');
+  else
+    return false;
+  
+  return true;
+}
