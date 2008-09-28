@@ -89,7 +89,7 @@ jQuery.fn.extend({
 // jQuery object extensions
 
 jQuery.extend({
-  delete: function( url, data, callback, type ) {
+  del: function( url, data, callback, type ) {
 		if ( jQuery.isFunction( data ) ) {
 			callback = data;
 			data = {};
@@ -804,7 +804,7 @@ function HoverSlotBar(evt) {
   var url = cur.parents(cur.attr('restype') + ':first').attr('url');
   
   if (el.hasClass('slot_delete'))
-    $.delete('/pages/' + PAGE_ID + url, null, JustRebind, 'script');
+    $.del('/pages/' + PAGE_ID + url, null, JustRebind, 'script');
   else if (el.hasClass('slot_edit'))
     $.get('/pages/' + PAGE_ID + url + '/edit', null, JustRebind, 'script');
   else
