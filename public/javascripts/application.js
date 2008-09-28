@@ -518,7 +518,7 @@ var Page = {
       $('.pageTagAdd').click(function(evt) {
         TAG_LIST.push($(evt.target).attr('tag'));
         
-        $.get('/pages', {'tags[]': TAG_LIST}, null, JustRebind, 'script');
+        $.get('/pages', {'tags[]': TAG_LIST}, JustRebind, 'script');
         return false;
       });
     
@@ -529,12 +529,12 @@ var Page = {
           return (tag != removed_tag);
         });
         
-        $.get('/pages', {'tags[]': TAG_LIST}, null, JustRebind, 'script');
+        $.get('/pages', {'tags[]': TAG_LIST}, JustRebind, 'script');
         return false;
       });
      
       $('#pageEditTags .edit').click(function(evt) {
-        $.get('/pages/' + PAGE_ID + '/tags', null, JustRebind, 'script');
+        $.get('/pages/' + PAGE_ID + '/tags', JustRebind, 'script');
         return false;
       });
     
