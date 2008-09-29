@@ -34,41 +34,6 @@ jQuery.fn.extend({
     
     return $(document.body);
   },
-    
-  getWidth: function() {
-    return this.getDimensions().width;
-  },
-  
-  getHeight: function() {
-    return this.getDimensions().height;
-  },
-  
-  getDimensions: function() {
-    var element = this[0];
-    var display = $(element).css('display');
-    if (display != 'none' && display != null) {// Safari bug
-      var res = [element.offsetWidth, element.offsetHeight];
-      res.width = element.offsetWidth; res.height = element.offsetHeight;
-    }
-    // All *Width and *Height properties give 0 on elements with display none,
-    // so enable the element temporarily
-    var els = element.style;
-    var originalVisibility = els.visibility;
-    var originalPosition = els.position;
-    var originalDisplay = els.display;
-    els.visibility = 'hidden';
-    els.position = 'absolute';
-    els.display = 'block';
-    var originalWidth = element.clientWidth;
-    var originalHeight = element.clientHeight;
-    els.display = originalDisplay;
-    els.position = originalPosition;
-    els.visibility = originalVisibility;
-    
-    var res = [element.offsetWidth, element.offsetHeight];
-    res.width = element.offsetWidth; res.height = element.offsetHeight;
-    return res;
-  },
   
   request: function( callback, type ) {
    var el = $(this[0]);
@@ -756,8 +721,8 @@ var InsertionMarkerFunc = function(evt){
     if (!(pt.x - offset.left > Page.MARGIN))
     {
         if (el.hasClass('pageSlot'))
-        {   
-            var h = el.getHeight(), thr = Math.min(h / 2, Page.SLOT_VERGE);
+        {
+            var h = el.height(), thr = Math.min(h / 2, Page.SLOT_VERGE);
             var t = offset.top, b = t + h;
         
             if (el.hasClass('pageFooter')) // before footer
@@ -767,7 +732,7 @@ var InsertionMarkerFunc = function(evt){
             else if (b - pt.y <= thr) // after element
                 InsertionMarker.show(el, false);
             else
-               InsertionMarker.hide(); // *poof*
+               InsertionMarker.hide(); // *poof*           
         }
     }
     else
