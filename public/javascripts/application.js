@@ -381,7 +381,9 @@ var Page = {
       
       // Popup form for Add Item
       $('.addItem form').submit(function(evt) {
-        $(this).request(JustRebind, 'script');
+        var form = $(this);
+        form.request(JustRebind, 'script')
+        form.reset();
         return false;
       });
       
