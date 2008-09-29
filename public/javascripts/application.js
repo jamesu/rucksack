@@ -6,35 +6,6 @@
 // Quick jQuery extensions for missing prototype functions
 
 jQuery.fn.extend({
-  cumulativeOffset: function() {
-    var valueT = 0, valueL = 0;
-    var element = this;
-    do {
-      valueT += element[0].offsetTop  || 0;
-      valueL += element[0].offsetLeft || 0;
-      element = element.getOffsetParent();
-    } while (element);
-    
-    var res = [valueL, valueT];
-    res.left = valueL;
-    res.top = valueT;
-    return res;
-  },
-
-  getOffsetParent: function() {
-    var element = this[0];
-    if (element == document.body) return null;
-    
-    while ((element = element.parentNode) && element != document.body)
-    {
-      var el = $(element);
-      if (el.css('position') != 'static')
-        return el;
-    }
-    
-    return $(document.body);
-  },
-  
   request: function( callback, type ) {
    var el = $(this[0]);
 	 return jQuery.ajax({
@@ -716,7 +687,7 @@ var InsertionMarkerFunc = function(evt){
     var el = $(evt.target);
     var pt = [evt.clientX, evt.clientY];
     pt.x = pt[0]; pt.y = pt[1];
-    var offset = el.cumulativeOffset();
+    var offset = el.offset();
     
     if (!(pt.x - offset.left > Page.MARGIN))
     {
