@@ -272,6 +272,10 @@ div.pageList .completedItems {
     color: #666666;
 }
 
+div.pageList .itemDelete {
+  cursor: pointer;
+}
+
 /* Page tags */
 
 #tagCrumbsWrapper {

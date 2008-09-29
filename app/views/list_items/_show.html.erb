@@ -12,6 +12,7 @@
 <% else %>
   <span class="readCheckbox"><%= show.is_completed? ? render_icon('checked', :list_item_completed.l) : render_icon('not-checked', :list_item_open.l) %></span>
 <% end %>
-  <span class="itemText" hover_handle="page_item_handle_<%= show.id %>"><%= textilize object.content, true %></span>
+
+  <span class="itemText" hover_handle="page_item_handle_<%= show.id %>"><%= (show.is_completed? and show.can_be_edited_by(@logged_user)) ? render_icon('del_gen', '', {:class => 'itemDelete'}) : '' %> <%= textilize object.content, true %></span>
 </div>
 </li>

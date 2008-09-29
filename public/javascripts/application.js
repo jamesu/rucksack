@@ -436,6 +436,16 @@ var Page = {
         return false;
       });
       
+      $('.pageList .itemDelete').click(function(evt) {
+        var el = $(evt.target);
+        var list_url = el.parents('.pageWidget:first').attr('url');
+        var item_id = el.parents('.listItem:first').attr('item_id');
+        
+        $.del('/pages/' + PAGE_ID + list_url + '/items/' + item_id , null, JustRebind, 'script');
+        
+        return false;
+      });
+      
       $('.pageListForm form').submit(function(evt) {
         $(this).request(JustRebind, 'script');
         
