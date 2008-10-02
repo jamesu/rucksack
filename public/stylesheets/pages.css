@@ -199,6 +199,7 @@ header {
 .pageSlotHandle li {
     display: inline;
     padding-left: 0pt;
+    cursor: pointer;
 }
 
 .pageSlotHandle .slot_handle {
