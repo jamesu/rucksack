@@ -126,6 +126,23 @@ class ListsController < ApplicationController
     end
   end
   
+  # PUT /lists/1/transfer
+  def transfer
+    @list = @page.lists.find(params[:id])
+    @item = ListItem.find(params[:list_item][:id])
+    
+    return error_status(true, :insufficient_permissions) unless (@list.can_be_edited_by(@logged_user) and @item.can_be_edited_by(@logged_user))
+    
+    @item.list = @list
+    @item.save
+
+    respond_to do |format|
+      format.html { head :ok }
+      format.js { head :ok }
+      format.xml  { head :ok }
+    end
+  end
+  
   # POST /lists/1/reorder
   def reorder
     list = @page.lists.find(params[:id])

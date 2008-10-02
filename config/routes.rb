@@ -56,7 +56,7 @@ ActionController::Routing::Routes.draw do |map|
                                     :share => :any,
                                     :public => :get,
                                     :tags => :any}, :collection => {:current => :get} do |page|
-    page.resources :lists, :member => {:reorder => :post} do |list|
+    page.resources :lists, :member => {:reorder => :post, :transfer => :put} do |list|
         list.resources :list_items, :as => 'items', :member => {:status => :put}
     end
     page.resources :notes

@@ -621,8 +621,15 @@ var Page = {
         if (PAGE_READONLY)
             return;
         
-        $('.pageList .openItems .listItems').each(function(i) {
+        var lists = $('.pageList .openItems .listItems');
+        
+        lists.each(function(i) {
           Page.makeListSortable($(this));
+        });
+        
+        // Refresh so we can drag between
+        lists.each(function(i) {console.log(this);
+          $(this).sortable('refresh');
         });
         
         // Add droppables
@@ -639,7 +646,7 @@ var Page = {
          axis: 'y',
          handle: '.slot_handle',
          items: '> .pageSlot',
-         change: function(e, ui) {
+         update: function(e, ui) {
            $.post('/pages/' + PAGE_ID + '/reorder', $('#slots').sortable('serialize', {key: 'slots'}));
          }
        });                           
@@ -656,8 +663,17 @@ var Page = {
         el.sortable({
           axis: 'y',
           handle: '.slot_handle',
-          change: function(e, ui) {
-            $.post('/pages/' + PAGE_ID + list_url + '/reorder', el.sortable('serialize', {key: 'items'}));
+          connectWith: ['.pageList .openItems .listItems'],
+          update: function(e, ui) {
+            // Check for item movement vs item update. Note that the 
+            // list the item is moved to will do its own update after.
+            
+            var list = ui.item.parent('.listItems');
+            if (list.attr('id') !=
+                ui.element.attr('id'))
+              $.put('/pages/' + PAGE_ID + list.parents('.pageWidget:first').attr('url') + '/transfer', {'list_item[id]': ui.item.attr('item_id')});
+            else
+              $.post('/pages/' + PAGE_ID + list_url + '/reorder', el.sortable('serialize', {key: 'items'}));
           }
         }); 
     }
