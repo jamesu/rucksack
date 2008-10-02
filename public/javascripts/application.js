@@ -482,7 +482,7 @@ var Page = {
       });
      
       $('#pageEditTags .edit').click(function(evt) {
-        $.get('/pages/' + PAGE_ID + '/tags', JustRebind, 'script');
+        $.get('/pages/' + PAGE_ID + '/tags', {}, JustRebind, 'script');
         return false;
       });
     
