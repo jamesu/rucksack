@@ -1,4 +1,4 @@
 - form_tag tags_page_path(@page), :method => :post do
-  != text_field 'page', 'tags', :class => 'long'
+  != text_field 'page', 'tags', :class => 'autofocus long'
   %button{:class => 'submit', :type => 'submit'}= :update.l
   %a{:href => '#', :class => 'cancel'}= :cancel.l
