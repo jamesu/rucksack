@@ -214,32 +214,45 @@ header {
 /* Page insert bar. Inner p is positioned absolutely to the left of the containing div, 
    so it hangs off the edge */
 #pageInsert p {
-    background: yellow;
+    background: #000;
+    color: #e1e1e1;
+    
     left: -28px;
-    top: -15px;
+    top: 0px;
     position: absolute;
     height: 20px;
     z-index: 100;
+    cursor: pointer;
 }
 
 /* Page insert items bar. Also contains forms for certain items */
 #pageInsertItems {
     position: relative;
-    margin-left: -40px;
 }
 
 #pageInsertItemsBar {
-    background: red;
+    background: #1b1b1b;
     left: -50px;
     padding-left: 50px;
-    top: -15px;
-    position: absolute;
+    top: 0px;
+    position: relative;
     height: 20px;
     z-index: 100;
+    width: 400px; /* width */
+    color: #fff;
+}
+
+#pageInsertItemsBar a {
+    color: #e1e1e1;
+}
+
+#pageInsertItemsBar a:hover {
+    background: white;
+    color: #1b1b1b;
 }
 
 #pageTabletContainer {
-    margin-left: 40px;
+    margin-left: 16px;
 }
 
 #pageInsertItemCancel {
