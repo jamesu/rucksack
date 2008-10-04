@@ -248,8 +248,11 @@ class PagesController < ApplicationController
       session['page_id'] = page.id
     end
     
-    redirect_to(page) unless page.nil?
-    redirect_to(pages_url)
+    unless page.nil?
+      redirect_to(page)
+    else
+      redirect_to(pages_url)
+    end
   end
   
   def duplicate
