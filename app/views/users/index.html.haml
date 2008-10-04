@@ -1,0 +1,17 @@
+- @page_title = :user_list.l
+- @tabbed_navigation_items = common_tabs(nil)
+- @user_navigation_items = user_tabs(:users)
+
+%a{:href => new_user_path}= :add_user.l
+
+%table#userList
+  - @users.each do |user|
+    %tr{'user_id' => user.id}
+      %td.userDisplayName= h(user.display_name)
+      - if @logged_user.is_admin
+        %td.userAdmin
+        %td.userOptions
+          - if user.can_be_edited_by(@logged_user)
+            %a{:href => edit_user_path(user)}= :edit.l
+          - if user.can_be_deleted_by(@logged_user)
+            %a.userDelete{:href => '#'}= :delete.l

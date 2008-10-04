@@ -1,0 +1,7 @@
+#userOptions
+  .inner
+    %span.userName= h(@logged_user.display_name)
+    |
+    %a.userInfo{:href => current_users_path, :class => (@selected_user_item == :my_profile ? 'active' : nil)}= :my_profile.l
+    |
+    %a.userLogout{:href => '/access/logout'}= :logout.l
