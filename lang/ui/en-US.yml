@@ -67,6 +67,7 @@ not_favourite: Not favourite
 
 # Forms
 new_page: New page
+delete_page: Delete page
 add_note: Add note
 edit_note: Edit note
 add_separator: Add separator

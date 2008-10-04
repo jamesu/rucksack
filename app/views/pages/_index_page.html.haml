@@ -4,7 +4,5 @@
       %a{:href => page_path(index_page)}= h index_page.title
 - else
   %tr.myPageEntry
-    %td
+    %td{:colspan => 2}
       %a{:href => page_path(index_page)}= h index_page.title
-    %td
-      != link_to 'Destroy', page_path(index_page), :confirm => 'Are you sure?', :method => :delete 

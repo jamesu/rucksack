@@ -2,7 +2,7 @@
     @page_title = (@user == @logged_user) ? :update_profile.l : :update_user.l_with_args(:name => h(@user.display_name))
     
     @tabbed_navigation_items = common_tabs(nil)
-    @user_navigation_items = user_tabs(:users)
+    @user_navigation_items = user_tabs((@user == @logged_user) ? :my_profile : :users)
 %>
 
 <div id="userForm">

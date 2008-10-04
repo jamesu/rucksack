@@ -6,7 +6,7 @@ h2 { font-size: 18px; font-weight: bolder; padding-bottom: 6px; }
 
 h3 { font-size: 16px; font-weight: bolder; padding-bottom: 6px; }
 
-body { margin: 0px; padding: 0px; background-color: #fff; color: #333; }
+body { margin: 0px; padding: 0px; background-color: #eee; color: #333; }
 
 
 ul { padding-left: 24px; }
@@ -31,11 +31,12 @@ pre {
     padding-top: 12px;
     padding: 8px 6px 0px 6px; 
     text-align: left;
+    
+    background: #fff;
 }
 
 /* outer wrapper for content. contains side background */
 #outerWrapper {
-    background: #ccc;
 }
 
 #innerWrapper {
@@ -45,11 +46,11 @@ pre {
 }
 
 #pageContent {
-    border: 2px solid #000;
+    margin-top: 12px;
 }
 
 #innerContent {
-    padding: 16px 18px 0px;
+    padding: 18px 16px 18px 16px;
 }
 
 /* user options */
@@ -100,7 +101,10 @@ pre {
 }
 
 #tabsWrapper ul li.active a {
-    background: #000;
+    background: #eee;
+    text-decoration: none;
+    
+    color: #000;
 }
 
 #tabs {
@@ -117,6 +121,7 @@ pre {
     width: 400px;
     background: #fff;
     border-right: 2px solid #bbb;
+    border-bottom: 2px solid #bbb;
     
     margin: 0px;
 }
@@ -144,10 +149,18 @@ pre {
 
 #pageTools {
     margin-bottom: 12px;
+    border-bottom: 2px dashed #eee;
 }
 
 #pageTools div {
     padding: 8px 12px 12px 12px;
+}
+
+#pageOptions {
+    padding: 12px 12px 8px 12px;
+    border-top: 2px dashed #eee;
+    
+    text-align: center;
 }
 
 #pageListItems {
@@ -179,6 +192,11 @@ pre {
 
 .pageWidget {
     background: #fff;
+}
+
+.pageWidget p {
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
 }
 
 /* Page slot handle. This is positioned relative to the containing div,
@@ -315,7 +333,6 @@ div.pageList .itemDelete {
 
 #tagCrumbsWrapper ul {
   list-style-type: none;
-  padding-left: 0;
 }
 
 #tagCrumbsWrapper li, #pageTagsWrapper li {
@@ -323,10 +340,17 @@ div.pageList .itemDelete {
   padding-right: 3px;
 }
 
+#tagCrumbsWrapper .floatleft {
+  padding-right: 12px;
+}
+
 #tagNewCrumbsWrapper {
   padding: 4px;
+  margin: 4px;
   float: right;
   border-left: 1px solid #666;
+  
+  text-align: right;
 }
 
 #tagNewCrumbsWrapper h3 {
@@ -340,6 +364,14 @@ div.pageList .itemDelete {
   padding: 4px;
 }
 
+#pageTagsWrapper {
+  padding: 6px 12px 6px 12px;
+}
+
+#pageTagsWrapper span {
+  padding-right: 12px;
+}
+
 .pageTagRemove, .pageTagAdd {
   cursor: pointer; 
 }
@@ -350,6 +382,18 @@ div.pageList .itemDelete {
 
 .clear {
   clear: both;
+}
+
+#pageTable {
+  margin-top: 8px;
+}
+
+#pageTable td {
+  font-size: 16px;
+}
+
+#pageTable .myPageEntry td {
+  padding-bottom: 8px;
 }
 
 /* Reminders */

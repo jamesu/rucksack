@@ -379,6 +379,12 @@ var Page = {
         return false;
       });
       
+      $('#pageDelete').click(function(evt) {
+        if (confirm("Are you sure you want to delete this page?"))
+          $.del('/pages/' + PAGE_ID, {}, null, 'script');
+        return false;
+      });
+      
       // Popup form for Add Item
       $('.addItem form').submit(function(evt) {
         var form = $(this);
@@ -577,6 +583,7 @@ var Page = {
       $('#pageSetFavourite').unbind();
       $('#pageSetNotFavourite').unbind();
       $('#pageDuplicate').unbind();
+      $('#pageDelete').unbind();
       
       $('.addItem form').unbind();
       $('.addItem form .cancel').unbind();

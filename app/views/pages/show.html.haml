@@ -50,4 +50,8 @@
   - if @page.can_be_duplicated_by(@logged_user)
     |
     %a#pageDuplicate{:href => '#'}= :duplicate_page.l
+  
+  - if @page.can_be_deleted_by(@logged_user)
+    |
+    %a#pageDelete{:href => '#'}= :delete_page.l
 

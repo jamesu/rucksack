@@ -16,7 +16,7 @@
     - unless @avail_tags.nil?
       != render :partial => 'tags/new_crumb', :collection => @avail_tags
 
-%table
+%table#pageTable
   %tr#myPageHeader
     %td{:colspan => 2}
       %h2= :my_pages.l

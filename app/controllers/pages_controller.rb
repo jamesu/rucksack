@@ -126,7 +126,7 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(pages_url) }
-      format.json { } # destroy.js.rjs
+      format.js { } # destroy.js.rjs
       format.xml  { head :ok }
     end
   end
