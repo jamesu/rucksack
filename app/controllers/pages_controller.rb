@@ -249,6 +249,7 @@ class PagesController < ApplicationController
     end
     
     redirect_to(page) unless page.nil?
+    redirect_to(pages_url)
   end
   
   def duplicate
