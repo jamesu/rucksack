@@ -84,7 +84,7 @@ module ApplicationHelper
 	end
 	
 	def user_tabs(current)
-	  items = [{:id => :my_profile, :url => '/users/current'}]
+	  items = [{:id => :users, :url => '/users'}]
 	  
 	  @selected_user_item = current
 	  return items

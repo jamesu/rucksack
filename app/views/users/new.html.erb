@@ -2,7 +2,7 @@
     @page_title = :create_user.l
     
     @tabbed_navigation_items = common_tabs(nil)
-    @user_navigation_items = user_tabs(:my_profile)
+    @user_navigation_items = user_tabs(:users)
 %>
 
 <%= form_tag( users_path(), :method => :post) %>

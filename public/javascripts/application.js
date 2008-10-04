@@ -542,6 +542,19 @@ var Page = {
        
         return false;
       });
+      
+      // User list
+      $('#userList .userDelete').click(function(evt) {
+        var el = $(this);
+        
+        var user_id = el.parents('tr:first').attr('user_id');
+        
+        // TODO: need localization
+        if (confirm('Are you sure you want to delete this user?'))
+          $.del('/users/' + user_id, {}, JustRebind, 'script');
+        
+        return false;
+      });
     
     
     },
@@ -590,7 +603,8 @@ var Page = {
       $('#edit_UserStatus .cancel').unbind();
       $('#user_status').unbind();
       $('#userJournal form').unbind();
-            
+      
+      $('#userList .userDelete').unbind();
       Page.bind();
     },
     

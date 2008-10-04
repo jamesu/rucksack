@@ -11,7 +11,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @users }
+      format.xml  { render :xml => @users.to_xml(:except => [:salt, :token, :twister]) }
     end
   end
 
@@ -22,8 +22,8 @@ class UsersController < ApplicationController
     return error_status(true, :cannot_see_user) unless (@user.can_be_seen_by(@logged_user))
 
     respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @user }
+      format.html { redirect_to(users_path) }
+      format.xml  { render :xml => @user.to_xml(:except => [:salt, :token, :twister]) }
     end
   end
 
@@ -32,11 +32,11 @@ class UsersController < ApplicationController
   def new
     return error_status(true, :cannot_create_user) unless (User.can_be_created_by(@logged_user))
     
-    @user = Account.owner.user.new
+    @user = Account.owner.users.build()
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @user }
+      format.xml  { render :xml => @user.to_xml(:except => [:salt, :token, :twister]) }
     end
   end
 
@@ -67,8 +67,8 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         flash[:notice] = 'user was successfully created.'
-        format.html { redirect_to(@user) }
-        format.xml  { render :xml => @user, :status => :created, :location => @user }
+        format.html { redirect_to(users_path) }
+        format.xml  { render :xml => @user.to_xml(:except => [:salt, :token, :twister]), :status => :created, :location => @user }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
@@ -96,7 +96,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update_attributes(user_attribs)
         flash[:notice] = 'user was successfully updated.'
-        format.html { redirect_to(@user) }
+        format.html { redirect_to(users_path) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -115,6 +115,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(users_url) }
+      format.js { render :update do |page| page.redirect_to(users_url) end }
       format.xml  { head :ok }
     end
   end

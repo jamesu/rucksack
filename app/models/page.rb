@@ -123,6 +123,7 @@ class Page < ActiveRecord::Base
 	end
 	
 	def can_be_seen_by(user)
+	 #return true if self.is_public
 	 return (user.is_admin or user.id == self.created_by_id or shared_user_ids.include?(user.id))
 	end
 	

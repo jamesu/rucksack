@@ -25,9 +25,11 @@ pre {
   font-size: 11px;
 }
 
-header {
+#header {
     margin: 0pt auto;
-    width: 600px;
+    /* width: 600px; */
+    padding-top: 12px;
+    padding: 8px 6px 0px 6px; 
     text-align: left;
 }
 
@@ -50,13 +52,24 @@ header {
     padding: 16px 18px 0px;
 }
 
+/* user options */
+#userOptions {
+  float: right;
+}
+
+#userOptions a.active
+{
+  text-decoration: none;
+  font-weight: bolder;
+}
+
 /* tabs */
 #tabsWrapper {
     margin: 0pt auto;
     width: 600px;
     text-align: left;
     
-    padding: 6px;
+    padding: 12px 6px 0px 6px;
 }
 
 #tabsWrapper ul {
@@ -368,6 +381,14 @@ div.pageList .itemDelete {
 #activityLogs h2 { clear:both; }
 .activityUser { float: left; height: 32px; margin: 4px; font-weight: bolder; }
 .activityEntry { margin-left: 32px; }
+
+/* user list page */
+table.userList
+{
+  margin-top: 6px;
+  margin-bottom: 6px;
+  width: 100%;
+}
 
 a { color: #000; }
 a:visited { color: #666; }

@@ -48,7 +48,7 @@ class PagesController < ApplicationController
   # GET /pages/1/public(.html)
   def public
     @page = Page.find(params[:id])
-    #return error_status(true, :cannot_see_page) unless (@page.can_be_seen_by(@logged_user))
+    return error_status(true, :cannot_see_page) unless (@page.can_be_seen_by(@logged_user))
 
     respond_to do |format|
       format.html { render :action => 'show' }

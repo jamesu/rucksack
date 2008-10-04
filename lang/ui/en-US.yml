@@ -1,6 +1,7 @@
 
 # Access
 login: Login
+logout: Logout
 username: Username
 password: Password
 repeat_password: Repeat password
@@ -24,6 +25,7 @@ invalid_email_not_in_use: Invalid email address
 
 # Tabs
 overview: Overview
+users: Users
 my_profile: My Profile
 
 # Page view
@@ -57,6 +59,7 @@ list_item_completed: Completed
 list_item_open: Open
 
 user_list: Listing users
+add_user: Add new user
 show_user: "{name}"
 
 favourite: Favourite

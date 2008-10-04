@@ -24,6 +24,9 @@
       
       -# Top of page (tabs, user box, etc)
       #header
+        .inner
+          != render :partial => 'layouts/user_opts'
+          %div{:style => 'clear:both'}
         != render :partial => 'layouts/tabs'
       
       #outerWrapper
