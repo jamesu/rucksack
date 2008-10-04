@@ -7,6 +7,7 @@ class StatusesController < ApplicationController
   # GET /statuses/1.xml
   def show
     @status = @user.status
+    return error_status(true, :cannot_see_status) unless (@status.can_be_seen_by(@logged_user))
 
     respond_to do |format|
       format.html # show.html.erb
@@ -18,6 +19,7 @@ class StatusesController < ApplicationController
   # PUT /statuses/1.xml
   def index
     @status = @user.status || @user.build_status
+    return error_status(true, :cannot_edit_status) unless (@status.can_be_edited_by(@logged_user))
     
     @status.attributes = params[:status]
 

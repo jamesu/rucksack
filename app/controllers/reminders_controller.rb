@@ -7,6 +7,7 @@ class RemindersController < ApplicationController
   # GET /reminders.xml
   def index
     #@reminders = @user.reminders
+    return error_status(true, :cannot_see_reminders) unless (@user.reminders_can_be_seen_by(@logged_user))
     
     @grouped_reminders = get_groups
     
@@ -20,6 +21,7 @@ class RemindersController < ApplicationController
   # GET /reminders/1.xml
   def show
     @reminder = @user.reminders.find(params[:id])
+    return error_status(true, :cannot_see_reminder) unless (@reminder.can_be_seen_by(@logged_user))
 
     respond_to do |format|
       format.html # show.html.erb
@@ -30,6 +32,7 @@ class RemindersController < ApplicationController
   # GET /reminders/new
   # GET /reminders/new.xml
   def new
+    return error_status(true, :cannot_create_reminder) unless (Reminder.can_be_created_by(@logged_user))
     @reminder = @user.reminders.new
 
     respond_to do |format|
@@ -41,11 +44,13 @@ class RemindersController < ApplicationController
   # GET /reminders/1/edit
   def edit
     @reminder = @user.reminders.find(params[:id])
+    return error_status(true, :cannot_edit_reminder) unless (@reminder.can_be_edited_by(@logged_user))
   end
 
   # POST /reminders
   # POST /reminders.xml
   def create
+    return error_status(true, :cannot_create_reminder) unless (Reminder.can_be_created_by(@logged_user))
     @reminder = @user.reminders.new(params[:reminder])
 
     respond_to do |format|
@@ -66,6 +71,7 @@ class RemindersController < ApplicationController
   # PUT /reminders/1.xml
   def update
     @reminder = @user.reminders.find(params[:id])
+    return error_status(true, :cannot_edit_reminder) unless (@reminder.can_be_edited_by(@logged_user))
     @reminder.updated_by = @logged_user
 
     respond_to do |format|
@@ -84,6 +90,7 @@ class RemindersController < ApplicationController
   # DELETE /reminders/1.xml
   def destroy
     @reminder = @user.reminders.find(params[:id])
+    return error_status(true, :cannot_delete_reminder) unless (@reminder.can_be_deleted_by(@logged_user))
     @reminder.updated_by = @logged_user
     @reminder.destroy
 

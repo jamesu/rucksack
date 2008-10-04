@@ -242,6 +242,18 @@ class User < ActiveRecord::Base
 	def can_add_favourite(user)
 		user.is_admin or user.id == self.id
 	end
+	
+	def pages_can_be_seen_by(user)
+		user.is_admin or user.id == self.id
+	end
+	
+	def reminders_can_be_seen_by(user)
+		user.is_admin or user.id == self.id
+	end
+	
+	def journals_can_be_seen_by(user)
+		user.is_admin or user.id == self.id
+	end
     
 	# Helpers	
 	def member_of_owner?

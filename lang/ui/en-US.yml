@@ -144,6 +144,7 @@ cannot_create_page: Cannot create a page
 cannot_edit_page: Cannot edit this page
 cannot_delete_page: Cannot delete this page
 cannot_see_page: Cannot view this page
+cannot_see_pages: Cannot view pages for this user
 cannot_duplicate_page: Cannot duplicate this page
 
 cannot_create_user: Cannot create a user
@@ -167,6 +168,20 @@ cannot_delete_listitem: Cannot delete this list item
 cannot_create_separator: Cannot create a separator
 cannot_edit_separator: Cannot edit this separator
 cannot_delete_separator: Cannot delete this separator
+
+cannot_create_journal: Cannot create a journal
+cannot_edit_journal: Cannot edit this journal
+cannot_delete_journal: Cannot delete this journal
+cannot_see_journal: Cannot see this journal
+
+cannot_create_reminder: Cannot create a reminder
+cannot_edit_reminder: Cannot edit this reminder
+cannot_delete_reminder: Cannot delete this reminder
+cannot_see_reminder: Cannot see this reminder
+cannot_see_reminders: Cannot see reminders for this user
+
+cannot_edit_status: Cannot change status
+cannot_see_status: Cannot view this users status
 
 # Notification
 notifier_donotreply: "DO NOT REPLY TO THIS MESSAGE"

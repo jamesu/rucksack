@@ -8,6 +8,8 @@ class PagesController < ApplicationController
   # GET /pages
   # GET /pages.xml
   def index
+    return error_status(true, :cannot_see_pages) unless (@user.pages_can_be_seen_by(@logged_user))
+    
     if @find_opts.nil?
       @pages = @user.pages
       @shared_pages = @user.shared_pages

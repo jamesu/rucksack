@@ -6,6 +6,8 @@ class JournalsController < ApplicationController
   # GET /journals
   # GET /journals.xml
   def index
+    return error_status(true, :cannot_see_journals) unless (@user.journals_can_be_seen_by(@logged_user))
+    
     @journals = get_groups
     @status = @user.status
 
@@ -19,6 +21,7 @@ class JournalsController < ApplicationController
   # GET /journals/1.xml
   def show
     @journal = @user.journals.find(params[:id])
+    return error_status(true, :cannot_see_journal) unless (@journal.can_be_seen_by(@logged_user))
 
     respond_to do |format|
       format.html # show.html.erb
@@ -29,6 +32,7 @@ class JournalsController < ApplicationController
   # GET /journals/new
   # GET /journals/new.xml
   def new
+    return error_status(true, :cannot_create_journal) unless (Journal.can_be_created_by(@logged_user))
     @journal = @user.journals.build
 
     respond_to do |format|
@@ -40,11 +44,13 @@ class JournalsController < ApplicationController
   # GET /journals/1/edit
   def edit
     @journal = @user.journals.find(params[:id])
+    return error_status(true, :cannot_edit_journal) unless (@journal.can_be_edited_by(@logged_user))
   end
 
   # POST /journals
   # POST /journals.xml
   def create
+    return error_status(true, :cannot_create_journal) unless (Journal.can_be_created_by(@logged_user))
     @journal = @user.journals.build(params[:journal])
 
     respond_to do |format|
@@ -67,6 +73,7 @@ class JournalsController < ApplicationController
   # PUT /journals/1.xml
   def update
     @journal = @user.journals.find(params[:id])
+    return error_status(true, :cannot_edit_journal) unless (@journal.can_be_edited_by(@logged_user))
 
     respond_to do |format|
       if @journal.update_attributes(params[:journal])
@@ -86,6 +93,7 @@ class JournalsController < ApplicationController
   # DELETE /journals/1.xml
   def destroy
     @journal = @user.journals.find(params[:id])
+    return error_status(true, :cannot_delete_journal) unless (@journal.can_be_deleted_by(@logged_user))
     @journal.destroy
 
     respond_to do |format|

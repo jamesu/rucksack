@@ -78,6 +78,24 @@ class Reminder < ActiveRecord::Base
     def repeatable?
         self.repeat_id > 0
     end
+
+  # Common permissions
+
+  def self.can_be_created_by(user)
+    user.member_of_owner?
+  end
+  
+  def can_be_edited_by(user)
+   return (user.is_admin or user.id == self.created_by_id)
+  end
+  
+  def can_be_deleted_by(user)
+   return (user.is_admin or user.id == self.created_by_id)
+  end
+  
+  def can_be_seen_by(user)
+   return (user.is_admin or self.created_by_id == user.id)
+  end
     
     def dispatch_notification
         #puts ""
@@ -125,8 +143,8 @@ class Reminder < ActiveRecord::Base
             ["reminder_repeat_#{self.repeat}".to_sym.l, key]
         end
     end
-	
-	# Accesibility
-	
-	attr_accessible :repeat, :friendly_at_time, :content, :at_time
+  
+  # Accesibility
+  
+  attr_accessible :repeat, :friendly_at_time, :content, :at_time
 end
