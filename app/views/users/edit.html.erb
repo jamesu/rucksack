@@ -8,6 +8,6 @@
 <div id="userForm">
 <%= form_tag( user_path(@user), :method => :put) %>
   <%= render :partial => 'form' %>
-  <button class="submit" type="submit"><%= :save_changes.l %></button>
+  <button class="submit" type="submit"><%= :save_changes.l %></button> <%= link_to :cancel.l, users_path %>
 </form>
 </div>
