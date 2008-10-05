@@ -307,6 +307,10 @@ class User < ActiveRecord::Base
 	def avatar_url
 		self.avatar_file.nil? ? "/images/avatar.gif" : "/account/avatar/#{self.id}.png"
 	end
+ 
+  def display_name
+    display_name? ? read_attribute(:display_name) : username
+  end
 	
 	def object_name
 		self.display_name
@@ -365,7 +369,6 @@ class User < ActiveRecord::Base
 	
 	validates_confirmation_of :password, :if => :password_changed?
 	
-	validates_presence_of :display_name
 	validates_uniqueness_of :username
 	validates_uniqueness_of :email
 	validates_uniqueness_of :identity_url, :if => Proc.new { |user| !(user.identity_url.nil? or user.identity_url.empty? ) }
