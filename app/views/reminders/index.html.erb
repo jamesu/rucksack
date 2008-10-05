@@ -7,13 +7,13 @@
 
 <div id="newReminderForm">
 <%= form_tag( reminders_path(), :method => (:post), :id => "add_ReminderForm") %>
-  <p>
+  <div>
     <label for="newReminderAt"></label>
     <%= text_field 'reminder', 'friendly_at_time', :id => 'newReminderAt', :class => 'long' %>
-  </p>
-  <p>
+  </div>
+  <div>
     <button class="submit" type="submit"><%= :add_reminder.l %></button>
-  </p>
+  </div>
 </form>
 </div>
 

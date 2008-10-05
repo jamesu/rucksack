@@ -398,7 +398,15 @@ div.pageList .itemDelete {
 
 /* Reminders */
 #reminderList {
-    padding: 12px;
+  padding: 12px;
+}
+
+#newReminderForm {
+  margin: 6px 0px 6px 0px;
+}
+
+#newReminderForm div {
+  margin-bottom: 6px;
 }
 
 .reminderEntry {
@@ -413,6 +421,27 @@ div.pageList .itemDelete {
 }
 
 /* Journal & Status */
+
+#userJournal {
+  margin: 4px 0px 4px 0px;
+  padding: 4px 0px 4px 0px;
+}
+
+#userJournal input {
+  font-size: 13px;
+}
+
+#userJournal label {
+  clear:both;
+  display:block;
+  
+  font-size: 14px;
+  font-wei
+}
+
+#userJournals {
+  margin-top: 12px;
+}
 
 #userStatus {
   border: 1px dashed #ccc;
@@ -434,9 +463,41 @@ table.userList
   width: 100%;
 }
 
+/* user form */
+
+#userForm label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+#userForm label.yesno {
+  display: inline;
+}
+
+#userForm form div {
+  margin-bottom: 4px;
+}
+
 a { color: #000; }
 a:visited { color: #666; }
 a:hover { color: #fff; background-color:#000; }
+
+label {
+  font-weight: bolder;
+}
+
+label.yesno {
+  display: inline;
+}
+
+.hint
+{
+  background-color: #FFFFCC;
+  border: 2px solid #E9BE31;
+  
+  margin: 0 0 5px 0;
+  padding: 5px;
+}
 
 .fieldWithErrors {
   padding: 2px;

@@ -4,14 +4,14 @@
     <div class="header"><%= :user_administration_options.l %></div>
     <div class="content">
       <div>
-        <label for="userFormUserName"><%= :username.l %>: <span class="label_required">*</span></label>
+        <label for="userFormUserName"><%= :username.l %> <span class="label_required">*</span></label>
         <%= text_field 'user', 'username', :id => 'userFormUserName', :class => 'long' %>
       </div>
       
       <fieldset>
         <legend><%= :options.l %></legend>
         <div>
-          <label for="userFormIsAdmin"><%= :user_is_admin.l %>: </label>
+          <label for="userFormIsAdmin"><%= :user_is_admin.l %> </label>
           <%= yesno_toggle 'user', 'is_admin', :id => 'userFormIsAdmin', :class => 'yesno' %>
         </div>
       </fieldset>
@@ -19,33 +19,33 @@
   </div>
   
   <div>
-    <label for="userFormDisplayName"><%= :display_name.l %>: <span class="label_required">*</span></label>
+    <label for="userFormDisplayName"><%= :display_name.l %></label>
     <%= text_field 'user', 'display_name', :id => 'userFormDisplayName', :class => 'long' %>
   </div>
   <div>
-    <label for="userFormEmail"><%= :email_address.l %>:</label>
+    <label for="userFormEmail"><%= :email_address.l %></label>
     <%= text_field 'user', 'email', :id => 'userFormEmail', :class => 'long' %>
   </div>
 
 <% if AppConfig.allow_openid %>
   <div>
-    <label for="userFormOpenID"><%= :openid.l %>:</label>
+    <label for="userFormOpenID"><%= :openid.l %></label>
     <%= text_field 'user', 'identity_url', :id => 'userFormOpenID', :class => 'openid_login' %>
     <p class="desc"><%= :openid_info.l %></p>
   </div>
 <% end %>
   
   <div>
-    <label for="userFormPassword"><%= :password.l %>: </label>
+    <label for="userFormPassword"><%= :password.l %></label>
     <%= password_field 'user', 'password', :id => 'userFormPassword', :class => 'long' %>
   </div>
   
   <div>
-    <label for="userFormPasswordAgain"><%= :repeat_password.l %>: </label>
+    <label for="userFormPasswordAgain"><%= :repeat_password.l %></label>
     <%= password_field 'user', 'password_confirmation', :id => 'userFormPasswordAgain', :class => 'long' %>
   </div>
   
   <div>
-    <label for="userFormTimezone"><%= :timezone.l %>: <span class="label_required">*</span></label>
+    <label for="userFormTimezone"><%= :timezone.l %></label>
     <%= time_zone_select 'user', 'time_zone', nil, {}, {:id => 'userFormTimezone', :class => 'long'} %>
   </div>
