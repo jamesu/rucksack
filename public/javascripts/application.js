@@ -693,6 +693,7 @@ var Page = {
          axis: 'y',
          handle: '.slot_handle',
          items: '> .pageSlot',
+         opacity: 0.75,
          update: function(e, ui) {
            $.post('/pages/' + PAGE_ID + '/reorder', $('#slots').sortable('serialize', {key: 'slots'}));
          }
@@ -711,6 +712,7 @@ var Page = {
           axis: 'y',
           handle: '.slot_handle',
           connectWith: ['.pageList .openItems .listItems'],
+          opacity: 0.75,
           update: function(e, ui) {
             // Check for item movement vs item update. Note that the 
             // list the item is moved to will do its own update after.
