@@ -1,0 +1,14 @@
+- @page_title = :reminders.l
+- @tabbed_navigation_items = common_tabs(:reminders)
+- @user_navigation_items = user_tabs(nil)
+
+#newReminderForm
+  - form_tag reminders_path(), :method => :post, :id => "add_ReminderForm" do
+    %div
+      %label{:for => 'newReminderAt'}= :add_reminder.l
+      = text_field 'reminder', 'friendly_at_time', :id => 'newReminderAt', :class => 'long'
+    %div
+      %button{:class => 'submit', :type => 'submit'}= :add_reminder.l
+
+#reminderList
+  = render :partial => 'group', :collection => @grouped_reminders

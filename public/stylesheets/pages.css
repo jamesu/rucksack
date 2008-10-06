@@ -8,6 +8,7 @@ h3 { font-size: 16px; font-weight: bolder; padding-bottom: 6px; }
 
 body { margin: 0px; padding: 0px; background-color: #eee; color: #333; }
 
+label { display: block; }
 
 ul { padding-left: 24px; }
 

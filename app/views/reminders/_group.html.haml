@@ -1,0 +1,14 @@
+.reminderGroup
+  %h2= group[0][0]
+  - group[1].each do |reminder|
+    .reminderEntry{:id => "reminder_#{reminder.id}", :class => group[0][1], :url => reminder_path(reminder)}
+      %span.reminderContent= h reminder.content
+      %span.reminderTime
+        - if group[0][2] == :due_format_hours
+          = group[0][2].l_with_args(:hours => (reminder.at_time.hour - @now.hour))
+        - elsif group[0][2] == :due_upcomming
+          = group[0][2].l
+        - elsif group[0][2] == :done
+          = action_list actions_for_reminder(reminder)
+        - else
+          = reminder.at_time.strftime(group[0][2].l)
