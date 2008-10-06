@@ -2,6 +2,7 @@ require 'chronic'
 
 class Reminder < ActiveRecord::Base
     belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
+    belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
   
     @@repeat_lookup = {:never => 0, :yearly => 1, :monthly => 2, :fortnightly => 3, :weekly => 4, :daily => 5}
     @@repeat_id_lookup = @@repeat_lookup.invert
@@ -52,7 +53,7 @@ class Reminder < ActiveRecord::Base
     end
     
     def snooze(interval={:minutes => 15})
-        self.at_time = self.at_time.advance(interval)
+        self.at_time = Time.zone.now.advance(interval)
     end
   
     def friendly_repeat

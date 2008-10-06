@@ -100,6 +100,25 @@ class RemindersController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def snooze
+    @reminder = @user.reminders.find(params[:id])
+    return error_status(true, :cannot_edit_reminder) unless (@reminder.can_be_edited_by(@logged_user))
+    @reminder.updated_by = @logged_user
+    @reminder.snooze
+
+    respond_to do |format|
+      if @reminder.save
+        flash[:notice] = 'Reminder was successfully updated.'
+        format.html { redirect_to(@reminder) }
+        format.js { @reminder_groups = get_groups; render :action => 'update' }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @reminder.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
 
 protected
 

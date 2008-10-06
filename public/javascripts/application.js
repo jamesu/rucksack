@@ -514,6 +514,23 @@ var Page = {
         return false;
       });
       
+      $('.reminderSnooze').click(function(evt) {
+        var el = $(evt.target);
+        var reminder_url = el.parents('.reminderEntry:first').attr('url') + '/snooze';
+        $.put(reminder_url, {}, JustRebind, 'script');
+        
+        return false;
+      });
+      
+      $('.reminderDelete').click(function(evt) {
+        var el = $(evt.target);
+        var reminder_url = el.parents('.reminderEntry:first').attr('url');
+        
+        $.del(reminder_url, {}, JustRebind, 'script');
+        
+        return false;
+      });
+      
       // Journal
       $('#edit_UserStatus').submit(function(evt) {
         $(this).request(JustRebind, 'script');
@@ -605,6 +622,8 @@ var Page = {
       $('#pageTagsForm .cancel').unbind();
       
       $('#add_ReminderForm').unbind();
+      $('.reminderSnooze').unbind();
+      $('.reminderDelete').unbind();
 
       $('#edit_UserStatus').unbind();
       $('#edit_UserStatus .cancel').unbind();

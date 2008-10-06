@@ -1,7 +1,7 @@
 <div class="reminderGroup">
 <h2><%= group[0][0] %></h2>
 <% for reminder in group[1] %>
-<div id="reminder_<%= reminder.id %>" class="reminderEntry <%= group[0][1] %>">
+<div id="reminder_<%= reminder.id %>" class="reminderEntry <%= group[0][1] %>" url="<%= reminder_path(reminder) %>">
   <span class="reminderContent"><%= h reminder.content %></span>
   <span class="reminderTime">
   <% if group[0][2] == :due_format_hours %>
@@ -9,7 +9,7 @@
   <% elsif group[0][2] == :due_upcomming %>
   <%= group[0][2].l %>
   <% elsif group[0][2] == :done %>
-  <%= action_list actions_for_reminder(reminder), true %>
+  <%= action_list actions_for_reminder(reminder) %>
   <% else %>
   <%= reminder.at_time.strftime(group[0][2].l) %>
   <% end %>

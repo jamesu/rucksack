@@ -43,6 +43,7 @@ module ApplicationHelper
 				else
 				    extras[:onclick] = action[:onclick] if action.has_key? :onclick
 				    extras[:id] = action[:id] if action.has_key? :id
+				    extras[:class] = action[:class] if action.has_key? :class
 				    link_to action[:name], action[:url], extras
 				end
 			else
@@ -91,8 +92,8 @@ module ApplicationHelper
 	end
 	
 	def actions_for_reminder(reminder)
-	   [{:name => :snooze.l, :url => edit_reminder_path(reminder), :method => :get, :cond => true},
-	    {:name => :delete.l, :url => reminder_path(reminder), :method => :delete, :cond => true}]
+	   [{:name => :snooze.l, :class => 'reminderSnooze', :url => '#', :cond => true},
+	    {:name => :delete.l, :class => 'reminderDelete', :url => '#', :cond => true}]
 	end
 	
 	def forced_user?

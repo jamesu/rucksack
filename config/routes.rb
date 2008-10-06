@@ -4,7 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :statuses
 
   map.resource :dashboard
-  map.resources :reminders
+  map.resources :reminders, :member => {:snooze => :put}
   
   map.resource :status
   map.resources :journals
