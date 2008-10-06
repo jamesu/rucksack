@@ -100,7 +100,7 @@ module ApplicationHelper
 	   params.has_key?(:user_id)
 	end
 	
-	def textilize(text, lite=false)
+	def textilize(text, lite=false, force_attrs=nil)
 	   if text.blank?
 	       ""
 	   else
@@ -108,7 +108,14 @@ module ApplicationHelper
 	       options << :lite_mode if lite
 	       textilized = RedCloth.new(text, options)
 	       textilized.hard_breaks = true if textilized.respond_to?("hard_breaks=")
-	       textilized.to_html
+	       text = textilized.to_html
+	       
+	       unless force_attrs.nil?
+	         attrs = force_attrs.map{ |key,value| "#{key}='#{value}'"}.join(' ')
+	         text.gsub(/^<\b([a-z]*)\w/, "\\0 #{attrs}")
+	       else
+	         text
+	       end
 	   end
 	end
 end
