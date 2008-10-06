@@ -22,7 +22,7 @@
     - else
       = javascript_tag "var TAG_LIST = [#{@search_tags.collect { |tag| "'#{tag}'" }.join(',')}];"
     
-    = javascript_tag "var PAGE_READONLY = true;"
+    = javascript_tag "var PAGE_READONLY = true; var PAGE_ID = null;"
       
   %body#body
     #wrapper

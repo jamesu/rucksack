@@ -2,7 +2,11 @@
   %h2= group[0][0]
   - group[1].each do |reminder|
     .reminderEntry{:id => "reminder_#{reminder.id}", :class => group[0][1], :url => reminder_path(reminder)}
-      %span.reminderContent= h reminder.content
+      - needs_handle = !(group[0][2] == :done) and reminder.can_be_edited_by(@logged_user)
+      %span.reminderContent{:hover_handle => needs_handle ? "page_reminder_handle_#{reminder.id}" : nil}
+        - if needs_handle
+          = page_handle [ ['delete', '-'] ], "page_reminder_handle_#{reminder.id}", '.reminderEntry'
+        = h reminder.content
       %span.reminderTime
         - if group[0][2] == :due_format_hours
           = group[0][2].l_with_args(:hours => (reminder.at_time.hour - @now.hour))

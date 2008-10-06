@@ -251,6 +251,13 @@ var Page = {
         Insertion.set(null);
     },
     
+    buildUrl: function(resource_url) {
+      if (PAGE_ID != null)
+        return '/pages/' + PAGE_ID + resource_url;
+      else
+        return resource_url;
+    },
+    
     bind: function() {
       // NOTE: this is a mess, especially considering there are a ton
       //       of closures here. Need to tidy it up!
@@ -365,23 +372,23 @@ var Page = {
       });
       
       $('#pageSetFavourite').click(function(evt) {
-        $.put('/pages/' + PAGE_ID + '/favourite', {'page[is_favourite]': '1'}, null, 'script');
+        $.put(Page.buildUrl('/favourite'), {'page[is_favourite]': '1'}, null, 'script');
         return false;
       });
       
       $('#pageSetNotFavourite').click(function(evt) {
-        $.put('/pages/' + PAGE_ID + '/favourite', {'page[is_favourite]': '0'}, null, 'script');
+        $.put(Page.buildUrl('/favourite'), {'page[is_favourite]': '0'}, null, 'script');
         return false;
       });
       
       $('#pageDuplicate').click(function(evt) {
-        $.post('/pages/' + PAGE_ID + '/duplicate', {'foo':1}, null, 'script');
+        $.post(Page.buildUrl('/duplicate'), {'foo':1}, null, 'script');
         return false;
       });
       
       $('#pageDelete').click(function(evt) {
         if (confirm("Are you sure you want to delete this page?"))
-          $.del('/pages/' + PAGE_ID, {}, null, 'script');
+          $.del(Page.buildUrl(''), {}, null, 'script');
         return false;
       });
       
@@ -427,7 +434,7 @@ var Page = {
         var list_url = el.parents('.pageWidget:first').attr('url');
         var item_id = el.parents('.listItem:first').attr('item_id');
         
-        $.get('/pages/' + PAGE_ID + list_url + '/items/' + item_id, null, JustRebind, 'script');
+        $.get(Page.buildUrl(list_url + '/items/' + item_id), null, JustRebind, 'script');
         
         return false;
       });
@@ -437,7 +444,7 @@ var Page = {
         var list_url = el.parents('.pageWidget:first').attr('url');
         var item_id = el.parents('.listItem:first').attr('item_id');
         
-        $.put('/pages/' + PAGE_ID + list_url + '/items/' + item_id + '/status', {'list_item[completed]':evt.target.checked}, JustRebind, 'script');
+        $.put(Page.buildUrl(list_url + '/items/' + item_id + '/status'), {'list_item[completed]':evt.target.checked}, JustRebind, 'script');
         
         return false;
       });
@@ -447,7 +454,7 @@ var Page = {
         var list_url = el.parents('.pageWidget:first').attr('url');
         var item_id = el.parents('.listItem:first').attr('item_id');
         
-        $.del('/pages/' + PAGE_ID + list_url + '/items/' + item_id , null, JustRebind, 'script');
+        $.del(Page.buildUrl(list_url + '/items/' + item_id), null, JustRebind, 'script');
         
         return false;
       });
@@ -488,7 +495,7 @@ var Page = {
       });
      
       $('#pageEditTags .edit').click(function(evt) {
-        $.get('/pages/' + PAGE_ID + '/tags', {}, JustRebind, 'script');
+        $.get(Page.buildUrl('/tags'), {}, JustRebind, 'script');
         return false;
       });
     
@@ -808,9 +815,9 @@ function HoverSlotBar(evt) {
   var url = cur.parents(cur.attr('restype') + ':first').attr('url');
   
   if (el.hasClass('slot_delete'))
-    $.del('/pages/' + PAGE_ID + url, null, JustRebind, 'script');
+    $.del(Page.buildUrl(url), null, JustRebind, 'script');
   else if (el.hasClass('slot_edit'))
-    $.get('/pages/' + PAGE_ID + url + '/edit', null, JustRebind, 'script');
+    $.get(Page.buildUrl(url + '/edit'), null, JustRebind, 'script');
   else
     return false;
   
