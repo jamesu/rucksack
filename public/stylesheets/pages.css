@@ -504,6 +504,30 @@ label.yesno {
   padding: 5px;
 }
 
+#statusBar {
+  display: none;
+}
+
+.flash.error, .flash.success {
+  margin: 10px 0;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  
+  clear: both;
+  cursor: pointer;
+  text-align: left;
+}
+
+.flash.error {
+  background: #FFB0B0;
+  border-color: red;
+}
+
+.flash.success {
+  background: #90DC90;
+  border-color: green;
+}
+
 .fieldWithErrors {
   padding: 2px;
   background-color: red;

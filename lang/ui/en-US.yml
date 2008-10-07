@@ -178,6 +178,7 @@ cannot_create_journal: Cannot create a journal
 cannot_edit_journal: Cannot edit this journal
 cannot_delete_journal: Cannot delete this journal
 cannot_see_journal: Cannot see this journal
+cannot_see_journals: Cannot see journals for this user
 
 cannot_create_reminder: Cannot create a reminder
 cannot_edit_reminder: Cannot edit this reminder

@@ -585,6 +585,12 @@ var Page = {
         
         return false;
       });
+      
+      $('#statusBar').click(function(evt) {
+        $(this).hide('slow');
+        
+        return false;
+      });
     
     
     },
@@ -638,6 +644,8 @@ var Page = {
       $('#userJournal form').unbind();
       
       $('#userList .userDelete').unbind();
+      
+      $('#statusBar').unbind();
       Page.bind();
     },
     
