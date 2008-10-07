@@ -1,0 +1,13 @@
+- url = show.can_be_completed_by(@logged_user) ? "/lists/#{show.list_id}/items/#{show.id}" : nil
+
+%li.listItem{:id => "list_item_#{show.id}", :item_id => show.id, :url => url}
+  .listItemContent
+    - if show.can_be_completed_by(@logged_user)
+      - unless show.is_completed? or !show.can_be_edited_by(@logged_user)
+        = page_handle [ ['delete', '-'], ['edit', :edit.l], ['handle', '+'] ], "page_item_handle_#{show.id}", '.listItem'
+      %input.checkbox{:type => 'checkbox', :hover_handle => "page_item_handle_#{show.id}", :checked => (show.is_completed? ? 'checked' : nil)}
+    - else
+      %span.readCheckbox= show.is_completed? ? render_icon('checked', :list_item_completed.l) : render_icon('not-checked', :list_item_open.l)
+    %span.itemText{:hover_handle => "page_item_handle_#{show.id}"}
+      = (show.is_completed? and show.can_be_edited_by(@logged_user)) ? render_icon('del_gen', '', {:class => 'itemDelete'}) : ''
+      = textilize object.content, true, {'hover_handle' => "page_item_handle_#{show.id}"}
