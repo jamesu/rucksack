@@ -1,7 +1,7 @@
 - @tabbed_navigation_items = common_tabs(:pages)
 - @user_navigation_items = user_tabs(nil)
 
-- form_tag hash_for_share_page_path.merge(:id => @page.id, :use_route => nil), :method => :post do
+- form_tag hash_for_share_page_path.merge(:id => @page.id, :use_route => nil), :method => :post, :class => 'pageShareForm' do
   != error_messages_for :page
   
   - Account.owner.users.each do |user|

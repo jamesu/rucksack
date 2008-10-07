@@ -377,6 +377,10 @@ div.pageList .itemDelete {
   cursor: pointer; 
 }
 
+/* Sharing */
+
+.pageShareForm label { display: inline;}
+
 .floatleft {
   float: left;
 }
