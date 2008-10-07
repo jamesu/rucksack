@@ -24,7 +24,7 @@ class RemindersController < ApplicationController
     return error_status(true, :cannot_see_reminder) unless (@reminder.can_be_seen_by(@logged_user))
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { redirect_to reminders_path } # show.html.erb
       format.xml  { render :xml => @reminder }
     end
   end

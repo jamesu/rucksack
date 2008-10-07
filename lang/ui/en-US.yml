@@ -140,6 +140,7 @@ activity_edit_Page: "Renamed page {object} to {name}"
 activity_modify_Page: "Changed page {object}"
 activity_add_Reminder: "Added a reminder: {object}"
 activity_edit_Reminder: "Changed reminder: {object}"
+activity_delete_Reminder: "Removed reminder: {object}"
 
 # Errors
 page_not_found: Page not found
