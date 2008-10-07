@@ -1,0 +1,4 @@
+%h2= list[0]
+%ul
+  - list[1].each do |journal|
+    %li.journalContent= h(journal.content)

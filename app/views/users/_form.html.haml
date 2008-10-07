@@ -1,0 +1,39 @@
+= error_messages_for :user
+
+.hint
+  .header= :user_administration_options.l 
+  .content
+    %div
+      %label{:for => 'userFormUserName'}= "#{:username.l} <span class=\"label_required\">*</span>"
+      = text_field 'user', 'username', :id => 'userFormUserName', :class => 'long'
+    %fieldset
+      %legend= :options.l
+      %div
+        %label{:for => 'userFormIsAdmin'}= :user_is_admin.l
+        = yesno_toggle 'user', 'is_admin', :id => 'userFormIsAdmin', :class => 'yesno'
+
+%div
+  %label{:for => 'userFormDisplayName'}= :display_name.l
+  = text_field 'user', 'display_name', :id => 'userFormDisplayName', :class => 'long' 
+
+%div
+  %label{:for => 'userFormEmail'}= :email_address.l
+  = text_field 'user', 'email', :id => 'userFormEmail', :class => 'long'
+
+- if AppConfig.allow_openid
+  %div
+    %label{:for => 'userFormOpenID'}= :openid.l
+    = text_field 'user', 'identity_url', :id => 'userFormOpenID', :class => 'openid_login' 
+    %p.desc= :openid_info.l
+
+%div
+  %label{:for => 'userFormPassword'}= :password.l
+  = password_field 'user', 'password', :id => 'userFormPassword', :class => 'long'
+
+%div
+  %label{:for => 'userFormPasswordAgain'}= :repeat_password.l
+  = password_field 'user', 'password_confirmation', :id => 'userFormPasswordAgain', :class => 'long'
+
+%div
+  %label{:for => 'userFormTimezone'}= :timezone.l
+  = time_zone_select 'user', 'time_zone', nil, {}, {:id => 'userFormTimezone', :class => 'long'}
