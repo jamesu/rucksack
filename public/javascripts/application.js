@@ -675,7 +675,7 @@ var Page = {
         });
         
         // Refresh so we can drag between
-        lists.each(function(i) {console.log(this);
+        lists.each(function(i) {//console.log(this);
           $(this).sortable('refresh');
         });
         
