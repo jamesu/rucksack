@@ -196,4 +196,5 @@ notifier_donotreply: "DO NOT REPLY TO THIS MESSAGE"
 notifier_reminder: "{content}"
 notifier_reminder_info: "This reminder can be modified at:"
 
+product_name: Rucksack
 product_signature: Powered by Rucksack

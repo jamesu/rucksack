@@ -7,12 +7,12 @@ class Notifier < ActionMailer::Base
     @sent_on    = sent_at
     @headers    = {}
 	
-	@body       = {
-		:site_name => AppConfig.site_name,
-		:reminder => reminder,
-		:user => reminder.created_by,
-		:sent_on => sent_at
-	}
+	  @body       = {
+		  :site_name => Account.owner.site_name,
+		  :reminder => reminder,
+		  :user => reminder.created_by,
+		  :sent_on => sent_at
+	  }
   end
   
 

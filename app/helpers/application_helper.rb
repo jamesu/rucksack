@@ -1,7 +1,11 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 	def site_name
-		html_escape AppConfig.site_name
+	  unless Account.owner.site_name.empty?
+		  html_escape Account.owner.site_name
+		else
+		  html_escape "#{Account.owner.owner.display_name.pluralize} #{:product_name.l}"
+		end
 	end
 	
 	def product_signature
