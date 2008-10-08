@@ -70,10 +70,11 @@ ActiveRecord::Schema.define(:version => 9) do
     t.integer  "page_id",       :limit => 10
     t.string   "title",         :limit => 100
     t.text     "content"
-    t.integer  "created_by_id", :limit => 10,  :default => 0, :null => false
-    t.integer  "updated_by_id", :limit => 10,  :default => 0, :null => false
+    t.integer  "created_by_id", :limit => 10,  :default => 0,     :null => false
+    t.integer  "updated_by_id", :limit => 10,  :default => 0,     :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "show_date",                    :default => false, :null => false
   end
 
   create_table "page_slots", :force => true do |t|
