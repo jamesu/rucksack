@@ -9,12 +9,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 8) do
+ActiveRecord::Schema.define(:version => 9) do
 
   create_table "accounts", :force => true do |t|
-    t.integer  "owner_id",   :limit => 10, :null => false
+    t.integer  "owner_id",   :limit => 10,                  :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "site_name",  :limit => 100, :default => "", :null => false
   end
 
   create_table "application_logs", :force => true do |t|
@@ -88,6 +89,7 @@ ActiveRecord::Schema.define(:version => 8) do
     t.integer  "updated_by_id", :limit => 10
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_public",                    :default => false, :null => false
   end
 
   create_table "reminders", :force => true do |t|
