@@ -1,3 +1,6 @@
 .sidebarBlock
+  %a.newPage{:href => new_page_url}= :new_page.l
+
+.sidebarBlock
   %h2= :pages.l
   != render :partial => 'listed_pages'
