@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
   
+  before_filter :reload_owner
   before_filter :login_required
   before_filter :set_time_zone
   
@@ -40,6 +41,11 @@ protected
                     end }
         format.xml  { head(error ? :unprocessable_entity : :ok) }
   	end
+  end
+  
+  def reload_owner
+    Account.owner(true)
+    true
   end
   
   def user_track
