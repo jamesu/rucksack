@@ -6,7 +6,7 @@
   
   %div.pageShareSection
     != check_box_tag 'page[is_public]', true, @page.is_public, :id => "pageSetPublic"
-    %label= :page_public.l_with_args(:link => link_to(public_page_url(@page), public_page_url(@page)))
+    %label.check= :page_public.l_with_args(:link => link_to(public_page_url(@page), public_page_url(@page)))
   
   %div.pageShareSection
     %h2= :users_who_can_see_page.l
