@@ -133,7 +133,7 @@ class Page < ActiveRecord::Base
 	end
 	
 	def can_be_favourited_by(user)
-	   return self.can_be_seen_by(user)
+	   self.can_be_seen_by(user) and user.can_add_favourite(user)
 	end
 	
 	def can_be_duplicated_by(user)

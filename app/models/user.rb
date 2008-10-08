@@ -218,6 +218,14 @@ class User < ActiveRecord::Base
 		Notifier.deliver_account_new_info(self, password)
 	end
 	
+	def is_anonymous?
+	  @is_anonymous
+	end
+	
+	def is_anonymous=(value)
+	  @is_anonymous = value
+	end
+	
 	# Core permissions
 	
 	def self.can_be_created_by(user)
@@ -240,7 +248,7 @@ class User < ActiveRecord::Base
 	# Specific permissions
     
 	def can_add_favourite(user)
-		user.is_admin or user.id == self.id
+	  (user.is_admin or user.id == self.id) and !user.is_anonymous?
 	end
 	
 	def pages_can_be_seen_by(user)

@@ -1,5 +1,6 @@
 - @tabbed_navigation_items = common_tabs(:pages)
 - @user_navigation_items = user_tabs(nil)
+- @additional_stylesheets = ['public_page'] if @logged_user.is_anonymous?
 
 #pageWidgetForms
   - Page.widgets.each do |widget|
@@ -7,13 +8,14 @@
     %div{:id => "add_#{widget.to_s}Form"}
       = render :partial => widget.form_partial, :locals => {:widget => widget} unless widget.form_partial.nil?
 
-#pageTagsWrapper
-  %span.floatleft=:tags.l
-  %ul#pageTags
-    = render :partial => 'tags/show', :collection => @page.tags_list
-  #pageTagsForm
-  #pageEditTags
-    %a.edit{:href => '#'}= :edit_tags.l
+- unless @logged_user.is_anonymous?
+  #pageTagsWrapper
+    %span.floatleft=:tags.l
+    %ul#pageTags
+      = render :partial => 'tags/show', :collection => @page.tags_list
+    #pageTagsForm
+    #pageEditTags
+      %a.edit{:href => '#'}= :edit_tags.l
 
 #slots.pageSlots
   -# Util widgets

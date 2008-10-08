@@ -307,6 +307,7 @@ protected
     if action == 'public'
       # Make a temp anonymous user to check permissions
       @logged_user = User.new(:username => 'anonymous', :display_name => 'Anonymous')
+      @logged_user.is_anonymous = true
       return false
     end
     
