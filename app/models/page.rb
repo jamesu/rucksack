@@ -101,7 +101,7 @@ class Page < ActiveRecord::Base
 	end
 	
 	def is_shared?
-	   !shared_users.empty?
+	   !shared_users.empty? or is_public
 	end
 	
 	def is_favourite?(user)
