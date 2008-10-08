@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
 	
 	has_many :pages, :foreign_key => 'created_by_id', :dependent => :destroy
 	has_and_belongs_to_many :shared_pages, :class_name => 'Page', :join_table => 'shared_pages'
-	has_and_belongs_to_many :favourite_pages, :class_name => 'Page', :join_table => 'favourite_pages'
+	has_and_belongs_to_many :favourite_pages, :class_name => 'Page', :join_table => 'favourite_pages', :order => 'pages.title ASC'
 	
 	has_one :status, :dependent => :destroy
 	has_many :journals, :order => 'created_at DESC', :dependent => :destroy
