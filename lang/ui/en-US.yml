@@ -191,6 +191,8 @@ cannot_see_reminders: Cannot see reminders for this user
 cannot_edit_status: Cannot change status
 cannot_see_status: Cannot view this users status
 
+empty_note: "Empty note"
+
 # Notification
 notifier_donotreply: "DO NOT REPLY TO THIS MESSAGE"
 notifier_reminder: "{content}"

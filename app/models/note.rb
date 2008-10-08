@@ -69,6 +69,4 @@ class Note < ActiveRecord::Base
 	attr_accessible :title, :content
 	
 	# Validation
-	
-	validates_presence_of :title
 end

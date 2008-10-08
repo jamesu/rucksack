@@ -1,3 +1,9 @@
+- empty_note = !(object.title? or object.content?)
+- hover_handle = "page_slot_handle_#{object.page_slot.id}"
 .pageNote
-  %h2{:hover_handle => "page_slot_handle_#{object.page_slot.id}"}= h object.title
-  .pageNoteContent!= textilize object.content, false, {'hover_handle' => "page_slot_handle_#{object.page_slot.id}"}
+  - if object.title?
+    %h2{:hover_handle => hover_handle}= h object.title
+  - if empty_note
+    .pageNoteContent{'hover_handle' => hover_handle}= :empty_note.l
+  - else
+    .pageNoteContent!= textilize object.content, false, {'hover_handle' => hover_handle}
