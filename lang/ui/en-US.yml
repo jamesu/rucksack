@@ -191,6 +191,9 @@ cannot_see_reminders: Cannot see reminders for this user
 cannot_edit_status: Cannot change status
 cannot_see_status: Cannot view this users status
 
+# Notes
+date_format_dm: "%d %b"
+date_format_dmy: "%d %b %Y"
 empty_note: "Empty note"
 
 # Notification

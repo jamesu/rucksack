@@ -17,6 +17,8 @@
     %label{:for => 'noteFormTitle'}
     != text_area 'note', 'content', :id => 'noteFormContent', :class => 'comment'
   %div
+    != check_box('note', 'show_date')
+    %label.check{:for => 'noteFormShowDate'}= "Show date in title"
   
   - if @note.nil? or @note.new_record?
     %input#add_NoteFormBefore{:type => 'hidden', :name=> 'position[before]', :value => '0'}/

@@ -312,6 +312,9 @@ pre {
     border-bottom: 2px solid #000;
 }
 
+/* Note widget */
+.pageNoteDate { color: #ccc; font-size: 12px; font-weight: normal; }
+
 /* List widget */
 
 div.pageList .listItems {
@@ -505,6 +508,11 @@ label {
 }
 
 label.yesno {
+  display: inline;
+}
+
+label.check {
+  font-weight: normal;
   display: inline;
 }
 

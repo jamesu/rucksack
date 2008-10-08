@@ -66,7 +66,7 @@ class Note < ActiveRecord::Base
 	
 	# Accesibility
 	
-	attr_accessible :title, :content
+	attr_accessible :title, :content, :show_date
 	
 	# Validation
 end

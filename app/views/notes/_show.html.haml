@@ -1,8 +1,11 @@
-- empty_note = !(object.title? or object.content?)
+- empty_note = !(object.title? or object.content? or object.show_date)
 - hover_handle = "page_slot_handle_#{object.page_slot.id}"
 .pageNote
-  - if object.title?
-    %h2{:hover_handle => hover_handle}= h object.title
+  %h2{:hover_handle => hover_handle}
+    - if object.title?
+      = h object.title
+    - if object.show_date
+      %span.pageNoteDate{:hover_handle => hover_handle}= object.created_at.strftime(@time_now.year != object.created_at.year ? :date_format_dmy.l : :date_format_dm.l)
   - if empty_note
     .pageNoteContent{'hover_handle' => hover_handle}= :empty_note.l
   - else

@@ -58,6 +58,7 @@ protected
   
   def set_time_zone
     Time.zone = @logged_user.time_zone if @logged_user
+    @time_now = Time.zone.now
   end
   
   def grab_page
