@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(:version => 9) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "is_public",                    :default => false, :null => false
+    t.integer  "width",                        :default => 400,   :null => false
   end
 
   create_table "reminders", :force => true do |t|
