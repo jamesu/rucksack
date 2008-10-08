@@ -388,7 +388,11 @@ div.pageList .itemDelete {
 
 /* Sharing */
 
+.pageShareForm { padding: 0px 18px 0px 18px; }
 .pageShareForm label { display: inline;}
+.pageShareUsers { width: 100%; }
+.pageShareUsers td { padding: 0px 6px 0px 6px; }
+.pageShareSection { margin-bottom: 8px; margin-top: 8px; }
 
 .floatleft {
   float: left;

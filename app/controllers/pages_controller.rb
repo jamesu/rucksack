@@ -201,10 +201,15 @@ class PagesController < ApplicationController
         end}
     
     set_users = []
-    unless params[:page].nil?
-        set_users = params[:page][:shared_users]
+    page_attribs = params[:page]
+    unless page_attribs.nil?
+        set_users = page_attribs[:shared_users]
         set_users ||= []
+    else
+      page_attribs = {}
     end
+    
+    set_public = page_attribs.has_key?(:is_public) and page_attribs[:is_public] == 'true'
     
     case request.method
     when :get
@@ -213,11 +218,13 @@ class PagesController < ApplicationController
         unless set_users.nil?
             @page.shared_users = set_users.collect(&grab_users).compact
         end
+        @page.update_attribute('is_public', set_public)
     when :put
         # Insert into list
         unless set_users.nil?
             set_users.collect(&grab_users).compact.each {|user| @page.shared_users << user unless @page.shared_users_ids.include?(user.id)}
         end
+        @page.update_attribute('is_public', set_public)
     when :delete
         # Delete from list
         unless set_users.nil?

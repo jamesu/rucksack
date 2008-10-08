@@ -35,6 +35,8 @@ Note: Note
 List: List
 Separator: Separator
 share_page: Share page
+users_who_can_see_page: "Users who can edit this page"
+page_public: "Is publically viewable <br/>(at {link})"
 change: Change
 page_is_not_shared: "Page is not shared ({link})"
 page_is_shared: "Page is shared ({link})"
