@@ -26,6 +26,8 @@ pre {
   font-size: 11px;
 }
 
+.totalPageWidth { width: 600px; }
+
 #header {
     margin: 0pt auto;
     /* width: 600px; */
@@ -41,8 +43,7 @@ pre {
 }
 
 #innerWrapper {
-    margin: 0pt auto;
-    width: 600px;
+    margin: 0pt 0pt 0pt 48px;
     text-align: left;
 }
 
@@ -68,7 +69,6 @@ pre {
 /* tabs */
 #tabsWrapper {
     margin: 0pt auto;
-    width: 600px;
     text-align: left;
     
     padding: 12px 6px 0px 6px;
@@ -164,6 +164,17 @@ pre {
 
 #pageTools div {
     padding: 8px 12px 12px 12px;
+}
+
+#pageTools #pageResizeHandle {
+  margin: 6px;
+  padding: 0px;
+  width: 12px;
+  height: 12px;
+  
+  background: #000;
+  cursor:move;
+  float: right;
 }
 
 #pageOptions {
@@ -280,7 +291,7 @@ pre {
     position: relative;
     height: 20px;
     z-index: 100;
-    width: 400px; /* width */
+    width: 100%; /* width */
     color: #fff;
 }
 

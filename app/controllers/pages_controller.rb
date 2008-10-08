@@ -301,6 +301,21 @@ class PagesController < ApplicationController
     end 
   end
   
+  def resize
+    @page = Page.find(params[:id])
+    return error_status(true, :cannot_edit_page) unless (@page.can_be_edited_by(@logged_user))
+    
+    if params.has_key?(:page) and params[:page].has_key?(:width)
+      @saved = @page.update_attribute('width', params[:page][:width].to_i || 400)
+    end
+    
+    respond_to do |format|
+      format.html { head :ok }
+      format.js { }
+      format.xml  { head :ok }
+    end 
+  end
+  
 protected
   
   def protect?(action)

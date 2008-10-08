@@ -22,6 +22,66 @@ jQuery.fn.extend({
 	}
 });
 
+/**
+ * .disableTextSelect - Disable Text Select Plugin
+ *
+ * Version: 1.1
+ * Updated: 2007-11-28
+ *
+ * Used to stop users from selecting text
+ *
+ * Copyright (c) 2007 James Dempster (letssurf@gmail.com, http://www.jdempster.com/category/jquery/disabletextselect/)
+ *
+ * Dual licensed under the MIT (MIT-LICENSE.txt)
+ * and GPL (GPL-LICENSE.txt) licenses.
+ **/
+(function($) {
+    if ($.browser.mozilla) {
+        $.fn.disableTextSelect = function() {
+            return this.each(function() {
+                $(this).css({
+                    'MozUserSelect' : 'none'
+                });
+            });
+        };
+        $.fn.enableTextSelect = function() {
+            return this.each(function() {
+                $(this).css({
+                    'MozUserSelect' : ''
+                });
+            });
+        };
+    } else if ($.browser.msie) {
+        $.fn.disableTextSelect = function() {
+            return this.each(function() {
+                $(this).bind('selectstart.disableTextSelect', function() {
+                    return false;
+                });
+            });
+        };
+        $.fn.enableTextSelect = function() {
+            return this.each(function() {
+                $(this).unbind('selectstart.disableTextSelect');
+            });
+        };
+    } else {
+        $.fn.disableTextSelect = function() {
+            return this.each(function() {
+                $(this).bind('mousedown.disableTextSelect', function() {
+                    return false;
+                });
+            });
+        };
+        $.fn.enableTextSelect = function() {
+            return this.each(function() {
+                $(this).unbind('mousedown.disableTextSelect');
+            });
+        };
+    }
+})(jQuery);
+/** END OF disableTextSelect **/
+
+
 // jQuery object extensions
 
 jQuery.extend({
@@ -97,6 +157,8 @@ $(document).ready(function(){
     $(this).mousemove(InsertionMarkerFunc);
     
     Page.bind();
+    
+    $('#pageResizeHandle').mousedown(Page.startResize);
 });
 
 // Handles the hover bar for modifying widgets 
@@ -247,8 +309,54 @@ var Page = {
     MARGIN: 20,
     SLOT_VERGE: 20,
     
+    isResizing: false,
+    lastResizePosition: 0,
+    
     init: function() {
-        Insertion.set(null);
+      Insertion.set(null);
+    },
+    
+    startResize: function(e) {
+      var evt = e.originalEvent;
+      Page.lastResizePosition = evt.clientX;
+      Page.isResizing = true;
+      
+      InsertionMarker.setEnabled(false);
+      HoverHandle.setEnabled(false);
+      
+      $('#body').css('cursor', 'move').disableTextSelect();
+      $(document).mousemove(Page.doResize).mouseup(Page.endResize);
+    },
+    
+    endResize: function(e) {
+      Page.isResizing = false;
+      
+      InsertionMarker.setEnabled(true);
+      HoverHandle.setEnabled(true);
+      
+      $('#body').css('cursor', 'default').enableTextSelect();
+      
+      $(document).unbind('mouseup', Page.endResize);
+      $(document).unbind('mousemove', Page.doResize);
+      
+      $.put(Page.buildUrl('/resize'), {'page[width]': PAGE_WIDTH}, null, 'script');
+    },
+    
+    doResize: function(e) {
+      if (!Page.isResizing)
+        return false;
+      
+      var evt = e.originalEvent;
+      var delta = evt.clientX - Page.lastResizePosition;
+      Page.setWidth(PAGE_WIDTH + delta);
+      
+      Page.lastResizePosition = evt.clientX;
+    },
+    
+    setWidth: function(width) {
+      PAGE_WIDTH = width;
+      $('#content').css('width', PAGE_WIDTH + 'px');
+      $('#innerWrapper').css('width', (PAGE_WIDTH + 200) + 'px');
     },
     
     buildUrl: function(resource_url) {
