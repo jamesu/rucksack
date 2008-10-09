@@ -38,4 +38,10 @@ Finally, login. The default credentials are:
     Username: admin
     Password: password
 
+## I just upgraded and now it doesn't work!
+
+The most likely explanation is that the database schema has been updated. You'll need to type in the following command to resolve this:
+
+  rake db:migrate
+
 Have fun!
