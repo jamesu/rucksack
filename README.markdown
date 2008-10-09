@@ -16,6 +16,11 @@ These pages can be edited by yourself and any other
 user you choose to share it to. 
 You can also re-order and move content between pages. 
 
+In addition there are a few complimentary features, namely:
+
+* Reminders
+* Journals & Status (think Twitter)
+
 ## Sounds great, how do i install it?
 
 Firstly, make a "config/database.yml" file based off of 
@@ -42,6 +47,6 @@ Finally, login. The default credentials are:
 
 The most likely explanation is that the database schema has been updated. You'll need to type in the following command to resolve this:
 
-  rake db:migrate
+    rake db:migrate
 
 Have fun!
