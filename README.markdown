@@ -49,4 +49,15 @@ The most likely explanation is that the database schema has been updated. You'll
 
     rake db:migrate
 
+## A word of warning
+
+If you are planning on deploying RuckSack in a production environment, *make sure you change the secret session key*. Otherwise unauthorized users will be able to make a fake session (e.g. logged in as the administrator) and compromise your installation.
+
+The relevant line is located in "config/environment.rb":
+
+  config.action_controller.session = {
+    :session_key => '_rucksack_session',
+    :secret      => 'CHANGE THIS TO SOMETHING LONG AND RANDOM'
+  } 
+
 Have fun!
