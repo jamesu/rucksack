@@ -9,6 +9,8 @@
     = javascript_include_tag 'jquery-ui.js'
     = javascript_include_tag 'jrails.js'
     = javascript_include_tag 'application.js'
+    
+    = javascript_tag "var PAGE_READONLY = true; var PAGE_ID = null;"
   %body
     #dialog
       %h1= h @page_title
