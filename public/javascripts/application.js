@@ -145,9 +145,11 @@ $(document).ajaxSend(function(event, request, settings) {
 // Main entrypoint
 
 $(document).ready(function(){
-    InsertionMarker.init();
-    InsertionBar.init();
-    HoverHandle.init();
+    if (!PAGE_READONLY) {
+      InsertionMarker.init();
+      InsertionBar.init();
+      HoverHandle.init();
+    }
     
     Page.makeSortable();
     
