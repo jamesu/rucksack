@@ -51,7 +51,7 @@ protected
   def user_track
     if not @logged_user.nil?
       store_location
-	  @logged_user.update_attribute('last_visit', Time.now.utc)
+      User.update(@logged_user.id, {:last_visit => Time.now.utc})
     end
     true
   end
