@@ -96,6 +96,15 @@ class Page < ActiveRecord::Base
 		self.title
 	end
 	
+	def title=(value)
+	  @previous_name = self.title
+	  self.write_attribute('title', value)
+	end
+	
+	def previous_name
+	  @previous_name
+	end
+	
 	def object_url
 		url_for :only_path => true, :controller => 'page', :action => 'index', :id => self.id
 	end

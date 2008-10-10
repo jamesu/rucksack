@@ -1,0 +1,21 @@
+- user = @cached_users[user_activity[0]]
+%div.activityUser
+  %div.activityUserAvatar
+    %img{:src => user.gravatar_url(:size => 30)}
+    = user.id == @logged_user.id ? :you.l : user.display_name
+
+  %div.activityUserEntries
+    %ul
+    - user_activity[1].each do |log|
+      %li.activityEntry
+        -# "#{log.action} (#{log.rel_object_id} #{log.rel_object_type}) | p:#{log.page_id} by #{log.created_by_id}"
+        - if !log.page_id.nil?
+          = "activity_modify_Page".to_sym.l_with_args(:object_name => log.page.object_name, :previous_name => log.previous_name, :url => !log.page.nil? ? url_for(log.page) : '#') 
+          -# "(#{log.created_on.to_s})"
+        - elsif !log.rel_object_id.nil?
+          = "activity_#{log.action}_#{log.rel_object_type}".to_sym.l_with_args(:object_name => log.object_name, :previous_name => log.previous_name, :url => !log.rel_object.nil? ? url_for(log.rel_object) : '#')
+          -# "(#{log.created_on.to_s})"
+        - else
+          = '???' 
+
+

@@ -330,7 +330,7 @@ pre {
 
 div.pageList .listItems {
     padding: 0px;
-    list-style-type: none;;
+    list-style-type: none;a
 }
 
 div.pageList .listItem {
@@ -482,9 +482,15 @@ div.pageList .itemDelete {
 
 /* activity log */
 #activityLogs { }
-#activityLogs h2 { clear:both; }
-.activityUser { float: left; height: 32px; margin: 4px; font-weight: bolder; }
-.activityEntry { margin-left: 32px; }
+#activityLogs h2 { padding-bottom: 0px; margin-top: 12px; font-size: 12px; clear:both; border-bottom: 1px solid #ccc; }
+
+.activityUserAvatar { margin: 4px; font-weight: bolder; }
+.activityUserEntries li {
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+}
+.activityEntry { padding-left: 32px; }
 
 /* user list page */
 table.userList

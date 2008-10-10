@@ -73,6 +73,12 @@ class User < ActiveRecord::Base
     end
   end
   
+  def available_page_ids
+    self.page_ids + self.shared_page_ids
+  end
+  
+  is_gravtastic
+  
   before_validation_on_create :process_create
   before_destroy :process_destroy
   

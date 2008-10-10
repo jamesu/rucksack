@@ -54,27 +54,40 @@ class ApplicationLog < ActiveRecord::Base
       # Lets go...
       @log = ApplicationLog.new(:action => action,
                                 :object_name => obj.object_name,
+                                :previous_name => obj.respond_to?(:previous_name) ? obj.previous_name : nil,
                                 :created_by => user,
                                 :is_private => private)
       
       if action == :delete
-        @log.page = obj.class == Page ? nil : obj.page
+        @log.page = obj.page
         @log.rel_object_id = user
         @log.rel_object_type = obj.class.to_s
+        
+        # Silence all related logs
+        if obj.class == Page
+          ApplicationLog.update_all({'is_silent' => true}, {'page_id' => obj.id})
+        else
+          ApplicationLog.update_all({'is_silent' => true}, {'rel_object_id' => obj.id, 'rel_object_type' => obj.class})
+        end
       else
         @log.page = obj.page
         @log.rel_object = obj
       end
       
+      if obj.class == Page
+        @log.modified_page_id = obj.id
+      else
+        @log.modified_page_id = @log.page_id
+      end
+      
       if not user.nil?
-        user.last_activity = Time.now.utc
-        user.save
+        User.update(user.id, {:last_activity => Time.now.utc})
       end
       
       @log.save
   end
   
-  def self.grouped_nicely
+  def self.grouped_nicely(user, start_date=nil, end_date=nil)
     # Group by creator, page, and date so we eliminate multiple references to the same page in a single day.
     # Non-page objectes are handled by a CASE.
     # Also, offsetting of the date and concatenating the rel_object's id and type are mostly db-specific,
@@ -88,7 +101,20 @@ class ApplicationLog < ActiveRecord::Base
       rel_group = "CONCAT(rel_object_type, rel_object_id)"
     end
     
-    find(:all, 
+    conditions = ['(modified_page_id IS NULL OR modified_page_id IN (?)) AND is_silent = ?', user.available_page_ids, false]
+    
+    unless start_date.nil?
+      conditions[0] += ' AND created_on >= ?'
+      conditions << start_date
+    end
+    
+    unless end_date.nil?
+      conditions[0] += ' AND created_on < ?'
+      conditions << end_date
+    end
+    
+    find(:all,
+         :conditions => conditions,
          :order => 'created_on DESC', 
          :group => "created_by_id, #{offset_date}, CASE #{sanitize_sql({'page_id' => nil})} WHEN 1 THEN #{rel_group} ELSE page_id END")
   end

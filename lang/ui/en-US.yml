@@ -137,12 +137,13 @@ add_entry: Add entry
 
 # Activity
 # activity_[add/edit/delete]_[class] -> {object}
-activity_add_Page: "Created page {object}"
-activity_edit_Page: "Renamed page {object} to {name}"
-activity_modify_Page: "Changed page {object}"
-activity_add_Reminder: "Added a reminder: {object}"
-activity_edit_Reminder: "Changed reminder: {object}"
-activity_delete_Reminder: "Removed reminder: {object}"
+activity_add_Page: "Created page <a href=\"{url}\">{object_name}</a>"
+activity_edit_Page: "Renamed page <a href=\"{url}\">{object_name}</a> from {previous_name}"
+activity_modify_Page: "Changed page <a href=\"{url}\">{object_name}</a>"
+activity_add_Reminder: "Added a reminder: <a href=\"{url}\">{object_name}</a>"
+activity_edit_Reminder: "Changed reminder: <a href=\"{url}\">{object_name}</a>"
+activity_delete_Reminder: "Removed reminder: <a href=\"{url}\">{object_name}</a>"
+you: You
 
 # Errors
 page_not_found: Page not found

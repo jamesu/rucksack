@@ -7,6 +7,8 @@
 %table#userList
   - @users.each do |user|
     %tr{'user_id' => user.id}
+      %td.userAvatar
+        %img{:src => user.gravatar_url(:size => 50)}
       %td.userDisplayName= h(user.display_name)
       - if @logged_user.is_admin
         %td.userAdmin

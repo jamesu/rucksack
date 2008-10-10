@@ -8,7 +8,7 @@
     %div{:id => "add_#{widget.to_s}Form"}
       = render :partial => widget.form_partial, :locals => {:widget => widget} unless widget.form_partial.nil?
 
-- unless @logged_user.is_anonymous?
+- if @page.can_be_edited_by(@logged_user)
   #pageTagsWrapper
     %span.floatleft=:tags.l
     %ul#pageTags
