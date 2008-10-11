@@ -85,7 +85,7 @@ class UsersController < ApplicationController
     
     user_attribs = params[:user]
     if @logged_user.is_admin
-        @user.is_admin = user_attribs[:is_admin]
+        @user.is_admin = Account.owner.owner_id != @user.id ? user_attribs[:is_admin] : true
         @user.username = user_attribs[:username]
     end
     
