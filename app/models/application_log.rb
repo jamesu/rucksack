@@ -56,7 +56,8 @@ class ApplicationLog < ActiveRecord::Base
                                 :object_name => obj.object_name,
                                 :previous_name => obj.respond_to?(:previous_name) ? obj.previous_name : nil,
                                 :created_by => user,
-                                :is_private => private)
+                                :is_private => private,
+                                :is_silent => false)
       
       if action == :delete
         @log.page = obj.page
