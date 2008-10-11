@@ -1,16 +1,17 @@
 = error_messages_for :user
 
-.hint
-  .header= :user_administration_options.l 
-  .content
-    %div
-      %label{:for => 'userFormUserName'}= "#{:username.l} <span class=\"label_required\">*</span>"
-      = text_field 'user', 'username', :id => 'userFormUserName', :class => 'long'
-    %fieldset
-      %legend= :options.l
+- if @logged_user.is_admin
+  .hint
+    .header= :user_administration_options.l 
+    .content
       %div
-        %label{:for => 'userFormIsAdmin'}= :user_is_admin.l
-        = yesno_toggle 'user', 'is_admin', :id => 'userFormIsAdmin', :class => 'yesno'
+        %label{:for => 'userFormUserName'}= "#{:username.l} <span class=\"label_required\">*</span>"
+        = text_field 'user', 'username', :id => 'userFormUserName', :class => 'long'
+      %fieldset
+        %legend= :options.l
+        %div
+          %label{:for => 'userFormIsAdmin'}= :user_is_admin.l
+          = yesno_toggle 'user', 'is_admin', :id => 'userFormIsAdmin', :class => 'yesno'
 
 %div
   %label{:for => 'userFormDisplayName'}= :display_name.l

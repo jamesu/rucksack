@@ -33,6 +33,7 @@ class UsersController < ApplicationController
     return error_status(true, :cannot_create_user) unless (User.can_be_created_by(@logged_user))
     
     @user = Account.owner.users.build()
+    @user.is_admin = false
 
     respond_to do |format|
       format.html # new.html.erb
