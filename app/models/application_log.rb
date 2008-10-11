@@ -101,7 +101,7 @@ class ApplicationLog < ActiveRecord::Base
       rel_group = "CONCAT(rel_object_type, rel_object_id)"
     end
     
-    conditions = ['(modified_page_id IS NULL OR modified_page_id IN (?)) AND is_silent = ?', user.available_page_ids, false]
+    conditions = ['((modified_page_id IS NULL AND created_by_id = ?) OR modified_page_id IN (?)) AND is_silent = ?', user.id, user.available_page_ids, false]
     
     unless start_date.nil?
       conditions[0] += ' AND created_on >= ?'
