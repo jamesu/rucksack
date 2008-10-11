@@ -156,8 +156,9 @@ $(document).ready(function(){
     $('#content').mousemove(PageHoverHandlerFunc);
     $('#content').mouseout(PageHoverHandlerCancelFunc);
     
-    $(this).mousemove(InsertionMarkerFunc);
+    $('#outerWrapper').mousemove(InsertionMarkerFunc);
     
+    Page.bindStatic();
     Page.bind();
     
     $('#pageResizeHandle').mousedown(Page.startResize);
@@ -372,6 +373,20 @@ var Page = {
       // NOTE: this is a mess, especially considering there are a ton
       //       of closures here. Need to tidy it up!
       
+      // Page header
+      $('#page_header_form form').submit(function(evt) {
+        $(this).request(JustRebind, 'script');
+
+        return false;
+      });
+
+      $('#page_header_form .cancel').click(function(evt) {        
+        $('#page_header_form').hide();
+        $('#page_header').show();
+        
+        return false;
+      });
+      
       $('.pageSlotHandle').click(HoverSlotBar);
 
       $('.widgetForm').submit(function(evt) {
@@ -395,20 +410,6 @@ var Page = {
 
       $('.fixedWidgetForm .cancel').click(function(evt) {
         InsertionBar.clearWidgetForm();
-        
-        return false;
-      });
-      
-      // Page header
-      $('#page_header_form form').submit(function(evt) {
-        $(this).request(JustRebind, 'script');
-
-        return false;
-      });
-
-      $('#page_header_form .cancel').click(function(evt) {        
-        $('#page_header_form').hide();
-        $('#page_header').show();
         
         return false;
       });
@@ -458,47 +459,6 @@ var Page = {
         
         form.autofocus();
   
-        return false;
-      });
-      
-      $('#pageInsert').click(function(evt) {
-        InsertionBar.show();
-        //console.log('IM SET');
-        InsertionMarker.setEnabled(false);
-        InsertionMarker.hide();
-        //console.log('IM DONE');
-        HoverHandle.setEnabled(false);
-        HoverHandle.clearHandle();
-        
-        return false;
-      });
-      
-      $('#pageInsertItemCancel a').click(function(evt) {
-        InsertionBar.hide();
-        InsertionMarker.setEnabled(true);
-        HoverHandle.setEnabled(true);
-        
-        return false;
-      });
-      
-      $('#pageSetFavourite').click(function(evt) {
-        $.put(Page.buildUrl('/favourite'), {'page[is_favourite]': '1'}, null, 'script');
-        return false;
-      });
-      
-      $('#pageSetNotFavourite').click(function(evt) {
-        $.put(Page.buildUrl('/favourite'), {'page[is_favourite]': '0'}, null, 'script');
-        return false;
-      });
-      
-      $('#pageDuplicate').click(function(evt) {
-        $.post(Page.buildUrl('/duplicate'), {'foo':1}, null, 'script');
-        return false;
-      });
-      
-      $('#pageDelete').click(function(evt) {
-        if (confirm("Are you sure you want to delete this page?"))
-          $.del(Page.buildUrl(''), {}, null, 'script');
         return false;
       });
       
@@ -586,6 +546,21 @@ var Page = {
       });
       
       // Page list tags
+    
+      $('#pageTagsForm form').submit(function(evt) {
+        $(this).request(JustRebind, 'script');
+               
+        return false;
+      });
+    
+      $('#pageTagsForm .cancel').click(function(evt) {
+        $('#pageTagsForm').hide();
+        $('#pageTags').show();
+        $('#pageEditTags').show();
+        
+        return false;
+      });  
+      
       $('.pageTagAdd').click(function(evt) {
         TAG_LIST.push($(evt.target).attr('tag'));
         
@@ -602,34 +577,9 @@ var Page = {
         
         $.get('/pages', {'tags[]': TAG_LIST}, JustRebind, 'script');
         return false;
-      });
-     
-      $('#pageEditTags .edit').click(function(evt) {
-        $.get(Page.buildUrl('/tags'), {}, JustRebind, 'script');
-        return false;
-      });
-    
-      $('#pageTagsForm form').submit(function(evt) {
-        $(this).request(JustRebind, 'script');
-               
-        return false;
-      });
-    
-      $('#pageTagsForm .cancel').click(function(evt) {
-        $('#pageTagsForm').hide();
-        $('#pageTags').show();
-        $('#pageEditTags').show();
-        
-        return false;
-      });      
+      }); 
       
       // Reminder page
-      
-      $('#add_ReminderForm').submit(function(evt) {
-        $(this).request(JustRebind, 'script');
-        
-        return false;
-      });
       
       $('.reminderSnooze').click(function(evt) {
         var el = $(evt.target);
@@ -644,6 +594,80 @@ var Page = {
         var reminder_url = el.parents('.reminderEntry:first').attr('url');
         
         $.del(reminder_url, {}, JustRebind, 'script');
+        
+        return false;
+      });
+      
+      // User list
+      $('#userList .userDelete').click(function(evt) {
+        var el = $(this);
+        
+        var user_id = el.parents('tr:first').attr('user_id');
+        
+        // TODO: need localization
+        if (confirm('Are you sure you want to delete this user?'))
+          $.del('/users/' + user_id, {}, JustRebind, 'script');
+        
+        return false;
+      });
+    
+    
+    },
+    
+    bindStatic: function() {
+      // Page
+      
+      $('#pageInsert').click(function(evt) {
+        InsertionBar.show();
+        //console.log('IM SET');
+        InsertionMarker.setEnabled(false);
+        InsertionMarker.hide();
+        //console.log('IM DONE');
+        HoverHandle.setEnabled(false);
+        HoverHandle.clearHandle();
+        
+        return false;
+      });
+      
+      $('#pageInsertItemCancel a').click(function(evt) {
+        InsertionBar.hide();
+        InsertionMarker.setEnabled(true);
+        HoverHandle.setEnabled(true);
+        
+        return false;
+      });
+      
+      $('#pageSetFavourite').click(function(evt) {
+        $.put(Page.buildUrl('/favourite'), {'page[is_favourite]': '1'}, null, 'script');
+        return false;
+      });
+      
+      $('#pageSetNotFavourite').click(function(evt) {
+        $.put(Page.buildUrl('/favourite'), {'page[is_favourite]': '0'}, null, 'script');
+        return false;
+      });
+      
+      $('#pageDuplicate').click(function(evt) {
+        $.post(Page.buildUrl('/duplicate'), {'foo':1}, null, 'script');
+        return false;
+      });
+      
+      $('#pageDelete').click(function(evt) {
+        if (confirm("Are you sure you want to delete this page?"))
+          $.del(Page.buildUrl(''), {}, null, 'script');
+        return false;
+      });
+         
+      // Page list tags
+      $('#pageEditTags .edit').click(function(evt) {
+        $.get(Page.buildUrl('/tags'), {}, JustRebind, 'script');
+        return false;
+      });
+      
+      // Reminder page
+      
+      $('#add_ReminderForm').submit(function(evt) {
+        $(this).request(JustRebind, 'script');
         
         return false;
       });
@@ -683,56 +707,34 @@ var Page = {
         return false;
       });
       
-      // User list
-      $('#userList .userDelete').click(function(evt) {
-        var el = $(this);
-        
-        var user_id = el.parents('tr:first').attr('user_id');
-        
-        // TODO: need localization
-        if (confirm('Are you sure you want to delete this user?'))
-          $.del('/users/' + user_id, {}, JustRebind, 'script');
-        
-        return false;
-      });
-      
       $('#statusBar').click(function(evt) {
         $(this).hide('slow');
         
         return false;
       });
     
-    
     },
     
     rebind: function () {
       $('.pageSlotHandle').unbind();
+      $('.widgetForm').unbind();
+      $('.widgetForm .cancel').unbind();
+      $('.fixedWidgetForm').unbind();
+      $('.fixedWidgetForm .cancel').unbind();
+      
       $('.add_List').unbind();
       $('.add_Note').unbind();
       $('.add_Separator').unbind();
-      $('.widgetForm').unbind();
-      $('.fixedWidgetForm .cancel').unbind();
-      $('.fixedWidgetForm').unbind();
-      $('.fixedWidgetForm .cancel').unbind();
-      $('#page_header_form form').unbind();
-      $('#page_header_form .cancel').unbind();
-      
-      $('#pageInsert').unbind();
-      $('#pageInsertItemCancel a').unbind();
-      
-      $('#pageSetFavourite').unbind();
-      $('#pageSetNotFavourite').unbind();
-      $('#pageDuplicate').unbind();
-      $('#pageDelete').unbind();
-      
+            
       $('.addItem form').unbind();
       $('.addItem form .cancel').unbind();
-      
       $('.newItem a').unbind();
+      
       $('.listItem form').unbind();
       $('.listItem form .cancel').unbind();
       
       $('.pageList .checkbox').unbind();
+      $('.pageList .itemDelete').unbind();
       
       $('.pageListForm form').unbind();
       $('.pageListForm form .cancel').unbind();
@@ -740,22 +742,10 @@ var Page = {
 
       $('.pageTagAdd').unbind();
       $('.pageTagRemove').unbind();
-      $('#pageEditTags .edit').unbind();
-      $('#pageTagsForm form').unbind();
-      $('#pageTagsForm .cancel').unbind();
       
-      $('#add_ReminderForm').unbind();
       $('.reminderSnooze').unbind();
       $('.reminderDelete').unbind();
-
-      $('#edit_UserStatus').unbind();
-      $('#edit_UserStatus .cancel').unbind();
-      $('#user_status').unbind();
-      $('#userJournal form').unbind();
       
-      $('#userList .userDelete').unbind();
-      
-      $('#statusBar').unbind();
       Page.bind();
     },
     
