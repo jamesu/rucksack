@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 10) do
+ActiveRecord::Schema.define(:version => 11) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "owner_id",   :limit => 10,                  :null => false
@@ -32,6 +32,9 @@ ActiveRecord::Schema.define(:version => 10) do
     t.integer  "modified_page_id", :limit => 10
   end
 
+  add_index "application_logs", ["modified_page_id", "created_by_id"], :name => "index_application_logs_on_modified_page_id_and_created_by_id"
+  add_index "application_logs", ["rel_object_id", "rel_object_type"], :name => "index_application_logs_on_rel_object_id_and_rel_object_type"
+
   create_table "favourite_pages", :id => false, :force => true do |t|
     t.integer "page_id", :limit => 10
     t.integer "user_id", :limit => 10
@@ -43,6 +46,8 @@ ActiveRecord::Schema.define(:version => 10) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "journals", ["user_id"], :name => "index_journals_on_user_id"
 
   create_table "list_items", :force => true do |t|
     t.integer  "list_id",         :limit => 10
@@ -56,6 +61,8 @@ ActiveRecord::Schema.define(:version => 10) do
     t.datetime "updated_at"
   end
 
+  add_index "list_items", ["list_id"], :name => "index_list_items_on_list_id"
+
   create_table "lists", :force => true do |t|
     t.integer  "page_id",         :limit => 10
     t.integer  "priority"
@@ -68,6 +75,8 @@ ActiveRecord::Schema.define(:version => 10) do
     t.datetime "updated_at"
   end
 
+  add_index "lists", ["page_id"], :name => "index_lists_on_page_id"
+
   create_table "notes", :force => true do |t|
     t.integer  "page_id",       :limit => 10
     t.string   "title",         :limit => 100
@@ -79,12 +88,17 @@ ActiveRecord::Schema.define(:version => 10) do
     t.boolean  "show_date",                    :default => false, :null => false
   end
 
+  add_index "notes", ["page_id"], :name => "index_notes_on_page_id"
+
   create_table "page_slots", :force => true do |t|
     t.integer "page_id",         :limit => 10
     t.integer "rel_object_id",   :limit => 10, :default => 0, :null => false
     t.string  "rel_object_type", :limit => 30
     t.integer "position",        :limit => 10, :default => 0, :null => false
   end
+
+  add_index "page_slots", ["page_id"], :name => "index_page_slots_on_page_id"
+  add_index "page_slots", ["rel_object_id", "rel_object_type"], :name => "index_page_slots_on_rel_object_id_and_rel_object_type"
 
   create_table "pages", :force => true do |t|
     t.string   "title",         :limit => 100
@@ -95,6 +109,8 @@ ActiveRecord::Schema.define(:version => 10) do
     t.boolean  "is_public",                    :default => false, :null => false
     t.integer  "width",                        :default => 400,   :null => false
   end
+
+  add_index "pages", ["created_by_id"], :name => "index_pages_on_created_by_id"
 
   create_table "reminders", :force => true do |t|
     t.text     "content"
@@ -116,6 +132,8 @@ ActiveRecord::Schema.define(:version => 10) do
     t.datetime "updated_at"
   end
 
+  add_index "separators", ["page_id"], :name => "index_separators_on_page_id"
+
   create_table "shared_pages", :id => false, :force => true do |t|
     t.integer "page_id", :limit => 10
     t.integer "user_id", :limit => 10
@@ -136,6 +154,10 @@ ActiveRecord::Schema.define(:version => 10) do
     t.integer  "created_by_id",   :limit => 10, :default => 0,  :null => false
   end
 
+  add_index "tags", ["rel_object_id", "rel_object_type"], :name => "index_tags_on_rel_object_id_and_rel_object_type"
+  add_index "tags", ["name"], :name => "index_tags_on_name"
+  add_index "tags", ["page_id"], :name => "index_tags_on_page_id"
+
   create_table "users", :force => true do |t|
     t.string   "username",      :limit => 50,  :default => "", :null => false
     t.string   "email",         :limit => 100
@@ -155,5 +177,9 @@ ActiveRecord::Schema.define(:version => 10) do
     t.datetime "updated_at"
     t.integer  "account_id",    :limit => 10
   end
+
+  add_index "users", ["account_id"], :name => "index_users_on_account_id"
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["username"], :name => "index_users_on_username", :unique => true
 
 end
