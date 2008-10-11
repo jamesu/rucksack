@@ -68,7 +68,7 @@ class ApplicationLog < ActiveRecord::Base
         if obj.class == Page
           ApplicationLog.update_all({'is_silent' => true}, {'page_id' => obj.id})
         else
-          ApplicationLog.update_all({'is_silent' => true}, {'rel_object_id' => obj.id, 'rel_object_type' => obj.class})
+          ApplicationLog.update_all({'is_silent' => true}, {'rel_object_id' => obj.id, 'rel_object_type' => obj.class.to_s})
         end
       else
         @log.page = obj.page
