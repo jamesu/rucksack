@@ -18,8 +18,19 @@ ActiveRecord::Schema.define(:version => 10) do
     t.string   "site_name",  :limit => 100, :default => "", :null => false
   end
 
-# Could not dump table "application_logs" because of following StandardError
-#   Unknown type 'id' for column 'modified_page_id'
+  create_table "application_logs", :force => true do |t|
+    t.integer  "rel_object_id",    :limit => 10
+    t.text     "object_name"
+    t.string   "rel_object_type",  :limit => 50
+    t.datetime "created_on"
+    t.integer  "created_by_id",    :limit => 10
+    t.boolean  "is_private"
+    t.boolean  "is_silent"
+    t.integer  "action_id",        :limit => 1
+    t.integer  "page_id",          :limit => 10
+    t.text     "previous_name"
+    t.integer  "modified_page_id", :limit => 10
+  end
 
   create_table "favourite_pages", :id => false, :force => true do |t|
     t.integer "page_id", :limit => 10
