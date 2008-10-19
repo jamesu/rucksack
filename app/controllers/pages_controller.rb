@@ -316,6 +316,19 @@ class PagesController < ApplicationController
     end 
   end
   
+  def reset_address
+    @page = Page.find(params[:id])
+    return error_status(true, :cannot_edit_page) unless (@page.can_be_edited_by(@logged_user))
+    
+    @page.update_attribute('address', 'random')
+    
+    respond_to do |format|
+      format.html { head :ok }
+      format.js { render :update do |page| page.redirect_to(page_url(@page)) end }
+      format.xml  { head :ok }
+    end 
+  end
+  
 protected
   
   def protect?(action)

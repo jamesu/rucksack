@@ -663,6 +663,15 @@ var Page = {
           $.del(Page.buildUrl(''), {}, null, 'script');
         return false;
       });
+      
+      $('#pageAddress').click(function(evt) {
+        if (evt.target.id == 'pageReset') {
+          $.put(Page.buildUrl('/reset_address'), {}, null, 'script');
+          return false;
+        }
+        
+        return true;
+      });
          
       // Page list tags
       $('#pageEditTags .edit').click(function(evt) {

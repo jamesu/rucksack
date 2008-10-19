@@ -212,6 +212,11 @@ class Page < ActiveRecord::Base
 	   end
 	end
 	
+	def address=(value)
+	  new_value = value == 'random' ? generate_address : value
+	  self.write_attribute('address', new_value)
+	end
+	
 	def generate_address
     # Grab a few random things...
     tnow = Time.now()
@@ -235,4 +240,5 @@ class Page < ActiveRecord::Base
 	# Validation
 	
 	validates_presence_of :title
+	validates_uniqueness_of :address
 end

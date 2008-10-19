@@ -41,6 +41,7 @@ change: Change
 page_is_not_shared: "Page is not shared ({link})"
 page_is_shared: "Page is shared ({link})"
 duplicate_page: Duplicate
+email_page: "Email address: <a href=\"mailto:{email}\">{email}</a> (<a id=\"pageReset\" href=\"{reset_url}\">Reset</a>)"
 page: Page
 pages: Pages
 edit: Edit

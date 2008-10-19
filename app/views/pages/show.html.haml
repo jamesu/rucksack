@@ -56,4 +56,8 @@
   - if @page.can_be_deleted_by(@logged_user)
     |
     %a#pageDelete{:href => '#'}= :delete_page.l
+  
+  - if @page.can_be_edited_by(@logged_user)
+    %div#pageAddress=:email_page.l_with_args(:email => "#{@page.address}@#{request.host}", :reset_url => page_path(@page))
+  
 
