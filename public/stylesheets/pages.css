@@ -341,7 +341,7 @@ pre {
 }
 
 /* Note widget */
-.pageNoteDate { color: #ccc; font-size: 12px; font-weight: normal; }
+.pageNoteDate, .pageEmailDate { color: #ccc; font-size: 12px; font-weight: normal; }
 
 /* List widget */
 

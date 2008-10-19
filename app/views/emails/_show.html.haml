@@ -2,3 +2,4 @@
 .pageEmail{:hover_handle => hhandle}
   %h2{:hover_handle => hhandle}
     %a{:href => page_email_path(object.page, object), :hover_handle => hhandle}=h object.subject
+    %span.pageEmailDate{:hover_handle => hhandle}= object.created_at.strftime(@time_now.year != object.created_at.year ? :date_format_dmy.l : :date_format_dm.l)
