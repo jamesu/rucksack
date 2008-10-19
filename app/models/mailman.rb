@@ -15,7 +15,7 @@ class Mailman < ActionMailer::Base
       
       if page_email.save
         # Plonk at top of the page
-        page.new_slot_at(page_email, page.slots[0].id, true)
+        page.new_slot_at(page_email, nil, true)
       end
     end
     

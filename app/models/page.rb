@@ -160,19 +160,24 @@ class Page < ActiveRecord::Base
 	def new_slot_at(insert_widget, insert_id, insert_before)
 	   PageSlot.transaction do
 	   
-	   # Calculate correct position
-	   if insert_id != 0
+	     # Calculate correct position
+	     if !insert_id.nil? and insert_id != 0
 	       old_slot = PageSlot.find(insert_id)
 	       insert_pos = insert_before ? old_slot.position : old_slot.position+1
-	   else
-	       insert_pos = self.slots.empty? ? 0 : self.slots[self.slots.length-1].position+1
-	   end
+	     else
+	       if self.slots.empty?
+	         insert_pos = 0
+	       else
+	         insert_pos = insert_before ? self.slots[0].position : 
+	                                      self.slots[self.slots.length-1].position+1
+	       end
+	     end
 	   
        # Bump up all other slots
        self.slots.each do |slot|
 	       if slot.position >= insert_pos
-	           slot.position += 1
-	           slot.save
+	         slot.position += 1
+	         slot.save
 	       end
        end
        
@@ -181,7 +186,7 @@ class Page < ActiveRecord::Base
        @slot.save
        
        return @slot
-       end      
+     end      
 	end
 	
 	def duplicate(new_owner)
