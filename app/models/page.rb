@@ -34,6 +34,7 @@ class Page < ActiveRecord::Base
 	has_many :lists, :dependent => :destroy
 	has_many :notes, :dependent => :destroy
 	has_many :separators, :dependent => :destroy
+	has_many :emails, :dependent => :destroy
 	
 	before_create  :process_params
 	after_create   :process_create
@@ -52,6 +53,7 @@ class Page < ActiveRecord::Base
 	end
 	 
 	def process_params
+	  generate_address
 	end
 	
 	def process_create
@@ -205,6 +207,16 @@ class Page < ActiveRecord::Base
 	   end
 	end
 	
+	def generate_address
+    # Grab a few random things...
+    tnow = Time.now()
+    sec = tnow.tv_usec
+    usec = tnow.tv_usec % 0x100000
+    rval = rand()
+    roffs = rand(25)
+    self.address = Digest::SHA1.hexdigest(sprintf("%s%08x%05x%.8f", rand(32767), sec, usec, rval))[roffs..roffs+12]
+  end
+
 	def self.select_list
 	 Page.find(:all).collect do |page|
 	   [page.name, page.id]

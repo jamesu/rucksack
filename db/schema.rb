@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 11) do
+ActiveRecord::Schema.define(:version => 12) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "owner_id",   :limit => 10,                  :null => false
@@ -34,6 +34,16 @@ ActiveRecord::Schema.define(:version => 11) do
 
   add_index "application_logs", ["modified_page_id", "created_by_id"], :name => "index_application_logs_on_modified_page_id_and_created_by_id"
   add_index "application_logs", ["rel_object_id", "rel_object_type"], :name => "index_application_logs_on_rel_object_id_and_rel_object_type"
+
+  create_table "emails", :force => true do |t|
+    t.integer  "page_id",       :limit => 10
+    t.string   "subject"
+    t.text     "body"
+    t.integer  "created_by_id", :limit => 10, :default => 0, :null => false
+    t.integer  "updated_by_id", :limit => 10, :default => 0, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "favourite_pages", :id => false, :force => true do |t|
     t.integer "page_id", :limit => 10
@@ -108,6 +118,7 @@ ActiveRecord::Schema.define(:version => 11) do
     t.datetime "updated_at"
     t.boolean  "is_public",                    :default => false, :null => false
     t.integer  "width",                        :default => 400,   :null => false
+    t.string   "address",       :limit => 50
   end
 
   add_index "pages", ["created_by_id"], :name => "index_pages_on_created_by_id"
@@ -178,8 +189,8 @@ ActiveRecord::Schema.define(:version => 11) do
     t.integer  "account_id",    :limit => 10
   end
 
-  add_index "users", ["account_id"], :name => "index_users_on_account_id"
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["username"], :name => "index_users_on_username", :unique => true
+  add_index "users", ["account_id"], :name => "index_users_on_account_id"
 
 end

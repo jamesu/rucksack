@@ -62,6 +62,7 @@ ActionController::Routing::Routes.draw do |map|
     end
     page.resources :notes
     page.resources :separators
+    page.resources :emails
   end
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.

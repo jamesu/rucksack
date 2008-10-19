@@ -64,6 +64,14 @@ module ApplicationHelper
 	   "<div class=\"pageSlotHandle\" id=\"#{id}\" restype=\"#{resType}\" style=\"display:none\"><div class=\"inner innerHandle\">\n<ul class=\"innerHandle\">#{items}</ul>\n</div></div>"
 	end
 	
+	def widget_options(object)
+	  opts = []
+	  opts << ['delete', '-'] if object.can_be_deleted_by(@logged_user)
+	  opts << ['edit', :edit.l] if object.can_be_edited_by(@logged_user)
+	  opts << ['handle', '+']	  
+	  opts
+	end
+	
 	def yesno_toggle(object_name, method, options = {})
 		radio_button(object_name, method, "true", options.merge({:id => "#{options[:id]}Yes"})) +
 		" <label for=\"#{options[:id]}Yes\" class=\"#{options[:class]}\">#{:yesno_yes.l}</label> " +

@@ -1,0 +1,4 @@
+- hhandle = "page_slot_handle_#{object.page_slot.id}"
+.pageEmail{:hover_handle => hhandle}
+  %h2{:hover_handle => hhandle}
+    %a{:href => page_email_path(object.page, object), :hover_handle => hhandle}=h object.subject
