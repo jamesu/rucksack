@@ -327,6 +327,9 @@ var Page = {
       InsertionMarker.setEnabled(false);
       HoverHandle.setEnabled(false);
       
+      var content = $('#innerWrapper');
+      content.css('margin', '0px 0px 0px ' + content.offset().left + 'px');
+      
       $('#body').css('cursor', 'move').disableTextSelect();
       $(document).mousemove(Page.doResize).mouseup(Page.endResize);
     },
@@ -338,6 +341,9 @@ var Page = {
       HoverHandle.setEnabled(true);
       
       $('#body').css('cursor', 'default').enableTextSelect();
+      
+      var content = $('#innerWrapper');
+      content.css('margin', '0px auto');
       
       $(document).unbind('mouseup', Page.endResize);
       $(document).unbind('mousemove', Page.doResize);

@@ -43,12 +43,14 @@ pre {
 }
 
 #innerWrapper {
-    margin: 0pt 0pt 0pt 48px;
+    /*margin: 0pt 0pt 0pt 48px;*/
+    margin: 0pt auto;
     text-align: left;
+    padding: 0px 16px 18px 16px;
 }
 
 #pageContent {
-    margin-top: 12px;
+  margin-top: 12px;
 }
 
 #innerContent {
@@ -347,7 +349,7 @@ pre {
 
 div.pageList .listItems {
     padding: 0px;
-    list-style-type: none;a
+    list-style-type: none;
 }
 
 div.pageList .listItem {
