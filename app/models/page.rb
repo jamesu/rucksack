@@ -195,6 +195,7 @@ class Page < ActiveRecord::Base
 	   new_page = self.clone
 	   new_page.title = :copy_of_page.l_with_args(:title => self.title)
 	   new_page.created_by = new_owner
+	   new_page.address = 'random'
 	   new_page.save!
 	   
 	   # Duplicate in the slots...
