@@ -10,7 +10,7 @@
       %li.activityEntry
         -# "#{log.action} (#{log.rel_object_id} #{log.rel_object_type}) | p:#{log.page_id} by #{log.created_by_id}"
         - if !log.page_id.nil?
-          = "activity_modify_Page".to_sym.l_with_args(:object_name => log.page.object_name, :previous_name => log.previous_name, :url => !log.page.nil? ? url_for(log.page) : '#') 
+          = "activity_edit_Page".to_sym.l_with_args(:object_name => log.page.object_name, :previous_name => log.previous_name, :url => !log.page.nil? ? url_for(log.page) : '#') 
           -# "(#{log.created_on.to_s})"
         - elsif !log.rel_object_id.nil?
           = "activity_#{log.action}_#{log.rel_object_type}".to_sym.l_with_args(:object_name => log.object_name, :previous_name => log.previous_name, :url => !log.rel_object.nil? ? url_for(log.rel_object) : '#')

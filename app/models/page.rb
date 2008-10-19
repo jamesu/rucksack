@@ -62,7 +62,7 @@ class Page < ActiveRecord::Base
 	end
 	
 	def process_update_params
-	  ApplicationLog.new_log(self, self.created_by, :edit)
+	  ApplicationLog.new_log(self, self.created_by, @previous_name.nil? ? :edit : :rename)
 	  update_tags
 	end
 	
