@@ -204,7 +204,6 @@ pre {
 #pageListItems li.current a { color: #fff; }
 
 .pageSlot {
-    background: #fff;
     position: relative;
     padding: 16px 18px 0px;
 }
@@ -214,7 +213,6 @@ pre {
 }
 
 .pageWidget {
-    background: #fff;
 }
 
 .pageWidget p {
