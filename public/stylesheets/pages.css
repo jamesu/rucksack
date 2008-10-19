@@ -239,21 +239,24 @@ pre {
     position: absolute;
     right: 0px;
     margin: 0px;
-    background: yellow;
+    background: #ffdd1a;
     width: 58px;
+    text-align: right;
+    line-height: 24px;
+    z-index:0;
 }
 
 /* Page slot handle list. Inline and semantic */
 .pageSlotHandle ul {
     display: inline;
-    padding: 0pt;
-    
+    padding: 2px;
 }
 
 .pageSlotHandle li {
     display: inline;
-    padding-left: 0pt;
+    padding-right: 1px;
     cursor: pointer;
+    font-size: 13px;
 }
 
 .pageSlotHandle .slot_handle {
