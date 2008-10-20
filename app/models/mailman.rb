@@ -5,7 +5,7 @@ class Mailman < ActionMailer::Base
     return if page.nil?
     
     # Handle email and default case
-    unless handle_widgets email
+    unless handle_widgets page, email
       page_email = page.emails.build(
         :subject => email.subject,
         :body => email.body
@@ -24,12 +24,12 @@ class Mailman < ActionMailer::Base
     end
   end
   
-  def handle_widgets(email)
+  def handle_widgets(page, email)
     # Extract "widget_type:"
     begin
-      matches = /([A-Za-z]*):/.match(email.subject)
+      matches = /([A-Za-z]*):(.*)/.match(email.subject)
       unless matches.nil?
-        widget_type = matches[1]
+        widget_type = matches[1].downcase
         widget_name = matches[2].strip
       else
         widget_type = matches[0].split(' ')[0]
@@ -53,7 +53,7 @@ class Mailman < ActionMailer::Base
   def process_note(name, page, email)
     page_note = page.notes.build(
       :title => name,
-      :content => email.body
+      :content => email.body,
       :show_date => true)
     
     page_note.created_by = page.created_by
@@ -78,8 +78,8 @@ class Mailman < ActionMailer::Base
       page.new_slot_at(page_list, nil, true)
       
       # Add list items
-      email.body.scan /\* (.*)/).each do |item|
-        list_item = page_list.list_items.build(:content => item)
+      email.body.scan(/\* (.*)/).each do |item|
+        list_item = page_list.list_items.build(:content => item.to_s)
         list_item.created_by = @logged_user
         list_item.save
       end
