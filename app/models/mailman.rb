@@ -20,7 +20,19 @@ class Mailman < ActionMailer::Base
     end
     
     if email.has_attachments?
-      # TODO (need to support file attachments!)
+      # Add attachment widgets
+      email.attachments.reverse.each do |attachment|
+        uploaded_file = page.uploaded_files.build(
+          :data => attachment
+        )
+        
+        uploaded_file.created_by = page.created_by
+        
+        if uploaded_file.save
+          # Plonk at top of the page
+          page.new_slot_at(uploaded_file, nil, true)
+        end
+      end
     end
   end
   
