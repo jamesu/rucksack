@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 12) do
+ActiveRecord::Schema.define(:version => 13) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "owner_id",   :limit => 10,                  :null => false
@@ -168,6 +168,17 @@ ActiveRecord::Schema.define(:version => 12) do
   add_index "tags", ["rel_object_id", "rel_object_type"], :name => "index_tags_on_rel_object_id_and_rel_object_type"
   add_index "tags", ["name"], :name => "index_tags_on_name"
   add_index "tags", ["page_id"], :name => "index_tags_on_page_id"
+
+  create_table "uploaded_files", :force => true do |t|
+    t.integer  "page_id",           :limit => 10
+    t.string   "data_file_name"
+    t.string   "data_content_type"
+    t.integer  "data_file_size"
+    t.integer  "created_by_id",     :limit => 10, :default => 0, :null => false
+    t.integer  "updated_by_id",     :limit => 10, :default => 0, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "username",      :limit => 50,  :default => "", :null => false
