@@ -17,6 +17,28 @@ jQuery.fn.extend({
 	 });
 	},
 	
+	requestIframeScript: function( params, callback ) {
+	  var strName = ("uploader" + (new Date()).getTime());
+	  var jFrame = $( "<iframe name=\"" + strName + "\" src=\"about:blank\" />" );
+	  jFrame.css( "display", "none" );
+	  
+	  jFrame.load(function(evt){
+	    var objUploadBody = window.frames[ strName ].document.getElementsByTagName( "body" )[ 0 ];
+	    var jBody = $(objUploadBody);
+	    
+	    // Ugly hack
+	    $.get(objUploadBody.innerHTML, params, callback, 'script');
+	    
+	    console.log(jFrame);
+	    setTimeout(function(){
+	      //jFrame.remove();
+	    }, 100);
+	  });
+	  
+	  $("body:first").append(jFrame);	  
+	  $(this[0]).attr('target', strName);
+	},
+	
 	autofocus: function() {
 	  this.find('.autofocus:first').focus();
 	}
@@ -396,7 +418,13 @@ var Page = {
       $('.pageSlotHandle').click(HoverSlotBar);
 
       $('.widgetForm').submit(function(evt) {
-        $(this).request(JustRebind, 'script');  
+        var el = $(this);
+        if (el.hasClass('upload')) {
+          el.requestIframeScript({}, JustRebind);
+          return true;
+        }
+        else
+          el.request(JustRebind, 'script');  
   
         return false;
       });
@@ -409,7 +437,13 @@ var Page = {
       });
 
       $('.fixedWidgetForm').submit(function(evt) {
-        $(this).request(ResetAndRebind, 'script');
+        var el = $(this);
+        if (el.hasClass('upload')) {
+          el.requestIframeScript({'is_new': 1}, ResetAndRebind);
+          return true;
+        }
+        else
+          el.request(ResetAndRebind, 'script');  
         
         return false;
       });
@@ -457,6 +491,23 @@ var Page = {
           InsertionMarker.set(null, false);
         
         var form = $('#add_SeparatorForm');
+  
+        InsertionBar.setWidgetForm(form);
+        InsertionBar.hide();
+        InsertionMarker.setEnabled(true);
+        HoverHandle.setEnabled(true);
+        
+        form.autofocus();
+  
+        return false;
+      });
+
+      $('.add_UploadedFile').click(function(evt) {
+        // Set to top of page if on top toolbar
+        if ($(this).hasClass('atTop'))
+          InsertionMarker.set(null, false);
+        
+        var form = $('#add_UploadedFileForm');
   
         InsertionBar.setWidgetForm(form);
         InsertionBar.hide();
@@ -740,6 +791,7 @@ var Page = {
       $('.add_List').unbind();
       $('.add_Note').unbind();
       $('.add_Separator').unbind();
+      $('.add_UploadedFile').unbind();
             
       $('.addItem form').unbind();
       $('.addItem form .cancel').unbind();

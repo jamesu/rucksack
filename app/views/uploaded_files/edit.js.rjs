@@ -1,0 +1,2 @@
+page.replace_html "page_slot_#{@uploaded_file.page_slot.id}", :partial => 'form'
+page["page_slot_#{@uploaded_file.page_slot.id}"].autofocus

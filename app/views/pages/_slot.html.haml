@@ -1,4 +1,4 @@
-- page_url = @page.can_be_edited_by(@logged_user) ? "/#{slot.rel_object_type.downcase.pluralize}/#{slot.rel_object_id}" : ''
+- page_url = @page.can_be_edited_by(@logged_user) ? "/#{slot.rel_object_type.pluralize.tableize}/#{slot.rel_object_id}" : ''
 
 .pageWidget{:url => page_url}
   - if @page.can_be_edited_by(@logged_user)

@@ -1,0 +1,23 @@
+- if @uploaded_file.nil? or @uploaded_file.new_record?
+  - fpath = page_uploaded_files_path(@page)
+  - fmethod = :post
+  - fid = 'fixedWidgetForm upload'
+- else
+  - fpath = page_uploaded_file_path(@page, @uploaded_file)
+  - fmethod = :put
+  - fid = 'widgetForm upload'
+
+- form_tag( fpath, :method => fmethod, :class => fid, :multipart => true) do
+  %div
+    != file_field 'uploaded_file', 'data', :class => 'uploadedFileFormTitle', :class => 'autofocus long'
+  
+  %input{:type => 'hidden', :name=> 'format', :value => 'js'}/
+  
+  - if @uploaded_file.nil? or @uploaded_file.new_record?
+    %input#add_UploadedFileFormBefore{:type => 'hidden', :name=> 'position[before]', :value => '0'}/
+    %input#add_UploadedFileFormSlot{:type => 'hidden', :name=> 'position[slot]', :value => '0'}/
+    %button{:class => 'submit', :type => 'submit'}= :upload.l
+  - else
+    %button{:class => 'submit', :type => 'submit'}= :upload.l
+  
+  %a{:href => '#', :class => 'cancel'}= :cancel.l

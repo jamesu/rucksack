@@ -34,6 +34,7 @@ cancel: Cancel
 Note: Note
 List: List
 Separator: Separator
+UploadedFile: File
 share_page: Share page
 users_who_can_see_page: "Users who can edit this page"
 page_public: "Is publically viewable <br/>(at {link})"
@@ -94,6 +95,7 @@ create_user: Create user
 update_profile: Update profile
 update_user: "Update '{name}'"
 user_is_admin: Is administrator
+upload: Upload
 
 # Reminders
 reminder: Reminder
@@ -177,6 +179,10 @@ cannot_delete_listitem: Cannot delete this list item
 cannot_create_separator: Cannot create a separator
 cannot_edit_separator: Cannot edit this separator
 cannot_delete_separator: Cannot delete this separator
+
+cannot_create_uploaded_file: Cannot upload a file
+cannot_edit_uploaded_file: Cannot modify this file
+cannot_delete_uploaded_file: Cannot delete this file
 
 cannot_create_journal: Cannot create a journal
 cannot_edit_journal: Cannot edit this journal
