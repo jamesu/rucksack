@@ -35,7 +35,7 @@ pre {
     padding: 8px 6px 0px 6px; 
     text-align: left;
     
-    background: #fff;
+    background: #c1c1c1;
 }
 
 /* outer wrapper for content. contains side background */
@@ -60,12 +60,26 @@ pre {
 /* user options */
 #userOptions {
   float: right;
+  
+  background: #a9a9a9;
+  padding: 3px 6px 3px 6px;
+  color: #fff;
+}
+
+#userOptions .userName {
+  font-weight: bold;
+}
+
+#userOptions a {
+  color: #fff;
 }
 
 #userOptions a.active
 {
   text-decoration: none;
   font-weight: bolder;
+  color: #000;
+  background: #EEEEEE;
 }
 
 /* tabs */
