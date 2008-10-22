@@ -10,7 +10,7 @@ body { margin: 0px; padding: 0px; background-color: #eee; color: #333; }
 
 label { display: block; }
 
-ul { padding-left: 24px; }
+ul, ol { padding-left: 28px; }
 
 pre { overflow: auto; }
 
@@ -324,6 +324,11 @@ pre {
 /* Separator */
 .pageSeparator {
     border-bottom: 2px solid #000;
+}
+
+/* File */
+.pageUploadedFile {
+    font-size: 12px;
 }
 
 /* Email */
