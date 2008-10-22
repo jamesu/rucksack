@@ -859,7 +859,7 @@ var Page = {
         var el = $(this);
         if (!el.hasClass('current')) {
           el.droppable('destroy');
-          el.droppable({ hoverClass:'hover', accept:'.pageSlot', drop: function(ev, ui) { Page.moveSlotTo(ui.draggable.attr('slot'), $(this).attr('page_id')); } });
+          el.droppable({ hoverClass:'hover', accept:'.pageSlot', tolerance: 'pointer', drop: function(ev, ui) { Page.moveSlotTo(ui.draggable.attr('slot'), $(this).attr('page_id')); } });
         }
        });
        
