@@ -28,6 +28,3 @@
       %h2= :pages_shared_to_me.l
   
   != render :partial => 'index_page', :collection => @shared_pages, :locals => {:shared => true}
-
-%p
-  %a{:href => new_page_path}= :new_page.l
