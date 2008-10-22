@@ -124,7 +124,7 @@ module ApplicationHelper
 	       
 	       unless force_attrs.nil?
 	         attrs = force_attrs.map{ |key,value| "#{key}='#{value}'"}.join(' ')
-	         text.gsub(/^<\b([a-z]*)\w/, "\\0 #{attrs}")
+	         text.gsub(/<\b([a-z]*)\w/, "\\0 #{attrs}")
 	       else
 	         text
 	       end
