@@ -244,14 +244,14 @@ class PagesController < ApplicationController
       if !session['page_id'].nil?
         page = Page.find(session['page_id'])
         unless page.can_be_seen_by(@logged_user)
-            page = @user.pages.first
+            page = @user.home_page
             session['page_id'] = page.id
         end
       else
-        page = @user.pages.first
+        page = @user.home_page
       end
     rescue
-      page = @user.pages.first
+      page = @user.home_page
       session['page_id'] = page.id
     end
     

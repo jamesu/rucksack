@@ -3,6 +3,8 @@
 %ul#pageListItems
   %li{:class => cclass, :page_id => '0'}
     %a{:href => pages_path}= :all_pages.l
+  %li{:class => (@logged_user.home_page == @page ? 'current' : nil), :page_id => @logged_user.home_page_id}
+    %a{:href => page_path(@logged_user.home_page)}= h @logged_user.home_page.title
   - @logged_user.favourite_pages.each do |page|
     %li{:class => (page == @page ? 'current' : nil), :page_id => page.id}
       %a{:href => page_path(page)}= h page.title

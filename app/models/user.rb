@@ -27,7 +27,8 @@ class User < ActiveRecord::Base
   
   belongs_to :account
   belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
-  
+
+  belongs_to :home_page, :class_name => 'Page', :foreign_key => 'home_page_id', :dependent => :destroy
   has_many :pages, :foreign_key => 'created_by_id', :order => 'pages.title ASC', :dependent => :destroy
   has_and_belongs_to_many :shared_pages, :class_name => 'Page', :join_table => 'shared_pages', :order => 'pages.title ASC'
   has_and_belongs_to_many :favourite_pages, :class_name => 'Page', :join_table => 'favourite_pages', :order => 'pages.title ASC'

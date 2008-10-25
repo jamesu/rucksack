@@ -131,6 +131,7 @@ class Page < ActiveRecord::Base
 	end
 	
 	def can_be_deleted_by(user)
+	 return false if self.created_by.home_page_id == self.id
 	 return (user.is_admin or user.id == self.created_by_id)
 	end
 	

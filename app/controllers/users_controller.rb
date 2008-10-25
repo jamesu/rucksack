@@ -64,9 +64,17 @@ class UsersController < ApplicationController
         @user.password = user_attribs[:password]
         @user.password_confirmation = user_attribs[:password_confirmation]
     end
+    
+    saved = @user.save
+    if saved
+      home_page = Page.new(:title => "#{@user.display_name.pluralize} page")
+      home_page.created_by = user
+      home_page.save
+      @user.update_attribute('home_page', home_page)
+    end
 
     respond_to do |format|
-      if @user.save
+      if saved
         flash[:notice] = 'user was successfully created.'
         format.html { redirect_to(users_path) }
         format.xml  { render :xml => @user.to_xml(:except => [:salt, :token, :twister]), :status => :created, :location => @user }
