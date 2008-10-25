@@ -40,7 +40,10 @@ ActionController::Routing::Routes.draw do |map|
   #     admin.resources :products
   #   end
   
-  map.resources :users, :collection => {:current => :get} do |users|
+  map.resources :users,
+                :collection => {:forgot_password => :any,
+                                :reset_password => :any,
+                                :current => :get} do |users|
     users.resources :journals
     users.resources :reminders
     users.resources :pages
@@ -68,7 +71,12 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  map.root :controller => "pages", :action => "index"
+  map.root :controller => "pages", :action => "current"
+
+  # Restful authentication
+  map.resource :session
+  map.login  '/login',  :controller => 'sessions', :action => 'new'
+  map.logout '/logout', :controller => 'sessions', :action => 'destroy'
 
   # See how all your routes lay out with "rake routes"
 

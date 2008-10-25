@@ -10,9 +10,10 @@ forgot_password: Forgot password
 forgot_password_q: "Forgot password?"
 send_password: Send password
 use_openid: Use OpenID
-remember_me_for_days: Remember me for {days} days
+remember_me: Remember me
 login_success: Login successful
 login_failure: Invalid login
+logout_success: You have logged out
 invalid_openid_server: "Unable to find openid server for <q>{openid_url}</q>"
 failed_verification_openid_url: "Verification of {openid_url} failed"
 failed_login_openid_url: "Failed login with identity {openid_url}"

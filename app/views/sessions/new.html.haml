@@ -5,18 +5,21 @@
     != check_box "login", "use_openid", :size => 30, :id => 'loginOpenID', :class => 'checkbox', :onclick => 'login_toggle_openid()'
     %label.checkbox{:for => 'loginOpenID'}= :use_openid.l
 
-- form_tag :controller => 'access', :action => 'login' do
+- form_tag session_path do
   #normal_login.inner{:style => 'display: block'}
     #loginUsernameField
       %label{:for => 'loginUsername'}= :username.l
-      != text_field "login", "user", :size => 30, :id => 'loginUsername', :class => 'medium'
+      != text_field_tag 'login', @login, :size => 30, :id => 'loginUsername', :class => 'medium'
     #loginPasswordField
       %label{:for => 'loginPassword'}= :password.l
-      != password_field "login", "password", :size => 30, :id => 'loginPassword', :class => 'medium'
+      != password_field_tag 'password', nil, :size => 30, :id => 'loginPassword', :class => 'medium'
     #loginCustom
-      (
-      != link_to :forgot_password_q.l , :controller => 'access', :action => 'forgot_password'
-      ) 
+      = check_box_tag 'remember_me', '1', @remember_me
+      %label.checkbox{:for => 'loginRememberMe'}= :remember_me.l
+      %div
+        (
+        != link_to :forgot_password_q.l , :controller => 'users', :action => 'forgot_password'
+        ) 
   
   - if AppConfig.allow_openid
     #openid_login.inner{:style => 'display: none'}

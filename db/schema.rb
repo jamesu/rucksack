@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 14) do
+ActiveRecord::Schema.define(:version => 15) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "owner_id",   :limit => 10,                  :null => false
@@ -181,24 +181,25 @@ ActiveRecord::Schema.define(:version => 14) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "username",      :limit => 50,  :default => "", :null => false
-    t.string   "email",         :limit => 100
-    t.string   "token",         :limit => 40,  :default => "", :null => false
-    t.string   "salt",          :limit => 13,  :default => "", :null => false
-    t.string   "twister",       :limit => 10,  :default => "", :null => false
+    t.string   "username",                  :limit => 50,  :default => "", :null => false
+    t.string   "email",                     :limit => 100
+    t.string   "token",                     :limit => 40,  :default => "", :null => false
+    t.string   "salt",                      :limit => 13,  :default => "", :null => false
+    t.string   "twister",                   :limit => 10,  :default => "", :null => false
     t.string   "identity_url"
-    t.string   "display_name",  :limit => 50
-    t.string   "avatar_file",   :limit => 44
-    t.string   "time_zone",                                    :null => false
-    t.integer  "created_by_id", :limit => 10
+    t.string   "display_name",              :limit => 50
+    t.string   "time_zone",                                                :null => false
+    t.integer  "created_by_id",             :limit => 10
     t.datetime "last_login"
     t.datetime "last_visit"
     t.datetime "last_activity"
     t.boolean  "is_admin"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "account_id",    :limit => 10
-    t.integer  "home_page_id",  :limit => 10
+    t.integer  "account_id",                :limit => 10
+    t.integer  "home_page_id",              :limit => 10
+    t.string   "remember_token",            :limit => 40
+    t.datetime "remember_token_expires_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

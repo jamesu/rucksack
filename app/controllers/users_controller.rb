@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   
-  layout 'pages'
+  layout :user_layout
   
   after_filter  :user_track
     
@@ -134,5 +134,81 @@ class UsersController < ApplicationController
     @user = @logged_user
     
     render :action => 'edit'
+  end  
+ 
+  # GET /users/forgot_password 
+  def forgot_password
+    case request.method
+      when :post
+        @your_email = params[:your_email]
+        
+        if not @your_email =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
+          error_status(false, :invalid_email, {}, false)
+          return
+        end
+        
+        user = User.find(:first, :conditions => ['email = ?', @your_email])
+        if user.nil?
+          error_status(false, :invalid_email_not_in_use, {}, false)
+          return
+        end
+        
+        # Send the reset!
+        user.send_password_reset()
+        error_status(false, :forgot_password_sent_email, {}, false)
+        redirect_to new_session_path
+    end
   end
+  
+  # GET /users/reset_password
+  def reset_password
+    begin
+      @user = User.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      error_status(false, :invalid_request, {}, false)
+      redirect_to new_session_path
+      return
+    end
+    
+    unless @user.password_reset_key == params[:confirm]
+      error_status(false, :invalid_request, {}, false)
+      redirect_to new_session_path
+    end
+    
+    @initial_signup = params.has_key? :initial
+    
+    case request.method
+      when :post
+        
+        @password_data = params[:user]
+            
+        unless @password_data[:password]
+          @user.errors.add(:password, :new_password_required.l)
+          return
+        end
+          
+        unless @password_data[:password] == @password_data[:password_confirmation]
+          @user.errors.add(:password_confirmation, :does_not_match.l)
+          return
+        end
+    
+        @user.password = @password_data[:password]
+        @user.save
+        
+        error_status(false, :password_changed, {}, false)
+        redirect_to :action => 'login'
+        return
+    end
+  end
+
+protected
+
+  def user_layout
+    ['forgot_password', 'reset_password'].include?(action_name) ? 'dialog' : 'pages'
+  end
+  
+  def authorized?(action = action_name, resource = nil)
+    ['forgot_password', 'reset_password'].include?(action) ? true : logged_in?
+  end
+
 end

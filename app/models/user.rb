@@ -24,6 +24,9 @@ require 'gd2' unless AppConfig.no_gd2
 
 class User < ActiveRecord::Base
   include ActionController::UrlWriter
+  include Authentication
+  #include Authentication::ByPassword
+  include Authentication::ByCookieToken
   
   belongs_to :account
   belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
@@ -152,7 +155,6 @@ class User < ActiveRecord::Base
   end
   
   def password_changed?
-    #puts "password_changed == " + ( !@cached_password.nil? ? 'yes' : 'no')
     !@cached_password.nil?
   end
   
@@ -278,50 +280,6 @@ class User < ActiveRecord::Base
   def owner_of_owner?
     self.account_id.nil? and Account.owner.id == self.account_id
   end
-  
-  def has_avatar?
-    !self.avatar_file.nil?
-  end
-    
-  def avatar
-    nil
-  end
-  
-  def avatar=(value)
-    return if AppConfig.no_gd2
-    FileRepo.handle_delete(self.avatar_file) unless self.avatar_file.nil?
-    
-    if value.nil?
-      self.avatar_file = nil
-      return
-    end
-    
-    content_type = value.content_type.chomp
-    
-    if !['image/jpg', 'image/jpeg', 'image/gif', 'image/png'].include?(content_type)
-      self.errors.add(:avatar, "Unsupported format")
-      return
-    end
-    
-    max_width = AppConfig.max_avatar_width
-    max_height = AppConfig.max_avatar_height
-    
-    begin
-      data = value.read
-      image = GD2::Image.load(data)
-      image.resize!(image.width > max_width ? max_width : image.width,
-                    image.height > max_height ? max_height : image.height)
-    rescue
-      self.errors.add(:avatar, "Invalid data")
-      return
-    end
-    
-    self.avatar_file = FileRepo.handle_storage(image.png)
-  end
-  
-  def avatar_url
-    self.avatar_file.nil? ? "/images/avatar.gif" : "/account/avatar/#{self.id}.png"
-  end
  
   def display_name
     display_name? ? read_attribute(:display_name) : username
@@ -336,7 +294,7 @@ class User < ActiveRecord::Base
   end
   
   def self.get_online(active_in=15)
-    datetime = Time.now # Time.zone.now
+    datetime = Time.now.utc # Time.zone.now
     datetime -= (active_in * 60)
     
     User.find(:all, :conditions => "last_activity > '#{datetime.strftime('%Y-%m-%d %H:%M:%S')}'", :select => "id, company_id, display_name")

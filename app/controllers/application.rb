@@ -4,7 +4,7 @@
 require_dependency "login_system"
 
 class ApplicationController < ActionController::Base
-  include LoginSystem
+  include AuthenticatedSystem
   
   # Pick a unique cookie name to distinguish our session data from others'
   session :session_key => '_rucksack_session_id'
