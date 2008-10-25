@@ -15,7 +15,7 @@ ul, ol { padding-left: 28px; }
 pre { overflow: auto; }
 
 body, p, ol, ul, td {
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: lucida grande, verdana, arial, helvetica, sans-serif;
   font-size:   13px;
   line-height: 18px;
 }
