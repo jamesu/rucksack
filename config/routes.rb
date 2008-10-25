@@ -1,8 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :journals
-
-  map.resources :statuses
-
   map.resource :dashboard
   map.resources :reminders, :member => {:snooze => :put}
   
@@ -49,7 +45,6 @@ ActionController::Routing::Routes.draw do |map|
     users.resources :pages
     users.resource :dashboard
     users.resource :status
-    users.resources :journals
   end
   
   map.resources :pages, :member => {:reorder => :post, 
