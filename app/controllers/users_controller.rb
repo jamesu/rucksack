@@ -11,7 +11,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @users.to_xml(:except => [:salt, :token, :twister]) }
+      format.xml  { render :xml => @users.to_xml(:except => [:salt, :token, :twister, :remember_token, :remember_token_expires_at]) }
     end
   end
 
@@ -68,7 +68,7 @@ class UsersController < ApplicationController
     saved = @user.save
     if saved
       home_page = Page.new(:title => "#{@user.display_name.pluralize} page")
-      home_page.created_by = user
+      home_page.created_by = @user
       home_page.save
       @user.update_attribute('home_page', home_page)
     end

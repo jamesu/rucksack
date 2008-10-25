@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 =end
 
 require 'digest/sha1'
-require 'gd2' unless AppConfig.no_gd2
 
 class User < ActiveRecord::Base
   include ActionController::UrlWriter
@@ -343,6 +342,7 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password, :if => :password_changed?
   
   validates_uniqueness_of :username
+  validates_presence_of :email
   validates_uniqueness_of :email
   validates_uniqueness_of :identity_url, :if => Proc.new { |user| !(user.identity_url.nil? or user.identity_url.empty? ) }
 end

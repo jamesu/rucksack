@@ -12,7 +12,6 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 require 'ostruct'
 ::AppConfig = OpenStruct.new()
-AppConfig.no_gd2 = true
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
