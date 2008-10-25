@@ -331,15 +331,15 @@ class PagesController < ApplicationController
   
 protected
   
-  def protect?(action)
+  def authorized?(action = action_name, resource = nil)
     if action == 'public'
       # Make a temp anonymous user to check permissions
       @logged_user = User.new(:username => 'anonymous', :display_name => 'Anonymous')
       @logged_user.is_anonymous = true
-      return false
+      return true
     end
     
-    true
+    logged_in?
   end
   
   def search
