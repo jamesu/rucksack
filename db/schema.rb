@@ -9,13 +9,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 15) do
+ActiveRecord::Schema.define(:version => 16) do
 
   create_table "accounts", :force => true do |t|
-    t.integer  "owner_id",   :limit => 10,                  :null => false
+    t.integer  "owner_id",       :limit => 10,                    :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "site_name",  :limit => 100, :default => "", :null => false
+    t.string   "site_name",                    :default => "",    :null => false
+    t.string   "host_name",                    :default => "",    :null => false
+    t.boolean  "openid_enabled",               :default => false, :null => false
   end
 
   create_table "application_logs", :force => true do |t|
