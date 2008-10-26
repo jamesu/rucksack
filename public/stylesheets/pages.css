@@ -524,8 +524,11 @@ div.pageList .itemDelete {
 
 #userStatus {
   border: 1px dashed #ccc;
-  padding: 4px 6px 4px 6px;
   cursor: pointer;
+}
+
+#user_status {
+  padding: 4px 6px 4px 6px;
 }
 
 /* activity log */

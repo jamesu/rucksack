@@ -17,8 +17,8 @@ class StatusesController < ApplicationController
 
   # PUT /statuses/1
   # PUT /statuses/1.xml
-  def index
-    @status = @user.status || @user.build_status
+  def update
+    @status = @user.status || @user.build_status(:content => :status.l)
     return error_status(true, :cannot_edit_status) unless (@status.can_be_edited_by(@logged_user))
     
     @status.attributes = params[:status]

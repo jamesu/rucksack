@@ -9,7 +9,7 @@ class JournalsController < ApplicationController
     return error_status(true, :cannot_see_journals) unless (@user.journals_can_be_seen_by(@logged_user))
     
     @journals = get_groups
-    @status = @user.status || @user.status.build()
+    @status = @user.status || @user.build_status
 
     respond_to do |format|
       format.html # index.html.erb
