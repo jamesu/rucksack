@@ -1,0 +1,16 @@
+= error_messages_for :account
+
+%div
+  %label{:for => 'settingsFormSiteName'}= :site_name.l
+  = text_field 'account', 'site_name', :id => 'settingsFormSiteName', :class => 'long'
+  %p.desc= :site_name_info.l
+
+%div
+  %label{:for => 'settingsFormHostName'}= :host_name.l
+  = text_field 'account', 'host_name', :id => 'settingsFormHostName', :class => 'long'
+  %p.desc= :host_name_info.l
+
+%div
+  = check_box 'account', 'openid_enabled', :id => 'settingsFormOpenID'
+  %label.checkbox{:for => 'settingsFormOpenID'}= :openid_enabled.l
+  %p.desc= :openid_info.l

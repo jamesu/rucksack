@@ -277,7 +277,7 @@ class User < ActiveRecord::Base
   end
   
   def owner_of_owner?
-    self.account_id.nil? and Account.owner.id == self.account_id
+    Account.owner.id == self.account_id
   end
  
   def display_name

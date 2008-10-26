@@ -200,6 +200,16 @@ cannot_see_reminders: Cannot see reminders for this user
 cannot_edit_status: Cannot change status
 cannot_see_status: Cannot view this users status
 
+# Settings
+settings: Settings
+settings_updated: Settings updated
+site_name: Site name
+site_name_info: "The name your RuckSack goes by."
+host_name: Hostname
+host_name_info: "The hostname used by your RuckSack, which is also used for sending emails. e.g. localhost.com."
+openid_enabled: "Enable OpenID logins"
+openid_info: "For more information about OpenID, please visit <a href=\"http://openid.net/\">OpenID</a>."
+
 # Notes
 date_format_dm: "%d %b"
 date_format_dmy: "%d %b %Y"

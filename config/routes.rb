@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resource :account, :as => 'settings'
+
   map.resource :dashboard
   map.resources :reminders, :member => {:snooze => :put}
   

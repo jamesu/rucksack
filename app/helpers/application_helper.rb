@@ -99,6 +99,7 @@ module ApplicationHelper
 	def user_tabs(current)
 	  items = [{:id => :users, :url => '/users'}]
 	  
+	  items = [{:id => :settings, :url => '/settings'}] + items if @logged_user.owner_of_owner?
 	  @selected_user_item = current
 	  return items
 	end

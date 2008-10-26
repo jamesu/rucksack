@@ -10,6 +10,15 @@ body { margin: 0px; padding: 0px; background-color: #eee; color: #333; }
 
 label { display: block; }
 
+label.checkbox {
+  clear: none;
+  display: inline;
+}
+
+p.desc {
+  color: #555;
+}
+
 ul, ol { padding-left: 28px; }
 
 pre { overflow: auto; }
@@ -554,6 +563,20 @@ table.userList
   margin-bottom: 4px;
 }
 
+/* account form */
+
+#settingsForm label {
+  margin-bottom: 4px;
+}
+
+#settingsForm label.yesno {
+  display: inline;
+}
+
+#settingsForm form div {
+  margin-bottom: 4px;
+}
+
 a { color: #000; }
 a:visited { color: #666; }
 a:hover { color: #fff; background-color:#000; }
@@ -569,6 +592,10 @@ label.yesno {
 label.check {
   font-weight: normal;
   display: inline;
+}
+
+.formSubmit {
+  margin-top: 12px;
 }
 
 .hint
