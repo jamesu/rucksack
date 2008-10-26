@@ -1,8 +1,8 @@
-Your account has been created.
+<%= :notifier_signup_intro.l_with_args(:user_name => @user.display_name, :site_name => @owner.site_name) %>
 
-  Username: <%=h @user.login %>
-  Password: <%=h @user.password %>
+  <%= :username.l %>: <%=h @user.login %>
+  <%= :password.l %>: <%=h @user.password %>
 
-Visit this url to activate your account:
+<%= :notifier_signup_location.l %>
 
   <%=h @url %>

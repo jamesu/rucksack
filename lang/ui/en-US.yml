@@ -210,5 +210,9 @@ notifier_donotreply: "DO NOT REPLY TO THIS MESSAGE"
 notifier_reminder: "{content}"
 notifier_reminder_info: "This reminder can be modified at:"
 
+notifier_signup_subject: "Welcome"
+notifier_signup_intro: "{user_name},\n\nYour account at {site_name} has been created."
+notifier_signup_location: "Your account can be accessed at the following location:"
+
 product_name: Rucksack
 product_signature: Powered by Rucksack
