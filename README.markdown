@@ -11,6 +11,7 @@ any of the following content (or "widgets"):
 * Notes
 * Lists
 * Separators (or you can call them headings)
+* Files
 
 These pages can be edited by yourself and any other 
 user you choose to share it to. 
