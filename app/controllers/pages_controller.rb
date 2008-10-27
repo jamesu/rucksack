@@ -333,13 +333,10 @@ protected
   
   def authorized?(action = action_name, resource = nil)
     if action == 'public'
-      # Make a temp anonymous user to check permissions
-      @logged_user = User.new(:username => 'anonymous', :display_name => 'Anonymous')
-      @logged_user.is_anonymous = true
-      return true
+      public_auth
+    else
+      logged_in?
     end
-    
-    logged_in?
   end
   
   def search

@@ -130,4 +130,23 @@ class EmailsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def public
+    @email = @page.emails.find(params[:id])
+    return error_status(true, :cannot_see_email) unless (@email.can_be_seen_by(@logged_user))
+
+    respond_to do |format|
+      format.html { render :action => 'show' }
+    end
+  end
+
+protected
+ 
+  def authorized?(action = action_name, resource = nil)
+    if action == 'public'
+      public_auth
+    else
+      logged_in?
+    end
+  end
 end

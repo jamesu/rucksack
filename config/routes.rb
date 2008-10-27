@@ -63,7 +63,7 @@ ActionController::Routing::Routes.draw do |map|
     end
     page.resources :notes
     page.resources :separators
-    page.resources :emails
+    page.resources :emails, :member => {:public => :get}
     page.resources :uploaded_files
   end
 

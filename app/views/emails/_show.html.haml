@@ -1,5 +1,5 @@
 - hhandle = "page_slot_handle_#{object.page_slot.id}"
 .pageEmail{:hover_handle => hhandle}
   %h2{:hover_handle => hhandle}
-    %a{:href => page_email_path(object.page, object), :hover_handle => hhandle}=h object.subject
+    %a{:href => "/pages/#{object.page_id}/emails/#{object.id}#{@logged_user.is_anonymous? ? '/public' : ''}", :hover_handle => hhandle}=h object.subject
     %span.pageEmailDate{:hover_handle => hhandle}= object.created_at.strftime(@time_now.year != object.created_at.year ? :date_format_dmy.l : :date_format_dm.l)
