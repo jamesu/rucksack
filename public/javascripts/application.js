@@ -458,7 +458,7 @@ var Page = {
       $('.add_List').click(function(evt) {
         // Set to top of page if on top toolbar
         if ($(this).hasClass('atTop'))
-          InsertionMarker.set(null, false);
+          InsertionMarker.set(null, true);
 
         Page.insertWidget('lists');
         InsertionBar.hide();
@@ -471,7 +471,7 @@ var Page = {
       $('.add_Note').click(function(evt) {
   // Set to top of page if on top toolbar
         if ($(this).hasClass('atTop'))
-          InsertionMarker.set(null, false);
+          InsertionMarker.set(null, true);
         
         var form = $('#add_NoteForm');
   
@@ -488,7 +488,7 @@ var Page = {
       $('.add_Separator').click(function(evt) {
         // Set to top of page if on top toolbar
         if ($(this).hasClass('atTop'))
-          InsertionMarker.set(null, false);
+          InsertionMarker.set(null, true);
         
         var form = $('#add_SeparatorForm');
   
@@ -505,7 +505,7 @@ var Page = {
       $('.add_UploadedFile').click(function(evt) {
         // Set to top of page if on top toolbar
         if ($(this).hasClass('atTop'))
-          InsertionMarker.set(null, false);
+          InsertionMarker.set(null, true);
         
         var form = $('#add_UploadedFileForm');
   

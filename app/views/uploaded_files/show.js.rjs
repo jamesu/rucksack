@@ -1,6 +1,6 @@
 if @new_file
   # Part of IFrame hack workaround
-  page.insert_html(:after, @insert_element, "<div class=\"pageSlot\" id=\"page_slot_#{@slot_id}\" slot=\"#{@slot_id}\"></div>")
+  page.insert_html(:before, @insert_element, "<div class=\"pageSlot\" id=\"page_slot_#{@slot_id}\" slot=\"#{@slot_id}\"></div>")
 end
 page.replace_html("page_slot_#{@uploaded_file.page_slot.id}", {:partial => 'pages/slot', :locals => {:slot => @uploaded_file.page_slot, :object => @uploaded_file}
 } )

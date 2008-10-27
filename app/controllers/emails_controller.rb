@@ -55,16 +55,7 @@ class EmailsController < ApplicationController
   def create
     return error_status(true, :cannot_create_email) unless (Email.can_be_created_by(@logged_user, @page))
     
-    # Calculate target position
-    # TODO: move to main controller as util function?
-    if !params[:position].nil?
-        pos = params[:position]
-        insert_id = pos[:slot].to_i
-        @insert_before = insert_id == 0 ? true : (pos[:before].to_i == 1)
-    else
-        insert_id = nil
-        @insert_before = true
-    end
+    calculate_position
     
     # Make the darn note
     @email = @page.emails.build(params[:email])
@@ -72,10 +63,7 @@ class EmailsController < ApplicationController
     saved = @email.save
     
     # And the slot, don't forget the slot
-    if saved
-        @slot = @page.new_slot_at(@email, insert_id, @insert_before)
-        @insert_element = insert_id == 0 ? 'page_slot_footer' : "page_slot_#{insert_id}"
-    end
+    save_slot(@email) if saved
 
     respond_to do |format|
       if @email.save

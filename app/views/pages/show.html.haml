@@ -39,7 +39,7 @@
     .pageSlot{:id => "page_slot_#{slot.id}", :slot => slot.id}
       = render :partial => 'slot', :locals => {:object => slot.rel_object, :slot => slot}
 
-  .pageSlot.pageFooter#page_slot_footer{:slot => 0}
+  .pageSlot.pageFooter#page_slot_footer{:slot => -1}
 
 #pageOptions
   - if @page.can_be_favourited_by(@logged_user)

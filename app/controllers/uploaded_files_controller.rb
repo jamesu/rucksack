@@ -20,10 +20,14 @@ class UploadedFilesController < ApplicationController
     
     @slot_id = @uploaded_file.page_slot.id
     slots = @page.slot_ids
+    @insert_element = 'page_slot_footer'
     slots.each_index do |idx|
       if slots[idx] == @slot_id
-        orig_id = idx < 0 ? 0 : slots[idx-1]
-        @insert_element = orig_id == 0 ? "page_slot_footer" : "page_slot_#{orig_id}"
+        if idx+1 != slots.length
+          # Not end of page
+          @insert_element = "page_slot_#{slots[idx+1]}"
+        end
+        
         break
       end
     end
@@ -64,16 +68,7 @@ class UploadedFilesController < ApplicationController
   def create
     return error_status(true, :cannot_create_uploaded_file) unless (UploadedFile.can_be_created_by(@logged_user, @page))
     
-    # Calculate target position
-    # TODO: move to main controller as util function?
-    if !params[:position].nil?
-      pos = params[:position]
-      insert_id = pos[:slot].to_i
-      @insert_before = insert_id == 0 ? true : (pos[:before].to_i == 1)
-    else
-      insert_id = nil
-      @insert_before = true
-    end
+    calculate_position
     
     # Make the darn note
     @uploaded_file = @page.uploaded_files.build(params[:uploaded_file])
@@ -81,10 +76,7 @@ class UploadedFilesController < ApplicationController
     saved = @uploaded_file.save
     
     # And the slot, don't forget the slot
-    if saved
-      @slot = @page.new_slot_at(@uploaded_file, insert_id, @insert_before)
-      @insert_element = insert_id == 0 ? 'page_slot_footer' : "page_slot_#{insert_id}"
-    end
+    save_slot(@uploaded_file) if saved
 
     respond_to do |format|
       if @uploaded_file.save

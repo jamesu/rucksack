@@ -89,5 +89,37 @@ protected
     @logged_user.is_anonymous = true
     return true
   end
+  
+  def calculate_position
+    # Calculate target position
+    # TODO: move to main controller as util function?
+    if !params[:position].nil?
+        pos = params[:position]
+        @insert_id = pos[:slot].to_i
+        if @insert_id < 0
+          @insert_id = 0
+          @insert_before = false
+          @insert_footer = true
+        else
+          @insert_before = @insert_id == 0 ? true : (pos[:before].to_i == 1)
+          @insert_footer = false
+        end
+    else
+        @insert_id = nil
+        @insert_before = true
+        @insert_footer = false
+    end
+  end
+  
+  def save_slot(obj)
+    @slot = @page.new_slot_at(obj, @insert_id, @insert_before)
+    
+    if @insert_footer
+      @insert_element = 'page_slot_footer'
+      @insert_before = true
+    else
+      @insert_element = @insert_id == 0 ? 'page_slot_footer' : "page_slot_#{@insert_id}"
+    end
+  end
 
 end
