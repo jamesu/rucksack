@@ -18,6 +18,7 @@ Rails::Initializer.run do |config|
   # config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
 
   config.gem 'gravtastic'
+  config.gem 'mojombo-chronic', :lib => 'chronic', :source => 'http://gems.github.com'
 
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
