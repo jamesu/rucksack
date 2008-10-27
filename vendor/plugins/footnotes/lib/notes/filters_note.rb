@@ -5,7 +5,15 @@ module Footnotes
     class FiltersNote < AbstractNote
       def initialize(controller)
         @controller = controller
-        @parsed_filters = parse_filters
+        @parsed_filters = parse_filters()
+      end
+
+      def self.to_sym
+        :filters
+      end
+
+      def title
+        'Filters'
       end
 
       def legend
@@ -37,7 +45,7 @@ module Footnotes
             #remove conditions (this would call a Proc on the mock_controller)
             filter.options.merge!(:if => nil, :unless => nil) 
 
-            filter.__send__(:should_run_callback?, mock_controller)   
+            filter.send!(:should_run_callback?, mock_controller)   
           }.map(&:to_sym)
         end
         

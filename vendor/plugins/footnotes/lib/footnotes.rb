@@ -5,10 +5,10 @@ module Footnotes
     # Edit notes
     @@notes = [ :components, :controller, :view, :layout, :stylesheets, :javascripts ]
     # Show notes
-    @@notes += [ :session, :cookies, :params, :filters, :routes, :env, :queries, :log, :general ]
+    @@notes += [ :session, :cookies, :params, :filters, :routes, :queries, :log, :general ]
 
     # :no_style       => If you don't want the style to be appended to your pages
-    # :notes          => Class variable that holds the notes to be processed
+    # :notes          => Class variable that holds the ntoes to be processed
     # :prefix         => Prefix appended to FootnotesLinks
     # :multiple_notes => Set to true if you want to open several notes at the same time
     cattr_accessor :no_style, :notes, :prefix, :multiple_notes
@@ -114,7 +114,7 @@ module Footnotes
       end
 
       def first_render?
-        @template.__send__(:_first_render)
+        @template.first_render
       end
 
       def valid_format?
@@ -122,7 +122,7 @@ module Footnotes
       end
 
       def valid_content_type?
-        c = @controller.response.headers['Content-Type'].to_s
+        c = @controller.response.headers['Content-Type']
         (c.nil? || c =~ /html/)
       end
 
@@ -137,7 +137,6 @@ module Footnotes
       #
       # Insertion methods
       #
-
       def insert_styles
         insert_text :before, /<\/head>/i, <<-HTML
         <!-- Footnotes Style -->
@@ -192,7 +191,7 @@ module Footnotes
         end
       end
 
-      # Process notes to gets their links
+      # Process notes to gets its links
       #
       def links
         links = Hash.new([])
@@ -210,7 +209,7 @@ module Footnotes
         html
       end
 
-      # Process notes to get their content
+      # Process notes to get its contents
       #
       def fieldsets
         content = ''
@@ -248,7 +247,7 @@ module Footnotes
         "document.getElementById('#{note.to_sym}_debug_info').style.display = 'none'\n"
       end
 
-      # Helper that creates the link and javascript code when note is clicked
+      # Helper that create the link and javascript code when note is clicked
       #
       def link_helper(note)
         onclick = note.onclick

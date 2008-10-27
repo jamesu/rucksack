@@ -6,19 +6,7 @@ require "#{File.dirname(__FILE__)}/params_note"
 module Footnotes
   module Notes
     module ComponentsNote
-      def self.included(base)
-        base.extend ClassMethods
-      end
-
-      module ClassMethods
-        def to_sym
-          @note_sym ||= "#{self.title.underscore}_component_#{(rand*1000).to_i}".to_sym
-        end
-
-        def title
-          @note_title ||= self.name.match(/^Footnotes::Notes::(\w+)ComponentNote$/)[1]
-        end
-      end
+      def self.new(controller = nil); end
 
       def initialize(controller)
         super
@@ -28,7 +16,11 @@ module Footnotes
       def row
         "#{@controller.controller_name.camelize}##{@controller.action_name.camelize} Component"
       end
-     
+
+      def to_sym
+        @spicy_sym ||= "#{@controller.controller_name}_#{@controller.action_name}_#{self.class.to_sym}_#{(rand*1000).to_i}_component"
+      end
+      
       def legend
         "#{super} for #{row}"
       end
@@ -40,11 +32,9 @@ module Footnotes
   end
 
   module Components
-
     def self.included(base)
       base.class_eval do
         alias_method_chain :add_footnotes!, :component
-        Footnotes::Filter.notes.delete(:components)
         @@component_notes = [ :controller, :view, :params ]
       end
     end
@@ -76,4 +66,4 @@ module Footnotes
   end
 end
 
-Footnotes::Filter.__send__ :include, Footnotes::Components if Footnotes::Filter.notes.include?(:components)
+Footnotes::Filter.send :include, Footnotes::Components if Footnotes::Filter.notes.include?(:components)
