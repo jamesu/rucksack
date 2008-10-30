@@ -28,6 +28,8 @@ class EmailsController < ApplicationController
   
   before_filter :grab_page
   
+  cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
+  
   # GET /emails
   # GET /emails.xml
   def index

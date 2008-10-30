@@ -30,6 +30,9 @@ class PagesController < ApplicationController
   before_filter :search, :only => :index
   after_filter  :user_track, :except => 'public'
   
+  caches_page :public
+  cache_sweeper :page_sweeper, :only => [:update, :destroy, :reorder, :share, :transfer, :tags, :resize]
+  
   # GET /pages
   # GET /pages.xml
   def index

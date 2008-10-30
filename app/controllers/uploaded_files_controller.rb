@@ -26,6 +26,8 @@
 class UploadedFilesController < ApplicationController
   before_filter :grab_page
   
+  cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
+  
   # GET /uploaded_files
   # GET /uploaded_files.xml
   def index

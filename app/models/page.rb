@@ -80,7 +80,11 @@ class Page < ActiveRecord::Base
 	end
 	
 	def page
-	   nil
+	  nil
+	end
+	
+	def page_id
+	  self.id
 	end
 	
 	def tags

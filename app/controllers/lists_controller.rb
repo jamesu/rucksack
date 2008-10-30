@@ -26,6 +26,8 @@
 class ListsController < ApplicationController
   before_filter :grab_page
   
+  cache_sweeper :page_sweeper, :only => [:create, :update, :destroy, :transfer, :reorder]
+  
   # GET /lists
   # GET /lists.xml
   def index
