@@ -52,10 +52,6 @@ class String
 		fname = File.basename(self)
 		fname.gsub(/[^\w\.\-]/,'_') 
 	end
-	
-	def excerpt(chars=100, more='...')
-		return self.length > chars ? "#{self[0...chars]}#{more}" : self
-	end
 end
 
 class RedCloth
