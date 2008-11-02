@@ -138,7 +138,7 @@ class RemindersController < ApplicationController
       if @reminder.save
         flash[:notice] = 'Reminder was successfully updated.'
         format.html { redirect_to(@reminder) }
-        format.js { @reminder_groups = get_groups; render :action => 'update' }
+        format.js { @grouped_reminders = get_groups; render :action => 'update' }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
