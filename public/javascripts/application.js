@@ -521,6 +521,23 @@ var Page = {
   
         return false;
       });
+
+      $('.add_Album').click(function(evt) {
+  // Set to top of page if on top toolbar
+        if ($(this).hasClass('atTop'))
+          InsertionMarker.set(null, true);
+        
+        var form = $('#add_AlbumForm');
+  
+        InsertionBar.setWidgetForm(form);
+        InsertionBar.hide();
+        InsertionMarker.setEnabled(true);
+        HoverHandle.setEnabled(true);
+        
+        form.autofocus();
+  
+        return false;
+      });
       
       // Popup form for Add Item
       $('.addItem form').submit(function(evt) {
@@ -601,6 +618,46 @@ var Page = {
         
         pageList.find('.pageListForm:first').hide();
         pageList.find('.pageListHeader:first').show();
+        
+        return false;
+      });
+      
+      // Page album
+      $('.pageAlbumForm').submit(function(evt) {
+        var el = $(this);
+        el.request(JustRebind, 'script');  
+  
+        return false;
+      });
+
+      $('.pageAlbumForm .cancel').click(function(evt) {
+        var el = $(evt.target);
+        var pageAlbum = el.parents('.pageAlbum:first');
+        
+        pageAlbum.find('.pageAlbumForm:first').hide();
+        pageAlbum.find('.pageAlbumHeader:first').show();
+        
+        return false;
+      });
+
+      $('.newPicture a').click(function(evt) {
+        var newPicture = $(evt.target.parentNode);
+        var addPictureInner = newPicture.parents('.albumPictureForm:first').find('.inner:first');
+        
+        addPictureInner.show();
+        addPictureInner.autofocus();
+        newPicture.hide();
+        
+        return false;
+      });
+      
+      $('.albumPictureForm form .cancel').click(function(evt) {
+        var newPictureInner = $(evt.target).parents('.inner:first');
+        var newPicture = newPictureInner.parents('.albumPictureForm:first:first').find('.newPicture:first');
+        
+        newPictureInner.hide();
+        newPictureInner.children('form').reset();
+        newPicture.show();
         
         return false;
       });
@@ -809,6 +866,7 @@ var Page = {
       $('.add_Note').unbind();
       $('.add_Separator').unbind();
       $('.add_UploadedFile').unbind();
+      $('.add_Album').unbind();
             
       $('.addItem form').unbind();
       $('.addItem form .cancel').unbind();
@@ -823,6 +881,10 @@ var Page = {
       $('.pageListForm form').unbind();
       $('.pageListForm form .cancel').unbind();
 
+      $('.newPicture a').unbind();
+      $('.albumPictureForm form .cancel').unbind();    
+      $('.pageAlbumForm').unbind();
+      $('.pageAlbumForm .cancel').unbind();
 
       $('.pageTagAdd').unbind();
       $('.pageTagRemove').unbind();

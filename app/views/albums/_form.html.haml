@@ -1,0 +1,25 @@
+- if @album.nil? or @album.new_record?
+  - fpath = page_albums_path(@page)
+  - fmethod = :post
+  - fid = 'fixedWidgetForm'
+- else
+  - fpath = page_album_path(@page, @album)
+  - fmethod = :put
+  - fid = 'pageAlbumForm'
+
+- form_tag( fpath, :method => fmethod, :class => fid) do
+  - if @album.nil? or @album.new_record?
+    %h2= :add_album.l
+  
+  %div
+    %label{:for => 'noteFormTitle'}= :album_title.l
+    != text_field 'album', 'title', :id => 'albumFormTitle', :class => 'autofocus long'
+  
+  - if @album.nil? or @album.new_record?
+    %input#add_AlbumFormBefore{:type => 'hidden', :name=> 'position[before]', :value => '0'}/
+    %input#add_AlbumFormSlot{:type => 'hidden', :name=> 'position[slot]', :value => '0'}/
+    %button{:class => 'submit', :type => 'submit'}= :create.l
+  - else
+    %button{:class => 'submit', :type => 'submit'}= :edit_album.l
+  
+  %a{:href => '#', :class => 'cancel'}= :cancel.l

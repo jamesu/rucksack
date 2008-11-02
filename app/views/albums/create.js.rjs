@@ -1,0 +1,4 @@
+page.insert_html((@insert_before ? :before : :after), @insert_element, "<div class=\"pageSlot\" id=\"page_slot_#{@slot.id}\" slot=\"#{@slot.id}\"></div>")
+page.replace_html("page_slot_#{@slot.id}", :partial => 'pages/slot', :locals => {:object => @album, :slot => @album.page_slot})
+page["page_slot_#{@slot.id}"].autofocus
+page.call "Page.makeSortable"

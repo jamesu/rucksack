@@ -36,6 +36,7 @@ Note: Note
 List: List
 Separator: Separator
 UploadedFile: File
+Album: Album
 share_page: Share page
 users_who_can_see_page: "Users who can edit this page"
 page_public: "Is publically viewable <br/>(at {link})"
@@ -93,10 +94,18 @@ display_name: Display name
 timezone: Timezone
 options: Options
 create_user: Create user
+create: Create
 update_profile: Update profile
 update_user: "Update '{name}'"
 user_is_admin: Is administrator
 upload: Upload
+
+# Album
+add_album: Add album
+edit_album: Update
+album_title: Name
+add_picture: Add picture
+edit_picture: Edit picture
 
 # Reminders
 reminder: Reminder

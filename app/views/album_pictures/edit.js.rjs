@@ -1,0 +1,2 @@
+page.replace_html("list_item_#{@list_item.id}", :partial => 'form' )
+page["list_item_#{@list_item.id}"].autofocus

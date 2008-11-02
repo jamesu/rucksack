@@ -1,0 +1,4 @@
+insert_into = @list_item.is_completed? ? 'completedItems' : 'openItems'
+page.remove "list_item_#{@list_item.id}" 
+page.select("\#list_#{@list.id} .#{insert_into} ul:first").append(render({:partial => 'show', :collection => [@list_item]})) 
+page.call "Page.makeSortable"

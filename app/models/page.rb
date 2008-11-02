@@ -40,6 +40,7 @@ class Page < ActiveRecord::Base
 	has_many :separators, :dependent => :destroy
 	has_many :emails, :dependent => :destroy
 	has_many :uploaded_files, :dependent => :destroy
+	has_many :albums, :dependent => :destroy
 	
 	before_create  :process_params
 	after_create   :process_create
@@ -54,7 +55,7 @@ class Page < ActiveRecord::Base
 	end
 	
 	def self.widgets
-	   [List, Note, Separator, UploadedFile]
+	   [List, Note, Separator, UploadedFile, Album]
 	end
 	 
 	def process_params

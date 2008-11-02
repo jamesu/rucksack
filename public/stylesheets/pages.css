@@ -1,5 +1,9 @@
 @import 'reset.css';
 
+a { color: #000; }
+a:visited { color: #666; }
+a:hover { color: #fff; background-color:#000; }
+
 h1 { font-size: 28px; font-weight: bolder; padding-bottom: 6px; }
 
 h2 { font-size: 18px; font-weight: bolder; padding-bottom: 6px; }
@@ -225,6 +229,43 @@ pre {
 #pageListItems li.hover { background: red; }
 #pageListItems li.current { background: #000; }
 #pageListItems li.current a { color: #fff; }
+
+ul.albumPictures {
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    
+    padding: 0px;
+}
+
+li.albumPicture, li.albumPictureForm {
+    display: inline;
+    width: 150px;
+    height: 180px;
+    
+    float:left;
+    
+    margin: 6px;
+    text-align: center;
+}
+
+li.albumPictureForm form {
+    border: 1px dashed #ccc;
+}
+
+li.albumPicture img {
+  border: 1px dashed #ccc;
+  padding: 2px;  
+}
+
+.albumPictureContent a:hover  {
+  background-color: none; 
+  background-color: #fff; 
+}
+
+.albumPictureCaption {
+  font-weight: bolder;
+}
 
 .pageSlot {
     position: relative;
@@ -601,10 +642,6 @@ table.userList
 #settingsForm form div {
   margin-bottom: 4px;
 }
-
-a { color: #000; }
-a:visited { color: #666; }
-a:hover { color: #fff; background-color:#000; }
 
 label {
   font-weight: bolder;

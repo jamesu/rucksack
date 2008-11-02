@@ -1,0 +1,2 @@
+page.replace("list_item_#{@list_item.id}", :partial => 'show', :collection => [@list_item] )
+page.call "Page.makeSortable"

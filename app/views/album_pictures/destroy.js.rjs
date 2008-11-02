@@ -1,0 +1,1 @@
+page.remove "list_item_#{@list_item.id}"

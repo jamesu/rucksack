@@ -90,6 +90,9 @@ ActionController::Routing::Routes.draw do |map|
     page.resources :separators
     page.resources :emails, :member => {:public => :get}
     page.resources :uploaded_files
+    page.resources :albums, :member => {:reorder => :post, :transfer => :put} do |album|
+        album.resources :album_pictures, :as => 'pictures'
+    end
   end
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
