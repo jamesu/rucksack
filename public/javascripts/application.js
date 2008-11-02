@@ -666,7 +666,6 @@ var Page = {
         $.get('/reminders', {}, JustRebind, 'script');
         
         HoverHandle.setEnabled(true);
-        $('#add_reminderForm')[0].disabled = false;
         
         return false;
       });
