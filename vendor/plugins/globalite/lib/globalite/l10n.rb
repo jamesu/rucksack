@@ -133,7 +133,7 @@ module Globalite
     end
 
     # Return the translation for the key, a string can be passed to replaced a missing translation
-    def localize(key, error_msg=nil, args={}, locale=nil)
+    def localize(key, error_msg='__localization_missing__', args={}, locale=nil)
       return if reserved_keys.include? key
 
       # Set a temporary Locale to support the localized_in method
@@ -148,7 +148,7 @@ module Globalite
       if localized == error_msg
         locales.each do |t_locale|  
           if t_locale.to_s.include?("#{current_language.to_s}-") && t_locale != Locale.code
-            localized =  @@locales[t_locale][key] || "NOT FOUND #{key}"#error_msg
+            localized =  @@locales[t_locale][key] || error_msg
           end  
         end
       end  
