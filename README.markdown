@@ -56,7 +56,7 @@ If you are planning on deploying RuckSack in a production environment, *make sur
 
 The relevant line is located in "config/app_config.yml":
 
-    session_key: "_rucksack_session"
+    session: "_rucksack_session"
     secret: "CHANGE THIS TO SOMETHING LONG AND RANDOM"
 
 Have fun!
