@@ -490,11 +490,24 @@ div.pageList .itemDelete {
   padding: 12px;
 }
 
+.reminderGroup h2 {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 2px;
+  margin-bottom: 4px;
+}
+
 #newReminderForm {
   margin: 6px 0px 6px 0px;
 }
 
-#newReminderForm div {
+.reminderForm {
+  background: #eee;
+  padding: 6px 4px 6px 4px;
+  
+  border: 1px dashed #a9a9a9;
+}
+
+#newReminderForm div, .reminderForm div {
   margin-bottom: 6px;
 }
 

@@ -1,0 +1,3 @@
+page.replace_html "reminder_#{@reminder.id}", :partial => 'form'
+page.call "HoverHandle.setEnabled", false
+page["reminder_#{@reminder.id}"].autofocus

@@ -98,7 +98,7 @@ module ApplicationHelper
 	  opts = []
 	  opts << ['delete', '-'] if object.can_be_deleted_by(@logged_user)
 	  opts << ['edit', :edit.l] if object.can_be_edited_by(@logged_user)
-	  opts << ['handle', '+']	  
+	  opts << ['handle', '+']	if object.class != Reminder
 	  opts
 	end
 	

@@ -166,11 +166,15 @@ class Reminder < ActiveRecord::Base
     
     def self.select_repeat
         @@repeat_lookup.keys.map do |key|
-            ["reminder_repeat_#{self.repeat}".to_sym.l, key]
+            ["reminder_repeat_#{key}".to_sym.l, key]
         end
     end
   
   # Accesibility
   
   attr_accessible :repeat, :friendly_at_time, :content, :at_time
+  
+  # Validation
+  
+  validates_presence_of :content
 end

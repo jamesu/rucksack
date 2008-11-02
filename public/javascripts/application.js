@@ -170,8 +170,9 @@ $(document).ready(function(){
     if (!PAGE_READONLY) {
       InsertionMarker.init();
       InsertionBar.init();
-      HoverHandle.init();
     }
+    
+    HoverHandle.init();
     
     Page.makeSortable();
     
@@ -654,6 +655,21 @@ var Page = {
         
         return false;
       });
+    
+      $('.reminderForm').submit(function(evt) {
+        $(this).request(RebindAndHover, 'script');
+               
+        return false;
+      });
+      
+      $('.reminderForm .cancel').click(function(evt) {        
+        $.get('/reminders', {}, JustRebind, 'script');
+        
+        HoverHandle.setEnabled(true);
+        $('#add_reminderForm')[0].disabled = false;
+        
+        return false;
+      });
       
       // User list
       $('#userList .userDelete').click(function(evt) {
@@ -973,6 +989,11 @@ var InsertionMarkerFunc = function(evt){
 
 function JustRebind(data) {
   Page.rebind();
+}
+
+function RebindAndHover(data) {
+  Page.rebind();
+  HoverHandle.setEnabled(true);
 }
 
 function ResetAndRebind(data) {

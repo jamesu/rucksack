@@ -38,6 +38,7 @@ class RemindersController < ApplicationController
     
     respond_to do |format|
       format.html # index.html.erb
+      format.js { render :action => 'update' }
       format.xml  { render :xml => @reminders }
     end
   end
@@ -82,7 +83,7 @@ class RemindersController < ApplicationController
       if @reminder.save
         flash[:notice] = 'Reminder was successfully created.'
         format.html { redirect_to(reminders_path) }
-        format.js { @reminder_groups = get_groups; render :action => 'update' }
+        format.js { @grouped_reminders = get_groups; render :action => 'update' }
         format.xml  { render :xml => @reminder, :status => :created, :location => @reminder }
       else
         format.html { render :action => "new" }
@@ -103,6 +104,7 @@ class RemindersController < ApplicationController
       if @reminder.update_attributes(params[:reminder])
         flash[:notice] = 'Reminder was successfully updated.'
         format.html { redirect_to(@reminder) }
+        format.js { @grouped_reminders = get_groups; render :action => 'update' }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -121,7 +123,7 @@ class RemindersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(reminders_url) }
-      format.js { @reminder_groups = get_groups; render :action => 'update' }
+      format.js
       format.xml  { head :ok }
     end
   end

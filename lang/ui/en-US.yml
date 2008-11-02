@@ -102,6 +102,8 @@ upload: Upload
 reminder: Reminder
 reminders: Reminders
 add_reminder: Add reminder
+repeat: Repeat
+at_time: When
 reminder_repeat_never: Never
 reminder_repeat_yearly: Yearly
 reminder_repeat_monthly: Monthly

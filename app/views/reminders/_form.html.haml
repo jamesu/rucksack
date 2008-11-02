@@ -1,0 +1,13 @@
+- form_tag( reminder_path(@reminder), :method => :put, :class => 'reminderForm') do
+  %div
+    != text_field 'reminder', 'content', :id => 'reminderFormContent', :class => 'autofocus long'
+  %div
+    %label{:for => 'reminderFormTime'}= :at_time.l
+    != datetime_select 'reminder', 'at_time', :id => 'reminderFormTime', :use_month_numbers => true
+  %div
+    %label{:for => 'reminderFormRepeat'}= :repeat.l
+    != select 'reminder', 'repeat', Reminder.select_repeat, :id => 'reminderFormRepeat'
+  
+  %button{:class => 'submit', :type => 'submit'}= :update.l
+    
+  %a{:href => '#', :class => 'cancel'}= :cancel.l
