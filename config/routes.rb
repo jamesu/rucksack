@@ -101,6 +101,9 @@ ActionController::Routing::Routes.draw do |map|
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
 
   # See how all your routes lay out with "rake routes"
+  
+  # 404 icons
+  map.connect '/images/file_icons/:id.png', :controller => 'uploaded_files', :action => 'icon'
 
   # Install the default routes as the lowest priority.
   map.connect ':controller/:action/:id'

@@ -58,7 +58,12 @@ module ApplicationHelper
 		
 		"<img src='/images/icons/#{filename}.gif' alt='#{alt}' #{attr_values}/>"
 	end
-	
+
+  def file_icon_for(filename, opts={})
+    ext = filename.match(/[.](\w{1,6})\Z/)[1]
+    "/images/file_icons/#{ext}.png"
+  end
+
 	def action_list(actions, remote=false)
 		actions.collect do |action|
 			if action[:cond]
@@ -156,7 +161,12 @@ module ApplicationHelper
 	       end
 	   end
 	end
-	
+
+  def ie_stylesheet_link_tag(*sources)
+     content = stylesheet_link_tag(sources)
+    "<!--[if IE]>\n#{content}\n<![endif]-->\n"
+  end
+
   def if_authorized?(action, resource, &block)
     if authorized?(action, resource)
       yield action, resource

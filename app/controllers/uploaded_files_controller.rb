@@ -24,7 +24,7 @@
 #++
 
 class UploadedFilesController < ApplicationController
-  before_filter :grab_page
+  before_filter :grab_page, :except => [:icon]
   
   cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
   
@@ -157,5 +157,9 @@ class UploadedFilesController < ApplicationController
       format.js {}
       format.xml  { head :ok }
     end
+  end
+  
+  def icon
+    redirect_to '/images/file_icons/genericGray.png', :status => 301
   end
 end

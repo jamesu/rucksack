@@ -354,6 +354,15 @@ pre {
     font-size: 12px;
 }
 
+.pageUploadedFile:after {
+  content: ""; display: block; height: 0; clear: both;
+}
+
+.pageUploadedFile img {
+  float:left;
+  padding-right: 6px;
+}
+
 /* Email */
 
 .pageEmail a {
