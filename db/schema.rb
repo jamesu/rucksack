@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 16) do
+ActiveRecord::Schema.define(:version => 17) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "owner_id",       :limit => 10,                    :null => false
@@ -18,6 +18,28 @@ ActiveRecord::Schema.define(:version => 16) do
     t.string   "site_name",                    :default => "",    :null => false
     t.string   "host_name",                    :default => "",    :null => false
     t.boolean  "openid_enabled",               :default => false, :null => false
+  end
+
+  create_table "album_pictures", :force => true do |t|
+    t.integer  "album_id",             :limit => 10
+    t.string   "caption",                            :default => "", :null => false
+    t.string   "picture_file_name"
+    t.string   "picture_content_type"
+    t.integer  "picture_file_size"
+    t.integer  "created_by_id",        :limit => 10, :default => 0,  :null => false
+    t.integer  "updated_by_id",        :limit => 10, :default => 0,  :null => false
+    t.integer  "position",             :limit => 10, :default => 0,  :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "albums", :force => true do |t|
+    t.integer  "page_id",       :limit => 10
+    t.string   "title",         :limit => 100
+    t.integer  "created_by_id", :limit => 10,  :default => 0, :null => false
+    t.integer  "updated_by_id", :limit => 10,  :default => 0, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "application_logs", :force => true do |t|
