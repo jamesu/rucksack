@@ -7,7 +7,6 @@ namespace :db do
 		task :install => :environment do
 			puts "\nLoading schema..."
 			Rake::Task["db:schema:load"].invoke
-			Rake::Task["db:rucksack:load_config_schema"].invoke
 			Rake::Task["db:rucksack:install_content"].invoke
 		end
 
@@ -21,34 +20,6 @@ namespace :db do
 			load("db/import_tiddlywiki.rb")
 		end
 		
-		task :reload_config => :environment do
-		    puts "\nRe-loading configuration..."
-		    Rake::Task["db:rucksack:dump_config"].invoke
-		    Rake::Task["db:rucksack:load_config_schema"].invoke
-		    Rake::Task["db:rucksack:load_config"].invoke
-		    puts "Done."
-		end
-		
-		task :load_config_schema => :environment do
-			puts "\nLoading configuration schema..."
-			#load("db/default_config.rb")
-		end
-		
-		task :dump_config => :environment do
-			puts "Dumping configuration to config/config.yml"
-			#config = OpenStruct.new()
-			#ConfigOption.dump_config(config)
-			#File.open("#{RAILS_ROOT}/config/config.yml", 'w') do |file|
-			#	file.puts YAML::dump(config.marshal_dump)
-			#end
-		end
-		
-		task :load_config => :environment do
-			puts "Loading configuration from config/config.yml"
-			#config = OpenStruct.new(YAML.load_file("#{RAILS_ROOT}/config/config.yml"))
-			#ConfigOption.load_config(config)
-		end
-				
 		# Courtesy of Retrospectiva, Copyright (C) 2006 Dimitrij Denissenko
 		desc 'Converts mysql tables to use myisam engine.'
 		task :mysql_convert_to_myisam => :environment do

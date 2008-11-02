@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+require 'fileutils'
+
+# Copy over example files!
+Dir["#{RAILS_ROOT}/config/example/*"].each do |file|
+  name = "#{RAILS_ROOT}/config/#{name}"
+  unless File.exists? name
+    FileUtils.cp(file, name)
+    puts "Copied #{name}"
+  end
+end
+
+system "rake gems:install"
+system "rake db:rucksack:install --trace"

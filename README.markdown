@@ -32,7 +32,7 @@ use a local SQLite database.
 Next, you'll want to actually install the initial content. 
 You can do this by typing in the following command: 
 
-    rake db:rucksack:install
+    script/setup
 
 Next, run it either by pointing Phusion Passenger to the 
 public folder, or run the local server, e.g.:
@@ -54,11 +54,9 @@ The most likely explanation is that the database schema has been updated. You'll
 
 If you are planning on deploying RuckSack in a production environment, *make sure you change the secret session key*. Otherwise unauthorized users will be able to make a fake session (e.g. logged in as the administrator) and compromise your installation.
 
-The relevant line is located in "config/environment.rb":
+The relevant line is located in "config/app_config.yml":
 
-    config.action_controller.session = {
-      :session_key => '_rucksack_session',
-      :secret      => 'CHANGE THIS TO SOMETHING LONG AND RANDOM'
-    } 
+    session_key: "_rucksack_session"
+    secret: "CHANGE THIS TO SOMETHING LONG AND RANDOM"
 
 Have fun!

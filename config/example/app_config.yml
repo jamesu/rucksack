@@ -1,0 +1,14 @@
+session: "_rucksack_session"
+secret: "ccf6416710c9893c2233dd0550a70f074660301de000dc4e2c890bf97faf4e7400647635198a88d5aa89e5e38eafc7ea96fb6bc0bcfd87eac3ce5426dc73ab3b"
+
+email:
+  delivery: test
+  smtp:
+    address: localhost
+    domain: localhost
+    username: myuser
+    password: mypass
+    authentication: login
+  sendmail:
+    location: "/usr/sbin/sendmail"
+    arguments: "-t -t"

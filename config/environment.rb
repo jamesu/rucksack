@@ -56,13 +56,9 @@ Rails::Initializer.run do |config|
 
   config.time_zone = 'UTC'
 
-  # Your secret key for verifying cookie session data integrity.
-  # If you change this key, all old sessions will become invalid!
-  # Make sure the secret is at least 30 characters and all random, 
-  # no regular words or you'll be exposed to dictionary attacks.
   config.action_controller.session = {
-    :session_key => '_rucksack_session',
-    :secret      => 'ccf6416710c9893c2233dd0550a70f074660301de000dc4e2c890bf97faf4e7400647635198a88d5aa89e5e38eafc7ea96fb6bc0bcfd87eac3ce5426dc73ab3b'
+    :session_key => APP_CONFIG['session'],
+    :secret      => APP_CONFIG['secret']
   }
 
   # Activate observers that should always be running
