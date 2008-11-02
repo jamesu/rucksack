@@ -2,8 +2,8 @@
 require 'fileutils'
 
 # Copy over example files!
-Dir["#{RAILS_ROOT}/config/example/*"].each do |file|
-  name = "#{RAILS_ROOT}/config/#{name}"
+Dir["config/example/*"].each do |file|
+  name = "config/#{File.basename(file)}"
   unless File.exists? name
     FileUtils.cp(file, name)
     puts "Copied #{name}"
