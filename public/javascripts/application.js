@@ -305,14 +305,9 @@ var InsertionMarker = {
         this.enabled = val;
     },
     show: function(el, insert_before) {
-        if (insert_before)
-          el.before(this.element);
-        else
-          el.after(this.element);
-        
-        this.element.show();
         this.visible = true;
         this.set(el, insert_before);
+        this.element.show();
     },
     hide: function() {
         if (this.visible) {
@@ -327,6 +322,11 @@ var InsertionMarker = {
         
         Page.insert_element = el;
         Page.insert_before = insert_before;
+        
+        if (insert_before)
+          el.before(this.element);
+        else
+          el.after(this.element);
     }
 }
 
@@ -458,8 +458,10 @@ var Page = {
 // Insert widgets
       $('.add_List').click(function(evt) {
         // Set to top of page if on top toolbar
-        if ($(this).hasClass('atTop'))
+        if ($(this).hasClass('atTop')) {
+          InsertionMarker.
           InsertionMarker.set(null, true);
+        }
 
         Page.insertWidget('lists');
         InsertionBar.hide();
