@@ -46,7 +46,6 @@ class Album < ActiveRecord::Base
     new_album.pictures = self.pictures.collect do |picture|
       new_picture = picture.clone
       new_picture.created_by = new_album.created_by
-      new_picture.completed_by = picture.completed_by
       new_picture
     end
     

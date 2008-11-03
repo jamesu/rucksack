@@ -159,7 +159,7 @@ class Page < ActiveRecord::Base
 	end
 	
 	def can_be_duplicated_by(user)
-	   return (self.can_be_edited_by(user) and Page.can_be_created_by(user))
+	   self.can_be_edited_by(user) and Page.can_be_created_by(user)
 	end
 	
 	def can_add_widget(user, widget)
