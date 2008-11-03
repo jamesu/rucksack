@@ -691,10 +691,8 @@ var Page = {
       // Insert widgets
       $('.add_List').click(function(evt) {
         // Set to top of page if on top toolbar
-        if ($(this).hasClass('atTop')) {
-          InsertionMarker.
+        if ($(this).hasClass('atTop'))
           InsertionMarker.set(null, true);
-        }
 
         Page.insertWidget('lists');
         InsertionBar.hide();
