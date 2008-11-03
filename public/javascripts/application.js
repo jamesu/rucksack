@@ -26,6 +26,10 @@ jQuery.fn.extend({
 	    var objUploadBody = window.frames[ strName ].document.getElementsByTagName( "body" )[ 0 ];
 	    var jBody = $(objUploadBody);
 	    
+	    // Safari fix
+	    if (!objUploadBody.innerHTML)
+	      return;
+	    
 	    // Ugly hack
 	    $.get(objUploadBody.innerHTML, params, callback, 'script');
 	    

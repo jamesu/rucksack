@@ -249,7 +249,7 @@ li.albumPicture, li.albumPictureForm {
     text-align: center;
 }
 
-li.albumPictureForm { height: 40px; }
+li.albumPictureForm { height: 60px; }
 
 li.albumPicture form, li.albumPictureForm form {
     border: 1px dashed #ccc;
