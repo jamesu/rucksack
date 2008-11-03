@@ -44,6 +44,17 @@ class AlbumPicturesController < ApplicationController
   # GET /album_pictures/1.xml
   def show
     @album_picture = @album.pictures.find(params[:id])
+    @new_picture = !params[:is_new].nil?
+    
+    unless @new_picture
+      el_id = @album.pictures.find(:first, 
+                                   :conditions => ['position < ?', @album_picture.position], 
+                                   :select => 'id', 
+                                   :order => 'position DESC')
+      @insert_element = "album_picture_#{el_id}" unless el_id.nil?
+    end
+    
+    @insert_element ||= 'album_picture_form'
 
     respond_to do |format|
       format.html # show.html.erb
@@ -83,7 +94,7 @@ class AlbumPicturesController < ApplicationController
       if @album_picture.save
         flash[:notice] = 'AlbumPicture was successfully created.'
         format.html { redirect_to(@album.page) }
-        format.js
+        format.js { render :action => 'create', :content_type => 'text/html'}
         format.xml  { render :xml => @album_picture, :status => :created, :location => @album_picture }
       else
         format.html { render :action => "new" }
@@ -105,7 +116,7 @@ class AlbumPicturesController < ApplicationController
       if @album_picture.update_attributes(params[:picture])
         flash[:notice] = 'AlbumPicture was successfully updated.'
         format.html { redirect_to(@album.page) }
-        format.js
+        format.js  { render :action => 'update', :content_type => 'text/html'}
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

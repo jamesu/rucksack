@@ -1,2 +1,6 @@
-page.replace("list_item_#{@list_item.id}", :partial => 'show', :collection => [@list_item] )
+if @new_picture
+  # Part of IFrame hack workaround
+  page.insert_html(:before, @insert_element, "<li id=\"album_picture_#{@album_picture.id}\"</li>")
+end
+page.replace("album_picture_#{@album_picture.id}", :partial => 'show', :collection => [@album_picture] )
 page.call "Page.makeSortable"

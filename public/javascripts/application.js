@@ -21,7 +21,7 @@ jQuery.fn.extend({
 	  var strName = ("uploader" + (new Date()).getTime());
 	  var jFrame = $( "<iframe name=\"" + strName + "\" src=\"about:blank\" />" );
 	  jFrame.css( "display", "none" );
-	  
+
 	  jFrame.load(function(evt){
 	    var objUploadBody = window.frames[ strName ].document.getElementsByTagName( "body" )[ 0 ];
 	    var jBody = $(objUploadBody);
@@ -29,9 +29,8 @@ jQuery.fn.extend({
 	    // Ugly hack
 	    $.get(objUploadBody.innerHTML, params, callback, 'script');
 	    
-	    console.log(jFrame);
 	    setTimeout(function(){
-	      //jFrame.remove();
+	      jFrame.remove();
 	    }, 100);
 	  });
 	  
@@ -454,90 +453,6 @@ var Page = {
         
         return false;
       });
-
-// Insert widgets
-      $('.add_List').click(function(evt) {
-        // Set to top of page if on top toolbar
-        if ($(this).hasClass('atTop')) {
-          InsertionMarker.
-          InsertionMarker.set(null, true);
-        }
-
-        Page.insertWidget('lists');
-        InsertionBar.hide();
-        InsertionMarker.setEnabled(true);
-        HoverHandle.setEnabled(true);
-          
-        return false;
-      });
-
-      $('.add_Note').click(function(evt) {
-  // Set to top of page if on top toolbar
-        if ($(this).hasClass('atTop'))
-          InsertionMarker.set(null, true);
-        
-        var form = $('#add_NoteForm');
-  
-        InsertionBar.setWidgetForm(form);
-        InsertionBar.hide();
-        InsertionMarker.setEnabled(true);
-        HoverHandle.setEnabled(true);
-        
-        form.autofocus();
-  
-        return false;
-      });
-
-      $('.add_Separator').click(function(evt) {
-        // Set to top of page if on top toolbar
-        if ($(this).hasClass('atTop'))
-          InsertionMarker.set(null, true);
-        
-        var form = $('#add_SeparatorForm');
-  
-        InsertionBar.setWidgetForm(form);
-        InsertionBar.hide();
-        InsertionMarker.setEnabled(true);
-        HoverHandle.setEnabled(true);
-        
-        form.autofocus();
-  
-        return false;
-      });
-
-      $('.add_UploadedFile').click(function(evt) {
-        // Set to top of page if on top toolbar
-        if ($(this).hasClass('atTop'))
-          InsertionMarker.set(null, true);
-        
-        var form = $('#add_UploadedFileForm');
-  
-        InsertionBar.setWidgetForm(form);
-        InsertionBar.hide();
-        InsertionMarker.setEnabled(true);
-        HoverHandle.setEnabled(true);
-        
-        form.autofocus();
-  
-        return false;
-      });
-
-      $('.add_Album').click(function(evt) {
-  // Set to top of page if on top toolbar
-        if ($(this).hasClass('atTop'))
-          InsertionMarker.set(null, true);
-        
-        var form = $('#add_AlbumForm');
-  
-        InsertionBar.setWidgetForm(form);
-        InsertionBar.hide();
-        InsertionMarker.setEnabled(true);
-        HoverHandle.setEnabled(true);
-        
-        form.autofocus();
-  
-        return false;
-      });
       
       // Popup form for Add Item
       $('.addItem form').submit(function(evt) {
@@ -651,6 +566,28 @@ var Page = {
         return false;
       });
       
+      // Edit picture form
+
+      $('.albumPicture form').submit(function(evt) {
+        var el = $(this);
+        el.requestIframeScript({}, JustRebind);
+        return true;
+      });
+
+      $('.albumPicture form .cancel').click(function(evt) {
+        var el = $(this);
+        $.get(el.parents('form:first').attr('action'), null, JustRebind, 'script');
+        return false;
+      });
+      
+      // New picture form
+
+      $('.albumPictureForm form').submit(function(evt) {
+        var el = $(this);
+        el.requestIframeScript({'is_new': 1}, JustRebind);
+        return true;
+      });
+      
       $('.albumPictureForm form .cancel').click(function(evt) {
         var newPictureInner = $(evt.target).parents('.inner:first');
         var newPicture = newPictureInner.parents('.albumPictureForm:first:first').find('.newPicture:first');
@@ -746,6 +683,91 @@ var Page = {
     },
     
     bindStatic: function() {
+
+      // Insert widgets
+      $('.add_List').click(function(evt) {
+        // Set to top of page if on top toolbar
+        if ($(this).hasClass('atTop')) {
+          InsertionMarker.
+          InsertionMarker.set(null, true);
+        }
+
+        Page.insertWidget('lists');
+        InsertionBar.hide();
+        InsertionMarker.setEnabled(true);
+        HoverHandle.setEnabled(true);
+          
+        return false;
+      });
+
+      $('.add_Note').click(function(evt) {
+        // Set to top of page if on top toolbar
+        if ($(this).hasClass('atTop'))
+          InsertionMarker.set(null, true);
+        
+        var form = $('#add_NoteForm');
+  
+        InsertionBar.setWidgetForm(form);
+        InsertionBar.hide();
+        InsertionMarker.setEnabled(true);
+        HoverHandle.setEnabled(true);
+        
+        form.autofocus();
+  
+        return false;
+      });
+
+      $('.add_Separator').click(function(evt) {
+        // Set to top of page if on top toolbar
+        if ($(this).hasClass('atTop'))
+          InsertionMarker.set(null, true);
+        
+        var form = $('#add_SeparatorForm');
+  
+        InsertionBar.setWidgetForm(form);
+        InsertionBar.hide();
+        InsertionMarker.setEnabled(true);
+        HoverHandle.setEnabled(true);
+        
+        form.autofocus();
+  
+        return false;
+      });
+
+      $('.add_UploadedFile').click(function(evt) {
+        // Set to top of page if on top toolbar
+        if ($(this).hasClass('atTop'))
+          InsertionMarker.set(null, true);
+        
+        var form = $('#add_UploadedFileForm');
+  
+        InsertionBar.setWidgetForm(form);
+        InsertionBar.hide();
+        InsertionMarker.setEnabled(true);
+        HoverHandle.setEnabled(true);
+        
+        form.autofocus();
+  
+        return false;
+      });
+
+      $('.add_Album').click(function(evt) {
+        // Set to top of page if on top toolbar
+        if ($(this).hasClass('atTop'))
+          InsertionMarker.set(null, true);
+        
+        var form = $('#add_AlbumForm');
+  
+        InsertionBar.setWidgetForm(form);
+        InsertionBar.hide();
+        InsertionMarker.setEnabled(true);
+        HoverHandle.setEnabled(true);
+        
+        form.autofocus();
+  
+        return false;
+      });
+      
       // Page
       
       $('#pageInsert').click(function(evt) {
@@ -861,12 +883,6 @@ var Page = {
       $('.widgetForm .cancel').unbind();
       $('.fixedWidgetForm').unbind();
       $('.fixedWidgetForm .cancel').unbind();
-      
-      $('.add_List').unbind();
-      $('.add_Note').unbind();
-      $('.add_Separator').unbind();
-      $('.add_UploadedFile').unbind();
-      $('.add_Album').unbind();
             
       $('.addItem form').unbind();
       $('.addItem form .cancel').unbind();
@@ -882,6 +898,9 @@ var Page = {
       $('.pageListForm form .cancel').unbind();
 
       $('.newPicture a').unbind();
+      $('.albumPicture form').unbind();
+      $('.albumPicture form .cancel').unbind(); 
+      $('.albumPictureForm form').unbind();
       $('.albumPictureForm form .cancel').unbind();    
       $('.pageAlbumForm').unbind();
       $('.pageAlbumForm .cancel').unbind();
