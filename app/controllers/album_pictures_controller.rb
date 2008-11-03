@@ -69,6 +69,7 @@ class AlbumPicturesController < ApplicationController
     return error_status(true, :cannot_create_albumpicture) unless (AlbumPicture.can_be_created_by(@logged_user, @album))
     
     @album_picture = @album.pictures.build
+    @picture = @album_picture
 
     respond_to do |format|
       format.html # new.html.erb
@@ -79,6 +80,7 @@ class AlbumPicturesController < ApplicationController
   # GET /album_pictures/1/edit
   def edit
     @album_picture = @album.pictures.find(params[:id])
+    @picture = @album_picture
     return error_status(true, :cannot_edit_albumpicture) unless (@album_picture.can_be_edited_by(@logged_user))
   end
 

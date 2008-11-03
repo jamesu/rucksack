@@ -29,15 +29,6 @@ class AlbumPicture < ActiveRecord::Base
   def object_name
     self.caption? ? self.caption : self.picture.original_filename
   end
-
-  def duplicate(new_page)
-    new_cake = self.clone
-    new_cake.created_by = new_page.created_by
-    new_cake.page = new_page
-
-    new_cake.save!
-    new_cake
-  end
 	
 	def set_position(value, user=nil)
 	  self.position = value

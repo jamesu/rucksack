@@ -31,7 +31,7 @@ jQuery.fn.extend({
 	    
 	    setTimeout(function(){
 	      jFrame.remove();
-	    }, 100);
+	    }, 800);
 	  });
 	  
 	  $("body:first").append(jFrame);	  
