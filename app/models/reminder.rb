@@ -155,7 +155,8 @@ class Reminder < ActiveRecord::Base
                     end
                     
                     unless interval.nil?
-                        reminder.at_time = reminder.at_time.advance(interval) unless interval.nil?
+                        reminder.at_time = reminder.at_time.advance(interval)
+                        reminder.sent = false
                     end
                 end
                 
