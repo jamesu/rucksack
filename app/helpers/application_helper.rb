@@ -60,8 +60,7 @@ module ApplicationHelper
 	end
 
   def file_icon_for(filename, opts={})
-    ext = filename.match(/[.](\w{1,6})\Z/)[1]
-    "/images/file_icons/#{ext}.png"
+    "/images/file_icons/#{File.extname(filename)[1..-1] || ''}.png"
   end
 
 	def action_list(actions, remote=false)
