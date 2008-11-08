@@ -1,6 +1,7 @@
-- @tabbed_navigation_items = common_tabs(:pages)
-- @user_navigation_items = user_tabs(nil)
-- @additional_stylesheets = ['public_page'] if @logged_user.is_anonymous?
+- if @logged_user.member_of_owner?
+  - @tabbed_navigation_items = common_tabs(:pages)
+  - @user_navigation_items = user_tabs(nil)
+  - @additional_stylesheets = ['public_page'] if @logged_user.is_anonymous?
 
 - if @page.can_be_edited_by(@logged_user)
   #pageWidgetForms
@@ -59,6 +60,10 @@
     %a#pageDelete{:href => '#'}= :delete_page.l
   
   - if @page.can_be_edited_by(@logged_user)
-    %div#pageAddress=:email_page.l_with_args(:email => "#{@page.address}@#{Account.owner.host_name}", :reset_url => page_path(@page))
+    %div
+      #pageAddress
+        = :email_page.l_with_args(:email => "#{@page.address}@#{Account.owner.host_name}")
+        - if @logged_user.member_of_owner?
+          = "(#{link_to :reset.l, page_path(@page), :id => 'pageReset'})"
   
 

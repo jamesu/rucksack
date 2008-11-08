@@ -30,11 +30,20 @@ class SessionsController < ApplicationController
 
   # render new.rhtml
   def new
+    @login_token = params[:token]
+    render :action => (@login_token.nil? ? 'new' : 'new_token')
   end
 
   def create
     logout_keeping_session!
-    user = User.authenticate(params[:login], params[:password])
+    
+    if !params[:token].nil?
+      user = User.find_by_email(params[:token_email])
+      user = nil if user.nil? or !user.twisted_token_valid?(params[:token])
+    else
+      user = User.authenticate(params[:login], params[:password])
+    end
+    
     if user
       # Protects against session fixation attacks, causes request forgery
       # protection if user resubmits an earlier form using back
@@ -49,7 +58,9 @@ class SessionsController < ApplicationController
       note_failed_signin
       @login       = params[:login]
       @remember_me = params[:remember_me]
-      render :action => 'new'
+      @login_token = params[:token]
+      @login_email = params[:token_email]
+      render :action => (@login_token.nil? ? 'new' : 'new_token')
     end
   end
 

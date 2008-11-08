@@ -212,6 +212,10 @@ class Page < ActiveRecord::Base
 	   return self.can_be_edited_by(user)
 	end
 	
+	def can_reset_email(user)
+	 return (user.is_admin or user.id == self.created_by_id or (user.member_of_owner? and shared_user_ids.include?(user.id)))
+	end
+	
 	# Helpers
 	
 	def new_slot_at(insert_widget, insert_id, insert_before)

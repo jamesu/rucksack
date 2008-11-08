@@ -67,3 +67,5 @@ Rails::Initializer.run do |config|
 end
 
 Globalite.locale = "en-US".to_sym
+
+require_dependency 'rucksack_extras'

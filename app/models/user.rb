@@ -42,6 +42,8 @@ class User < ActiveRecord::Base
   has_one :status, :dependent => :destroy
   has_many :journals, :order => 'created_at DESC', :dependent => :destroy
   
+  has_many :application_logs, :foreign_key => 'created_by_id', :dependent => :destroy
+  
   has_many :reminders, :foreign_key => 'created_by_id', :order => 'at_time ASC', :dependent => :destroy do
     def done()
       find(:all, :conditions => ['at_time < ?', Time.now.utc])
@@ -240,7 +242,7 @@ class User < ActiveRecord::Base
   end
   
   def can_be_edited_by(user)
-    return (self.id == user.id or (user.member_of_owner? and user.is_admin))
+    (self.id == user.id or user.is_admin) and user.member_of_owner?
   end
   
   def can_be_deleted_by(user)
@@ -255,19 +257,19 @@ class User < ActiveRecord::Base
   # Specific permissions
     
   def can_add_favourite(user)
-    (user.is_admin or user.id == self.id) and !user.is_anonymous?
+    (user.is_admin or (user.member_of_owner? and user.id == self.id)) and !user.is_anonymous?
   end
   
   def pages_can_be_seen_by(user)
-    user.is_admin or user.id == self.id
+    user.is_admin or (user.member_of_owner? and user.id == self.id)
   end
   
   def reminders_can_be_seen_by(user)
-    user.is_admin or user.id == self.id
+    user.is_admin or (user.member_of_owner? and user.id == self.id)
   end
   
   def journals_can_be_seen_by(user)
-    user.is_admin or user.id == self.id
+    user.is_admin or (user.member_of_owner? and user.id == self.id)
   end
     
   # Helpers 

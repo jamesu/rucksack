@@ -29,7 +29,7 @@ class Status < ActiveRecord::Base
   # Common permissions
   
   def can_be_edited_by(user)
-   return (user.is_admin or user.id == self.created_by_id)
+   return (user.is_admin or (user.member_of_owner and user.id == self.created_by_id))
   end
   
   def can_be_seen_by(user)

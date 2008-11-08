@@ -32,6 +32,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.xml
   def index
+    return error_status(true, :cannot_see_user) unless @logged_user.member_of_owner?
     @users = Account.owner.users.find(:all)
 
     respond_to do |format|
@@ -157,6 +158,7 @@ class UsersController < ApplicationController
   # GET /users/current
   def current
     @user = @logged_user
+    return error_status(true, :cannot_edit_user) unless (@user.can_be_edited_by(@logged_user))
     
     render :action => 'edit'
   end  

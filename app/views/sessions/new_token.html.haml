@@ -1,0 +1,12 @@
+- @page_title = :login.l
+
+- form_tag session_path do
+  #normal_login.inner{:style => 'display: block'}
+    #loginEmailField
+      %label{:for => 'loginEmail'}= :email_address.l
+      != text_field_tag 'token_email', @login_email, :size => 30, :id => 'loginEmail', :class => 'medium'
+      %p.desc= :token_login_email_desc.l
+  %input{:type => 'hidden', :name => 'token', :value => @login_token}  
+  
+  #dialogSubmit
+    %button.submit{:type => 'submit'}= :login.l

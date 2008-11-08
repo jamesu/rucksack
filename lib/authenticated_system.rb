@@ -9,7 +9,7 @@ module AuthenticatedSystem
     # Accesses the current user from the session.
     # Future calls avoid the database because nil is not equal to false.
     def current_user
-      @logged_user ||= (login_from_session || login_from_basic_auth || login_from_cookie) unless @logged_user == false
+      @logged_user ||= (login_from_session || login_from_token || login_from_basic_auth || login_from_cookie) unless @logged_user == false
     end
 
     # Store the given user id in the session.
@@ -64,8 +64,12 @@ module AuthenticatedSystem
     def access_denied
       respond_to do |format|
         format.html do
-          store_location
-          redirect_to '/login'
+          store_location if request.method == :get
+          if @token_login.nil?
+            redirect_to '/login'
+          else
+            redirect_to :controller => 'session', :action => 'new', :token => params[:token]
+          end
         end
         # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987
         # Add any other API formats here.  (Some browsers, notably IE6, send Accept: */* and trigger 
@@ -106,6 +110,14 @@ module AuthenticatedSystem
     # Called from #current_user.  First attempt to login by the user id stored in the session.
     def login_from_session
       self.current_user = User.find_by_id(session[:user_id]) if session[:user_id]
+    end
+
+    def login_from_token
+      if !params[:token].nil?
+        @token_login = true
+      end
+      
+      nil
     end
 
     # Called from #current_user.  Now, attempt to login by basic authentication information.

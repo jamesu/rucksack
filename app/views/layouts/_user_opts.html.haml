@@ -2,6 +2,7 @@
   .inner
     %span.userName= h(@logged_user.display_name)
     |
-    %a.userInfo{:href => current_users_path, :class => (@selected_user_item == :my_profile ? 'active' : nil)}= :my_profile.l
-    |
+    - if @logged_user.can_be_edited_by(@logged_user)
+      %a.userInfo{:href => current_users_path, :class => (@selected_user_item == :my_profile ? 'active' : nil)}= :my_profile.l
+      |
     %a.userLogout{:href => '/logout'}= :logout.l

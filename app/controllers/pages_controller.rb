@@ -62,7 +62,7 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
     return error_status(true, :cannot_see_page) unless (@page.can_be_seen_by(@logged_user))
     
-    @content_for_sidebar = 'page_sidebar'
+    @content_for_sidebar = 'page_sidebar' if @logged_user.member_of_owner?
     
     session['page_id'] = @page.id
 
@@ -353,7 +353,7 @@ class PagesController < ApplicationController
   
   def reset_address
     @page = Page.find(params[:id])
-    return error_status(true, :cannot_edit_page) unless (@page.can_be_edited_by(@logged_user))
+    return error_status(true, :cannot_edit_page) unless (@page.can_reset_email(@logged_user))
     
     @page.update_attribute('address', 'random')
     

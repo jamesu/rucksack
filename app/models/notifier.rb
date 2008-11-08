@@ -53,7 +53,7 @@ class Notifier < ActionMailer::Base
       :site_name => Account.owner.site_name,
       :page => page,
       :user => page.updated_by,
-      :url => "http://#{Account.owner.host_name}/TODO"
+      :url => "http://#{Account.owner.host_name}#{page_path({:id => page.id, :token => user.twisted_token})}"
     }
   end
   

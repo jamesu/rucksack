@@ -57,7 +57,3 @@ class String
 		fname.gsub(/[^\w\.\-]/,'_') 
 	end
 end
-
-class RedCloth
-  def filter_html; true; end
-end
