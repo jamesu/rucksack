@@ -1,5 +1,6 @@
 - @tabbed_navigation_items = common_tabs(:pages)
 - @user_navigation_items = user_tabs(nil)
+- @page_title = :share_page.l
 
 - form_tag hash_for_share_page_path.merge(:id => @page.id, :use_route => nil), :method => :post, :class => 'pageShareForm' do
   != error_messages_for :page
@@ -8,6 +9,11 @@
     != check_box_tag 'page[is_public]', true, @page.is_public, :id => "pageSetPublic"
     %label.check= :page_public.l_with_args(:link => link_to(public_page_url(@page), public_page_url(@page)))
   
+  %h2= :share_by_email.l
+  %div.pageShareSection
+    != text_area 'page', 'shared_emails', :class => 'short', :rows => 10, :cols => 40, :id => 'pageShareEmail'
+    %p.desc= :share_by_email_desc.l
+  
   %div.pageShareSection
     %h2= :users_who_can_see_page.l
     
@@ -15,6 +21,8 @@
       - Account.owner.users.each do |user|
         - next if user.id == @page.created_by_id
         %tr
+          %td.userAvatar
+            %img{:src => user.gravatar_url(:size => 50)}
           %td
             %label= h user.display_name
           %td

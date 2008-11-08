@@ -44,7 +44,7 @@ class Page < ActiveRecord::Base
 	
 	before_create  :process_params
 	after_create   :process_create
-	before_update  :process_update_params
+	after_update   :process_update_params
 	before_destroy :process_destroy
 	after_destroy  :process_after_destroy
 	
@@ -52,6 +52,51 @@ class Page < ActiveRecord::Base
 	 return if @update_tags.nil?
 	 Tag.clear_by_object(self)
 	 Tag.set_to_object(self, @update_tags)
+	end
+	
+	# Updates guest users (identified by email address)
+	def update_shared
+	  return if @update_shared.nil?
+	  
+	  users = @update_shared.split($/).collect do |ln|
+	    email = ln.strip
+	    if !email.empty?
+	      user = User.find(:first, :conditions => {'email' => email})
+	      
+	      if user.nil?
+	        # Make the user
+	        User.make_shared(email, page)
+	      else
+	        user
+	      end
+	    else
+	      nil
+	    end
+	  end.compact
+	  
+	  updated = false
+	  new_users = []
+	  puts self.shared_users.inspect
+	  self.shared_users.each do |user|
+	    if !user.member_of_owner? and !users.include?(user)
+	      # Don't include, make sure user is deleted if neccesary
+	      user.remove_shared
+	      updated = true
+	    else
+	      # Add this user
+	      new_users << user
+	      users.delete(user)
+	    end
+	  end
+	  
+	  # Add remaining users
+	  users.each { |user| 
+	    new_users << user
+	    updated = true
+	    user.send_page_share_info(self) unless user.member_of_owner? 
+	  }
+	  
+	  self.shared_users = new_users.uniq if updated
 	end
 	
 	def self.widgets
@@ -70,6 +115,7 @@ class Page < ActiveRecord::Base
 	def process_update_params
 	  ApplicationLog.new_log(self, self.created_by, @previous_name.nil? ? :edit : :rename)
 	  update_tags
+	  update_shared
 	end
 	
 	def process_destroy
@@ -227,6 +273,14 @@ class Page < ActiveRecord::Base
 	def address=(value)
 	  new_value = value == 'random' ? generate_address : value
 	  self.write_attribute('address', new_value)
+	end
+	
+	def shared_emails
+	  @update_shared || self.shared_users.find(:all, :conditions => {'account_id' => nil}).map{ |user| user.email }.join("\n")
+	end
+	
+	def shared_emails=(value)
+	  @update_shared = value
 	end
 	
 	def generate_address

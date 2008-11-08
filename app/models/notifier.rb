@@ -40,6 +40,23 @@ class Notifier < ActionMailer::Base
     }
   end
   
+  def page_share_info(user, page)
+    @subject    = :user_wants_to_share_page.l_with_args(
+                    :user => page.updated_by.display_name, 
+                    :page => page.title)
+    @recipients = user.email
+    @from       = "noreply@#{Account.owner.host_name}"
+    @sent_on    = Time.now
+    @headers    = {}
+    
+    @body       = {
+      :site_name => Account.owner.site_name,
+      :page => page,
+      :user => page.updated_by,
+      :url => "http://#{Account.owner.host_name}/TODO"
+    }
+  end
+  
   def signup_notification(user)
     setup_email(user)
     @subject    += :notifier_signup_subject.l

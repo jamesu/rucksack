@@ -38,6 +38,8 @@ Separator: Separator
 UploadedFile: File
 Album: Album
 share_page: Share page
+share_by_email: Share by email
+share_by_email_desc: "For users you don't want to give full access, you can simply allow them to only edit this page by entering their email address above (one per line)."
 users_who_can_see_page: "Users who can edit this page"
 page_public: "Is publically viewable <br/>(at {link})"
 change: Change
@@ -233,6 +235,10 @@ notifier_reminder_info: "This reminder can be modified at:"
 notifier_signup_subject: "Welcome"
 notifier_signup_intro: "{user_name},\n\nYour account at {site_name} has been created."
 notifier_signup_location: "Your account can be accessed at the following location:"
+
+user_wants_to_share_page: "{user} wants to share \"{page}\" with you"
+notifier_page_share: "Hi,\n\n{user_name} wants to share the following page on {site_name} with you:\n\n\"{page_name}\""
+notifier_page_share_url: "To access this page, please visit:\n\\n{url}"
 
 product_name: Rucksack
 product_signature: Powered by Rucksack

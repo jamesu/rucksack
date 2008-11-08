@@ -221,6 +221,10 @@ class User < ActiveRecord::Base
     Notifier.deliver_account_new_info(self, password)
   end
   
+  def send_page_share_info(page)
+    Notifier.deliver_page_share_info(self, page)
+  end
+  
   def is_anonymous?
     @is_anonymous
   end
@@ -232,7 +236,7 @@ class User < ActiveRecord::Base
   # Core permissions
   
   def self.can_be_created_by(user)
-    return (user.member_of_owner? and user.is_admin)
+    return (user.owner_of_owner? and user.is_admin)
   end
   
   def can_be_edited_by(user)
@@ -268,11 +272,11 @@ class User < ActiveRecord::Base
     
   # Helpers 
   def member_of_owner?
-    !self.account_id.nil?
+    Account.owner.id == self.account_id
   end
   
   def owner_of_owner?
-    Account.owner.id == self.account_id
+    Account.owner.owner_id == self.id
   end
  
   def display_name
@@ -285,6 +289,13 @@ class User < ActiveRecord::Base
   
   def object_url
     url_for :only_path => true, :controller => 'user', :action => 'card', :id => self.id
+  end
+  
+  def remove_shared
+    # Remove guest user if they won't have any pages left
+    if !self.member_of_owner? and self.shared_pages.length <= 1
+      self.destroy
+    end
   end
   
   def self.get_online(active_in=15)
@@ -304,6 +315,18 @@ class User < ActiveRecord::Base
   
   def self.owner
     @@cached_owner ||= User.find(:first, :conditions => ['is_admin = ?', true])
+  end
+  
+  def self.make_shared(email, page)
+    user = User.new()
+    
+    user.username = email
+    user.password = Digest::SHA1.hexdigest("#{Time.now}#{rand}")
+    user.is_admin = false
+    user.time_zone = 'UTC'
+    user.email = email
+    
+    user.save ? user : nil
   end
       
   protected

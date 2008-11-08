@@ -244,20 +244,27 @@ class PagesController < ApplicationController
     when :post
         # Set afresh
         unless set_users.nil?
-            @page.shared_users = set_users.collect(&grab_users).compact
+            guest_users = @page.shared_users.collect { |user| user.account_id.nil? ? user : nil }.compact
+            @page.shared_users = guest_users + set_users.collect(&grab_users).compact
         end
-        @page.update_attribute('is_public', set_public)
     when :put
         # Insert into list
         unless set_users.nil?
             set_users.collect(&grab_users).compact.each {|user| @page.shared_users << user unless @page.shared_users_ids.include?(user.id)}
         end
-        @page.update_attribute('is_public', set_public)
     when :delete
         # Delete from list
         unless set_users.nil?
             set_users.collect(&grab_users).compact.each {|user| @page.shared_users.delete(user)}
         end
+    end
+    
+    # Merge in emails
+    unless request.method == :get
+      @page.updated_by = @logged_user
+      @page.is_public = set_public
+      @page.shared_emails = page_attribs[:shared_emails]
+      @page.save unless request.method == :get
     end
 
     respond_to do |format|
@@ -385,6 +392,6 @@ protected
   def page_layout
     return nil unless action_name != 'add_widget'
     return 'public_page' if action_name == 'public'
-    ['index', 'new', 'edit'].include?(action_name)?  'pages':'page'
+    ['index', 'new', 'edit', 'share'].include?(action_name)?  'pages':'page'
   end
 end
