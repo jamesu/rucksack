@@ -1,7 +1,7 @@
 - if @logged_user.member_of_owner?
   - @tabbed_navigation_items = common_tabs(:pages)
   - @user_navigation_items = user_tabs(nil)
-  - @additional_stylesheets = ['public_page'] if @logged_user.is_anonymous?
+- @additional_stylesheets = ['public_page'] if @logged_user.is_anonymous?
 
 - if @page.can_be_edited_by(@logged_user)
   #pageWidgetForms
