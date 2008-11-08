@@ -76,7 +76,6 @@ class Page < ActiveRecord::Base
 	  
 	  updated = false
 	  new_users = []
-	  puts self.shared_users.inspect
 	  self.shared_users.each do |user|
 	    if !user.member_of_owner? and !users.include?(user)
 	      # Don't include, make sure user is deleted if neccesary
