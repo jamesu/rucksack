@@ -174,7 +174,7 @@ class UsersController < ApplicationController
           return
         end
         
-        user = User.find(:first, :conditions => ['email = ?', @your_email])
+        user = User.find(:first, :conditions => ['email = ? AND account_id NOT NULL', @your_email])
         if user.nil?
           error_status(false, :invalid_email_not_in_use, {}, false)
           return
@@ -197,7 +197,7 @@ class UsersController < ApplicationController
       return
     end
     
-    unless @user.password_reset_key == params[:confirm]
+    unless @user.member_of_owner? and @user.password_reset_key == params[:confirm]
       error_status(false, :invalid_request, {}, false)
       redirect_to new_session_path
     end
