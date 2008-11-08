@@ -55,7 +55,6 @@ if owner_user.nil?
       return
     else
       initial_user.password = initial_user_password
-      initial_user.company_id = owner_company.id
       if not initial_user.save
         puts "\nCouldn't reset the owner user!\n"
         return
