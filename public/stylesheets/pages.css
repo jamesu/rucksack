@@ -10,7 +10,7 @@ h2 { font-size: 18px; font-weight: bolder; padding-bottom: 6px; }
 
 h3 { font-size: 16px; font-weight: bolder; padding-bottom: 6px; }
 
-body { margin: 0px; padding: 0px; background-color: #eee; color: #333; }
+body { margin: 0px; padding: 0px; background-color: #eee; color: #000; }
 
 label { display: block; }
 
@@ -37,6 +37,10 @@ pre {
   background-color: #eee;
   padding: 10px;
   font-size: 11px;
+}
+
+form div {
+  margin-bottom: 3px;
 }
 
 .totalPageWidth { width: 600px; }
@@ -256,13 +260,14 @@ li.albumPicture form, li.albumPictureForm form {
 }
 
 li.albumPicture img {
-  border: 1px dashed #ccc;
+  border: 1px solid #dedede;
   padding: 2px;  
 }
 
-.albumPictureContent a:hover  {
-  background-color: none; 
-  background-color: #fff; 
+.albumPictureContent a:hover {
+  background:none;
+  background-color: #fff;
+  color: #000;
 }
 
 .albumPictureCaption {
@@ -550,10 +555,6 @@ div.pageList .itemDelete {
   border: 1px dashed #a9a9a9;
 }
 
-#newReminderForm div, .reminderForm div {
-  margin-bottom: 6px;
-}
-
 .reminderEntry {
     margin-bottom: 6px;
 }
@@ -609,12 +610,19 @@ div.pageList .itemDelete {
 .activityEntry { padding-left: 32px; }
 
 /* user list page */
-table.userList
+#userList
 {
   margin-top: 6px;
   margin-bottom: 6px;
   width: 100%;
 }
+
+#userList td {
+  padding: 0px 3px 0px 3px;
+}
+
+td.userAvatar { width: 50px; padding: 0px; }
+td.userDisplayName { font-weight: bolder; }
 
 /* user form */
 
@@ -627,10 +635,6 @@ table.userList
   display: inline;
 }
 
-#userForm form div {
-  margin-bottom: 4px;
-}
-
 /* account form */
 
 #settingsForm label {
@@ -639,10 +643,6 @@ table.userList
 
 #settingsForm label.yesno {
   display: inline;
-}
-
-#settingsForm form div {
-  margin-bottom: 4px;
 }
 
 label {
@@ -669,6 +669,13 @@ label.check {
   
   margin: 0 0 5px 0;
   padding: 5px;
+}
+
+.hint .header {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 3px;
+  border-bottom: 1px solid #E9BE31;
 }
 
 #statusBar {

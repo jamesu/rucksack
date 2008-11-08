@@ -50,7 +50,6 @@ pages: Pages
 edit: Edit
 page_back: Back
 insert_here: Insert Here
-page_list: Listing pages
 my_pages: My pages
 all_pages: All pages
 pages_shared_to_me: Pages shared to me
@@ -64,7 +63,7 @@ available_tags: Available tags
 list_item_completed: Completed
 list_item_open: Open
 
-user_list: Listing users
+user_list: Users
 add_user: Add new user
 show_user: "{name}"
 
