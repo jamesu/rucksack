@@ -38,7 +38,7 @@
       #outerWrapper
         #innerWrapper.totalPageWidth
           -# Displays general alerts
-          #statusBar.flash{:class => (flash[:error] ? 'error' : 'success'), :style => (flash.has_key?(:message) ? 'display:block' : nil)}= h flash[:message]
+          = status_bar
           
           #pageContent
             #content

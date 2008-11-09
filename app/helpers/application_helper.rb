@@ -138,6 +138,15 @@ module ApplicationHelper
 	    {:name => :delete.l, :class => 'reminderDelete', :url => '#', :cond => true}]
 	end
 	
+	def status_bar
+	  flash_error = @flash_error || flash[:error]
+	  flash_message = @flash_message || flash[:message]
+	  classes = flash_error ? 'flash error' : 'success'
+	  styles = flash_message.nil? ? '' : 'display:block' 
+	  
+	  "<div id=\"statusBar\" class=\"#{classes}\" style=\"#{styles}\">#{h(flash_message)}</div>"
+	end
+	
 	def forced_user?
 	   params.has_key?(:user_id)
 	end

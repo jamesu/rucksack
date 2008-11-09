@@ -14,5 +14,5 @@
   %body
     #dialog
       %h1= h @page_title
-      #statusBar.flash{:class => (flash[:error] ? 'error' : 'success'), :style => (flash.has_key?(:message) ? 'display:block' : nil)}= h flash[:message]
+      = status_bar
       != yield

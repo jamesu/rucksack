@@ -50,8 +50,13 @@ class ApplicationController < ActionController::Base
 protected
   
   def error_status(error, message, args={}, continue_ok=true)
-  	flash[:error] = error
-  	flash[:message] = message.l_with_args(args)
+    if request.format == :html
+  	  flash[:error] = error
+  	  flash[:message] = message.l_with_args(args)
+  	else
+  	  @flash_error = error
+  	  @flash_message = message.l_with_args(args)
+  	end
   	
   	return unless (error and continue_ok)
   	
