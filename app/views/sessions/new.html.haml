@@ -16,8 +16,9 @@
       %label.checkbox{:for => 'loginRememberMe'}= :remember_me.l
       %div
         != link_to :forgot_password_q.l , :controller => 'users', :action => 'forgot_password'
-        |
-        %a{:href => '/login?use_openid=1', :class => 'toggleOpenID'}= :use_openid.l
+        - if Account.owner.openid_enabled
+          |
+          %a{:href => '/login?use_openid=1', :class => 'toggleOpenID'}= :use_openid.l
   
   - if Account.owner.openid_enabled
     #openid_login.inner{:style => @use_openid ? 'display:block' : 'display:none'}
