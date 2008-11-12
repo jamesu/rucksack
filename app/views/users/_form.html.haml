@@ -21,7 +21,7 @@
   %label{:for => 'userFormEmail'}= :email_address.l
   = text_field 'user', 'email', :id => 'userFormEmail', :class => 'long'
 
-- if AppConfig.allow_openid
+- if Account.owner.openid_enabled
   %div
     %label{:for => 'userFormOpenID'}= :openid.l
     = text_field 'user', 'identity_url', :id => 'userFormOpenID', :class => 'openid_login' 

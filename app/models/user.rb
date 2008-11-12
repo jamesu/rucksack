@@ -349,7 +349,7 @@ class User < ActiveRecord::Base
   
   # Accesibility
   
-  attr_accessible :display_name, :email, :time_zone, :title, :new_account_notification
+  attr_accessible :display_name, :email, :time_zone, :title, :identity_url, :new_account_notification
   
   # Validation
   

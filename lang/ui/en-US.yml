@@ -25,6 +25,7 @@ unknown_response_status: "Unknown response status: {status}"
 invalid_email: Invalid email address
 invalid_email_not_in_use: Invalid email address
 invalid_request: Invalid request
+openid: OpenID
 
 token_login_email_desc: "Please enter your email address in order to continue."
 
