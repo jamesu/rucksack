@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 17) do
+ActiveRecord::Schema.define(:version => 18) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "owner_id",       :limit => 10,                    :null => false
@@ -123,6 +123,21 @@ ActiveRecord::Schema.define(:version => 17) do
   end
 
   add_index "notes", ["page_id"], :name => "index_notes_on_page_id"
+
+  create_table "open_id_authentication_associations", :force => true do |t|
+    t.integer "issued",     :limit => 11
+    t.integer "lifetime",   :limit => 11
+    t.string  "handle"
+    t.string  "assoc_type"
+    t.binary  "server_url"
+    t.binary  "secret"
+  end
+
+  create_table "open_id_authentication_nonces", :force => true do |t|
+    t.integer "timestamp",  :limit => 11,                 :null => false
+    t.string  "server_url"
+    t.string  "salt",                     :default => "", :null => false
+  end
 
   create_table "page_slots", :force => true do |t|
     t.integer "page_id",         :limit => 10
