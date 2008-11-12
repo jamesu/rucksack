@@ -9,6 +9,7 @@ email_address: Email Address
 forgot_password: Forgot password
 forgot_password_q: "Forgot password?"
 send_password: Send password
+use_login: Use username & password
 use_openid: Use OpenID
 remember_me: Remember me
 login_success: Login successful
@@ -23,8 +24,17 @@ verification_cancelled: Verification cancelled
 unknown_response_status: "Unknown response status: {status}"
 invalid_email: Invalid email address
 invalid_email_not_in_use: Invalid email address
+invalid_request: Invalid request
 
 token_login_email_desc: "Please enter your email address in order to continue."
+
+# Reset
+set_password: Set password
+reset_password: Reset password
+change_password: Change password
+password_changed: Password changed
+new_password_required: New password required
+does_not_match: Does not match
 
 # Tabs
 overview: Overview
@@ -235,13 +245,16 @@ notifier_donotreply: "DO NOT REPLY TO THIS MESSAGE"
 notifier_reminder: "{content}"
 notifier_reminder_info: "This reminder can be modified at:"
 
+notifier_password_reset_subject: "Password reset request"
+notifier_password_reset_info: "{user_name},\n\nA request to reset the password for your account has been made at {site}. Provided you wish to continue with this request, please visit the following url:"
+
 notifier_signup_subject: "Welcome"
 notifier_signup_intro: "{user_name},\n\nYour account at {site_name} has been created."
 notifier_signup_location: "Your account can be accessed at the following location:"
 
 user_wants_to_share_page: "{user} wants to share \"{page}\" with you"
 notifier_page_share: "Hi,\n\n{user_name} wants to share the following page on {site_name} with you:\n\n\"{page_name}\""
-notifier_page_share_url: "To access this page, please visit:\n\\n{url}"
+notifier_page_share_url: "To access this page, please visit:\n\n{url}"
 
 product_name: Rucksack
 product_signature: Powered by Rucksack

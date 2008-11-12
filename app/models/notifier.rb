@@ -65,6 +65,19 @@ class Notifier < ActionMailer::Base
     @body[:url] = "http://#{Account.owner.host_name}/login"
   end
   
+  def password_reset(user)
+    setup_email(user)
+    @subject    += :notifier_password_reset_subject.l
+    @recipients = user.email
+    @from       = "noreply@#{Account.owner.host_name}"
+    @sent_on    = Time.now
+    @headers    = {}
+
+    @body[:site_name] = Account.owner.site_name
+    @body[:sent_on] = @sent_on
+    @body[:url] = "http://#{Account.owner.host_name}/users/reset_password/#{user.id}?confirm=#{user.password_reset_key}"
+  end
+  
   protected
     def setup_email(user)
       @recipients  = "#{user.email}"

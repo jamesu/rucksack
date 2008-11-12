@@ -169,11 +169,6 @@ class UsersController < ApplicationController
       when :post
         @your_email = params[:your_email]
         
-        if not @your_email =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
-          error_status(false, :invalid_email, {}, false)
-          return
-        end
-        
         user = User.find(:first, :conditions => ['email = ? AND account_id NOT NULL', @your_email])
         if user.nil?
           error_status(false, :invalid_email_not_in_use, {}, false)
