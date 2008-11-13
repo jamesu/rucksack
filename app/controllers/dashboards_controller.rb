@@ -41,7 +41,7 @@ class DashboardsController < ApplicationController
   end
 
 protected
-  
+
   def authorized?(action = action_name, resource = nil)
     logged_in? and @logged_user.member_of_owner?
   end

@@ -8,7 +8,7 @@ class SessionsControllerTest < ActionController::TestCase
   fixtures :users
 
   def test_should_login_and_redirect
-    post :create, :login => 'test', :password => 'password'
+    post :create, :login => 'test', :password => 'testing'
     assert session[:user_id]
     assert_response :redirect
   end
@@ -28,13 +28,13 @@ class SessionsControllerTest < ActionController::TestCase
 
   def test_should_remember_me
     @request.cookies["auth_token"] = nil
-    post :create, :login => 'test', :password => 'password', :remember_me => "1"
+    post :create, :login => 'test', :password => 'testing', :remember_me => "1"
     assert_not_nil @response.cookies["auth_token"]
   end
 
   def test_should_not_remember_me
     @request.cookies["auth_token"] = nil
-    post :create, :login => 'test', :password => 'password', :remember_me => "0"
+    post :create, :login => 'test', :password => 'testing', :remember_me => "0"
     puts @response.cookies["auth_token"]
     assert @response.cookies["auth_token"].blank?
   end
