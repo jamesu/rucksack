@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class PagesControllerTest < ActionController::TestCase
+  fixtures :pages
+  
   def test_should_get_index
     get :index
     assert_response :success

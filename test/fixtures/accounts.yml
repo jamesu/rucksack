@@ -1,7 +1,5 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-# one:
-#   column: value
-#
-# two:
-#   column: value
+main_account:
+  owner: main_user
+  site_name: "Test"
+  host_name: "localhost"
+  openid_enabled: false

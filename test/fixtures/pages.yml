@@ -1,7 +1,11 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+main_user_homepage:
+  title: "Testers page"
+  created_by: main_user
+  is_public: false
+  width: 400
 
-# one:
-#   column: value
-#
-# two:
-#   column: value
+normal_user_homepage:
+  title: "Tester 2's page"
+  created_by: normal_user
+  is_public: false
+  width: 400

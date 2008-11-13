@@ -1,7 +1,25 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+main_user:
+  username: test
+  email: test@localhost
+  #password: testing
+  token: 06fd31a626de3d91ef124b8502933f66e4437af6
+  salt: 341f6910a5fd7
+  twister: 5796830421
+  display_name: Tester
+  time_zone: UTC
+  is_admin: true
+  account: test_account
+  home_page: main_user_homepage
 
-# one:
-#   column: value
-#
-# two:
-#   column: value
+normal_user:
+  username: test2
+  email: test2@localhost
+  #password: testing
+  token: 06fd31a626de3d91ef124b8502933f66e4437af6
+  salt: 341f6910a5fd7
+  twister: 5796830421
+  display_name: Tester 2
+  time_zone: UTC
+  is_admin: false
+  account: test_account
+  home_page: normal_user_homepage
