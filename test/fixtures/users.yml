@@ -1,4 +1,5 @@
 main_user:
+  id: 1
   username: test
   email: test@localhost
   #password: testing
@@ -8,7 +9,7 @@ main_user:
   display_name: Tester
   time_zone: UTC
   is_admin: true
-  account: test_account
+  account_id: 1
   home_page: main_user_homepage
 
 normal_user:
@@ -21,5 +22,17 @@ normal_user:
   display_name: Tester 2
   time_zone: UTC
   is_admin: false
-  account: test_account
+  account_id: 1
+  home_page: normal_user_homepage
+
+guest_user:
+  username: test3
+  email: test3@localhost
+  #password: testing
+  token: 06fd31a626de3d91ef124b8502933f66e4437af6
+  salt: 341f6910a5fd7
+  twister: 5796830421
+  display_name: Tester 2
+  time_zone: UTC
+  is_admin: false
   home_page: normal_user_homepage

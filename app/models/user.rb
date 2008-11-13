@@ -242,11 +242,12 @@ class User < ActiveRecord::Base
   end
   
   def can_be_edited_by(user)
+    return false if user.is_anonymous?
     (self.id == user.id or user.is_admin) and user.member_of_owner?
   end
   
   def can_be_deleted_by(user)
-    return false if (self.owner_of_owner? or user.id == self.id)
+    return false if (user.is_anonymous? or self.owner_of_owner? or user.id == self.id)
     return user.is_admin
   end
   
