@@ -27,6 +27,8 @@
 class SessionsController < ApplicationController
   
   layout 'dialog'
+  
+  filter_parameter_logging :password
 
   # render new.rhtml
   def new
