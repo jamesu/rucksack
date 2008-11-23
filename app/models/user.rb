@@ -345,7 +345,8 @@ class User < ActiveRecord::Base
         :remember_token_expires_at,
         :last_login,
         :last_visit,
-        :last_activity
+        :last_activity,
+        :identity_url
       ]}
     self.ar_to_xml(options.merge(default_options), &block)
   end
