@@ -348,6 +348,24 @@ class User < ActiveRecord::Base
     write_attribute("updated_on", Time.now.utc)
   end
   
+  # Serialization
+  alias_method :ar_to_xml, :to_xml
+  
+  def to_xml(options = {}, &block)
+    default_options = {
+      :except => [
+        :salt,
+        :token,
+        :twister,
+        :remember_token,
+        :remember_token_expires_at,
+        :last_login,
+        :last_visit,
+        :last_activity
+      ]}
+    self.ar_to_xml(options.merge(default_options), &block)
+  end
+  
   # Accesibility
   
   attr_accessible :display_name, :email, :time_zone, :title, :identity_url, :new_account_notification

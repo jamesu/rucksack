@@ -37,7 +37,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @users.to_xml(:except => [:salt, :token, :twister, :remember_token, :remember_token_expires_at]) }
+      format.xml  { render :xml => @users.to_xml }
     end
   end
 
@@ -49,7 +49,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(users_path) }
-      format.xml  { render :xml => @user.to_xml(:except => [:salt, :token, :twister]) }
+      format.xml  { render :xml => @user.to_xml }
     end
   end
 
@@ -63,7 +63,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @user.to_xml(:except => [:salt, :token, :twister]) }
+      format.xml  { render :xml => @user.to_xml }
     end
   end
 
@@ -103,7 +103,7 @@ class UsersController < ApplicationController
       if saved
         flash[:notice] = 'user was successfully created.'
         format.html { redirect_to(users_path) }
-        format.xml  { render :xml => @user.to_xml(:except => [:salt, :token, :twister]), :status => :created, :location => @user }
+        format.xml  { render :xml => @user.to_xml, :status => :created, :location => @user }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
