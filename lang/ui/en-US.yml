@@ -164,6 +164,7 @@ journal_date_today: "Today"
 journal_date_format: "%a, %b %d"
 journal_date_extended_format: "%a, %b %d %Y"
 add_entry: Add entry
+user_journals_desc: What everyone else is doing...
 
 # Activity
 # activity_[add/edit/delete]_[class] -> {object}

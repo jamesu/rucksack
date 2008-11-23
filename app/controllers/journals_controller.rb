@@ -33,8 +33,16 @@ class JournalsController < ApplicationController
   def index
     return error_status(true, :cannot_see_journals) unless (@user.journals_can_be_seen_by(@logged_user))
     
+    user_ids = Account.owner.user_ids - [@logged_user.id]
     @journals = get_groups
+    @user_journals = user_ids.collect do |uid|
+      journals = Journal.find(:all, :conditions => {'user_id' => uid},
+                          :order => 'created_at DESC', :limit => 4)
+      journals.empty? ? nil : [User.find_by_id(uid), journals]
+    end.compact
+    
     @status = @user.status || @user.build_status
+    @content_for_sidebar = 'journals/users_sidebar'
 
     respond_to do |format|
       format.html # index.html.erb

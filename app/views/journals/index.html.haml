@@ -1,12 +1,14 @@
 - @page_title = :journal.l
+- @no_page_tile = true
 - @tabbed_navigation_items = common_tabs(:journal)
 - @user_navigation_items = user_tabs(nil)
 
-%h2= :status.l
-
-#userStatus
-  #user_status.inner= textilize @status.content
-  #user_status_form.form{:style => 'display:none'}= render :partial => 'statuses/form', :object => @status
+#userStatusBlock
+  %h2= :status.l
+  
+  #userStatus
+    #user_status.inner= textilize @status.content
+    #user_status_form.form{:style => 'display:none'}= render :partial => 'statuses/form', :object => @status
 
 #userJournal
   .inner

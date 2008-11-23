@@ -1,0 +1,11 @@
+- unless @user_journals.empty?
+  .sidebarBlock
+    %p= :user_journals_desc.l
+
+- @user_journals.each do |ugroup|
+  .sidebarBlock
+    %h2.userStatusDisplayName= h(ugroup[0].display_name)
+    %h3.userStatus= ugroup[0].status.nil? ? '' : h(ugroup[0].status.content)
+    %ul.userJournalList
+      - ugroup[1].each do |journal|
+        %li.journalContent= h(journal.content)

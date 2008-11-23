@@ -2,7 +2,8 @@
 - @tabbed_navigation_items = common_tabs(nil)
 - @user_navigation_items = user_tabs(:users)
 
-%a{:href => new_user_path}= :add_user.l
+- if User.can_be_created_by(@logged_user)
+  %a{:href => new_user_path}= :add_user.l
 
 %table#userList
   - @users.each do |user|

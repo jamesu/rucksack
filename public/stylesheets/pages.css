@@ -174,12 +174,14 @@ form div {
 }
 
 .sidebarBlock {
+  padding-bottom: 3px;
   margin: 6px 0px 6px 0px;
 }
 
 .newPage {
   font-weight: bold;
   font-size: 16px;
+  text-decoration: none;
 }
 
 #wrapper {
@@ -550,7 +552,15 @@ div.pageList .itemDelete {
 }
 
 #newReminderForm {
-  margin: 6px 0px 6px 0px;
+  background: #fff;
+  margin: -16px -14px 0px -14px;
+  padding: 18px 16px 18px 16px;
+  
+  border-bottom: 2px dashed #eee;
+}
+
+#newReminderAtLabel {
+  font-size: 18px;
 }
 
 .reminderForm {
@@ -593,13 +603,44 @@ div.pageList .itemDelete {
   margin-top: 12px;
 }
 
+#userJournals h2 {
+  border-bottom: 1px solid #ccc;
+}
+
 #userStatus {
-  border: 1px dashed #ccc;
+  border: 1px dashed #cacaca;
   cursor: pointer;
+}
+
+#userStatusBlock {
+  background: #fff;
+  margin: -16px -14px 0px -14px;
+  padding: 18px 16px 18px 16px;
+  
+  border-bottom: 2px dashed #eee;
 }
 
 #user_status {
   padding: 4px 6px 4px 6px;
+  background: #fff;
+}
+
+h2.userStatusDisplayName {
+  font-size: 13px;
+  font-weight: bolder;
+}
+
+h3.userStatus {
+  font-size: 16px;
+  font-weight: bolder;
+}
+
+ul.userJournalList, #userJournals ul {
+  padding-left: 20px;
+}
+
+.sidebarBlock {
+  border-bottom: 2px solid #cecece;
 }
 
 /* activity log */

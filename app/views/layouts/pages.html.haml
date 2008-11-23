@@ -43,7 +43,8 @@
           #pageContent
             #content
               #innerContent
-                %h1= h @page_title
+                - if @no_page_tile.nil?
+                  %h1= h @page_title
                 -# Content
                 = yield
             
