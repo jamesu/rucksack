@@ -69,12 +69,12 @@ class Album < ActiveRecord::Base
   def can_be_seen_by(user)
      self.page.can_be_seen_by(user)
   end
-	
-	# Specific permissions
   
-	def picture_can_be_added_by(user)
-	   self.can_be_edited_by(user)
-	end
-	
-	attr_accessible :title
+  # Specific permissions
+  
+  def picture_can_be_added_by(user)
+     self.can_be_edited_by(user)
+  end
+  
+  attr_accessible :title
 end

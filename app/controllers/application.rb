@@ -51,24 +51,24 @@ protected
   
   def error_status(error, message, args={}, continue_ok=true)
     if request.format == :html
-  	  flash[:error] = error
-  	  flash[:message] = message.l_with_args(args)
-  	else
-  	  @flash_error = error
-  	  @flash_message = message.l_with_args(args)
-  	end
-  	
-  	return unless (error and continue_ok)
-  	
-  	# Construct a reply with a relevant error
-  	respond_to do |format|
+      flash[:error] = error
+      flash[:message] = message.l_with_args(args)
+    else
+      @flash_error = error
+      @flash_message = message.l_with_args(args)
+    end
+    
+    return unless (error and continue_ok)
+    
+    # Construct a reply with a relevant error
+    respond_to do |format|
         format.html { redirect_back_or_default('/') }
         format.js { render(:update) do |page| 
                       page.replace_html('statusBar', h(flash[:message]))
                       page.show 'statusBar'
                     end }
         format.xml  { head(error ? :unprocessable_entity : :ok) }
-  	end
+    end
   end
   
   def reload_owner

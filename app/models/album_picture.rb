@@ -1,7 +1,7 @@
 class AlbumPicture < ActiveRecord::Base
-	belongs_to :album
-	def page; self.album.page; end
-	def page_id; self.album.page_id; end
+  belongs_to :album
+  def page; self.album.page; end
+  def page_id; self.album.page_id; end
 
   has_many :application_logs, :as => :rel_object, :dependent => :destroy
   
@@ -29,33 +29,33 @@ class AlbumPicture < ActiveRecord::Base
   def object_name
     self.caption? ? self.caption : self.picture.original_filename
   end
-	
-	def set_position(value, user=nil)
-	  self.position = value
-	  self.updated_by = user unless user.nil?
-	end
+  
+  def set_position(value, user=nil)
+    self.position = value
+    self.updated_by = user unless user.nil?
+  end
 
   # Common permissions
-	
-	def self.can_be_created_by(user, in_album)
-	   in_album.picture_can_be_added_by(user)
-	end
-	
-	def can_be_edited_by(user)
-	   album.can_be_edited_by(user)
-	end
-	
-	def can_be_deleted_by(user)
-	   album.can_be_deleted_by(user)
-	end
-	
-	def can_be_seen_by(user)
-	   album.can_be_seen_by(user)
-	end
-	
-	attr_accessible :caption, :picture
-	
-	# Validation
-	
-	validates_attachment_presence :picture
+  
+  def self.can_be_created_by(user, in_album)
+     in_album.picture_can_be_added_by(user)
+  end
+  
+  def can_be_edited_by(user)
+     album.can_be_edited_by(user)
+  end
+  
+  def can_be_deleted_by(user)
+     album.can_be_deleted_by(user)
+  end
+  
+  def can_be_seen_by(user)
+     album.can_be_seen_by(user)
+  end
+  
+  attr_accessible :caption, :picture
+  
+  # Validation
+  
+  validates_attachment_presence :picture
 end

@@ -140,12 +140,12 @@ protected
   def get_groups
     now = Time.zone.now.to_date
     @user.journals.find(:all).group_by do |journal|
-	    date = journal.created_at.to_date
-	    if date == now
-	      :journal_date_today.l
-	    else
-	      date.strftime(date.year == now.year ? :journal_date_format.l : :journal_date_format_extended.l)
-	    end
+      date = journal.created_at.to_date
+      if date == now
+        :journal_date_today.l
+      else
+        date.strftime(date.year == now.year ? :journal_date_format.l : :journal_date_format_extended.l)
+      end
     end
   end
 end
