@@ -331,23 +331,7 @@ class User < ActiveRecord::Base
     
     user.save ? user : nil
   end
-      
-  protected
-      
-  before_create :process_params
-  before_update :process_update_params
-   
-  def process_params
-    write_attribute("created_on", Time.now.utc)
-    write_attribute("last_login", nil)
-    write_attribute("last_activity", nil)
-    write_attribute("last_visit", nil)
-  end
-  
-  def process_update_params
-    write_attribute("updated_on", Time.now.utc)
-  end
-  
+
   # Serialization
   alias_method :ar_to_xml, :to_xml
   
@@ -364,6 +348,22 @@ class User < ActiveRecord::Base
         :last_activity
       ]}
     self.ar_to_xml(options.merge(default_options), &block)
+  end
+      
+  protected
+      
+  before_create :process_params
+  before_update :process_update_params
+   
+  def process_params
+    write_attribute("created_on", Time.now.utc)
+    write_attribute("last_login", nil)
+    write_attribute("last_activity", nil)
+    write_attribute("last_visit", nil)
+  end
+  
+  def process_update_params
+    write_attribute("updated_on", Time.now.utc)
   end
   
   # Accesibility
