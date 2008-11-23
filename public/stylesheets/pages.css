@@ -57,7 +57,7 @@ form div {
     padding: 8px 6px 0px 6px; 
     text-align: left;
     
-    background: #c1c1c1;
+    background: #007700;
 }
 
 /* outer wrapper for content. contains side background */
@@ -83,7 +83,7 @@ form div {
 #userOptions {
   float: right;
   
-  background: #a9a9a9;
+  background: #006600;
   padding: 3px 6px 3px 6px;
   color: #fff;
 }
@@ -136,7 +136,7 @@ form div {
     padding: 2px 12px;
     color: #fff;
     
-    background: #a9a9a9;
+    background: #006600;
 }
 
 #tabsWrapper ul li.active a {
