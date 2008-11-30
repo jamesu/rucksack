@@ -131,6 +131,7 @@ class JournalsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(journals_url) }
+      format.js { @journals = get_groups; render :action => 'update' }
       format.xml  { head :ok }
     end
   end

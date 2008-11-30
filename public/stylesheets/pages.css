@@ -639,6 +639,12 @@ ul.userJournalList, #userJournals ul {
   padding-left: 20px;
 }
 
+.journalEntry span {
+  font-style: italic;
+  font-size: 10px;
+  color: #999999;
+}
+
 .sidebarBlock {
   border-bottom: 2px solid #cecece;
 }
