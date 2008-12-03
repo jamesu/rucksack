@@ -7,16 +7,8 @@ module Footnotes
         @controller = controller
       end
 
-      def self.to_sym
-        :controller
-      end
-
       def row
         :edit
-      end
-
-      def title
-        'Controller'
       end
 
       def link

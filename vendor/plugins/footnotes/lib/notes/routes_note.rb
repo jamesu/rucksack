@@ -8,14 +8,6 @@ module Footnotes
         @parsed_routes = parse_routes
       end
 
-      def self.to_sym
-        :routes
-      end
-
-      def title
-        'Routes'
-      end
-
       def legend
         "Routes for #{@controller.class.to_s}"
       end
@@ -63,5 +55,5 @@ module Footnotes
 end
 
 if Footnotes::Notes::RoutesNote.included?
-  ActionController::Routing::RouteSet.send :include, Footnotes::Extensions::Routes
+  ActionController::Routing::RouteSet.__send__ :include, Footnotes::Extensions::Routes
 end

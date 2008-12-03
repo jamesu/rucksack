@@ -7,16 +7,8 @@ module Footnotes
         @params = controller.params.symbolize_keys
       end
 
-      def self.to_sym
-        :params
-      end
-
       def title
         "Params (#{@params.length})"
-      end
-
-      def legend
-        'Parameters'
       end
 
       def content

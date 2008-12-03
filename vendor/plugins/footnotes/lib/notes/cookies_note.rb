@@ -4,19 +4,11 @@ module Footnotes
   module Notes
     class CookiesNote < AbstractNote
       def initialize(controller)
-        @cookies = (controller.send(:cookies) || {}).symbolize_keys
-      end
-
-      def self.to_sym
-        :cookies
+        @cookies = (controller.__send__(:cookies) || {}).symbolize_keys
       end
 
       def title
         "Cookies (#{@cookies.length})"
-      end
-
-      def legend
-        'Cookies'
       end
 
       def content

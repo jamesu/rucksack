@@ -1,4 +1,4 @@
-Footnotes plugin for Rails (v3.2.2)
+Footnotes plugin for Rails (v3.3)
 -----------------------------------
 
 If you are developing in Rails you should know the plugin!
@@ -10,7 +10,7 @@ Even more, it contains links to open files directly in textmate. And if Rails ge
 Installation
 ============
 
-The newest versions of the plugin only works in Rails 2.1 and above. Scroll down to check how to install early versions.
+The current version is only Rails Edge (aka Rails 2.2) compatible. Scroll down to check how to install early versions.
 
 If you just want a static copy of the plugin:
 
@@ -22,6 +22,14 @@ If you are using Git for your own app, then you could use Git sub-modules or the
 
 Early versions
 ==============
+
+If you are running on Rails 2.1.x, you should use Footnotes v3.2.2:
+
+    cd myapp
+    git clone git://github.com/drnic/rails-footnotes.git vendor/plugins/footnotes
+    cd vendor/plugins/footnotes
+    git checkout v3.2.2
+    rm -rf ./.git
 
 If you are running on Rails 2.0.x or Rails 1.x, you should use Footnotes v3.0:
 
@@ -81,19 +89,6 @@ To create a note that shows info about the user logged in your application (@cur
       #
       def initialize(controller)
         @current_user = controller.instance_variable_get("@current_user")
-      end
-
-      # Specifies the symbol that represent this note
-      # This is the one you will have to add to Footnotes::Filter.notes
-      #
-      def self.to_sym
-        :current_user
-      end
-
-      # The name that will appear as link
-      #
-      def title
-        'Current User'
       end
 
       # The name that will appear as legend in fieldsets

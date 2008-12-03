@@ -7,18 +7,6 @@ module Footnotes
         @session = (controller.session.instance_variable_get("@data") || {}).symbolize_keys
       end
 
-      def self.to_sym
-        :session
-      end
-
-      def title
-        'Session'
-      end
-
-      def legend
-        'Session'
-      end
-
       def content
         escape(@session.inspect)
       end

@@ -2,26 +2,31 @@ require "#{File.dirname(__FILE__)}/view_note"
 
 module Footnotes
   module Notes
-    class LayoutNote < ViewNote
-      def self.to_sym
-        :layout
+    class LayoutNote < AbstractNote
+      def initialize(controller)
+        @controller = controller
+        @template = controller.instance_variable_get('@template')
       end
 
-      def title
-        'Layout'
+      def row
+        :edit
       end
 
       def link
-        escape(Footnotes::Filter.prefix + layout_file_name)
+        escape(Footnotes::Filter.prefix + layout_filename)
       end
 
       def valid?
-        @controller.active_layout && prefix?
+        prefix? && @controller.active_layout && layout_template
       end
 
       protected
-        def layout_file_name
-          File.expand_path(template_base_path(@controller.active_layout))
+        def layout_template
+          @layout_template ||= @template.__send__(:_pick_template, @controller.active_layout)
+        end
+
+        def layout_filename
+          layout_template.filename
         end
     end
   end
