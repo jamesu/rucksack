@@ -55,6 +55,7 @@ Rails::Initializer.run do |config|
   # config.log_level = :debug
 
   config.time_zone = 'UTC'
+  config.i18n.default_locale = :en
 
   config.action_controller.session = {
     :session_key => APP_CONFIG['session'],
@@ -65,7 +66,5 @@ Rails::Initializer.run do |config|
   # config.active_record.observers = :cacher, :garbage_collector
   #config.active_record.observers = :user_observer
 end
-
-Globalite.locale = "en-US".to_sym
 
 require_dependency 'rucksack_extras'
