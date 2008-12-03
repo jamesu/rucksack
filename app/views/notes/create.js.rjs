@@ -1,3 +1,3 @@
 page.insert_html((@insert_before ? :before : :after), @insert_element, "<div class=\"pageSlot\" id=\"page_slot_#{@slot.id}\" slot=\"#{@slot.id}\"></div>")
-page.replace_html("page_slot_#{@slot.id}", :partial => 'pages/slot', :locals => {:object => @note, :slot => @note.page_slot})
+page.replace_html("page_slot_#{@slot.id}", :partial => 'pages/slot', :locals => {:object => @note, :page_slot => @note.page_slot})
 page.call "Page.makeSortable"
