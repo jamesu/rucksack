@@ -1,262 +1,264 @@
-
-# Access
-login: Login
-logout: Logout
-username: Username
-password: Password
-repeat_password: Repeat password
-email_address: Email Address
-forgot_password: Forgot password
-forgot_password_q: "Forgot password?"
-send_password: Send password
-use_login: Use username & password
-use_openid: Use OpenID
-remember_me: Remember me
-login_success: Login successful
-login_failure: Invalid login
-logout_success: You have logged out
-invalid_openid_server: "Unable to find openid server for <q>{openid_url}</q>"
-failed_verification_openid_url: "Verification of {openid_url} failed"
-failed_login_openid_url: "Failed login with identity {openid_url}"
-success_login_openid_url: "You have successfully logged in with {openid_url} as your identity"
-verification_failed: Verification failed
-verification_cancelled: Verification cancelled
-unknown_response_status: "Unknown response status: {status}"
-invalid_email: Invalid email address
-invalid_email_not_in_use: Invalid email address
-invalid_request: Invalid request
-openid: OpenID
-
-token_login_email_desc: "Please enter your email address in order to continue."
-
-# Reset
-set_password: Set password
-reset_password: Reset password
-change_password: Change password
-password_changed: Password changed
-new_password_required: New password required
-does_not_match: Does not match
-
-# Tabs
-overview: Overview
-users: Users
-my_profile: My Profile
-
-# Page view
-add_to_page: Add to page
-cancel: Cancel
-Note: Note
-List: List
-Separator: Separator
-UploadedFile: File
-Album: Album
-share_page: Share page
-share_by_email: Share by email
-share_by_email_desc: "For users you don't want to give full access, you can simply allow them to only edit this page by entering their email address above (one per line)."
-users_who_can_see_page: "Users who can edit this page"
-page_public: "Is publically viewable <br/>(at {link})"
-change: Change
-page_is_not_shared: "Page is not shared ({link})"
-page_is_shared: "Page is shared ({link})"
-duplicate_page: Duplicate
-email_page: "Email address: <a href=\"mailto:{email}\">{email}</a>"
-reset: Reset
-page: Page
-pages: Pages
-edit: Edit
-page_back: Back
-insert_here: Insert Here
-my_pages: My pages
-all_pages: All pages
-pages_shared_to_me: Pages shared to me
-copy_of_page: "{title} (Copy)"
-
-tags: Tags
-edit_tags: Edit tags
-current_tags: Current tags
-available_tags: Available tags
-
-list_item_completed: Completed
-list_item_open: Open
-
-user_list: Users
-add_user: Add new user
-show_user: "{name}"
-
-favourite: Favourite
-not_favourite: Not favourite
-
-# Forms
-new_page: New page
-delete_page: Delete page
-add_note: Add note
-edit_note: Edit note
-add_separator: Add separator
-edit_separator: Edit separator
-add_item: Add item
-edit_item: Edit item
-rename_item: Rename item
-rename_list: Rename list
-rename_page: Rename page
-title: Title
-content: Content
-page_create: Create
-update: Update
-save: Save
-save_changes: Save changes
-user_administration_options: Administration Options
-display_name: Display name
-timezone: Timezone
-options: Options
-create_user: Create user
-create: Create
-update_profile: Update profile
-update_user: "Update '{name}'"
-user_is_admin: Is administrator
-upload: Upload
-
-# Album
-add_album: Add album
-edit_album: Update
-album_title: Name
-add_picture: Add picture
-edit_picture: Edit picture
-
-# Reminders
-reminder: Reminder
-reminders: Reminders
-add_reminder: Add reminder
-repeat: Repeat
-at_time: When
-reminder_repeat_never: Never
-reminder_repeat_yearly: Yearly
-reminder_repeat_monthly: Monthly
-reminder_repeat_fortnightly: Fortnightly
-reminder_repeat_weekly: Weekly
-reminder_repeat_daily: Daily
-
-reminder_done: Already done
-reminder_done_today: Done today
-reminder_due_today: Today
-reminder_due_tomorrow: Tomorrow
-reminder_due_days: "%a %b %d"
-reminder_due_months: "%B"
-reminder_due_future: "%Y"
-
-date_format_md: "%x"
-date_format_mwd: "%a %d"
-date_format_time: "%I:%M %p"
-due_format_hours: "pluralize{{hours}, hour}"
-due_upcomming: "Within the hour"
-done: "Done"
-snooze: Snooze
-delete: Delete
-
-yesno_yes: "Yes"
-yesno_no: "No"
-or: or
-
-# Journal / Status
-journal: Journal
-status: Status
-
-journal_date_today: "Today"
-journal_date_format: "%a, %b %d"
-journal_date_extended_format: "%a, %b %d %Y"
-add_entry: Add entry
-user_journals_desc: What everyone else is doing...
-
-# Activity
-# activity_[add/edit/delete]_[class] -> {object}
-activity_add_Page: "Created page <a href=\"{url}\">{object_name}</a>"
-activity_rename_Page: "Renamed page <a href=\"{url}\">{object_name}</a> from {previous_name}"
-activity_edit_Page: "Changed page <a href=\"{url}\">{object_name}</a>"
-activity_add_Reminder: "Added a reminder: <a href=\"{url}\">{object_name}</a>"
-activity_edit_Reminder: "Changed reminder: <a href=\"{url}\">{object_name}</a>"
-activity_delete_Reminder: "Removed reminder: <a href=\"{url}\">{object_name}</a>"
-you: You
-
-# Errors
-page_not_found: Page not found
-insufficient_permissions: Insufficient permissions
-cannot_create_page: Cannot create a page
-cannot_edit_page: Cannot edit this page
-cannot_delete_page: Cannot delete this page
-cannot_see_page: Cannot view this page
-cannot_see_pages: Cannot view pages for this user
-cannot_duplicate_page: Cannot duplicate this page
-
-cannot_create_user: Cannot create a user
-cannot_edit_user: Cannot edit this user
-cannot_delete_user: Cannot delete this user
-cannot_see_user: Cannot view this user
-
-cannot_create_note: Cannot create a note
-cannot_edit_note: Cannot edit this note
-cannot_delete_note: Cannot delete this note
-
-cannot_create_list: Cannot create a list
-cannot_edit_list: Cannot edit this list
-cannot_delete_list: Cannot delete this list
-cannot_find_list: Cannot find the specified list
-
-cannot_create_listitem: Cannot create a list item
-cannot_edit_listitem: Cannot edit this list item
-cannot_delete_listitem: Cannot delete this list item
-
-cannot_create_separator: Cannot create a separator
-cannot_edit_separator: Cannot edit this separator
-cannot_delete_separator: Cannot delete this separator
-
-cannot_create_uploaded_file: Cannot upload a file
-cannot_edit_uploaded_file: Cannot modify this file
-cannot_delete_uploaded_file: Cannot delete this file
-
-cannot_create_journal: Cannot create a journal
-cannot_edit_journal: Cannot edit this journal
-cannot_delete_journal: Cannot delete this journal
-cannot_see_journal: Cannot see this journal
-cannot_see_journals: Cannot see journals for this user
-
-cannot_create_reminder: Cannot create a reminder
-cannot_edit_reminder: Cannot edit this reminder
-cannot_delete_reminder: Cannot delete this reminder
-cannot_see_reminder: Cannot see this reminder
-cannot_see_reminders: Cannot see reminders for this user
-
-cannot_edit_status: Cannot change status
-cannot_see_status: Cannot view this users status
-
-# Settings
-settings: Settings
-settings_updated: Settings updated
-site_name: Site name
-site_name_info: "The name your RuckSack goes by."
-host_name: Hostname
-host_name_info: "The hostname used by your RuckSack, which is also used for sending emails. e.g. localhost.com."
-openid_enabled: "Enable OpenID logins"
-openid_info: "For more information about OpenID, please visit <a href=\"http://openid.net/\">OpenID</a>."
-
-# Notes
-date_format_dm: "%d %b"
-date_format_dmy: "%d %b %Y"
-empty_note: "Empty note"
-
-# Notification
-notifier_donotreply: "DO NOT REPLY TO THIS MESSAGE"
-notifier_reminder: "{content}"
-notifier_reminder_info: "This reminder can be modified at:"
-
-notifier_password_reset_subject: "Password reset request"
-notifier_password_reset_info: "{user_name},\n\nA request to reset the password for your account has been made at {site}. Provided you wish to continue with this request, please visit the following url:"
-
-notifier_signup_subject: "Welcome"
-notifier_signup_intro: "{user_name},\n\nYour account at {site_name} has been created."
-notifier_signup_location: "Your account can be accessed at the following location:"
-
-user_wants_to_share_page: "{user} wants to share \"{page}\" with you"
-notifier_page_share: "Hi,\n\n{user_name} wants to share the following page on {site_name} with you:\n\n\"{page_name}\""
-notifier_page_share_url: "To access this page, please visit:\n\n{url}"
-
-product_name: Rucksack
-product_signature: Powered by Rucksack
+en-US:  
+  # Access
+  login: Login
+  logout: Logout
+  username: Username
+  password: Password
+  repeat_password: Repeat password
+  email_address: Email Address
+  forgot_password: Forgot password
+  forgot_password_q: "Forgot password?"
+  send_password: Send password
+  use_login: Use username & password
+  use_openid: Use OpenID
+  remember_me: Remember me
+  login_success: Login successful
+  login_failure: Invalid login
+  logout_success: You have logged out
+  invalid_openid_server: "Unable to find openid server for <q>{openid_url}}</q>"
+  failed_verification_openid_url: "Verification of {{openid_url}} failed"
+  failed_login_openid_url: "Failed login with identity {{openid_url}}"
+  success_login_openid_url: "You have successfully logged in with {{openid_url}} as your identity"
+  verification_failed: Verification failed
+  verification_cancelled: Verification cancelled
+  unknown_response_status: "Unknown response status: {{status}}"
+  invalid_email: Invalid email address
+  invalid_email_not_in_use: Invalid email address
+  invalid_request: Invalid request
+  openid: OpenID
+  
+  token_login_email_desc: "Please enter your email address in order to continue."
+  
+  # Reset
+  set_password: Set password
+  reset_password: Reset password
+  change_password: Change password
+  password_changed: Password changed
+  new_password_required: New password required
+  does_not_match: Does not match
+  
+  # Tabs
+  overview: Overview
+  users: Users
+  my_profile: My Profile
+  
+  # Page view
+  add_to_page: Add to page
+  cancel: Cancel
+  Note: Note
+  List: List
+  Separator: Separator
+  UploadedFile: File
+  Album: Album
+  share_page: Share page
+  share_by_email: Share by email
+  share_by_email_desc: "For users you don't want to give full access, you can simply allow them to only edit this page by entering their email address above (one per line)."
+  users_who_can_see_page: "Users who can edit this page"
+  page_public: "Is publically viewable <br/>(at {{link}})"
+  change: Change
+  page_is_not_shared: "Page is not shared ({link}})"
+  page_is_shared: "Page is shared ({link}})"
+  duplicate_page: Duplicate
+  email_page: "Email address: <a href=\"mailto:{email}}\">{email}}</a>"
+  reset: Reset
+  page: Page
+  pages: Pages
+  edit: Edit
+  page_back: Back
+  insert_here: Insert Here
+  my_pages: My pages
+  all_pages: All pages
+  pages_shared_to_me: Pages shared to me
+  copy_of_page: "{{title}} (Copy)"
+  
+  tags: Tags
+  edit_tags: Edit tags
+  current_tags: Current tags
+  available_tags: Available tags
+  
+  list_item_completed: Completed
+  list_item_open: Open
+  
+  user_list: Users
+  add_user: Add new user
+  show_user: "{{name}}"
+  
+  favourite: Favourite
+  not_favourite: Not favourite
+  
+  # Forms
+  new_page: New page
+  delete_page: Delete page
+  add_note: Add note
+  edit_note: Edit note
+  add_separator: Add separator
+  edit_separator: Edit separator
+  add_item: Add item
+  edit_item: Edit item
+  rename_item: Rename item
+  rename_list: Rename list
+  rename_page: Rename page
+  title: Title
+  content: Content
+  page_create: Create
+  update: Update
+  save: Save
+  save_changes: Save changes
+  user_administration_options: Administration Options
+  display_name: Display name
+  timezone: Timezone
+  options: Options
+  create_user: Create user
+  create: Create
+  update_profile: Update profile
+  update_user: "Update '{{name}}'"
+  user_is_admin: Is administrator
+  upload: Upload
+  
+  # Album
+  add_album: Add album
+  edit_album: Update
+  album_title: Name
+  add_picture: Add picture
+  edit_picture: Edit picture
+  
+  # Reminders
+  reminder: Reminder
+  reminders: Reminders
+  add_reminder: Add reminder
+  repeat: Repeat
+  at_time: When
+  reminder_repeat_never: Never
+  reminder_repeat_yearly: Yearly
+  reminder_repeat_monthly: Monthly
+  reminder_repeat_fortnightly: Fortnightly
+  reminder_repeat_weekly: Weekly
+  reminder_repeat_daily: Daily
+  
+  reminder_done: Already done
+  reminder_done_today: Done today
+  reminder_due_today: Today
+  reminder_due_tomorrow: Tomorrow
+  reminder_due_days: "%a %b %e"
+  reminder_due_months: "%B"
+  reminder_due_future: "%Y"
+  
+  date_format_md: "%x"
+  date_format_mwd: "%a %e"
+  date_format_time: "%I:%M %p"
+  due_format_hours:
+    one: hour
+    other: hours
+  due_upcomming: "Within the hour"
+  done: "Done"
+  snooze: Snooze
+  delete: Delete
+  
+  yesno_yes: "Yes"
+  yesno_no: "No"
+  or: or
+  
+  # Journal / Status
+  journal: Journal
+  status: Status
+  
+  journal_date_today: "Today"
+  journal_date_format: "%a, %b %e"
+  journal_date_extended_format: "%a, %b %e %Y"
+  add_entry: Add entry
+  user_journals_desc: What everyone else is doing...
+  
+  # Activity
+  # activity_[add/edit/delete]_[class] -> {{object}}
+  activity_add_Page: "Created page <a href=\"{url}}\">{{object_name}}</a>"
+  activity_rename_Page: "Renamed page <a href=\"{url}}\">{{object_name}}</a> from {{previous_name}}"
+  activity_edit_Page: "Changed page <a href=\"{url}}\">{{object_name}}</a>"
+  activity_add_Reminder: "Added a reminder: <a href=\"{{url}}\">{{object_name}}</a>"
+  activity_edit_Reminder: "Changed reminder: <a href=\"{{url}}\">{{object_name}}</a>"
+  activity_delete_Reminder: "Removed reminder: <a href=\"{{url}}\">{{object_name}}</a>"
+  you: You
+  
+  # Errors
+  page_not_found: Page not found
+  insufficient_permissions: Insufficient permissions
+  cannot_create_page: Cannot create a page
+  cannot_edit_page: Cannot edit this page
+  cannot_delete_page: Cannot delete this page
+  cannot_see_page: Cannot view this page
+  cannot_see_pages: Cannot view pages for this user
+  cannot_duplicate_page: Cannot duplicate this page
+  
+  cannot_create_user: Cannot create a user
+  cannot_edit_user: Cannot edit this user
+  cannot_delete_user: Cannot delete this user
+  cannot_see_user: Cannot view this user
+  
+  cannot_create_note: Cannot create a note
+  cannot_edit_note: Cannot edit this note
+  cannot_delete_note: Cannot delete this note
+  
+  cannot_create_list: Cannot create a list
+  cannot_edit_list: Cannot edit this list
+  cannot_delete_list: Cannot delete this list
+  cannot_find_list: Cannot find the specified list
+  
+  cannot_create_listitem: Cannot create a list item
+  cannot_edit_listitem: Cannot edit this list item
+  cannot_delete_listitem: Cannot delete this list item
+  
+  cannot_create_separator: Cannot create a separator
+  cannot_edit_separator: Cannot edit this separator
+  cannot_delete_separator: Cannot delete this separator
+  
+  cannot_create_uploaded_file: Cannot upload a file
+  cannot_edit_uploaded_file: Cannot modify this file
+  cannot_delete_uploaded_file: Cannot delete this file
+  
+  cannot_create_journal: Cannot create a journal
+  cannot_edit_journal: Cannot edit this journal
+  cannot_delete_journal: Cannot delete this journal
+  cannot_see_journal: Cannot see this journal
+  cannot_see_journals: Cannot see journals for this user
+  
+  cannot_create_reminder: Cannot create a reminder
+  cannot_edit_reminder: Cannot edit this reminder
+  cannot_delete_reminder: Cannot delete this reminder
+  cannot_see_reminder: Cannot see this reminder
+  cannot_see_reminders: Cannot see reminders for this user
+  
+  cannot_edit_status: Cannot change status
+  cannot_see_status: Cannot view this users status
+  
+  # Settings
+  settings: Settings
+  settings_updated: Settings updated
+  site_name: Site name
+  site_name_info: "The name your RuckSack goes by."
+  host_name: Hostname
+  host_name_info: "The hostname used by your RuckSack, which is also used for sending emails. e.g. localhost.com."
+  openid_enabled: "Enable OpenID logins"
+  openid_info: "For more information about OpenID, please visit <a href=\"http://openid.net/\">OpenID</a>."
+  
+  # Notes
+  date_format_dm: "%e %b"
+  date_format_dmy: "%e %b %Y"
+  empty_note: "Empty note"
+  
+  # Notification
+  notifier_donotreply: "DO NOT REPLY TO THIS MESSAGE"
+  notifier_reminder: "{content}}"
+  notifier_reminder_info: "This reminder can be modified at:"
+  
+  notifier_password_reset_subject: "Password reset request"
+  notifier_password_reset_info: "{user_name}},\n\nA request to reset the password for your account has been made at {{site}}. Provided you wish to continue with this request, please visit the following url:"
+  
+  notifier_signup_subject: "Welcome"
+  notifier_signup_intro: "{user_name}},\n\nYour account at {{site_name}} has been created."
+  notifier_signup_location: "Your account can be accessed at the following location:"
+  
+  user_wants_to_share_page: "{user}} wants to share \"{page}}\" with you"
+  notifier_page_share: "Hi,\n\n{user_name}} wants to share the following page on {{site_name}} with you:\n\n\"{page_name}}\""
+  notifier_page_share_url: "To access this page, please visit:\n\n{url}}"
+  
+  product_name: Rucksack
+  product_signature: Powered by Rucksack
