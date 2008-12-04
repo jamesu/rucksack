@@ -173,7 +173,7 @@ en:
   activity_add_Page: "Created page <a href=\"{{url}}\">{{object_name}}</a>"
   activity_rename_Page: "Renamed page <a href=\"{{url}}\">{{object_name}}</a> from {{previous_name}}"
   activity_edit_Page: "Changed page <a href=\"{{url}}\">{{object_name}}</a>"
-  activity_add_Reminder: "Added a reminder: <a href=\"{{{url}}\">{{object_name}}</a>"
+  activity_add_Reminder: "Added a reminder: <a href=\"{{url}}\">{{object_name}}</a>"
   activity_edit_Reminder: "Changed reminder: <a href=\"{{url}}\">{{object_name}}</a>"
   activity_delete_Reminder: "Removed reminder: <a href=\"{{url}}\">{{object_name}}</a>"
   you: You
