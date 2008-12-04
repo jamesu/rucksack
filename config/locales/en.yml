@@ -147,8 +147,8 @@ en:
   date_format_mwd: "%a %e"
   date_format_time: "%I:%M %p"
   due_format_hours:
-    one: hour
-    other: hours
+    one: "1 hour"
+    other: "{{count}} hours"
   due_upcomming: "Within the hour"
   done: "Done"
   snooze: Snooze
@@ -170,10 +170,10 @@ en:
   
   # Activity
   # activity_[add/edit/delete]_[class] -> {{object}}
-  activity_add_Page: "Created page <a href=\"{url}}\">{{object_name}}</a>"
-  activity_rename_Page: "Renamed page <a href=\"{url}}\">{{object_name}}</a> from {{previous_name}}"
-  activity_edit_Page: "Changed page <a href=\"{url}}\">{{object_name}}</a>"
-  activity_add_Reminder: "Added a reminder: <a href=\"{{url}}\">{{object_name}}</a>"
+  activity_add_Page: "Created page <a href=\"{{url}}\">{{object_name}}</a>"
+  activity_rename_Page: "Renamed page <a href=\"{{url}}\">{{object_name}}</a> from {{previous_name}}"
+  activity_edit_Page: "Changed page <a href=\"{{url}}\">{{object_name}}</a>"
+  activity_add_Reminder: "Added a reminder: <a href=\"{{{url}}\">{{object_name}}</a>"
   activity_edit_Reminder: "Changed reminder: <a href=\"{{url}}\">{{object_name}}</a>"
   activity_delete_Reminder: "Removed reminder: <a href=\"{{url}}\">{{object_name}}</a>"
   you: You
