@@ -3,6 +3,7 @@ tmp/restart.txt
 tmp/**/*
 config/database.yml
 config/app_config.yml
+config/deploy.rb
 db/*.sqlite3
 index/**
 .DS_Store

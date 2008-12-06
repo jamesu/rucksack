@@ -1,0 +1,60 @@
+#############################################################
+#	Application
+#############################################################
+
+set :application, "rucksack"
+
+#############################################################
+#	Settings
+#############################################################
+
+set :use_sudo, false
+default_run_options[:pty] = true
+
+#############################################################
+#	SCM
+#############################################################
+
+# Public RuckSack repo
+set :scm, "git"
+set :repository,  "git://github.com/jamesu/rucksack.git"
+set :branch, "master"
+set :deploy_via, :remote_cache
+set :runner, nil
+
+#############################################################
+#	Servers
+#############################################################
+
+set :user, "deploy"
+
+role :app, "your app-server here"
+role :web, "your web-server here"
+role :db,  "your db-server here", :primary => true
+
+#############################################################
+#	Passenger
+#############################################################
+
+namespace :passenger do
+  desc "Restart Application"
+  task :restart do
+    run "touch #{current_path}/tmp/restart.txt"
+  end
+end
+
+#############################################################
+#	Deploy
+#############################################################
+
+namespace :deploy do
+  desc "Copy production files"
+  task :copy_prod_configuration do
+    run "cp /u/config/#{application}/database.yml #{release_path}/config/"
+    run "cp /u/config/#{application}/app_config.yml #{release_path}/config/"
+  end
+  
+  after "deploy:update_code", "deploy:copy_prod_configuration"
+end
+
+after :deploy, "passenger:restart"
