@@ -53,6 +53,11 @@ namespace :deploy do
     run "cp /u/config/#{application}/database.yml #{release_path}/config/"
     run "cp /u/config/#{application}/app_config.yml #{release_path}/config/"
   end
+    
+  ["datas", "pictures"].each do |folder|
+    run "if [ ! -e /u/apps/#{application}/shared/#{folder} ]; then mkdir -p /u/apps/#{application}/shared/#{folder}; fi"
+    run "if [ ! -e #{release_path}/public/#{folder} ]; then ln -s /u/apps/#{application}/shared/#{folder} #{release_path}/public/#{folder}; fi"
+  end
   
   after "deploy:update_code", "deploy:copy_prod_configuration"
 end
