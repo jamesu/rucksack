@@ -12,3 +12,9 @@ email:
   sendmail:
     location: "/usr/sbin/sendmail"
     arguments: "-t -t"
+  inbox:
+    address: localhost
+    username: myuser
+    password: mypass
+    ssl: false
+    port: 110

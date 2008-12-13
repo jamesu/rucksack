@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+require 'net/pop'
+require File.dirname(__FILE__) + '/../config/environment'
+
+# Pop with SSL?
+begin
+require 'pop_ssl'
+rescue
+end
+
+logger = RAILS_DEFAULT_LOGGER
+logger.info "Running Mail Importer..."
+
+inbox_settings = APP_CONFIG['email']['inbox']
+
+Net::POP3.enable_ssl(OpenSSL::SSL::VERIFY_NONE) if Net::POP3.respond_to?('enable_ssl') and inbox_settings['ssl']
+
+Net::POP3.start(inbox_settings['address'], inbox_settings['port'], inbox_settings['username'], inbox_settings['password']) do |pop|
+  if pop.mails.empty?
+    logger.info "NO MAIL"
+  else
+    pop.mails.each do |email|
+      begin
+        puts email.pop
+        Mailman.receive(email.pop)
+        email.delete
+      rescue Exception => e
+        logger.error "Error receiving email at " + Time.now.to_s + "::: " + e.message
+      end				            
+    end
+  end
+end
+logger.info "Finished Mail Importer."
