@@ -43,7 +43,7 @@ class Mailman < ActionMailer::Base
     # Handle email and default case
     unless handle_widgets page, email, responsible_user
       page_email = page.emails.build(
-        :from => email.from,
+        :from => email.from[0],
         :subject => email.subject,
         :body => email.body
       )
