@@ -115,6 +115,12 @@ en:
   user_is_admin: Is administrator
   upload: Upload
   
+  # Email
+  email_from: From
+  email_subject: Subject
+  email_date: Date
+  email_view_from: "from <span class=\"address\">{{name}}</span>"
+  
   # Album
   add_album: Add album
   edit_album: Update

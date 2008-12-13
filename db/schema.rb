@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 18) do
+ActiveRecord::Schema.define(:version => 19) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "owner_id",       :limit => 10,                    :null => false
@@ -63,10 +63,11 @@ ActiveRecord::Schema.define(:version => 18) do
     t.integer  "page_id",       :limit => 10
     t.string   "subject"
     t.text     "body"
-    t.integer  "created_by_id", :limit => 10, :default => 0, :null => false
-    t.integer  "updated_by_id", :limit => 10, :default => 0, :null => false
+    t.integer  "created_by_id", :limit => 10, :default => 0,  :null => false
+    t.integer  "updated_by_id", :limit => 10, :default => 0,  :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "from",                        :default => "", :null => false
   end
 
   create_table "favourite_pages", :id => false, :force => true do |t|
@@ -204,9 +205,9 @@ ActiveRecord::Schema.define(:version => 18) do
     t.integer  "created_by_id",   :limit => 10, :default => 0,  :null => false
   end
 
-  add_index "tags", ["rel_object_id", "rel_object_type"], :name => "index_tags_on_rel_object_id_and_rel_object_type"
   add_index "tags", ["name"], :name => "index_tags_on_name"
   add_index "tags", ["page_id"], :name => "index_tags_on_page_id"
+  add_index "tags", ["rel_object_id", "rel_object_type"], :name => "index_tags_on_rel_object_id_and_rel_object_type"
 
   create_table "uploaded_files", :force => true do |t|
     t.integer  "page_id",           :limit => 10
@@ -241,8 +242,8 @@ ActiveRecord::Schema.define(:version => 18) do
     t.datetime "remember_token_expires_at"
   end
 
+  add_index "users", ["account_id"], :name => "index_users_on_account_id"
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["username"], :name => "index_users_on_username", :unique => true
-  add_index "users", ["account_id"], :name => "index_users_on_account_id"
 
 end

@@ -24,19 +24,31 @@
 #++
 
 class Mailman < ActionMailer::Base
-  
+  @@content_types = ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/x-png', 'image/jpg']
+  def is_image?(file)
+    @@content_types.include?(file.content_type)
+  end
+    
   def receive(email)
     page = Page.find :first, :conditions => {'address' => email.to.first.split('@')[0]}
     return if page.nil?
     
+    # Find the relevant user. Untrusted users set to anonymous for fwd handler
+    responsible_user = User.find(:first, :conditions => {'email' => email.from})
+    if responsible_user.nil?
+      responsible_user = page.created_by
+      responsible_user.is_anonymous = true
+    end
+    
     # Handle email and default case
-    unless handle_widgets page, email
+    unless handle_widgets page, email, responsible_user
       page_email = page.emails.build(
+        :from => email.from,
         :subject => email.subject,
         :body => email.body
       )
-      # TBD: Make an anonymous email user?
-      page_email.created_by = page.created_by
+      
+      page_email.created_by = responsible_user
       
       if page_email.save
         # Plonk at top of the page
@@ -46,22 +58,43 @@ class Mailman < ActionMailer::Base
     
     if email.has_attachments?
       # Add attachment widgets
+      shared_album = nil
       email.attachments.reverse.each do |attachment|
-        uploaded_file = page.uploaded_files.build(
-          :data => attachment
-        )
-        
-        uploaded_file.created_by = page.created_by
-        
-        if uploaded_file.save
-          # Plonk at top of the page
-          page.new_slot_at(uploaded_file, nil, true)
+        if attachment.is_image?
+          # Make shared_album
+          if shared_album.nil?
+            shared_album = page.albums.build(:title => email.subject)
+            shared_album.created_by = responsible_user
+            
+            if shared_album.save
+              page.new_slot_at(shared_album, nil, true)
+            else
+              next
+            end
+          end
+          
+          # Add new album picture
+          picture = shared_album.pictures.build(:picture => attachment)
+          picture.created_by = responsible_user
+          picture.album = shared_album
+          picture.save
+        else
+          uploaded_file = page.uploaded_files.build(
+            :data => attachment
+          )
+          
+          uploaded_file.created_by = responsible_user
+          
+          if uploaded_file.save
+            # Plonk at top of the page
+            page.new_slot_at(uploaded_file, nil, true)
+          end
         end
       end
     end
   end
   
-  def handle_widgets(page, email)
+  def handle_widgets(page, email, responsible_user)
     # Extract "widget_type:"
     begin
       matches = /([A-Za-z]*):(.*)/.match(email.subject)
@@ -78,7 +111,7 @@ class Mailman < ActionMailer::Base
     
     # Have a handler?
     if respond_to? "process_#{widget_type}"
-      send "process_#{widget_type}", widget_name, page, email
+      send "process_#{widget_type}", widget_name, page, email, responsible_user
     else
       false
     end
@@ -87,13 +120,13 @@ class Mailman < ActionMailer::Base
   # Insert process_widget handlers here
   # (alternatively extend Mailman)
   
-  def process_note(name, page, email)
+  def process_note(name, page, email, responsible_user)
     page_note = page.notes.build(
       :title => name,
       :content => email.body,
       :show_date => true)
     
-    page_note.created_by = page.created_by
+    page_note.created_by = responsible_user
     
     if page_note.save
       # Plonk at top of the page
@@ -104,11 +137,29 @@ class Mailman < ActionMailer::Base
     end
   end
   
-  def process_list(name, page, email)
+  def process_fwd(name, page, email, responsible_user)
+    page_email = page.emails.build(
+      :from => responsible_user.is_anonymous? ? email.from[0] : email.body.scan(/^From: .*<(.*)>/)[0],
+      :subject => name,
+      :body => email.body
+    )
+    
+    page_email.created_by = responsible_user
+      
+    if page_email.save
+      # Plonk at top of the page
+      page.new_slot_at(page_email, nil, true)
+      true
+    else
+      false
+    end
+  end
+  
+  def process_list(name, page, email, responsible_user)
     page_list = page.lists.build(
       :name => name.nil? ? :list.l : name)
     
-    page_list.created_by = page.created_by
+    page_list.created_by = responsible_user
     
     if page_list.save
       # Plonk at top of the page
@@ -117,7 +168,7 @@ class Mailman < ActionMailer::Base
       # Add list items
       email.body.scan(/\* (.*)/).each do |item|
         list_item = page_list.list_items.build(:content => item.to_s)
-        list_item.created_by = @logged_user
+        list_item.created_by = responsible_user
         list_item.save
       end
       

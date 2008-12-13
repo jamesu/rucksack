@@ -89,7 +89,7 @@ class Email < ActiveRecord::Base
      
   # Accesibility
   
-  attr_accessible :subject, :body
+  attr_accessible :subject, :body, :from
     
   # Validation
 end

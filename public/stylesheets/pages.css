@@ -435,6 +435,14 @@ li.albumPicture img {
   font-weight: normal;
 }
 
+.pageEmail span.pageEmailFrom {
+  font-size: 12px; font-weight: normal;
+}
+
+.pageEmail span.pageEmailFrom .address {
+  font-weight: bold;
+}
+
 /* Note widget */
 .pageNoteDate, .pageEmailDate { color: #ccc; font-size: 12px; font-weight: normal; }
 
