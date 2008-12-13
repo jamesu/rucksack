@@ -341,8 +341,20 @@ var Page = {
     isResizing: false,
     lastResizePosition: 0,
     
+    isSortingWrappedElements: false,
+    
     init: function() {
       Insertion.set(null);
+    },
+    
+    stopSortingWrappedElements: function(item) {
+      // Need to re-incorporate the elements
+      var elements_after = item.children(":last").children();
+      
+      for (var i=elements_after.length-1; i >= 0; i--) {
+        $(elements_after[i]).insertAfter(item);
+      }
+      Page.isSortingWrappedElements = false;
     },
     
     startResize: function(e) {
@@ -956,6 +968,17 @@ var Page = {
                'position[before]': (this.insert_before ? '1' : '0')}, ResetAndRebind, 'script');
     },
     
+    dropSlotFunction : function(ev, ui) {
+      // Add all of the wrapped elements
+      if (Page.isSortingWrappedElements) {
+        var page_id = $(this).attr('page_id');
+        ui.draggable.children(":last").children().each(function() {
+          Page.moveSlotTo($(this).attr('slot'), page_id);
+        });
+      }
+      Page.moveSlotTo(ui.draggable.attr('slot'), $(this).attr('page_id'));
+    },
+    
     makeSortable: function() {
         if (PAGE_READONLY)
             return;
@@ -967,7 +990,7 @@ var Page = {
         });
         
         // Refresh so we can drag between
-        lists.each(function(i) {//console.log(this);
+        lists.each(function(i) {
           $(this).sortable('refresh');
         });
         
@@ -976,7 +999,7 @@ var Page = {
         var el = $(this);
         if (!el.hasClass('current')) {
           el.droppable('destroy');
-          el.droppable({ hoverClass:'hover', accept:'.pageSlot', tolerance: 'pointer', drop: function(ev, ui) { Page.moveSlotTo(ui.draggable.attr('slot'), $(this).attr('page_id')); } });
+          el.droppable({ hoverClass:'hover', accept:'.pageSlot', tolerance: 'pointer', drop:Page.dropSlotFunction});
         }
        });
        
@@ -986,7 +1009,45 @@ var Page = {
          handle: '.slot_handle',
          items: '> .pageSlot',
          opacity: 0.75,
+         start: function(e, ui) {
+           // Press alt to move everything under separator
+           if (e.originalEvent.altKey) {
+             var separator_index = $("#slots > *").index(ui.item[0]);
+             var elements_after = ui.helper.siblings(":gt(" + separator_index + ")");
+             
+             var found_end = false;
+             
+             var elements_after = elements_after.filter(function() {
+               if (found_end)
+                 return false;
+                
+               if ($(this).find(".pageWidget .pageSeparator").length == 1)
+               {
+                 found_end = true;
+                 return false;
+               }
+              
+               return true;
+             });
+             
+             // Skip if no extra elements are being sorted
+             if (elements_after.length == 0)
+               return;
+             
+             ui.item.append("<div class=\"sortableGroup\"></div>");
+             ui.item.children(":last").append(elements_after);
+             ui.helper.append(elements_after.clone());
+             
+             Page.isSortingWrappedElements = true;
+           }
+         },
+         stop: function(e, ui) {
+           if (Page.isSortingWrappedElements)
+             Page.stopSortingWrappedElements(ui.item);
+         },
          update: function(e, ui) {
+           if (Page.isSortingWrappedElements)
+             Page.stopSortingWrappedElements(ui.item);
            $.post('/pages/' + PAGE_ID + '/reorder', $('#slots').sortable('serialize', {key: 'slots'}));
          }
        });                           
