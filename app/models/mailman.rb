@@ -138,8 +138,15 @@ class Mailman < ActionMailer::Base
   end
   
   def process_fwd(name, page, email, responsible_user)
+    real_from = nil
+    unless responsible_user.is_anonymous?
+      real_from = email.body.scan(/^From: .*<(.*)>/)[0]
+      real_from = real_from[0] unless real_from.nil?
+    end
+    real_from ||= email.from[0]
+    
     page_email = page.emails.build(
-      :from => responsible_user.is_anonymous? ? email.from[0] : email.body.scan(/^From: .*<(.*)>/)[0],
+      :from => real_from,
       :subject => name,
       :body => email.body
     )
