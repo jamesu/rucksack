@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
-require 'net/pop'
 require File.dirname(__FILE__) + '/../config/environment'
 
 # Pop with SSL?
 begin
 require 'pop_ssl'
 rescue
+require 'net/pop'
 end
 
 logger = RAILS_DEFAULT_LOGGER
@@ -21,7 +21,7 @@ Net::POP3.start(inbox_settings['address'], inbox_settings['port'], inbox_setting
   else
     pop.mails.each do |email|
       begin
-        puts email.pop
+        #puts email.pop
         Mailman.receive(email.pop)
         email.delete
       rescue Exception => e
