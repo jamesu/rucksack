@@ -41,6 +41,12 @@ require File.join(File.dirname(__FILE__), 'boot')
 require 'ostruct'
 ::AppConfig = OpenStruct.new()
 
+# SSL SMTP
+begin
+require 'smtp-tls'
+rescue
+end
+
 Rails::Initializer.run do |config|
 
   # config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
