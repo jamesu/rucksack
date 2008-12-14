@@ -52,7 +52,7 @@ class PagesController < ApplicationController
       format.html # index.html.erb
       format.js
       format.json { render :json => @pages }
-      format.xml  { render :xml => @pages }
+      format.xml  { render :xml => @pages.to_xml(:in_list => true) }
     end
   end
 

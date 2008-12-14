@@ -302,6 +302,18 @@ class Page < ActiveRecord::Base
    end
   end
   
+  # Serialization
+  alias_method :ar_to_xml, :to_xml
+  
+  def to_xml(options = {}, &block)
+    default_options = {
+      :methods => [ :tags ]
+      }
+    
+    default_options[:include] = { :slots => {:only => [:id, :position, :rel_object_type, :rel_object_id]}  } unless options[:in_list]
+    self.ar_to_xml(options.merge(default_options), &block)
+  end
+  
   # Accesibility
   
   attr_accessible :title, :tags
