@@ -15,7 +15,7 @@
     != text_field 'note', 'title', :id => 'noteFormTitle', :class => 'autofocus long'
   %div
     %label{:for => 'noteFormTitle'}
-    != text_area 'note', 'content', :id => 'noteFormContent', :class => 'comment'
+    != text_area 'note', 'content', :id => 'noteFormContent', :rows => 8, :class => 'long'
   %div
     != check_box('note', 'show_date')
     %label.check{:for => 'noteFormShowDate'}= "Show date in title"

@@ -15,7 +15,7 @@
       .inner{:style => (@new_list.nil? ? 'display:none' : nil)}
         - form_tag page_list_list_items_path(object.page, object), :method => :post do
           %div
-            = text_field 'list_item', 'content', :class => 'autofocus long'
+            = text_field 'list_item', 'content', :class => 'autofocus moderate'
           %div
             %button.submit{:type => 'submit'}= :add_item.l
             %a.cancel{:href => '#'}= :cancel.l

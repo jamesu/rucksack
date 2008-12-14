@@ -1,4 +1,4 @@
 - form_tag page_list_path(@page, @list), :method => :put do
-  = text_field 'list', 'name', :class => 'autofocus long'
+  = text_field 'list', 'name', :class => 'autofocus moderate'
   %button.submit{:type => 'submit'}= :rename_list.l
   %a.cancel{:href => '#'}= :cancel.l

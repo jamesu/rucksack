@@ -9,7 +9,7 @@
 
 - form_tag( fpath, :method => fmethod, :class => fid) do
   %div
-    != text_field 'separator', 'title', :class => 'separatorFormTitle', :class => 'autofocus long'
+    != text_field 'separator', 'title', :class => 'separatorFormTitle', :class => 'autofocus moderate'
   
   - if @separator.nil? or @separator.new_record?
     %input#add_SeparatorFormBefore{:type => 'hidden', :name=> 'position[before]', :value => '0'}/

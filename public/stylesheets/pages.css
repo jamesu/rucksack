@@ -399,6 +399,26 @@ li.albumPicture img {
     display: none;
 }
 
+/* Generic forms */
+
+.widgetForm, .fixedWidgetForm {
+  padding: 6px;
+  border: 1px solid #DDDDDD;
+  background-color: #F2F2F2;
+}
+
+input.long, textarea.long {
+  width: 99%;
+}
+
+input.moderate, textarea.moderate {
+  width: 70%;
+}
+
+.fixedWidgetForm {
+  margin-right: 18px;
+}
+
 /* Separator */
 .pageSeparator {
     border-bottom: 2px solid #000;
