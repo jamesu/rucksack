@@ -60,7 +60,7 @@ class Mailman < ActionMailer::Base
       # Add attachment widgets
       shared_album = nil
       email.attachments.reverse.each do |attachment|
-        if attachment.is_image?
+        if self.is_image?(attachment)
           # Make shared_album
           if shared_album.nil?
             shared_album = page.albums.build(:title => email.subject)
