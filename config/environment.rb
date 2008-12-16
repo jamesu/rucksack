@@ -44,7 +44,7 @@ require 'ostruct'
 # SSL SMTP
 begin
 require 'smtp-tls'
-rescue
+rescue Exception
 end
 
 Rails::Initializer.run do |config|

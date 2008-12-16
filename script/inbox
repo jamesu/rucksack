@@ -4,7 +4,7 @@ require File.dirname(__FILE__) + '/../config/environment'
 # Pop with SSL?
 begin
 require 'pop_ssl'
-rescue
+rescue Exception
 require 'net/pop'
 end
 
