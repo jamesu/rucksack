@@ -146,7 +146,7 @@ class Page < ActiveRecord::Base
   end
   
   def tags=(val)
-    @update_tags = val.split(',')
+    @update_tags = (val || '').split(',')
   end
   
   def object_name
