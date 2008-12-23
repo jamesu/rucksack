@@ -110,7 +110,7 @@ class UploadedFilesController < ApplicationController
         flash[:notice] = 'uploaded_file was successfully created.'
         format.html { redirect_to(@uploaded_file.page) }
         format.js { render :action => 'create', :content_type => 'text/html' }
-        format.xml  { render :xml => @uploaded_file, :status => :created, :location => @uploaded_file }
+        format.xml  { render :xml => @uploaded_file, :status => :created, :location => page_uploaded_file_path(:page_id => @page.id, :id => @uploaded_file.id) }
       else
         format.html { render :action => "new" }
         format.js { render :action => 'create', :content_type => 'text/html' }

@@ -310,13 +310,13 @@ class Page < ActiveRecord::Base
       :methods => [ :tags ]
       }
     
-    default_options[:include] = { :slots => {:only => [:id, :position, :rel_object_type, :rel_object_id]}  } unless options[:in_list]
+    default_options[:include] = { :slots => {:only => [:id, :position, :width, :rel_object_type, :rel_object_id]}  } unless options[:in_list]
     self.ar_to_xml(options.merge(default_options), &block)
   end
   
   # Accesibility
   
-  attr_accessible :title, :tags
+  attr_accessible :title, :tags, :width
   
   # Validation
   

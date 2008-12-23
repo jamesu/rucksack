@@ -97,7 +97,7 @@ class EmailsController < ApplicationController
         flash[:notice] = 'email was successfully created.'
         format.html { redirect_to(@email) }
         format.js {}
-        format.xml  { render :xml => @email, :status => :created, :location => @email }
+        format.xml  { render :xml => @email, :status => :created, :location => page_email_path(:page_id => @page.id, :id => @email.id) }
       else
         format.html { render :action => "new" }
         format.js {}

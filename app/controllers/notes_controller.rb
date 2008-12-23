@@ -95,7 +95,7 @@ class NotesController < ApplicationController
         error_status(false, :success_note_created)
         format.html { redirect_to(@note) }
         format.js {}
-        format.xml  { render :xml => @note, :status => :created, :location => @note }
+        format.xml  { render :xml => @note, :status => :created, :location => page_note_path(:page_id => @page.id, :id => @note.id) }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @note.errors, :status => :unprocessable_entity }

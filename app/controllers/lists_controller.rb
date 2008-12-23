@@ -94,7 +94,7 @@ class ListsController < ApplicationController
         flash[:notice] = 'List was successfully created.'
         format.html { redirect_to(@list) }
         format.js {}
-        format.xml  { render :xml => @list, :status => :created, :location => @list }
+        format.xml  { render :xml => @list, :status => :created, :location => page_list_path(:page_id => @page.id, :id => @list.id) }
       else
         format.html { render :action => "new" }
         format.js {}

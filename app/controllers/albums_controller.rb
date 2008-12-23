@@ -94,7 +94,7 @@ class AlbumsController < ApplicationController
         flash[:notice] = 'Album was successfully created.'
         format.html { redirect_to(@album) }
         format.js {}
-        format.xml  { render :xml => @album, :status => :created, :location => @album }
+        format.xml  { render :xml => @album, :status => :created, :location => page_album_path(:page_id => @page.id, :id => @album.id) }
       else
         format.html { render :action => "new" }
         format.js {}

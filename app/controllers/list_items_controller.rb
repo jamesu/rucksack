@@ -84,7 +84,7 @@ class ListItemsController < ApplicationController
         flash[:notice] = 'ListItem was successfully created.'
         format.html { redirect_to(@list_item) }
         format.js
-        format.xml  { render :xml => @list_item, :status => :created, :location => @list_item }
+        format.xml  { render :xml => @list_item, :status => :created, :location => page_list_list_item_path(:page_id => @page.id, :list_id => @list.id, :id => @list_item.id) }
       else
         format.html { render :action => "new" }
         format.js

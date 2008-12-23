@@ -93,7 +93,7 @@ class SeparatorsController < ApplicationController
         flash[:notice] = 'Separator was successfully created.'
         format.html { redirect_to(@separator) }
         format.js {}
-        format.xml  { render :xml => @separator, :status => :created, :location => @separator }
+        format.xml  { render :xml => @separator, :status => :created, :location => page_separator_path(:page_id => @page.id, :id => @separator.id) }
       else
         format.html { render :action => "new" }
         format.js {}
