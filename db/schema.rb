@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 19) do
+ActiveRecord::Schema.define(:version => 20) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "owner_id",       :limit => 10,                    :null => false
@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(:version => 19) do
     t.datetime "updated_at"
   end
 
+  add_index "album_pictures", ["album_id"], :name => "index_album_pictures_on_album_id"
+
   create_table "albums", :force => true do |t|
     t.integer  "page_id",       :limit => 10
     t.string   "title",         :limit => 100
@@ -41,6 +43,8 @@ ActiveRecord::Schema.define(:version => 19) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "albums", ["page_id"], :name => "index_albums_on_page_id"
 
   create_table "application_logs", :force => true do |t|
     t.integer  "rel_object_id",    :limit => 10
@@ -69,6 +73,8 @@ ActiveRecord::Schema.define(:version => 19) do
     t.datetime "updated_at"
     t.string   "from",                        :default => "", :null => false
   end
+
+  add_index "emails", ["page_id"], :name => "index_emails_on_page_id"
 
   create_table "favourite_pages", :id => false, :force => true do |t|
     t.integer "page_id", :limit => 10
@@ -174,6 +180,8 @@ ActiveRecord::Schema.define(:version => 19) do
     t.datetime "updated_at"
   end
 
+  add_index "reminders", ["created_by_id"], :name => "index_reminders_on_created_by_id"
+
   create_table "separators", :force => true do |t|
     t.integer  "page_id",       :limit => 10
     t.string   "title",         :limit => 100
@@ -196,6 +204,8 @@ ActiveRecord::Schema.define(:version => 19) do
     t.datetime "updated_on"
   end
 
+  add_index "statuses", ["user_id"], :name => "index_statuses_on_user_id"
+
   create_table "tags", :force => true do |t|
     t.integer  "page_id",         :limit => 10
     t.string   "name",            :limit => 30, :default => "", :null => false
@@ -214,11 +224,14 @@ ActiveRecord::Schema.define(:version => 19) do
     t.string   "data_file_name"
     t.string   "data_content_type"
     t.integer  "data_file_size"
-    t.integer  "created_by_id",     :limit => 10, :default => 0, :null => false
-    t.integer  "updated_by_id",     :limit => 10, :default => 0, :null => false
+    t.integer  "created_by_id",     :limit => 10, :default => 0,  :null => false
+    t.integer  "updated_by_id",     :limit => 10, :default => 0,  :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "description",                     :default => "", :null => false
   end
+
+  add_index "uploaded_files", ["page_id"], :name => "index_uploaded_files_on_page_id"
 
   create_table "users", :force => true do |t|
     t.string   "username",                  :limit => 50,  :default => "", :null => false
