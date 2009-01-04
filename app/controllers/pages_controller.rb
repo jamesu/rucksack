@@ -58,7 +58,12 @@ class PagesController < ApplicationController
   # GET /pages/1
   # GET /pages/1.xml
   def show
-    @page = Page.find(params[:id])
+    begin
+      @page = Page.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      return error_status(true, :page_not_found)
+    end
+    
     return error_status(true, :cannot_see_page) unless (@page.can_be_seen_by(@logged_user))
     
     @content_for_sidebar = 'page_sidebar' if @logged_user.member_of_owner?
@@ -79,7 +84,11 @@ class PagesController < ApplicationController
   
   # GET /pages/1/public(.html)
   def public
-    @page = Page.find(params[:id])
+    begin
+      @page = Page.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      return error_status(true, :page_not_found)
+    end
     return error_status(true, :cannot_see_page) unless (@page.can_be_seen_by(@logged_user))
 
     respond_to do |format|
@@ -102,7 +111,11 @@ class PagesController < ApplicationController
 
   # GET /pages/1/edit
   def edit
-    @page = Page.find(params[:id])
+    begin
+      @page = Page.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      return error_status(true, :page_not_found)
+    end
     return error_status(true, :cannot_edit_page) unless (@page.can_be_edited_by(@logged_user))
   end
 
@@ -129,7 +142,11 @@ class PagesController < ApplicationController
   # PUT /pages/1
   # PUT /pages/1.xml
   def update
-    @page = Page.find(params[:id])
+    begin
+      @page = Page.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      return error_status(true, :page_not_found)
+    end
     return error_status(true, :cannot_edit_page) unless (@page.can_be_edited_by(@logged_user))
 
     respond_to do |format|
@@ -149,6 +166,11 @@ class PagesController < ApplicationController
   # DELETE /pages/1
   # DELETE /pages/1.xml
   def destroy
+    begin
+      @page = Page.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to(pages_url)
+    end
     @page = Page.find(params[:id])
     return error_status(true, :cannot_delete_page) unless (@page.can_be_deleted_by(@logged_user))
     
