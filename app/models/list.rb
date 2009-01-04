@@ -89,7 +89,7 @@ class List < ActiveRecord::Base
   end
   
   def completed_items
-   self.list_items.reject do |item| !item.is_completed? end
+   self.list_items.reject { |item| !item.is_completed? }
   end
   
   def last_edited_by_owner?

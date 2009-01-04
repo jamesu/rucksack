@@ -23,5 +23,10 @@
         %a{:href => '#', :hover_handle => "page_slot_handle_#{object.page_slot.id}"}= :add_item.l
   
   .completedItems
+    - climit = show_item_count
+    - citems = object.completed_items
     %ul.listItems
-      = render :partial => 'list_items/show', :collection => object.completed_items
+      = render :partial => 'list_items/show', :collection => citems[0..climit-1]
+    - if climit > 0 and citems.length > climit
+      .showItems
+        %a{:href => '#'}= :list_item_show.l

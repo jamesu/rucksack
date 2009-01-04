@@ -1,0 +1,23 @@
+completed_items = []
+open_items = []
+
+# Construct list
+@list_items.each do |item|
+  if item.is_completed?
+    completed_items << item
+  else
+    open_items << item
+  end
+end
+
+# Open items
+unless open_items.empty?
+  page.select("\#list_#{@list.id} .openItems:first .listItems").append(render({:partial => 'show', :collection => open_items}))
+end
+
+# Completed items
+unless completed_items.empty?
+  page.select("\#list_#{@list.id} .completedItems:first .listItems").append(render({:partial => 'show', :collection => completed_items}))
+end
+
+page.call "Page.makeSortable"

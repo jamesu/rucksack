@@ -551,6 +551,18 @@ var Page = {
         return false;
       });
       
+      $('.pageList .showItems a').click(function(evt) {
+        var el = $(evt.target);
+        var list_url = el.parents('.pageWidget:first').attr('url');
+        
+        el.parent().hide();
+        $.get(Page.buildUrl(list_url + '/items'), {'completed':1, 'limit':-1, 'offset': 5}, JustRebind, 'script');
+        
+        return false;
+      });
+      
+      
+      
       $('.pageListForm form').submit(function(evt) {
         $(this).request(JustRebind, 'script');
         
@@ -938,6 +950,7 @@ var Page = {
       
       $('.pageList .checkbox').unbind();
       $('.pageList .itemDelete').unbind();
+      $('.pageList .showItems a').unbind();
       
       $('.pageListForm form').unbind();
       $('.pageListForm form .cancel').unbind();

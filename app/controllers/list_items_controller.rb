@@ -32,10 +32,19 @@ class ListItemsController < ApplicationController
   # GET /list_items
   # GET /list_items.xml
   def index
-    @list_items = @list.list_items.find(:all)
+    if params[:completed]
+      conds = ['completed_on NOT NULL']
+    else
+      conds = nil
+    end
+    
+    @list_items = @list.list_items.find(:all, :conditions => conds,
+                                              :offset => params[:offset], 
+                                              :limit => params[:limit])
 
     respond_to do |format|
       format.html # index.html.erb
+      format.js
       format.xml  { render :xml => @list_items }
     end
   end

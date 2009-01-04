@@ -169,6 +169,10 @@ module ApplicationHelper
          end
      end
   end
+  
+  def show_item_count
+    return @logged_user.is_anonymous? ? 0 : 5
+  end
 
   def ie_stylesheet_link_tag(*sources)
      content = stylesheet_link_tag(sources)
