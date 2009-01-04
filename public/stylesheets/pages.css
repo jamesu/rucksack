@@ -241,6 +241,12 @@ form div {
 #pageListItems li.current { background: #000; }
 #pageListItems li.current a { color: #fff; }
 
+#slots .ui-sortable-helper {
+  border-top: 2px solid #ccc;
+  border-bottom: 2px solid #ccc;
+  width: 90%;
+}
+
 ul.albumPictures {
     list-style-image: none;
     list-style-position: outside;
