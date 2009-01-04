@@ -522,6 +522,9 @@ var Page = {
         var list_url = el.parents('.pageWidget:first').attr('url');
         var item_id = el.parents('.listItem:first').attr('item_id');
         
+        // Loader gif
+        el.siblings('.itemText').html(Page.loader());
+        
         $.put(Page.buildUrl(list_url + '/items/' + item_id + '/status'), {'list_item[completed]':evt.target.checked}, JustRebind, 'script');
         
         return false;
@@ -956,6 +959,10 @@ var Page = {
             $('#pageSetNotFavourite').hide();
             $('#pageSetFavourite').show();
         }
+    },
+    
+    loader: function() {
+      return "<img src=\"/images/icons/loading.gif\"/>";
     },
     
     insertWidget: function(resource) {
