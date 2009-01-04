@@ -10,6 +10,8 @@
 - form_tag( fpath, :method => fmethod, :class => fid, :multipart => true) do
   %div
     != file_field 'uploaded_file', 'data', :class => 'uploadedFileFormTitle', :class => 'autofocus long'
+  %div
+    != text_field 'uploaded_file', 'description', :id => 'uploadedFileFormDescription', :class => 'long'
   
   %input{:type => 'hidden', :name=> 'format', :value => 'js'}/
   

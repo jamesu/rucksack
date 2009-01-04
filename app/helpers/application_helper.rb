@@ -63,6 +63,15 @@ module ApplicationHelper
     "/images/file_icons/#{File.extname(filename)[1..-1] || ''}.png"
   end
 
+  def format_size(value)
+    kbs = value / 1024
+    mbs = kbs / 1024
+
+    return "#{value}B" if value < 1.kilobytes
+    return "#{kbs}KB"  if value < 1.megabytes
+    "#{mbs}MB"
+  end
+
   def action_list(actions, remote=false)
     actions.collect do |action|
       if action[:cond]

@@ -444,6 +444,21 @@ input.moderate, textarea.moderate {
   padding-right: 6px;
 }
 
+.pageUploadedFile .fileDetails {
+  float: left;
+  width: 90%;
+}
+
+div.fileDetails .fileSize {
+  color: #999999;
+  font-weight: bold;
+  font-size: 10px;
+}
+
+div.fileDetails .fileDescription {
+  color: #999999;
+}
+
 /* Email */
 
 .pageEmail a {

@@ -1,4 +1,8 @@
 - hhandle = "page_slot_handle_#{object.page_slot.id}"
 .pageUploadedFile{:hover_handle => hhandle}
   %img{:src => file_icon_for(object.object_name), :hover_handle => hhandle}
-  %a{:href => object.data.url, :hover_handle => hhandle}= h object.object_name
+  %div.fileDetails{:style => "float:left; width:90%"}
+    %a{:href => object.data.url, :hover_handle => hhandle}= h object.object_name
+    %div.fileSize= format_size(object.data_file_size)
+    - if object.fileDescription?
+      %div.fileDescription= h object.description

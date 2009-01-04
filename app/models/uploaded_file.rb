@@ -95,7 +95,7 @@ class UploadedFile < ActiveRecord::Base
      
   # Accesibility
   
-  attr_accessible :data
+  attr_accessible :data, :description
     
   # Validation
   
