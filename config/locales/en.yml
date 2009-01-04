@@ -170,7 +170,7 @@ en:
   
   journal_date_today: "Today"
   journal_date_format: "%a, %b %e"
-  journal_date_extended_format: "%a, %b %e %Y"
+  journal_date_format_extended: "%a, %b %e %Y"
   add_entry: Add entry
   user_journals_desc: What everyone else is doing...
   
