@@ -440,7 +440,10 @@ var Page = {
           return true;
         }
         else
-          el.request(JustRebind, 'script');  
+          el.request(JustRebind, 'script');
+        
+        // Loader
+        el.find('.submit:first').attr('disabled', true).html(Page.loader());
   
         return false;
       });
@@ -449,17 +452,25 @@ var Page = {
         var form = $(evt.target).parents('form:first');
         
         $.get(form.attr('action'), {}, JustRebind, 'script');
+        
         return false;
       });
 
       $('.fixedWidgetForm').submit(function(evt) {
         var el = $(this);
+        var submit_button = el.find('.submit:first');
+        
+        // Loader
+        var old_submit = submit_button.html();
+        submit_button.attr('disabled', true).html(Page.loader());
+        
+        // Note: closures used here so that submit button can be reset
         if (el.hasClass('upload')) {
-          el.requestIframeScript({'is_new': 1}, ResetAndRebind);
+          el.requestIframeScript({'is_new': 1}, function(data) { submit_button.attr('disabled', false).html(old_submit); ResetAndRebind(data); });
           return true;
         }
         else
-          el.request(ResetAndRebind, 'script');  
+          el.request(function(data) { submit_button.attr('disabled', false).html(old_submit); ResetAndRebind(data); }, 'script');
         
         return false;
       });
