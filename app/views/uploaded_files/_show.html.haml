@@ -4,5 +4,5 @@
   %div.fileDetails{:style => "float:left; width:90%"}
     %a{:href => object.data.url, :hover_handle => hhandle}= h object.object_name
     %div.fileSize= format_size(object.data_file_size)
-    - if object.fileDescription?
+    - if object.description?
       %div.fileDescription= h object.description
