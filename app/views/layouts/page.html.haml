@@ -10,6 +10,8 @@
         = stylesheet_link_tag ss
     = ie_stylesheet_link_tag 'ie_hack'
     
+    = auto_discovery_link_tag(:rss, {:controller => 'pages', :action => 'show', :id => @page.id, :format => 'rss'})
+    
     = javascript_include_tag 'jquery.js' 
     = javascript_include_tag 'jquery-ui.js'
     = javascript_include_tag 'jrails.js'

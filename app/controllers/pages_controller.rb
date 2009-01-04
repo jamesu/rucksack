@@ -51,7 +51,6 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.js
-      format.json { render :json => @pages }
       format.xml  { render :xml => @pages.to_xml(:in_list => true) }
     end
   end
@@ -68,8 +67,13 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @page.to_json }
       format.xml  { render :xml => @page.to_xml }
+      format.rss { 
+        conds = {'page_id' => @page.id}
+        conds['is_private'] = false if !@logged_user.member_of_owner?
+        @activity_log = ApplicationLog.find(:all, :conditions => conds, :limit => params[:limit] || 50)
+        render :layout => false
+      }
     end
   end
   
@@ -92,7 +96,6 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @page.to_json }
       format.xml  { render :xml => @page }
     end
   end
@@ -115,7 +118,6 @@ class PagesController < ApplicationController
         
         flash[:notice] = 'Page was successfully created.'
         format.html { redirect_to(@page) }
-        format.json { render :json => @page.to_json }
         format.xml  { render :xml => @page, :status => :created, :location => @page }
       else
         format.html { render :action => "new" }
@@ -174,7 +176,6 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       format.html { head :ok }
-      format.json { head :ok }
       format.xml  { head :ok }
     end
   end

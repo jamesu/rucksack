@@ -71,6 +71,16 @@ en:
   pages_shared_to_me: Pages shared to me
   copy_of_page: "{{title}} (Copy)"
   
+  recent_activity_for: "{{page}} feed"
+  recent_activity_info: "Recent activity for {{page}}"
+  
+  action_add: "Added"
+  action_edit: "Edited"
+  action_delete: "Deleted"
+  action_open: "Opened"
+  action_closed: "Completed"
+  action_rename: "Renamed"
+  
   tags: Tags
   edit_tags: Edit tags
   current_tags: Current tags
