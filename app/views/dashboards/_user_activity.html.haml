@@ -12,10 +12,8 @@
         - if !log.page_id.nil?
           = "activity_edit_Page".to_sym.l_with_args(:object_name => log.page.object_name, :previous_name => log.previous_name, :url => !log.page.nil? ? url_for(log.page) : '#') 
           -# "(#{log.created_on.to_s})"
-        - elsif !log.rel_object_id.nil?
-          = "activity_#{log.action}_#{log.rel_object_type}".to_sym.l_with_args(:object_name => log.object_name, :previous_name => log.previous_name, :url => !log.rel_object.nil? ? url_for(log.rel_object) : '#')
-          -# "(#{log.created_on.to_s})"
         - else
-          = '???' 
+          = "activity_#{log.action}_#{log.rel_object_type}".to_sym.l_with_args(:object_name => log.object_name, :previous_name => log.previous_name, :url => !log.rel_object.nil? ? url_for(log.rel_object) : '#')
+          -# "(#{log.created_on.to_s})" 
 
 
