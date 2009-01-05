@@ -262,10 +262,33 @@ var InsertionBar = {
     },
     show: function() {
         InsertionMarker.element.before(this.element);
-        this.element_bar.show();
+        this.element_bar.css('height', '0px').show().animate({"height": "20px"}, "fast");
     },
     hide: function() {
         this.element_bar.hide();
+    },
+    
+    magicForm: function(el) {
+        // Reveal form using an expanding blind effect
+        var calc_height = el.height();
+        var init = true;
+        el.css({'height': '42px', 'overflow': 'hidden'}).animate(
+          {'height': calc_height + 'px'}, 
+          {'duration': "fast",
+           'step': function(evt) {
+             // Hack - this needs to be set after, otherwise headers vanish
+             if (init) {
+               el.css('overflow', 'hidden');
+               init = false;
+             }
+           },
+           'complete': function(evt){
+              // Defaults
+              el.css('height', null).css('overflow', 'visible');
+            }
+          } 
+        );
+
     },
     
     // Widget form
@@ -274,12 +297,14 @@ var InsertionBar = {
             this.clearWidgetForm();
         
         // Set insertion position
-        $('#' + template.attr('id') + 'Before').attr('value', Page.insert_before ? '1' : '0');
-        $('#' + template.attr('id') + 'Slot').attr('value', Page.insert_element.attr('slot'));
+        var id = template.attr('id');
+        $('#' + id + 'Before').attr('value', Page.insert_before ? '1' : '0');
+        $('#' + id + 'Slot').attr('value', Page.insert_element.attr('slot'));
         
         // Form should go in the insertion bar, so we can change the insertion location and maintain
         // state
         this.element_tablet.append(template);
+        this.magicForm($('#' + id));
         this.current_form = template;
     },
     
