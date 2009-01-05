@@ -29,7 +29,7 @@ class Reminder < ActiveRecord::Base
     belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
     belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
 
-    has_many :application_logs, :as => :rel_object, :dependent => :nullify
+    has_many :application_logs, :as => :rel_object#, :dependent => :nullify
 
     @@repeat_lookup = {:never => 0, :yearly => 1, :monthly => 2, :fortnightly => 3, :weekly => 4, :daily => 5}
     @@repeat_id_lookup = @@repeat_lookup.invert
