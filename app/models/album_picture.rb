@@ -3,7 +3,7 @@ class AlbumPicture < ActiveRecord::Base
   def page; self.album.page; end
   def page_id; self.album.page_id; end
 
-  has_many :application_logs, :as => :rel_object, :dependent => :destroy
+  has_many :application_logs, :as => :rel_object, :dependent => :nullify
   
   has_attached_file :picture, :styles => { :album => "150x150#" }
   

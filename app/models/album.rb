@@ -4,7 +4,7 @@ class Album < ActiveRecord::Base
   
   has_many :pictures, :class_name => 'AlbumPicture', :dependent => :destroy
 
-  has_many :application_logs, :as => :rel_object, :dependent => :destroy
+  has_many :application_logs, :as => :rel_object, :dependent => :nullify
 
   belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
   belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'

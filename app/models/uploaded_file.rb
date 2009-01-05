@@ -27,7 +27,7 @@ class UploadedFile < ActiveRecord::Base
   belongs_to :page
   has_one :page_slot, :as => :rel_object
   
-  has_many :application_logs, :as => :rel_object, :dependent => :destroy
+  has_many :application_logs, :as => :rel_object, :dependent => :nullify
   
   has_attached_file :data
   

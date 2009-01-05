@@ -30,7 +30,7 @@ class ListItem < ActiveRecord::Base
   def page; self.list.page; end
   def page_id; self.list.page_id; end
   
-  has_many :application_logs, :as => :rel_object, :dependent => :destroy
+  has_many :application_logs, :as => :rel_object, :dependent => :nullify
   
   belongs_to :completed_by, :class_name => 'User', :foreign_key => 'completed_by_id'
   
