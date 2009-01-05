@@ -76,7 +76,7 @@ class PagesController < ApplicationController
       format.rss { 
         conds = {'page_id' => @page.id}
         conds['is_private'] = false if !@logged_user.member_of_owner?
-        @activity_log = ApplicationLog.find(:all, :conditions => conds, :limit => params[:limit] || 50)
+        @activity_log = ApplicationLog.find(:all, :conditions => conds, :limit => params[:limit] || 50, :order => 'created_on DESC')
         render :layout => false
       }
     end
