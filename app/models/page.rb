@@ -163,7 +163,7 @@ class Page < ActiveRecord::Base
   end
   
   def object_url
-    url_for :only_path => true, :controller => 'page', :action => 'index', :id => self.id
+    page_url(:id => self.id, :only_path => true)
   end
   
   def is_shared?

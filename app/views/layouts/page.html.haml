@@ -2,6 +2,8 @@
 %html
   %head
     %meta{ 'http-equiv' => 'content-type', :content => 'text/html;charset=UTF-8'}/
+    - if @page.can_be_edited_by @logged_user
+      %link{ 'rel' => 'alternate', 'type' => 'application/x-wiki', 'title' => :edit.l, 'href' => @page.object_url}/
     %title= "#{site_name} - #{h(@page.title)}"
     
     = stylesheet_link_tag 'pages'
