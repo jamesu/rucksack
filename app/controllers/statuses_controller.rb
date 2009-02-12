@@ -31,12 +31,16 @@ class StatusesController < ApplicationController
   # GET /statuses/1
   # GET /statuses/1.xml
   def show
+    user_ids = Account.owner.user_ids - [@user.id]
+    
     @status = @user.status
     return error_status(true, :cannot_see_status) unless (@status.can_be_seen_by(@logged_user))
+    
+    @statuses = Status.find(:all, :conditions => {'user_id' => user_ids})
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @status }
+      format.xml  { render :xml => [@status] + @statuses }
     end
   end
 

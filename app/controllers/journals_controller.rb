@@ -34,7 +34,13 @@ class JournalsController < ApplicationController
     return error_status(true, :cannot_see_journals) unless (@user.journals_can_be_seen_by(@logged_user))
     
     user_ids = Account.owner.user_ids - [@logged_user.id]
-    @journals = get_groups
+    
+    if request.format == :html
+      @journals = get_groups(get_journals)
+    else
+      @journals = get_journals
+    end
+    
     @user_journals = user_ids.collect do |uid|
       journals = Journal.find(:all, :conditions => {'user_id' => uid},
                           :order => 'created_at DESC', :limit => 4)
@@ -88,7 +94,7 @@ class JournalsController < ApplicationController
 
     respond_to do |format|
       if @journal.save
-        @journals = get_groups
+        @journals = get_groups(get_journals)
     
         flash[:notice] = 'Journal was successfully created.'
         format.html { redirect_to(@journal) }
@@ -131,16 +137,20 @@ class JournalsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(journals_url) }
-      format.js { @journals = get_groups; render :action => 'update' }
+      format.js { @journals = get_groups(get_journals); render :action => 'update' }
       format.xml  { head :ok }
     end
   end
   
 protected
 
-  def get_groups
+  def get_journals
+    @user.journals.find(:all)
+  end
+  
+  def get_groups(list)
     now = Time.zone.now.to_date
-    @user.journals.find(:all).group_by do |journal|
+    list.group_by do |journal|
       date = journal.created_at.to_date
       if date == now
         :journal_date_today.l
