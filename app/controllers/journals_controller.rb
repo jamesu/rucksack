@@ -33,19 +33,17 @@ class JournalsController < ApplicationController
   def index
     return error_status(true, :cannot_see_journals) unless (@user.journals_can_be_seen_by(@logged_user))
     
-    user_ids = Account.owner.user_ids - [@logged_user.id]
-    
     if request.format == :html
-      @journals = get_groups(get_journals)
+      @journals = get_groups(get_journals(@user.id))
+      user_ids = Account.owner.user_ids - [@logged_user.id]
+      @user_journals = user_ids.collect do |uid|
+        journals = Journal.find(:all, :conditions => {'user_id' => uid},
+                                :order => 'created_at DESC', :limit => 4)
+        journals.empty? ? nil : [User.find_by_id(uid), journals]
+      end.compact
     else
-      @journals = get_journals
+      @journals = get_journals(Account.owner.user_ids)
     end
-    
-    @user_journals = user_ids.collect do |uid|
-      journals = Journal.find(:all, :conditions => {'user_id' => uid},
-                          :order => 'created_at DESC', :limit => 4)
-      journals.empty? ? nil : [User.find_by_id(uid), journals]
-    end.compact
     
     @status = @user.status || @user.build_status
     @content_for_sidebar = 'journals/users_sidebar'
@@ -94,8 +92,10 @@ class JournalsController < ApplicationController
 
     respond_to do |format|
       if @journal.save
-        @journals = get_groups(get_journals)
-    
+        if request.format == :js
+          @journals = get_groups(get_journals(Account.owner.user_ids))
+        end
+        
         flash[:notice] = 'Journal was successfully created.'
         format.html { redirect_to(@journal) }
         format.js { render :action => 'update' }
@@ -137,15 +137,15 @@ class JournalsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(journals_url) }
-      format.js { @journals = get_groups(get_journals); render :action => 'update' }
+      format.js { @journals = get_groups(get_journals(Account.owner.user_ids)); render :action => 'update' }
       format.xml  { head :ok }
     end
   end
   
 protected
 
-  def get_journals
-    @user.journals.find(:all)
+  def get_journals(users)
+    Journal.find(:all, :conditions => {'user_id' => users}, :order => 'created_at DESC')
   end
   
   def get_groups(list)
