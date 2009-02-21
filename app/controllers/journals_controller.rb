@@ -33,14 +33,19 @@ class JournalsController < ApplicationController
   def index
     return error_status(true, :cannot_see_journals) unless (@user.journals_can_be_seen_by(@logged_user))
     
-    if request.format == :html
+    if request.format == :html or request.format == :js
       @journals = get_groups(get_journals(@user.id))
       user_ids = Account.owner.user_ids - [@logged_user.id]
-      @user_journals = user_ids.collect do |uid|
-        journals = Journal.find(:all, :conditions => {'user_id' => uid},
-                                :order => 'created_at DESC', :limit => 4)
-        journals.empty? ? nil : [User.find_by_id(uid), journals]
-      end.compact
+      
+      # Add @user_journals if no offset
+      offset = params[:offset]
+      if offset.nil? or offset == 0
+        @user_journals = user_ids.collect do |uid|
+          journals = Journal.find(:all, :conditions => {'user_id' => uid},
+                                  :order => 'created_at DESC', :limit => 4)
+          journals.empty? ? nil : [User.find_by_id(uid), journals]
+        end.compact
+      end
     else
       @journals = get_journals(Account.owner.user_ids)
     end
@@ -50,6 +55,7 @@ class JournalsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
+      format.js { render :action => 'update_more' }
       format.xml  { render :xml => @journals }
     end
   end
@@ -145,7 +151,7 @@ class JournalsController < ApplicationController
 protected
 
   def get_journals(users)
-    Journal.find(:all, :conditions => {'user_id' => users}, :order => 'created_at DESC')
+    Journal.find(:all, :conditions => {'user_id' => users}, :order => 'created_at DESC', :limit => params[:limit] || 50, :offset => params[:offset])
   end
   
   def get_groups(list)

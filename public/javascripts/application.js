@@ -363,6 +363,8 @@ var Page = {
     MARGIN: 20,
     SLOT_VERGE: 20,
     
+    JOURNAL_OFFSET: 50,
+    
     isResizing: false,
     lastResizePosition: 0,
     
@@ -370,6 +372,10 @@ var Page = {
     
     init: function() {
       Insertion.set(null);
+    },
+    
+    endJournalEntries: function() {
+      $("#userJournalsMore").remove();
     },
     
     stopSortingWrappedElements: function(item) {
@@ -936,6 +942,15 @@ var Page = {
       
       $('#statusBar').click(function(evt) {
         $(this).hide('slow');
+        
+        return false;
+      });
+      
+      // Journal
+      $('#userJournalsMore a').click(function(evt) {
+        $.get("/journals", {'offset': Page.JOURNAL_OFFSET}, ResetAndRebind, 'script');
+        
+        Page.JOURNAL_OFFSET += 50;
         
         return false;
       });

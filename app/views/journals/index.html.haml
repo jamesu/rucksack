@@ -18,3 +18,5 @@
 
 #userJournals
   = render :partial => 'list', :collection => @journals
+#userJournalsMore.hint
+  %a{:href => '#'}= :display_x_more_entries.l_with_args(:num => 50)
