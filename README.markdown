@@ -1,10 +1,4 @@
 
-<div style="display:none"> 
-
-# RuckSack
-
-</div>
-
 <img src="http://cloud.github.com/downloads/jamesu/rucksack/rckguy-lsm.png" alt="Rucksack"/>
 
 ## What is it?
