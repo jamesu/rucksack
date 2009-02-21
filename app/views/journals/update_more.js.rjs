@@ -1,0 +1,6 @@
+unless @journals.empty?
+  page.insert_html :bottom, "userJournals", "<hr/>"
+  page.insert_html :bottom, "userJournals", :partial => 'list', :collection => @journals
+else
+  page.call "Page.endJournalEntries"
+end
