@@ -1,4 +1,3 @@
-
 <img src="http://cloud.github.com/downloads/jamesu/rucksack/rckguy-lsm.png" alt="Rucksack"/>
 
 ## What is it?
@@ -13,6 +12,7 @@ any of the following content (or "widgets"):
 * Lists
 * Separators (or you can call them headings)
 * Files
+* Images
 
 These pages can be edited by yourself and any other 
 user you choose to share it to. 
@@ -22,6 +22,10 @@ In addition there are a few complimentary features, namely:
 
 * Reminders
 * Journals & Status (think Twitter)
+
+## What does it look like?
+
+<a href="http://cloud.github.com/downloads/jamesu/rucksack/rcks-example.png"><img src="http://cloud.github.com/downloads/jamesu/rucksack/rcks-example-th.png" alt="Rucksack"/></a>
 
 ## Sounds great, how do i install it?
 
