@@ -178,6 +178,7 @@ en:
   # Journal / Status
   journal: Journal
   status: Status
+  display_x_more_entries: "Display {{num}} more entries."
   
   journal_date_today: "Today"
   journal_date_format: "%a, %b %e"
