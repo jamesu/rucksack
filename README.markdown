@@ -29,7 +29,10 @@ In addition there are a few complimentary features, namely:
 
 ## What about a demo?
 
-You can try <a href="http://rucksack.heroku.com">rucksack on heroku</a>
+You can try <a href="http://rucksack.heroku.com">rucksack on heroku</a> with the following credentials:
+
+* username: admin
+* password: password
 
 ## Sounds great, how do i install it?
 
