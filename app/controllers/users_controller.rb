@@ -28,6 +28,8 @@ class UsersController < ApplicationController
   layout :user_layout
   
   after_filter  :user_track
+  
+  before_filter :save_user?, :only => :update
     
   # GET /users
   # GET /users.xml
@@ -232,5 +234,11 @@ protected
   def authorized?(action = action_name, resource = nil)
     ['forgot_password', 'reset_password'].include?(action) ? true : logged_in?
   end
-
+  
+  def save_user?
+    if admin_in_demo_mode? 
+      flash[:notice] = 'You are not allowed to change admin credentials in this demo, try with a normal user instead.'
+      redirect_to users_url
+    end
+  end
 end

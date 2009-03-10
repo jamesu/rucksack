@@ -151,5 +151,13 @@ protected
       @insert_element = @insert_id == 0 ? 'page_slot_footer' : "page_slot_#{@insert_id}"
     end
   end
+  
+  def demo_mode?
+    APP_CONFIG['demo_mode']
+  end
+  
+  def admin_in_demo_mode?
+    @logged_user.is_admin and demo_mode?
+  end
 
 end
