@@ -1,6 +1,27 @@
 #!/usr/bin/env ruby
 require 'fileutils'
 
+def randomize_secret
+  (1..40).map { |x| (65 + rand(26)).chr }.join
+end
+
+session_store_file = <<-SESSION_STORE
+ActionController::Base.session = { 
+  :session_key => '_rucksack_session', 
+  :secret => '#{randomize_secret}' 
+}
+SESSION_STORE
+
+def write_initializer(filename, data = nil)
+  puts "adding initializer #{filename}"
+  folder = "config/initializers"
+  File.open("#{folder}/#{filename}", "w") { |f|; f.write(data) }
+end
+
+# copy a session store file
+write_initializer("session_store.rb", session_store_file)
+
+
 # Copy over example files!
 Dir["config/example/*"].each do |file|
   name = "config/#{File.basename(file)}"
@@ -9,6 +30,7 @@ Dir["config/example/*"].each do |file|
     puts "Copied #{name}"
   end
 end
+
 
 system "rake gems:install"
 system "rake db:rucksack:install --trace"
