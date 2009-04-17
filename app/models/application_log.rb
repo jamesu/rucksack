@@ -94,17 +94,6 @@ class ApplicationLog < ActiveRecord::Base
   
   def self.grouped_nicely(user, start_date=nil, end_date=nil)
     # Group by creator, page, and date so we eliminate multiple references to the same page in a single day.
-    # Non-page objectes are handled by a CASE.
-    # Also, offsetting of the date and concatenating the rel_object's id and type are mostly db-specific,
-    # so be sure to explicitly add support for other databases as needed.
-    
-    if connection.adapter_name == 'SQLite'
-      offset_date = "date(created_on, '+#{Time.zone.utc_offset} seconds')"
-      rel_group = "(rel_object_type || rel_object_id)"
-    else
-      offset_date = "date(created_on + INTERVAL #{Time.zone.utc_offset} SECOND)"
-      rel_group = "CONCAT(rel_object_type, rel_object_id)"
-    end
     
     conditions = ['((modified_page_id IS NULL AND created_by_id = ?) OR modified_page_id IN (?)) AND is_silent = ?', user.id, user.available_page_ids, false]
     
@@ -118,10 +107,23 @@ class ApplicationLog < ActiveRecord::Base
       conditions << end_date
     end
     
+    found_records = {}
+    
+    # :group => "created_by_id, #{offset_date}, CASE #{sanitize_sql({'page_id' => nil})} WHEN 1 THEN #{rel_group} ELSE page_id END"
     find(:all,
          :conditions => conditions,
-         :order => 'created_on DESC', 
-         :group => "created_by_id, #{offset_date}, CASE #{sanitize_sql({'page_id' => nil})} WHEN 1 THEN #{rel_group} ELSE page_id END")
+         :order => 'created_on ASC').reject do |item|
+         
+         obj_key = item.page_id.nil? ? "#{item.rel_object_type}.#{item.rel_object_id}" : item.page_id
+         group_key = "#{item.created_by_id}-#{item.created_on.to_date}-#{obj_key}"
+         
+         if found_records.has_key? group_key
+           true
+         else
+           found_records[group_key] = item
+           false
+         end
+    end.reverse
   end
   
   def self.clear_for_page(page)
