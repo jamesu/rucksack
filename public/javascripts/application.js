@@ -955,6 +955,50 @@ var Page = {
         return false;
       });
       
+      // Page sidebar
+      $('.addPageLink a').click(function(evt) {
+        var newPage = $(evt.target.parentNode);
+        var addPageInner = newPage.parents('.addPage:first').find('.inner:first');
+        
+        addPageInner.show();
+        addPageInner.autofocus();
+        newPage.hide();
+        
+        return false;
+      });
+      
+      $('.addPage form').submit(function(evt) {
+        var el = $(this);
+        var submit_button = el.find('.submit:first');
+        var root = el.parents('.addPage:first');
+        var newPage = root.find('.addPageLink:first');
+        var addPageInner = root.find('.inner:first');
+        
+        // Loader
+        var old_submit = submit_button.html();
+        submit_button.attr('disabled', true).html(Page.loader());
+        
+        $(this).request(function(data){
+          addPageInner.hide(); 
+          newPage.show();
+          submit_button.attr('disabled', false).html(old_submit);
+          ResetAndRebind(data);
+        }, 'script');
+                
+        return false;
+      });
+    
+      $('.addPage form .cancel').click(function(evt) {
+        var root = $(evt.target.parentNode).parents('.addPage:first');
+        var newPage = root.find('.addPageLink:first');
+        var addPageInner = root.find('.inner:first');
+        
+        addPageInner.hide();
+        newPage.show();
+        
+        return false;
+      });
+      
       // Login
       
       $('.toggleOpenID').click(function(evt) {

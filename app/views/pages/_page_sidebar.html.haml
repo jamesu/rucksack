@@ -1,5 +1,15 @@
 .sidebarBlock
-  %a.newPage{:href => new_page_url}= :new_page.l
+  .addPage
+    .inner{:style => 'display:none'}
+      - form_tag pages_path(), :method => :post do
+        = hidden_field_tag 'active_page', @page.id
+        %div
+          = text_field 'page', 'title', :class => 'autofocus moderate'
+        %div
+          %button.submit{:type => 'submit'}= :new_page.l
+          %a.cancel{:href => '#'}= :cancel.l
+    .addPageLink{:style => 'display:block'}
+      %a.newPage{:href => new_page_url}= :new_page.l
 
 .sidebarBlock
   != render :partial => 'listed_pages'
