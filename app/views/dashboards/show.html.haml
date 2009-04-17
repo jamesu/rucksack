@@ -5,4 +5,4 @@
 #activityLogs
   - @recent_activities.each do |items|
     %h2= items[0]
-    = render :partial => 'user_activity', :collection => items[1].reverse
+    = render :partial => 'user_activity', :collection => items[1]
