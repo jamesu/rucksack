@@ -444,313 +444,359 @@ var Page = {
         return resource_url;
     },
     
-    bind: function() {
-      // NOTE: this is a mess, especially considering there are a ton
-      //       of closures here. Need to tidy it up!
-      
-      // Page header
-      $('#page_header_form form').submit(function(evt) {
+    //
+    // Core re-bindable actions
+    //
+    
+    onHeaderSubmit: function(evt) {
         $(this).request(JustRebind, 'script');
 
-        return false;
-      });
+      return false;
+    },
 
-      $('#page_header_form .cancel').click(function(evt) {        
-        $('#page_header_form').hide();
-        $('#page_header').show();
-        
-        return false;
+    onHeaderCancel: function(evt) {
+      $('#page_header_form').hide();
+      $('#page_header').show();
+      
+      return false;
+    },
+
+    onWidgetFormSubmit: function(evt) {
+      var el = $(this);
+      if (el.hasClass('upload')) {
+        el.requestIframeScript({}, JustRebind);
+        return true;
+      }
+      else
+        el.request(JustRebind, 'script');
+      
+      // Loader
+      el.find('.submit:first').attr('disabled', true).html(Page.loader());
+  
+      return false;
+    },
+
+    onWidgetFormCancel: function(evt) {
+      var form = $(evt.target).parents('form:first');
+      
+      $.get(form.attr('action'), {}, JustRebind, 'script');
+      
+      return false;
+    },
+
+    onFixedWidgetFormSubmit: function(evt) {
+      var el = $(this);
+      var submit_button = el.find('.submit:first');
+      
+      // Loader
+      var old_submit = submit_button.html();
+      submit_button.attr('disabled', true).html(Page.loader());
+      
+      // Note: closures used here so that submit button can be reset
+      if (el.hasClass('upload')) {
+        el.requestIframeScript({'is_new': 1}, function(data) { submit_button.attr('disabled', false).html(old_submit); ResetAndRebind(data); });
+        return true;
+      }
+      else
+        el.request(function(data) { submit_button.attr('disabled', false).html(old_submit); ResetAndRebind(data); }, 'script');
+      
+      return false;
+    },
+
+    onFixedWidgetFormCancel: function(evt) {
+      InsertionBar.clearWidgetForm();
+      
+      return false;
+    },
+    
+    onAddItemSubmit: function(evt) {
+      var form = $(this);
+      form.request(JustRebind, 'script')
+      form.reset();
+      return false;
+    },
+      
+    onAddItemCancel: function(evt) {
+      var addItemInner = $(evt.target).parents('.inner:first');
+      var newItem = addItemInner.parents('.addItem:first').find('.newItem:first');
+      
+      addItemInner.hide();
+      addItemInner.children('form').reset();
+      newItem.show();
+      
+      return false;
+    },
+    
+    onAddItemLink: function(evt) {
+      var newItem = $(evt.target.parentNode);
+      var addItemInner = newItem.parents('.addItem:first').find('.inner:first');
+      
+      addItemInner.show();
+      addItemInner.autofocus();
+      newItem.hide();
+      
+      return false;
+    },
+      
+    onListSubmit: function(evt) {
+      $(this).request(JustRebind, 'script');
+      
+      return false;
+    },
+    
+    onListCancel: function(evt) {
+      var el = $(evt.target);
+      var list_url = el.parents('.pageWidget:first').attr('url');
+      var item_id = el.parents('.listItem:first').attr('item_id');
+      
+      $.get(Page.buildUrl(list_url + '/items/' + item_id), null, JustRebind, 'script');
+      
+      return false;
+    },
+      
+    onListItemCheck: function(evt) {
+      var el = $(evt.target);
+      var list_url = el.parents('.pageWidget:first').attr('url');
+      var item_id = el.parents('.listItem:first').attr('item_id');
+      
+      // Loader gif
+      el.siblings('.itemText').html(Page.loader());
+      
+      $.put(Page.buildUrl(list_url + '/items/' + item_id + '/status'), {'list_item[completed]':evt.target.checked}, JustRebind, 'script');
+      
+      return false;
+    },
+      
+    onListItemDelete: function(evt) {
+      var el = $(evt.target);
+      var list_url = el.parents('.pageWidget:first').attr('url');
+      var item_id = el.parents('.listItem:first').attr('item_id');
+      
+      $.del(Page.buildUrl(list_url + '/items/' + item_id), null, JustRebind, 'script');
+      
+      return false;
+    },
+      
+    onListItemShowMore: function(evt) {
+      var el = $(evt.target);
+      var list_url = el.parents('.pageWidget:first').attr('url');
+      
+      el.parent().hide();
+      $.get(Page.buildUrl(list_url + '/items'), {'completed':1, 'limit':-1, 'offset': 5}, JustRebind, 'script');
+      
+      return false;
+    },  
+      
+    onListItemSubmit: function(evt) {
+      $(this).request(JustRebind, 'script');
+      
+      return false;
+    },
+    
+    onListItemCancel: function(evt) {
+      var el = $(evt.target);
+      var pageList = el.parents('.pageList:first');
+      
+      pageList.find('.pageListForm:first').hide();
+      pageList.find('.pageListHeader:first').show();
+      
+      return false;
+    },
+    
+    onAlbumSubmit: function(evt) {
+      var el = $(this);
+      el.request(JustRebind, 'script');  
+  
+      return false;
+    },
+
+    onAlbumCancel: function(evt) {
+      var el = $(evt.target);
+      var pageAlbum = el.parents('.pageAlbum:first');
+      
+      pageAlbum.find('.pageAlbumForm:first').hide();
+      pageAlbum.find('.pageAlbumHeader:first').show();
+      
+      return false;
+    },
+
+    onAddAlbumPicture: function(evt) {
+      var newPicture = $(evt.target.parentNode);
+      var addPictureInner = newPicture.parents('.albumPictureForm:first').find('.inner:first');
+      
+      addPictureInner.show();
+      addPictureInner.autofocus();
+      newPicture.hide();
+      
+      return false;
+    },
+
+    onAlbumPictureSubmit: function(evt) {
+      var el = $(this);
+      el.requestIframeScript({}, JustRebind);
+      return true;
+    },
+
+    onAlbumPictureCancel: function(evt) {
+      var el = $(this);
+      $.get(el.parents('form:first').attr('action'), null, JustRebind, 'script');
+      return false;
+    },
+      
+    onNewAlbumPictureSubmit: function(evt) {
+      var el = $(this);
+      el.requestIframeScript({'is_new': 1}, JustRebind);
+      return true;
+    },
+      
+    onNewAlbumPictureCancel: function(evt) {
+      var newPictureInner = $(evt.target).parents('.inner:first');
+      var newPicture = newPictureInner.parents('.albumPictureForm:first:first').find('.newPicture:first');
+      
+      newPictureInner.hide();
+      newPictureInner.children('form').reset();
+      newPicture.show();
+      
+      return false;
+    },
+    
+    onEditTags: function(evt) {
+      $(this).request(JustRebind, 'script');
+             
+      return false;
+    },
+    
+    onEditTagsCancel: function(evt) {
+      $('#pageTagsForm').hide();
+      $('#pageTags').show();
+      $('#pageEditTags').show();
+      
+      return false;
+    },  
+      
+    onTagAdd: function(evt) {
+      TAG_LIST.push($(evt.target).attr('tag'));
+      
+      $.get('/pages', {'tags[]': TAG_LIST}, JustRebind, 'script');
+      return false;
+    },
+    
+    onTagRemove: function(evt) {
+      var removed_tag = $(evt.target).attr('tag');
+      
+      TAG_LIST = $.grep(TAG_LIST, function(tag){
+        return (tag != removed_tag);
       });
+      
+      $.get('/pages', {'tags[]': TAG_LIST}, JustRebind, 'script');
+      return false;
+    },
+    
+    onReminderSnooze: function(evt) {
+      var el = $(evt.target);
+      var reminder_url = el.parents('.reminderEntry:first').attr('url') + '/snooze';
+      $.put(reminder_url, {}, JustRebind, 'script');
+      
+      return false;
+    },
+      
+    onReminderDelete: function(evt) {
+      var el = $(evt.target);
+      var reminder_url = el.parents('.reminderEntry:first').attr('url');
+      
+      $.del(reminder_url, {}, JustRebind, 'script');
+      
+      return false;
+    },
+    
+    onReminderSubmit: function(evt) {
+      $(this).request(RebindAndHover, 'script');
+             
+      return false;
+    },
+      
+    onReminderCancel: function(evt) {
+      $.get('/reminders', {}, JustRebind, 'script');
+      
+      HoverHandle.setEnabled(true);
+      
+      return false;
+    },
+      
+    // User list
+    onUserDelete: function(evt) {
+      var el = $(this);
+      
+      var user_id = el.parents('tr:first').attr('user_id');
+      
+      // TODO: need localization
+      if (confirm('Are you sure you want to delete this user?'))
+        $.del('/users/' + user_id, {}, JustRebind, 'script');
+      
+      return false;
+    },
+    
+    bind: function() {
+      // Page header
+      $('#page_header_form form').submit(Page.onHeaderSubmit);
+      $('#page_header_form .cancel').click(Page.onHeaderCancel);
       
       $('.pageSlotHandle').click(HoverSlotBar);
 
-      $('.widgetForm').submit(function(evt) {
-        var el = $(this);
-        if (el.hasClass('upload')) {
-          el.requestIframeScript({}, JustRebind);
-          return true;
-        }
-        else
-          el.request(JustRebind, 'script');
-        
-        // Loader
-        el.find('.submit:first').attr('disabled', true).html(Page.loader());
-  
-        return false;
-      });
+      $('.widgetForm').submit(Page.onWidgetFormSubmit);
+      $('.widgetForm .cancel').click(Page.onWidgetFormCancel);
 
-      $('.widgetForm .cancel').click(function(evt) {
-        var form = $(evt.target).parents('form:first');
-        
-        $.get(form.attr('action'), {}, JustRebind, 'script');
-        
-        return false;
-      });
-
-      $('.fixedWidgetForm').submit(function(evt) {
-        var el = $(this);
-        var submit_button = el.find('.submit:first');
-        
-        // Loader
-        var old_submit = submit_button.html();
-        submit_button.attr('disabled', true).html(Page.loader());
-        
-        // Note: closures used here so that submit button can be reset
-        if (el.hasClass('upload')) {
-          el.requestIframeScript({'is_new': 1}, function(data) { submit_button.attr('disabled', false).html(old_submit); ResetAndRebind(data); });
-          return true;
-        }
-        else
-          el.request(function(data) { submit_button.attr('disabled', false).html(old_submit); ResetAndRebind(data); }, 'script');
-        
-        return false;
-      });
-
-      $('.fixedWidgetForm .cancel').click(function(evt) {
-        InsertionBar.clearWidgetForm();
-        
-        return false;
-      });
+      $('.fixedWidgetForm').submit(Page.onFixedWidgetFormSubmit);
+      $('.fixedWidgetForm .cancel').click(Page.onFixedWidgetFormCancel);
       
       // Popup form for Add Item
-      $('.addItem form').submit(function(evt) {
-        var form = $(this);
-        form.request(JustRebind, 'script')
-        form.reset();
-        return false;
-      });
-      
-      $('.addItem form .cancel').click(function(evt) {
-        var addItemInner = $(evt.target).parents('.inner:first');
-        var newItem = addItemInner.parents('.addItem:first').find('.newItem:first');
-        
-        addItemInner.hide();
-        addItemInner.children('form').reset();
-        newItem.show();
-        
-        return false;
-      });
+      $('.addItem form').submit(Page.onAddItemSubmit);
+      $('.addItem form .cancel').click(Page.onAddItemCancel);
       
       // Add Item link
-      $('.newItem a').click(function(evt) {
-        var newItem = $(evt.target.parentNode);
-        var addItemInner = newItem.parents('.addItem:first').find('.inner:first');
-        
-        addItemInner.show();
-        addItemInner.autofocus();
-        newItem.hide();
-        
-        return false;
-      });
+      $('.newItem a').click(Page.onAddItemLink);
+      $('.listItem form').submit(Page.onListSubmit);
+      $('.listItem form .cancel').click(Page.onListCancel);
       
-      $('.listItem form').submit(function(evt) {
-        $(this).request(JustRebind, 'script');
-        
-        return false;
-      });
-    
-      $('.listItem form .cancel').click(function(evt) {
-        var el = $(evt.target);
-        var list_url = el.parents('.pageWidget:first').attr('url');
-        var item_id = el.parents('.listItem:first').attr('item_id');
-        
-        $.get(Page.buildUrl(list_url + '/items/' + item_id), null, JustRebind, 'script');
-        
-        return false;
-      });
+      $('.pageList .checkbox').click(Page.onListItemCheck);
+      $('.pageList .itemDelete').click(Page.onListItemDelete);
       
-      $('.pageList .checkbox').click(function(evt) {
-        var el = $(evt.target);
-        var list_url = el.parents('.pageWidget:first').attr('url');
-        var item_id = el.parents('.listItem:first').attr('item_id');
-        
-        // Loader gif
-        el.siblings('.itemText').html(Page.loader());
-        
-        $.put(Page.buildUrl(list_url + '/items/' + item_id + '/status'), {'list_item[completed]':evt.target.checked}, JustRebind, 'script');
-        
-        return false;
-      });
+      $('.pageList .showItems a').click(Page.onListItemShowMore);
       
-      $('.pageList .itemDelete').click(function(evt) {
-        var el = $(evt.target);
-        var list_url = el.parents('.pageWidget:first').attr('url');
-        var item_id = el.parents('.listItem:first').attr('item_id');
-        
-        $.del(Page.buildUrl(list_url + '/items/' + item_id), null, JustRebind, 'script');
-        
-        return false;
-      });
-      
-      $('.pageList .showItems a').click(function(evt) {
-        var el = $(evt.target);
-        var list_url = el.parents('.pageWidget:first').attr('url');
-        
-        el.parent().hide();
-        $.get(Page.buildUrl(list_url + '/items'), {'completed':1, 'limit':-1, 'offset': 5}, JustRebind, 'script');
-        
-        return false;
-      });
-      
-      
-      
-      $('.pageListForm form').submit(function(evt) {
-        $(this).request(JustRebind, 'script');
-        
-        return false;
-      });
-    
-      $('.pageListForm form .cancel').click(function(evt) {
-        var el = $(evt.target);
-        var pageList = el.parents('.pageList:first');
-        
-        pageList.find('.pageListForm:first').hide();
-        pageList.find('.pageListHeader:first').show();
-        
-        return false;
-      });
+      $('.pageListForm form').submit(Page.onListItemSubmit);
+      $('.pageListForm form .cancel').click(Page.onListItemCancel);
       
       // Page album
-      $('.pageAlbumForm').submit(function(evt) {
-        var el = $(this);
-        el.request(JustRebind, 'script');  
-  
-        return false;
-      });
+      $('.pageAlbumForm').submit(Page.onAlbumSubmit);
+      $('.pageAlbumForm .cancel').click(Page.onAlbumCancel);
 
-      $('.pageAlbumForm .cancel').click(function(evt) {
-        var el = $(evt.target);
-        var pageAlbum = el.parents('.pageAlbum:first');
-        
-        pageAlbum.find('.pageAlbumForm:first').hide();
-        pageAlbum.find('.pageAlbumHeader:first').show();
-        
-        return false;
-      });
-
-      $('.newPicture a').click(function(evt) {
-        var newPicture = $(evt.target.parentNode);
-        var addPictureInner = newPicture.parents('.albumPictureForm:first').find('.inner:first');
-        
-        addPictureInner.show();
-        addPictureInner.autofocus();
-        newPicture.hide();
-        
-        return false;
-      });
+      $('.newPicture a').click(Page.onAddAlbumPicture);
       
       // Edit picture form
-
-      $('.albumPicture form').submit(function(evt) {
-        var el = $(this);
-        el.requestIframeScript({}, JustRebind);
-        return true;
-      });
-
-      $('.albumPicture form .cancel').click(function(evt) {
-        var el = $(this);
-        $.get(el.parents('form:first').attr('action'), null, JustRebind, 'script');
-        return false;
-      });
+      $('.albumPicture form').submit(Page.onAlbumPictureSubmit);
+      $('.albumPicture form .cancel').click(Page.onAlbumPictureCancel);
       
       // New picture form
-
-      $('.albumPictureForm form').submit(function(evt) {
-        var el = $(this);
-        el.requestIframeScript({'is_new': 1}, JustRebind);
-        return true;
-      });
-      
-      $('.albumPictureForm form .cancel').click(function(evt) {
-        var newPictureInner = $(evt.target).parents('.inner:first');
-        var newPicture = newPictureInner.parents('.albumPictureForm:first:first').find('.newPicture:first');
-        
-        newPictureInner.hide();
-        newPictureInner.children('form').reset();
-        newPicture.show();
-        
-        return false;
-      });
+      $('.albumPictureForm form').submit(Page.onNewAlbumPictureSubmit);
+      $('.albumPictureForm form .cancel').click(Page.onNewAlbumPictureCancel);
       
       // Page list tags
-    
-      $('#pageTagsForm form').submit(function(evt) {
-        $(this).request(JustRebind, 'script');
-               
-        return false;
-      });
-    
-      $('#pageTagsForm .cancel').click(function(evt) {
-        $('#pageTagsForm').hide();
-        $('#pageTags').show();
-        $('#pageEditTags').show();
-        
-        return false;
-      });  
+      $('#pageTagsForm form').submit(Page.onEditTags);
+      $('#pageTagsForm .cancel').click(Page.onEditTagsCancel);  
       
-      $('.pageTagAdd').click(function(evt) {
-        TAG_LIST.push($(evt.target).attr('tag'));
-        
-        $.get('/pages', {'tags[]': TAG_LIST}, JustRebind, 'script');
-        return false;
-      });
-    
-      $('.pageTagRemove').click(function(evt) {
-        var removed_tag = $(evt.target).attr('tag');
-        
-        TAG_LIST = $.grep(TAG_LIST, function(tag){
-          return (tag != removed_tag);
-        });
-        
-        $.get('/pages', {'tags[]': TAG_LIST}, JustRebind, 'script');
-        return false;
-      }); 
+      // + -
+      $('.pageTagAdd').click(Page.onTagAdd);
+      $('.pageTagRemove').click(Page.onTagRemove); 
       
       // Reminder page
       
-      $('.reminderSnooze').click(function(evt) {
-        var el = $(evt.target);
-        var reminder_url = el.parents('.reminderEntry:first').attr('url') + '/snooze';
-        $.put(reminder_url, {}, JustRebind, 'script');
-        
-        return false;
-      });
-      
-      $('.reminderDelete').click(function(evt) {
-        var el = $(evt.target);
-        var reminder_url = el.parents('.reminderEntry:first').attr('url');
-        
-        $.del(reminder_url, {}, JustRebind, 'script');
-        
-        return false;
-      });
-    
-      $('.reminderForm').submit(function(evt) {
-        $(this).request(RebindAndHover, 'script');
-               
-        return false;
-      });
-      
-      $('.reminderForm .cancel').click(function(evt) {        
-        $.get('/reminders', {}, JustRebind, 'script');
-        
-        HoverHandle.setEnabled(true);
-        
-        return false;
-      });
+      $('.reminderSnooze').click(Page.onReminderSnooze);
+      $('.reminderDelete').click(Page.onReminderDelete);
+      $('.reminderForm').submit(Page.onReminderSubmit);
+      $('.reminderForm .cancel').click(Page.onReminderCancel);
       
       // User list
-      $('#userList .userDelete').click(function(evt) {
-        var el = $(this);
-        
-        var user_id = el.parents('tr:first').attr('user_id');
-        
-        // TODO: need localization
-        if (confirm('Are you sure you want to delete this user?'))
-          $.del('/users/' + user_id, {}, JustRebind, 'script');
-        
-        return false;
-      });
+      $('#userList .userDelete').click(Page.onUserDelete);
     
     
     },
