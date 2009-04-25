@@ -27,6 +27,13 @@ In addition there are a few complimentary features, namely:
 
 <a href="http://cloud.github.com/downloads/jamesu/rucksack/rcks-example.png"><img src="http://cloud.github.com/downloads/jamesu/rucksack/rcks-example-th.png" alt="Rucksack"/></a>
 
+## What about a demo?
+
+You can try <a href="http://rucksack.heroku.com">rucksack on heroku</a> with the following credentials:
+
+* username: admin
+* password: password
+
 ## Sounds great, how do i install it?
 
 Firstly, make a "config/database.yml" file based off of 
