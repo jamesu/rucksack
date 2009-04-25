@@ -2,7 +2,8 @@
   .addPage
     .inner{:style => 'display:none'}
       - form_tag pages_path(), :method => :post do
-        = hidden_field_tag 'active_page', @page.id
+        - unless @page.nil?
+          = hidden_field_tag 'active_page', @page.id
         %div
           = text_field 'page', 'title', :class => 'autofocus moderate'
         %div

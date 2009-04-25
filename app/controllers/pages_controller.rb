@@ -131,7 +131,11 @@ class PagesController < ApplicationController
         
         flash[:notice] = 'Page was successfully created.'
         format.html { redirect_to(@page) }
-        format.js   { @page = Page.find(params[:active_page]) || @page; render :action => "favourite" }
+        format.js   { 
+          @page = (!params[:active_page].nil? ? Page.find(params[:active_page]) : nil)
+          @pages = [] if @page.nil? 
+          render :action => "favourite" 
+        }
         format.xml  { render :xml => @page, :status => :created, :location => @page }
       else
         format.html { render :action => "new" }
