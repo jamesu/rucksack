@@ -1029,7 +1029,7 @@ var Page = {
           newPage.show();
           submit_button.attr('disabled', false).html(old_submit);
           ResetAndRebind(data);
-        }.bind(this), 'script');
+        }, 'script');
                 
         return false;
       });

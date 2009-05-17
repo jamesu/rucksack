@@ -10,9 +10,7 @@
           %button.submit{:type => 'submit'}= :create_page.l
           %a.cancel{:href => '#'}= :cancel.l
     .addPageLink{:style => 'display:block'}
-      %a.newPage{:href => new_page_url}
-        %span{ :style=> 'font-family: arial; font-weight: bold;' }="+"
-        %span=:new_page.l
+      %a.newPage{:href => new_page_url}="+ #{:new_page.l}"
 
 .sidebarBlock
   != render :partial => 'listed_pages'
