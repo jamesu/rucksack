@@ -199,11 +199,11 @@ form div {
 
 #pageTools {
     margin-bottom: 12px;
-    border-bottom: 2px dashed #eee;
+	background-color: #e0eedf;
 }
 
 #pageTools div {
-    padding: 8px 12px 12px 12px;
+    padding: 8px 12px 8px 12px;
 }
 
 #pageTools #pageResizeHandle {
@@ -221,9 +221,20 @@ form div {
 
 #pageOptions {
     padding: 12px 12px 8px 12px;
-    border-top: 2px dashed #eee;
-    
-    text-align: center;
+    border-top: 1px solid #eee;
+    background-color: #fbfbfb;
+    text-align: left;
+	font-size: 85%;
+	color: #555555;
+}
+
+#pageOptions a {
+	color: #555555;
+}
+
+#pageOptions a:hover {
+	color: white;
+	background-color: black;
 }
 
 #pageListItems {
