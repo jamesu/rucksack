@@ -94,8 +94,8 @@ en:
   add_user: Add new user
   show_user: "{{name}}"
   
-  favourite: Favourite
-  not_favourite: Not favourite
+  favourite: Show in sidebar
+  not_favourite: Hide from sidebar
   
   # Forms
   new_page: New page
