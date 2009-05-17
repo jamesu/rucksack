@@ -830,6 +830,7 @@ label.check {
   display: none;
 }
 
+#statusBar.success,
 .flash.error, .flash.success {
   margin: 10px 0;
   padding: 5px 10px;
@@ -845,9 +846,14 @@ label.check {
   border-color: red;
 }
 
+#statusBar.success,
 .flash.success {
   background: #90DC90;
   border-color: green;
+}
+
+.statusBarContainer {
+	padding-bottom: 10px;
 }
 
 .fieldWithErrors {
