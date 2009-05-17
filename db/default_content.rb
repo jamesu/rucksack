@@ -62,7 +62,7 @@ if owner_user.nil?
     end
   else
     # Make home page
-    home_page = Page.new(:title => "#{initial_user.display_name.pluralize} page")
+    home_page = Page.new(:title => "Home Page")
     home_page.created_by = initial_user
     home_page.save
     initial_user.update_attribute('home_page', home_page)
