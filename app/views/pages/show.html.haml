@@ -30,7 +30,7 @@
         %a{:href => '#'}= :cancel.l
       #pageInsertItemWidgets
         = "#{:add_to_page.l}:"
-        %span= Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s}\" href=\"#\">#{widget.name.to_sym.l}</a>"}.to_sentence(:connector => :or.l, :skip_last_comma => true)
+        %span= Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s}\" href=\"#\">#{widget.name.to_sym.l}</a>"}.to_sentence(:connector => " #{:or.l} ", :skip_last_comma => true)
     
     #pageTablet
       #pageTabletContainer
