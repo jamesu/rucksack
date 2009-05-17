@@ -233,9 +233,11 @@ form div {
     padding: 0px;
 }
 
-#pageListItems li {
-    padding: 4px 4px 4px 12px;
-	margin-bottom: 1px;
+#pageListItems li { margin-bottom: 1px; }
+
+#pageListItems li a {
+	display: block;
+	padding: 4px 4px 4px 12px;
 }
 
 #pageListItems li:hover { background: gray; }
