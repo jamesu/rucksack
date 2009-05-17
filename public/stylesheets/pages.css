@@ -53,8 +53,7 @@ form div {
 #header {
     margin: 0pt auto;
     /* width: 600px; */
-    padding-top: 12px;
-    padding: 8px 6px 0px 6px; 
+    padding: 16px 6px 0px 6px; 
     text-align: left;
     
     background: #007700;
