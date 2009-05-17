@@ -262,7 +262,7 @@ var InsertionBar = {
     },
     show: function() {
         InsertionMarker.element.before(this.element);
-        this.element_bar.css('height', '0px').show().animate({"height": "20px"}, "fast");
+        this.element_bar.css('height', '0px').show().animate({"height": "25px"}, "fast");
     },
     hide: function() {
         this.element_bar.hide();
@@ -1302,7 +1302,7 @@ var InsertionMarkerFunc = function(evt){
         // Handle offset when hovering over insert bar
         if (el.attr('id') == "cpi") 
         {
-            if (!(pt.x - offset.left > (48+Page.MARGIN)))
+            if (!(pt.x - offset.left > (90+Page.MARGIN)))
                 return;
         }
         

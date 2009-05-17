@@ -370,10 +370,11 @@ li.albumPicture img {
     background: #000;
     color: #e1e1e1;
     
-    left: -28px;
-    top: 0px;
+    left: -70px;
+	top: -12px;
+	padding: 5px 5px 0px 5px;
     position: absolute;
-    height: 20px;
+    height: 25px;
     z-index: 100;
     cursor: pointer;
 }
@@ -385,11 +386,12 @@ li.albumPicture img {
 
 #pageInsertItemsBar {
     background: #1b1b1b;
-    left: -50px;
-    padding-left: 50px;
-    top: 0px;
+    left: -70px;
+    padding-left: 70px;
+	padding-top: 5px;
+	top: 0px;
     position: relative;
-    height: 20px;
+    height: 25px;
     z-index: 100;
     width: 100%; /* width */
     color: #fff;
@@ -410,7 +412,11 @@ li.albumPicture img {
 
 #pageInsertItemCancel {
     position: absolute;
-    left: 0px;
+    left: 10px;
+}
+
+#pageInsertItemWidgets {
+	padding-left: 5px;
 }
 
 /* Hidden forms container */
