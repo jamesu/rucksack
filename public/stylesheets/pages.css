@@ -235,11 +235,14 @@ form div {
 
 #pageListItems li {
     padding: 4px 4px 4px 12px;
+	margin-bottom: 1px;
 }
 
-#pageListItems li.hover { background: red; }
+#pageListItems li:hover { background: gray; }
+#pageListItems li:hover a { color: white; text-decoration: none; }
+#pageListItems li:hover a:hover { color: white; text-decoration: none; background-color: gray; }
 #pageListItems li.current { background: gray; }
-#pageListItems li.current a { color: #fff; text-decoration: none; }
+#pageListItems li.current a { color: white; text-decoration: none; }
 
 .std-page-link {
 	font-weight: bold;
