@@ -209,10 +209,12 @@ form div {
 #pageTools #pageResizeHandle {
   margin: 6px;
   padding: 0px;
-  width: 12px;
-  height: 12px;
+  width: 17px;
+  height: 11px;
   
-  background: #000;
+  background-image: url('/images/icons/resize-handler.gif');
+  background-position: center center;
+  background-repeat: no-repeat;
   cursor:move;
   float: right;
 }
@@ -862,3 +864,14 @@ label.check {
   font-size: 12px;
   list-style: square;
 }
+
+/* Add page
+-----------*/
+.addPageLink {
+	display: block;
+	padding: 5px;
+}
+.addPageLink .newPage { display: block; }
+.addPageLink .newPage:hover { background-color: gray; }
+.addPageLink:hover { background-color: gray; }
+.addPageLink:hover a { color: white; }
