@@ -238,8 +238,21 @@ form div {
 }
 
 #pageListItems li.hover { background: red; }
-#pageListItems li.current { background: #000; }
-#pageListItems li.current a { color: #fff; }
+#pageListItems li.current { background: gray; }
+#pageListItems li.current a { color: #fff; text-decoration: none; }
+
+.std-page-link {
+	font-weight: bold;
+	font-size: 120%;
+}
+
+#pageListItems li.std-page-separator {
+	background-color: #cecece;
+	display: block;
+	height: 2px;
+	padding: 0px;
+	margin: 5px 0px;
+}
 
 #slots .ui-sortable-helper {
   border-top: 2px solid #ccc;
@@ -838,4 +851,3 @@ label.check {
   font-size: 12px;
   list-style: square;
 }
-
