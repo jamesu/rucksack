@@ -7,9 +7,9 @@
         %div
           = text_field 'page', 'title', :class => 'autofocus moderate'
         %div
-          %button.submit{:type => 'submit'}= :new_page.l
+          %button.submit{:type => 'submit'}= :create_page.l
           %a.cancel{:href => '#'}= :cancel.l
-    .addPageLink
+    .addPageLink{:style => 'display:block'}
       %a.newPage{:href => new_page_url}
         %span{ :style=> 'font-family: arial; font-weight: bold;' }="+"
         %span=:new_page.l

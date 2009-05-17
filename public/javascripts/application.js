@@ -1008,14 +1008,14 @@ var Page = {
         
         addPageInner.show();
         addPageInner.autofocus();
-        newPage.hide();
+		newPage.hide();
         
         return false;
       });
       
       $('.addPage form').submit(function(evt) {
         var el = $(this);
-        var submit_button = el.find('.submit:first');
+		var submit_button = el.find('.submit:first');
         var root = el.parents('.addPage:first');
         var newPage = root.find('.addPageLink:first');
         var addPageInner = root.find('.inner:first');
@@ -1029,7 +1029,7 @@ var Page = {
           newPage.show();
           submit_button.attr('disabled', false).html(old_submit);
           ResetAndRebind(data);
-        }, 'script');
+        }.bind(this), 'script');
                 
         return false;
       });

@@ -99,6 +99,7 @@ en:
   
   # Forms
   new_page: New page
+  create_page: Create page
   delete_page: Delete page
   add_note: Add note
   edit_note: Edit note
