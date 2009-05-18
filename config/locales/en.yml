@@ -258,7 +258,7 @@ en:
   openid_enabled: "Enable OpenID logins"
   openid_info: "For more information about OpenID, please visit <a href=\"http://openid.net/\">OpenID</a>."
   tabs_visible: "Tabs"
-  tabs_visible_info: "Uncheck to hide"
+  tabs_visible_info: "Check to hide"
   header: "Site header"
   tab_background: "Tabs background"
   tab_text: "Tabs text"
