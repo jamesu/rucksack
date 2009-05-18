@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20) do
+ActiveRecord::Schema.define(:version => 21) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "owner_id",       :limit => 10,                    :null => false
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(:version => 20) do
     t.string   "site_name",                    :default => "",    :null => false
     t.string   "host_name",                    :default => "",    :null => false
     t.boolean  "openid_enabled",               :default => false, :null => false
+    t.text     "settings"
   end
 
   create_table "album_pictures", :force => true do |t|

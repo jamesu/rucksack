@@ -14,3 +14,11 @@
   = check_box 'account', 'openid_enabled', :id => 'settingsFormOpenID'
   %label.checkbox{:for => 'settingsFormOpenID'}= :openid_enabled.l
   %p.desc= :openid_info.l
+
+%div
+  %span{:style => 'display: block;'}
+    %span{:style => 'font-weight: bold;'}= :tabs_visible.l
+    %span{:style => 'font-size: 90%; color: #555555;'}= "(#{:tabs_visible_info.l})"
+  - Account::Tabs.each do |tab|
+    = check_box 'account', "#{tab}_hidden", :id => "setting_#{tab}_hidden"
+    %label.checkbox{:for => "setting_#{tab}_hidden"}= tab.to_sym.l

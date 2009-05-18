@@ -34,4 +34,56 @@ class Account < ActiveRecord::Base
   end
 
   attr_accessible :site_name, :host_name, :openid_enabled
+  
+  Tabs = ['overview', 'pages', 'reminders', 'journal']
+
+  Tabs.each do |tab|
+      define_method("#{tab}_hidden?") do
+          value = self.get_setting("#{tab}_hidden")
+          return value == '1' || value == 1 || value == true || value == 'true'
+      end
+
+      define_method("#{tab}_hidden") do
+          return self.get_setting("#{tab}_hidden")
+      end
+
+      define_method("#{tab}_hidden=") do |value|
+          self.set_setting("#{tab}_hidden", value)
+      end
+
+      attr_accessible "#{tab}_hidden", "#{tab}_hidden?"
+  end
+
+  Colours = ['header', 'tab_background', 'tab_text', 'page_header', 'page_header_text']
+
+  Colours.each do |colour|
+      define_method("#{colour}_colour") do
+          return self.get_setting("#{colour}_colour")
+      end
+
+      define_method("#{colour}_colour=") do |value|
+          self.set_setting("#{colour}_colour", value)
+      end
+
+      attr_accessible "#{colour}_colour"
+  end
+
+  # Settings Serialization
+  def get_setting(key)
+      (self.settings_hash)[key]
+  end
+
+  def set_setting(key, value)
+      hash = self.settings_hash
+      hash[key] = value
+      self.settings = YAML.dump(hash)
+  end
+
+  def settings_hash
+      if self.settings == nil || self.settings.length <= 0
+          return Hash.new
+      else
+          return YAML.load(self.settings)
+      end
+  end
 end

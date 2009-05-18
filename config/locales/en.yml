@@ -257,6 +257,8 @@ en:
   host_name_info: "The hostname used by your RuckSack, which is also used for sending emails. e.g. localhost.com."
   openid_enabled: "Enable OpenID logins"
   openid_info: "For more information about OpenID, please visit <a href=\"http://openid.net/\">OpenID</a>."
+  tabs_visible: "Tabs"
+  tabs_visible_info: "Uncheck to hide"
   
   # Notes
   date_format_dm: "%e %b"

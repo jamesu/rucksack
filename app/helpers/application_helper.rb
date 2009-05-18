@@ -33,6 +33,10 @@ module ApplicationHelper
     end
   end
   
+  def site_account
+      Account.owner
+  end
+  
   def product_signature
     :product_signature.l
   end
