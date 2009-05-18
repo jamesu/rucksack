@@ -22,3 +22,10 @@
   - Account::Tabs.each do |tab|
     = check_box 'account', "#{tab}_hidden", :id => "setting_#{tab}_hidden"
     %label.checkbox{:for => "setting_#{tab}_hidden"}= tab.to_sym.l
+
+- Account::Colours.each do |colour|
+  %div
+    %label= "#{colour.to_sym.l} #{:colour.l}"
+    = text_field 'account', "#{colour}_colour", :id => 'setting_#{colour}_colour', :class => 'short'
+    %span{:style => 'font-size: 90%; color: #555555;'}= "(#{:colour_info.l})"
+    %div{:style => "border: 1px solid #555555; background-color: #{site_account.send("#{colour}_colour")}; float: left; width: 50px; height: 16px; margin-top: 2px; margin-right: 10px;"}

@@ -259,6 +259,13 @@ en:
   openid_info: "For more information about OpenID, please visit <a href=\"http://openid.net/\">OpenID</a>."
   tabs_visible: "Tabs"
   tabs_visible_info: "Uncheck to hide"
+  header: "Site header"
+  tab_background: "Tabs background"
+  tab_text: "Tabs text"
+  page_header: " Page header"
+  page_header_text: "Page header text"
+  colour: "colour"
+  colour_info: "CSS Colour Code"
   
   # Notes
   date_format_dm: "%e %b"

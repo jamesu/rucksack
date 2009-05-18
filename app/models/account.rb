@@ -24,66 +24,85 @@
 #++
 
 class Account < ActiveRecord::Base
-  belongs_to :owner, :class_name => 'User', :foreign_key => 'owner_id'
+    belongs_to :owner, :class_name => 'User', :foreign_key => 'owner_id'
 
-  has_many :users
+    has_many :users
 
-  def self.owner(reload=false)
-      @@cached_owner = nil if reload
-      @@cached_owner ||= Account.find(:first)
-  end
+    def self.owner(reload=false)
+        @@cached_owner = nil if reload
+        @@cached_owner ||= Account.find(:first)
+    end
 
-  attr_accessible :site_name, :host_name, :openid_enabled
-  
-  Tabs = ['overview', 'pages', 'reminders', 'journal']
+    attr_accessible :site_name, :host_name, :openid_enabled
 
-  Tabs.each do |tab|
-      define_method("#{tab}_hidden?") do
-          value = self.get_setting("#{tab}_hidden")
-          return value == '1' || value == 1 || value == true || value == 'true'
-      end
+    Tabs = ['overview', 'pages', 'reminders', 'journal']
 
-      define_method("#{tab}_hidden") do
-          return self.get_setting("#{tab}_hidden")
-      end
+    Tabs.each do |tab|
+        define_method("#{tab}_hidden?") do
+            value = self.get_setting("#{tab}_hidden")
+            return value == '1' || value == 1 || value == true || value == 'true'
+        end
 
-      define_method("#{tab}_hidden=") do |value|
-          self.set_setting("#{tab}_hidden", value)
-      end
+        define_method("#{tab}_hidden") do
+            return self.get_setting("#{tab}_hidden")
+        end
 
-      attr_accessible "#{tab}_hidden", "#{tab}_hidden?"
-  end
+        define_method("#{tab}_hidden=") do |value|
+            self.set_setting("#{tab}_hidden", value)
+        end
 
-  Colours = ['header', 'tab_background', 'tab_text', 'page_header', 'page_header_text']
+        attr_accessible "#{tab}_hidden", "#{tab}_hidden?"
+    end
 
-  Colours.each do |colour|
-      define_method("#{colour}_colour") do
-          return self.get_setting("#{colour}_colour")
-      end
+    Colours = ['header', 'tab_background', 'tab_text', 'page_header', 'page_header_text']
 
-      define_method("#{colour}_colour=") do |value|
-          self.set_setting("#{colour}_colour", value)
-      end
+    Colours.each do |colour|
+        define_method("#{colour}_colour") do
+            value = self.get_setting("#{colour}_colour")
+            return value if value != nil && value.length > 0
+            return self.send("default_#{colour}_colour")
+        end
 
-      attr_accessible "#{colour}_colour"
-  end
+        define_method("#{colour}_colour=") do |value|
+            self.set_setting("#{colour}_colour", value)
+        end
+        
+        define_method("default_#{colour}_colour") do |value|
+            case colour
+            when "header"
+                "#007700"
+            when "tab_background"
+                "#006600"
+            when "tab_text"
+                "#ffffff"
+            when "page_header"
+                "#e0eedf"
+            when "page_header_text"
+                "#333333"
+            else
+                ""
+            end
+        end
 
-  # Settings Serialization
-  def get_setting(key)
-      (self.settings_hash)[key]
-  end
+        attr_accessible "#{colour}_colour"
+    end
 
-  def set_setting(key, value)
-      hash = self.settings_hash
-      hash[key] = value
-      self.settings = YAML.dump(hash)
-  end
+    # Settings Serialization
+    def get_setting(key)
+        (self.settings_hash)[key]
+    end
 
-  def settings_hash
-      if self.settings == nil || self.settings.length <= 0
-          return Hash.new
-      else
-          return YAML.load(self.settings)
-      end
-  end
+    def set_setting(key, value)
+        hash = self.settings_hash
+        hash[key] = value
+        self.settings = YAML.dump(hash)
+    end
+
+    def settings_hash
+        if self.settings == nil || self.settings.length <= 0
+            return Hash.new
+        else
+            return YAML.load(self.settings)
+        end
+    end
 end

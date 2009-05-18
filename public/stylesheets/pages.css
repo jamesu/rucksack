@@ -53,7 +53,7 @@ form div {
 #header {
     margin: 0pt auto;
     /* width: 600px; */
-    padding: 16px 6px 0px 6px; 
+    padding: 8px 6px 0px 6px; 
     text-align: left;
     
     background: #007700;
@@ -82,17 +82,11 @@ form div {
 #userOptions {
   float: right;
   
-  background: #006600;
   padding: 3px 6px 3px 6px;
-  color: #fff;
 }
 
 #userOptions .userName {
   font-weight: bold;
-}
-
-#userOptions a {
-  color: #fff;
 }
 
 #userOptions a.active
@@ -134,8 +128,6 @@ form div {
     
     padding: 2px 12px;
     color: #fff;
-    
-    background: #006600;
 }
 
 #tabsWrapper ul li.active a {
@@ -198,12 +190,6 @@ form div {
 
 #pageTools {
     margin-bottom: 12px;
-	background-color: #e0eedf;
-	color: #333333;
-}
-
-#pageTools a {
-	color: #333333;
 }
 
 #pageTools div {
@@ -407,7 +393,6 @@ li.albumPicture img {
 }
 
 #pageInsertItemsBar {
-    background-color: #e0eedf;
     left: -70px;
     padding-left: 70px;
 	padding-top: 5px;
@@ -416,11 +401,6 @@ li.albumPicture img {
     height: 25px;
     z-index: 100;
     width: 100%; /* width */ 
-	color: #333333;
-}
-
-#pageInsertItemsBar a {
-    color: #333333;
 }
 
 #pageInsertItemsBar a:hover {
