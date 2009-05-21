@@ -54,7 +54,8 @@ Rails::Initializer.run do |config|
   config.gem 'gravtastic'
   config.gem 'mojombo-chronic', :lib => 'chronic', :source => 'http://gems.github.com'
   config.gem "RedCloth", :lib => "redcloth", :source => "http://code.whytheluckystiff.net"
-
+  config.gem 'ferret'
+  
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
   # config.load_paths += %W( #{RAILS_ROOT}/extras )

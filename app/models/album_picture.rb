@@ -1,4 +1,6 @@
 class AlbumPicture < ActiveRecord::Base
+  acts_as_ferret :fields => [ 'caption', 'picture_file_name' ]
+  
   belongs_to :album
   def page; self.album.page; end
   def page_id; self.album.page_id; end

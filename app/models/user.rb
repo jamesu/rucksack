@@ -26,6 +26,8 @@
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
+  acts_as_ferret :fields => [ 'username', 'email', 'twister', 'display_name' ]
+  
   include ActionController::UrlWriter
   include Authentication
   #include Authentication::ByPassword

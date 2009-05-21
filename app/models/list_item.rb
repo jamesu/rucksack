@@ -24,6 +24,8 @@
 #++
 
 class ListItem < ActiveRecord::Base
+  acts_as_ferret :fields => [ 'content' ]
+  
   include ActionController::UrlWriter
   
   belongs_to :list

@@ -24,6 +24,8 @@
 #++
 
 class List < ActiveRecord::Base
+  acts_as_ferret :fields => [ 'name' ]
+  
   include ActionController::UrlWriter
   
   belongs_to :page

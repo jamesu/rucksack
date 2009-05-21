@@ -24,6 +24,8 @@
 #++
 
 class Status < ActiveRecord::Base
+  acts_as_ferret :fields => [ 'content' ]
+  
   belongs_to :user
 
   # Common permissions
