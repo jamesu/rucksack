@@ -46,6 +46,10 @@ You can do this by typing in the following command:
 
     script/setup
 
+To index various contents, start ferret server:
+
+    script/ferret_server start
+
 Next, run it either by pointing Phusion Passenger to the 
 public folder, or run the local server, e.g.:
 
