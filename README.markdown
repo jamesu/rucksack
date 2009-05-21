@@ -1,4 +1,4 @@
-<img src="http://cloud.github.com/downloads/jamesu/rucksack/rckguy-lsm.png" alt="Rucksack"/>
+# Rucksack
 
 ## What is it?
 
