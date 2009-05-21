@@ -25,7 +25,7 @@ In addition there are a few complimentary features, namely:
 
 ## What does it look like?
 
-<a href="http://cloud.github.com/downloads/qiushihe/rucksack/Picture_1.png"><img src="http://cloud.github.com/downloads/qiushihe/rucksack/Picture_1.png" alt="Rucksack Screenshot"/></a>
+<a href="http://cloud.github.com/downloads/qiushihe/rucksack/Picture_1.png"><img src="http://cloud.github.com/downloads/qiushihe/rucksack/Picture_1_small.png" alt="Rucksack Screenshot"/></a>
 
 ## What about a demo?
 
