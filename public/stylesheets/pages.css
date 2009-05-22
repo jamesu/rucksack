@@ -78,25 +78,6 @@ form div {
     padding: 18px 16px 18px 16px;
 }
 
-/* user options */
-#userOptions {
-  float: right;
-  
-  padding: 3px 6px 3px 6px;
-}
-
-#userOptions .userName {
-  font-weight: bold;
-}
-
-#userOptions a.active
-{
-  text-decoration: none;
-  font-weight: bolder;
-  color: #000;
-  background: #EEEEEE;
-}
-
 /* tabs */
 #tabsWrapper {
     margin: 0pt auto;

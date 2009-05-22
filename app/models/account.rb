@@ -54,7 +54,7 @@ class Account < ActiveRecord::Base
         attr_accessible "#{tab}_hidden", "#{tab}_hidden?"
     end
 
-    Colours = ['header', 'tab_background', 'tab_text', 'page_header', 'page_header_text']
+    Colours = ['header', 'tab_background', 'tab_text', 'tab_background_hover', 'tab_text_hover', 'page_header', 'page_header_text']
 
     Colours.each do |colour|
         define_method("#{colour}_colour") do

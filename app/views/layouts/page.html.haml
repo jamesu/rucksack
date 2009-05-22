@@ -27,12 +27,11 @@
     %style{:type => 'text/css'}= ".totalPageWidth { width: #{@page.width+200}px; }\n#content { width: #{@page.width}px; }"
     
     %style{:type => 'text/css'}= "#tabsWrapper ul li a { color: #{site_account.tab_text_colour}; background: #{site_account.tab_background_colour}; }"
-    %style{:type => 'text/css'}= "#tabsWrapper ul li a:hover { color: #{site_account.tab_text_colour}; background: black; }"
-    %style{:type => 'text/css'}= "#userOptions { color: #{site_account.tab_text_colour}; background: #{site_account.tab_background_colour}; }"
-    %style{:type => 'text/css'}= "#userOptions a { color: #{site_account.tab_text_colour}; }"
+    %style{:type => 'text/css'}= "#tabsWrapper ul li a:hover { color: #{site_account.tab_text_hover_colour}; background: #{site_account.tab_background_hover_colour}; }"
     %style{:type => 'text/css'}= "#header { background: #{site_account.header_colour}; }"
     %style{:type => 'text/css'}= "#pageTools, #pageInsertItemsBar { background-color: #{site_account.page_header_colour}; }"
     %style{:type => 'text/css'}= "#pageTools, #pageTools a { color: #{site_account.page_header_text_colour}; }"
+    %style{:type => 'text/css'}= "#pageTools a:hover { color: white; }"
     %style{:type => 'text/css'}= "#pageInsertItemsBar, #pageInsertItemsBar a { color: #{site_account.page_header_text_colour}; }"
   %body#body
     #wrapper

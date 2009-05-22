@@ -264,6 +264,8 @@ en:
   tab_text: "Tabs text"
   page_header: " Page header"
   page_header_text: "Page header text"
+  tab_background_hover: "Tabs background hover"
+  tab_text_hover: "Tabs text hover"
   colour: "colour"
   colour_info: "CSS Colour Code"
   
