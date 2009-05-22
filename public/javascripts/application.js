@@ -1335,7 +1335,7 @@ function HoverSlotBar(evt) {
   
   var url = cur.parents(cur.attr('restype') + ':first').attr('url');
   
-  if (el.hasClass('slot_delete'))
+  if (el.hasClass('slot_delete') && confirm("Are you sure you want to delete this item?"))
     $.del(Page.buildUrl(url), null, JustRebind, 'script');
   else if (el.hasClass('slot_edit'))
     $.get(Page.buildUrl(url + '/edit'), null, JustRebind, 'script');
