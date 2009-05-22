@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 21) do
+ActiveRecord::Schema.define(:version => 22) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "owner_id",       :limit => 10,                    :null => false
@@ -166,6 +166,7 @@ ActiveRecord::Schema.define(:version => 21) do
     t.boolean  "is_public",                    :default => false, :null => false
     t.integer  "width",                        :default => 400,   :null => false
     t.string   "address",       :limit => 50
+    t.text     "settings"
   end
 
   add_index "pages", ["created_by_id"], :name => "index_pages_on_created_by_id"

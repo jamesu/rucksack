@@ -324,4 +324,31 @@ class Page < ActiveRecord::Base
   
   validates_presence_of :title
   validates_uniqueness_of :address
+  
+  def sidebar_order
+    return self.get_setting("sidebar_order")
+  end
+  
+  def sidebar_order=(value)
+    self.set_setting("sidebar_order", value)
+  end
+  
+  # Settings Serialization
+  def get_setting(key)
+      (self.settings_hash)[key]
+  end
+
+  def set_setting(key, value)
+      hash = self.settings_hash
+      hash[key] = value
+      self.settings = YAML.dump(hash)
+  end
+
+  def settings_hash
+      if self.settings == nil || self.settings.length <= 0
+          return Hash.new
+      else
+          return YAML.load(self.settings)
+      end
+  end
 end
