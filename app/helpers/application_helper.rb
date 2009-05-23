@@ -165,6 +165,7 @@ module ApplicationHelper
   end
   
   def textilize(text, lite=false, force_attrs=nil)
+      text = Page.AutoFormat(text) unless text == nil
      if text.blank?
          ""
      else

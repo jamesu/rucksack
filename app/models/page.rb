@@ -50,6 +50,13 @@ class Page < ActiveRecord::Base
   before_destroy :process_destroy
   after_destroy  :process_after_destroy
   
+    def self.AutoFormat(content)
+        formatted = content
+        formatted.gsub!(/\b([a-z]+:\/\/[^\b\s]*)\b/i, '%"\1":\1%')
+        formatted.gsub!(/\b([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4})\b/i, '%"\1":mailto:\1%')
+        formatted
+    end
+  
   def update_tags
    return if @update_tags.nil?
    Tag.clear_by_object(self)
