@@ -1,11 +1,15 @@
 - cclass = @pages.nil? ? nil : 'current'
 
-%ul#pageListItems
-  %li{:class => "#{(@logged_user.home_page == @page ? 'current' : nil)} std-page-link", :page_id => @logged_user.home_page_id}
-    %a{:href => page_path(@logged_user.home_page)}= h @logged_user.home_page.title
-  %li{:class => "#{cclass} std-page-link", :page_id => '0'}
-    %a{:href => pages_path}= :all_pages.l
-  %li{:class => "std-page-separator"}
-  - @logged_user.favourite_pages.each do |page|
-    %li{:class => (page == @page ? 'current' : nil), :page_id => page.id}
-      %a{:href => page_path(page)}= h page.title
+%div#pageListItems
+  %ul#stdPageListItems
+    %li{:class => "#{(@logged_user.home_page == @page ? 'current' : nil)} std-page-link", :page_id => @logged_user.home_page_id}
+      %a{:href => page_path(@logged_user.home_page)}= h @logged_user.home_page.title
+    %li{:class => "#{cclass} std-page-link", :page_id => '0'}
+      %a{:href => pages_path}= :all_pages.l
+    %li{:class => "std-page-separator"}
+  %ul#usrPageListItems
+    - (@logged_user.favourite_pages.sort { |x,y| x.sidebar_order <=> y.sidebar_order }).each do |page|
+      %li{:id => "sidebar_page_#{page.id}", :class => "#{(page == @page ? 'current' : nil)} sidebar_page", :page_id => page.id}
+        %a.usrPageLink{:href => page_path(page)}
+          %span= h page.title
+          %span.usr_page_handle

@@ -1141,7 +1141,7 @@ var Page = {
     },
     
     makeSortable: function() {
-        if (PAGE_READONLY)
+		if (PAGE_READONLY)
             return;
         
         var lists = $('.pageList .openItems .listItems');
@@ -1156,14 +1156,39 @@ var Page = {
         });
         
         // Add droppables
-       $('#pageListItems li').each(function(i) {
-        var el = $(this);
-        if (!el.hasClass('current')) {
-          el.droppable('destroy');
-          el.droppable({ hoverClass:'hover', accept:'.pageSlot', tolerance: 'pointer', drop:Page.dropSlotFunction});
-        }
-       });
-       
+		$('#stdPageListItems li').each(function(i)
+		{
+			var el = $(this);
+			if (!el.hasClass('current'))
+			{
+				el.droppable('destroy');
+				el.droppable({ hoverClass:'hover', accept:'.pageSlot', tolerance: 'pointer', drop:Page.dropSlotFunction});
+			}
+		});
+		
+		$('#usrPageListItems li').each(function(i)
+		{
+			var el = $(this);
+			if (!el.hasClass('current'))
+			{
+				el.droppable('destroy');
+				el.droppable({ hoverClass:'hover', accept:'.pageSlot', tolerance: 'pointer', drop:Page.dropSlotFunction});
+			}
+		});
+		
+		// Make sidebar sortable
+		$('#usrPageListItems').sortable('destroy');
+		$('#usrPageListItems').sortable({
+			axis: 'y',
+			handle: '.usr_page_handle',
+			items: '> .sidebar_page',
+			opacity: 0.75,
+			update: function(e, ui)
+			{
+				$.post('/pages/reorder_sidebar', $('#usrPageListItems').sortable('serialize', {key: 'page_ids'}));
+			}
+		});
+		
        $('#slots').sortable('destroy');
        $('#slots').sortable({
          axis: 'y',

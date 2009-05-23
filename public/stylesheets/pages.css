@@ -208,6 +208,8 @@ form div {
 	background-color: black;
 }
 
+#stdPageListItems,
+#usrPageListItems,
 #pageListItems {
     list-style-image: none;
     list-style-position: outside;
@@ -229,6 +231,21 @@ form div {
 #pageListItems li:hover a:hover { color: white; text-decoration: none; background-color: gray; }
 #pageListItems li.current { background: gray; }
 #pageListItems li.current a { color: white; text-decoration: none; }
+
+#pageListItems li .usrPageLink { position: relative; }
+#pageListItems li:hover .usr_page_handle { display: block; }
+#pageListItems li .usr_page_handle {
+	cursor: move;
+	display: none;
+	width: 15px;
+	height: 15px;
+	background-image: url('/images/icons/drag_handle_white.gif');
+	background-repeat: no-repeat;
+	background-position: 2px 2px;
+	position: absolute;
+	top: 6px;
+	right: 5px;
+}
 
 .std-page-link {
 	font-weight: bold;
@@ -345,7 +362,6 @@ li.albumPicture img {
 
 .pageSlotHandle .slot_handle {
     cursor: move;
-    
 }
 
 /* Page insert bar. Indicates current insertion point */

@@ -31,7 +31,7 @@ class PagesController < ApplicationController
   after_filter  :user_track, :except => 'public'
   
   caches_page :public
-  cache_sweeper :page_sweeper, :only => [:update, :destroy, :reorder, :share, :transfer, :tags, :resize]
+  cache_sweeper :page_sweeper, :only => [:update, :destroy, :reorder, :reorder_sidebar, :share, :transfer, :tags, :resize]
   
   # GET /pages
   # GET /pages.xml
@@ -205,6 +205,23 @@ class PagesController < ApplicationController
       format.html { head :ok }
       format.xml  { head :ok }
     end
+  end
+  
+  # POST /pages
+  # POST /pages.xml
+  def reorder_sidebar
+      index = 0
+      params[:page_ids].each do |page_id|
+          p = Page.find(page_id)
+          p.sidebar_order = index
+          p.save!
+          index += 1
+      end
+      
+      respond_to do |format|
+          format.html { head :ok }
+          format.xml  { head :ok }
+      end
   end
   
   # PUT /pages/1/transfer

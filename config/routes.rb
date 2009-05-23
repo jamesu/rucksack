@@ -75,6 +75,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.resources :pages, :member => {:reorder => :post, 
+                                    :reorder_sidebar => :post,
                                     :transfer => :put,
                                     :favourite => :put,
                                     :duplicate => :post,

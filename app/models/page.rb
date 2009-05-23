@@ -326,7 +326,9 @@ class Page < ActiveRecord::Base
   validates_uniqueness_of :address
   
   def sidebar_order
-    return self.get_setting("sidebar_order")
+      value = self.get_setting("sidebar_order")
+      return -1 if value == nil
+      return value
   end
   
   def sidebar_order=(value)
