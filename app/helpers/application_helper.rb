@@ -165,11 +165,10 @@ module ApplicationHelper
   end
   
   def textilize(text, lite=false, force_attrs=nil)
-      text = Page.AutoFormat(text) unless text == nil
      if text.blank?
          ""
      else
-         options = [ :hard_breaks, :filter_html ]
+         options = [ :filter_html ]
          options << :lite_mode if lite
          textilized = RedCloth.new(text, options)
          textilized.hard_breaks = true if textilized.respond_to?("hard_breaks=")
