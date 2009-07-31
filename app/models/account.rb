@@ -67,7 +67,7 @@ class Account < ActiveRecord::Base
             self.set_setting("#{colour}_colour", value)
         end
         
-        define_method("default_#{colour}_colour") do |value|
+        define_method("default_#{colour}_colour") do 
             case colour
             when "header"
                 "#007700"
