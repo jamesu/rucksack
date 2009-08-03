@@ -9,7 +9,7 @@
   %ul.albumPictures{:id => "sortable_album_#{object.id}"}
     = render :partial => 'album_pictures/show', :collection => object.pictures
     - if object.can_be_edited_by(@logged_user)
-      %li.albumPictureForm{:id => 'album_picture_form'}
+      %li.albumPictureForm{:id => "album_picture_form_#{object.id}"}
         .inner{:style => (@new_album.nil? ? 'display:none' : nil)}
           = render :partial => 'album_pictures/form', :locals => {:object => object}
         .newPicture{:style => (@new_album.nil? ? nil : 'display:none')}

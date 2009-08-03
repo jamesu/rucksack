@@ -46,12 +46,15 @@ class AlbumPicturesController < ApplicationController
     @album_picture = @album.pictures.find(params[:id])
     @new_picture = !params[:is_new].nil?
     
-    unless @new_picture
+    if !@new_picture
       el_id = @album.pictures.find(:first, 
                                    :conditions => ['position < ?', @album_picture.position], 
                                    :select => 'id', 
                                    :order => 'position DESC')
       @insert_element = "album_picture_#{el_id}" unless el_id.nil?
+    
+    elsif params[:el_id]
+      @insert_element = params[:el_id]
     end
     
     @insert_element ||= 'album_picture_form'

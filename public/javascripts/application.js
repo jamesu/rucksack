@@ -645,7 +645,7 @@ var Page = {
       
     onNewAlbumPictureSubmit: function(evt) {
       var el = $(this);
-      el.requestIframeScript({'is_new': 1}, JustRebind);
+      el.requestIframeScript({'is_new': 1, 'el_id': $(this).parents(".albumPictureForm:first").attr("id")}, JustRebind);
       return true;
     },
       
