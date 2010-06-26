@@ -4,7 +4,7 @@ tmp/**/*
 config/database.yml
 config/app_config.yml
 config/deploy.rb
-public/stylesheets/*.sass
+public/stylesheets/*.css
 public/pictures/**
 db/*.sqlite3
 index/**
