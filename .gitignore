@@ -4,6 +4,8 @@ tmp/**/*
 config/database.yml
 config/app_config.yml
 config/deploy.rb
+public/stylesheets/*.sass
+public/pictures/**
 db/*.sqlite3
 index/**
 .DS_Store
