@@ -39,7 +39,7 @@ class PagesController < ApplicationController
   def index
     return error_status(true, :cannot_see_pages) unless (@user.pages_can_be_seen_by(@logged_user))
     
-    if @find_opts.nil?
+    if @find_opts.nil? or [:html, :js].include?(request.format.to_sym)
       @pages = @user.pages
       @shared_pages = @user.shared_pages
     else
@@ -427,7 +427,6 @@ protected
       @find_opts = {:conditions => ['tags.name IN (?)', params[:tags]],
                     :joins => Tag.find_object_join(Page),
                     :group => "pages.id HAVING COUNT(tags.id) = #{params[:tags].length}"}
-      puts @find_opts
       
       @avail_tags = Tag.list_in_page(nil) - @search_tags
     else

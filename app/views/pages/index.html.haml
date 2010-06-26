@@ -24,3 +24,6 @@
     %h2= :pages_shared_to_me.l
   
   != render :partial => 'index_page', :collection => @shared_pages, :locals => {:shared => true}
+
+- unless @search_tags.nil? or @search_tags.empty?
+  = javascript_tag "$(document).ready(function(p){Page.TAG_LIST = Page.TAG_LIST.concat(#{@search_tags.to_json}); Page.updateTags();});"
