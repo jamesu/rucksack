@@ -1,4 +1,5 @@
 @import reset
+@import css3
 
 a
   color: #000
@@ -114,35 +115,30 @@ form div
   margin: 0pt auto
   text-align: left
   padding: 12px 6px 0px 6px
-
-
-#tabsWrapper ul
-  list-style-image: none
-  list-style-position: outside
-  list-style-type: none
-  margin: 0pt
-  padding: 0 12px
-
-
-#tabsWrapper ul li
-  float: left
-  margin: 0pt 1px
-
-
-#tabsWrapper ul li a
-  display: block
-  font-size: 12px
-  font-weight: bold
-  text-align: center
-  padding: 2px 12px
-  color: #fff
-
-
-#tabsWrapper ul li.active a
-  background: #eee
-  text-decoration: none
-  color: #000
-
+  
+  ul
+    list-style-image: none
+    list-style-position: outside
+    list-style-type: none
+    margin: 0pt
+    padding: 0 12px
+    
+    li
+      float: left
+      margin: 0pt 1px
+      a
+        display: block
+        font-size: 12px
+        font-weight: bold
+        text-align: center
+        padding: 2px 12px
+        color: #fff
+        +border-radius-top(5px)
+    li.active
+      a
+        background: #eee
+        text-decoration: none
+        color: #000
 
 #tabs
   float: left
@@ -386,6 +382,7 @@ so the right border is also on the left. */
     text-align: right
     line-height: 24px
     z-index: 0
+    +border-radius-left(10px)
   
   /* Page slot handle list. Inline and semantic */
   ul
