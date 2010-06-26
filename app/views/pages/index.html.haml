@@ -5,26 +5,22 @@
 #tagCrumbsWrapper
   %p.floatleft= :current_tags.l
   %ul{:id => 'tagCrumbs'}
-    - unless @search_tags.nil?
-      != render :partial => 'tags/crumb', :collection => @search_tags
+    != render :partial => 'tags/crumb', :collection => (@search_tags || [])
 
 .clear
 
 #tagNewCrumbsWrapper
   %h3= :available_tags.l
   %ul{:id => 'tagNewCrumbs'}
-    - unless @avail_tags.nil?
-      != render :partial => 'tags/new_crumb', :collection => @avail_tags
+    != render :partial => 'tags/crumb', :collection => (@avail_tags || [])
 
-%table#pageTable
-  %tr#myPageHeader
-    %td{:colspan => 2}
-      %h2= :my_pages.l
+#pageTable
+  #myPageHeader
+    %h2= :my_pages.l
   
   != render :partial => 'index_page', :collection => @pages, :locals => {:shared => false}
   
-  %tr#sharedPageHeader
-    %td{:colspan => 2}
-      %h2= :pages_shared_to_me.l
+  #sharedPageHeader
+    %h2= :pages_shared_to_me.l
   
   != render :partial => 'index_page', :collection => @shared_pages, :locals => {:shared => true}

@@ -5,11 +5,17 @@
     %link{ 'rel' => 'alternate', 'type' => 'application/x-wiki', 'title' => :edit.l, 'href' => @page.object_url}/
     %title= "#{site_name} - #{h(@page.title)}"
     
+    %meta{ :name => 'page-type', :content => 'public_page' }
+    %meta{ :name => 'page-id', :content => @page.id }
+    %meta{ :name => 'page-width', :content => @page.width }
+    
     = stylesheet_link_tag 'pages'
     - unless @additional_stylesheets.nil?
       - @additional_stylesheets.each do |ss|
         = stylesheet_link_tag ss
     = ie_stylesheet_link_tag 'ie_hack'
+    
+    = javascript_tag yield(:js_templates)
     
     %style= ".totalPageWidth { width: #{@page.width+200}px; }\n#content { width: #{@page.width}px; }"
   

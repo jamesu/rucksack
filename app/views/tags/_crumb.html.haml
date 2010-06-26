@@ -1,3 +1,4 @@
-%li{:class => 'tagCrumb'}
+%li{:class => 'tagCrumb', :tag => crumb}
   %a{:href => url_for(hash_for_pages_url(:tags => [crumb]))}= h crumb
-  %span.pageTagRemove{:tag => crumb} (-)
+  %span.pageTagAdd (+)
+  %span.pageTagRemove (-)

@@ -1,21 +1,11 @@
 # Filter by search
 
 # Tags
-unless @search_tags.nil?
-  page.replace_html "tagCrumbs", :partial => 'tags/crumb', :collection => @search_tags
-else
-  page.replace_html "tagCrumbs", ''
-end
-
-unless @avail_tags.nil?
-  page.replace_html "tagNewCrumbs", :partial => 'tags/new_crumb', :collection => @avail_tags
-else
-  page.replace_html "tagNewCrumbs", ''
-end
+page.replace_html "tagCrumbs", :partial => 'tags/crumb', :collection => (@search_tags || [])
+page.replace_html "tagNewCrumbs", :partial => 'tags/crumb', :collection => (@avail_tags || [])
 
 # Clear old results
 page.remove('.myPageEntry')
-page.remove('.sharedPageEntry')
 
 # Add new results
 page.insert_html(:after, 'myPageHeader', :partial => 'index_page', :collection => @pages, :locals => {:shared => false})

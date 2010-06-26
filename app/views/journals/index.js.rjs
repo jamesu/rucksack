@@ -1,0 +1,15 @@
+unless @user_journals.nil?
+  page.replace_html 'sidebar', render(:partial => 'journals/users_sidebar')
+end
+
+unless @journals.nil?
+  unless @journals.empty?
+    page.insert_html :bottom, "userJournals", "<hr/>"
+    page.insert_html :bottom, "userJournals", :partial => 'list', :collection => @grouped_journals
+  end
+  if @journals.size >= 25
+    page.call "Page.bumpJournalEntries", @journals.last.id
+  else
+    page.call "Page.endJournalEntries"
+  end
+end

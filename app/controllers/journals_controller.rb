@@ -33,21 +33,20 @@ class JournalsController < ApplicationController
   def index
     return error_status(true, :cannot_see_journals) unless (@user.journals_can_be_seen_by(@logged_user))
     
-    if request.format == :html or request.format == :js
-      @journals = get_groups(get_journals(@user.id))
+    query_users = (request.format == :html or params[:part] == 'users')
+    
+    if query_users
       user_ids = Account.owner.user_ids - [@logged_user.id]
-      
-      # Add @user_journals if no offset
-      offset = params[:offset]
-      if offset.nil? or offset == 0
-        @user_journals = user_ids.collect do |uid|
-          journals = Journal.find(:all, :conditions => {'user_id' => uid},
-                                  :order => 'created_at DESC', :limit => 4)
-          journals.empty? ? nil : [User.find_by_id(uid), journals]
-        end.compact
-      end
-    else
-      @journals = get_journals(Account.owner.user_ids)
+      @user_journals = user_ids.collect do |uid|
+        journals = Journal.find(:all, :conditions => {'user_id' => uid},
+                                :order => 'created_at DESC', :limit => 4)
+        journals.empty? ? nil : [User.find_by_id(uid), journals]
+      end.compact
+    end
+    
+    if params[:part].nil?
+      @journals = get_journals(@user.id, params[:from].try(:to_i))
+      @grouped_journals = get_groups(@journals)
     end
     
     @status = @user.status || @user.build_status
@@ -55,7 +54,7 @@ class JournalsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.js { render :action => 'update_more' }
+      format.js
       format.xml  { render :xml => @journals }
     end
   end
@@ -150,8 +149,9 @@ class JournalsController < ApplicationController
   
 protected
 
-  def get_journals(users)
-    Journal.find(:all, :conditions => {'user_id' => users}, :order => 'created_at DESC', :limit => params[:limit] || 50, :offset => params[:offset])
+  def get_journals(users, from=nil)
+    conditions = from.nil? ? ['user_id IN (?)', users] : ['user_id IN (?) AND id < ?', users, from]
+    Journal.find(:all, :conditions => conditions, :order => 'created_at DESC', :limit => params[:limit] || 25)
   end
   
   def get_groups(list)

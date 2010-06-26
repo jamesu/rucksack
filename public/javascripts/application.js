@@ -170,14 +170,7 @@ $(document).ajaxSend(function(event, request, settings) {
 // Main entrypoint
 
 $(document).ready(function(){
-    if (!PAGE_READONLY) {
-      InsertionMarker.init();
-      InsertionBar.init();
-    }
-    
-    HoverHandle.init();
-    
-    Page.makeSortable();
+    Page.init();
     
     $('#content').mousemove(PageHoverHandlerFunc);
     $('#content').mouseout(PageHoverHandlerCancelFunc);
@@ -363,15 +356,73 @@ var Page = {
     MARGIN: 20,
     SLOT_VERGE: 20,
     
-    JOURNAL_OFFSET: 50,
-    
     isResizing: false,
     lastResizePosition: 0,
     
     isSortingWrappedElements: false,
+    TAG_LIST: [],
+    ID: null,
+    TYPE: null,
+    READONLY: true,
     
     init: function() {
-      Insertion.set(null);
+      this.TYPE = Page.lookupMeta('page-type', null);
+      this.ID = Page.lookupMeta('page-id', null);
+      this.READONLY = Page.lookupMeta('page-readonly', false);
+      this.WIDTH = parseInt(Page.lookupMeta('page-width', '0'));
+      
+      if (this.TYPE == 'page')
+      {
+        if (!this.READONLY)
+        {
+          InsertionMarker.init();
+          InsertionBar.init();
+          InsertionMarker.set(null);
+        }
+      }
+      else if (this.TYPE == 'pages')
+      {
+        //this.TAG_LIST = $('#tagNewCrumbs .tagCrumb span.pageTagAdd').map(function(){
+        //  return $(this).attr('tag');
+        //});
+      }
+      
+      HoverHandle.init();
+      Page.makeSortable();
+    },
+    
+    lookupMeta: function(key, def) {
+      var meta = $('meta[name="' + key + '"]');
+      return meta.length > 0 ? meta.attr('content') : def;
+    },
+    
+    updateTags: function() {
+      if (Page.TAG_LIST.length == 0)
+      {
+          $('#pageTable .pageEntry').show();
+          return;
+      }
+      
+      $('#pageTable .pageEntry').each(function(){
+        var el = $(this);
+        var tags = el.attr('tags').split(',');
+        var i=0;
+        
+        // NOTE: tags must have all Page.PAGE_LIST tags!
+        for (i=0; i<Page.TAG_LIST.length ;i++) {
+          if (tags.indexOf(Page.TAG_LIST[i]) < 0)
+            break;
+        }
+        
+        if (i >= Page.TAG_LIST.length)
+          el.show();
+        else
+          el.hide();
+      });
+    },
+    
+    bumpJournalEntries: function(last_id) {
+      $('#userJournalsMore').attr('from', last_id);
     },
     
     endJournalEntries: function() {
@@ -417,7 +468,7 @@ var Page = {
       $(document).unbind('mouseup', Page.endResize);
       $(document).unbind('mousemove', Page.doResize);
       
-      $.put(Page.buildUrl('/resize'), {'page[width]': PAGE_WIDTH}, null, 'script');
+      $.put(Page.buildUrl('/resize'), {'page[width]': Page.WIDTHWIDTH}, null, 'script');
     },
     
     doResize: function(e) {
@@ -426,20 +477,20 @@ var Page = {
       
       var evt = e.originalEvent;
       var delta = evt.clientX - Page.lastResizePosition;
-      Page.setWidth(PAGE_WIDTH + delta);
+      Page.setWidth(Page.WIDTH + delta);
       
       Page.lastResizePosition = evt.clientX;
     },
     
     setWidth: function(width) {
-      PAGE_WIDTH = width;
-      $('#content').css('width', PAGE_WIDTH + 'px');
-      $('#innerWrapper').css('width', (PAGE_WIDTH + 200) + 'px');
+      Page.WIDTH = width;
+      $('#content').css('width', Page.WIDTH + 'px');
+      $('#innerWrapper').css('width', (Page.WIDTH + 200) + 'px');
     },
     
     buildUrl: function(resource_url) {
-      if (PAGE_ID != null)
-        return '/pages/' + PAGE_ID + resource_url;
+      if (Page.ID != null)
+        return '/pages/' + Page.ID + resource_url;
       else
         return resource_url;
     },
@@ -675,20 +726,29 @@ var Page = {
     },  
       
     onTagAdd: function(evt) {
-      TAG_LIST.push($(evt.target).attr('tag'));
+      var crumb = $(evt.target.parentNode);
+      var tagName = crumb.attr('tag');
+      if (Page.TAG_LIST.indexOf(tagName) >= 0)
+        return;
       
-      $.get('/pages', {'tags[]': TAG_LIST}, JustRebind, 'script');
+      Page.TAG_LIST.push(tagName);
+      $('#tagCrumbs').append(crumb);
+      Page.updateTags();
+      
       return false;
     },
     
     onTagRemove: function(evt) {
-      var removed_tag = $(evt.target).attr('tag');
+      var crumb = $(evt.target.parentNode);
+      var tagName = crumb.attr('tag');
       
-      TAG_LIST = $.grep(TAG_LIST, function(tag){
-        return (tag != removed_tag);
+      Page.TAG_LIST = $.grep(Page.TAG_LIST, function(tag){
+        return (tag != tagName);
       });
       
-      $.get('/pages', {'tags[]': TAG_LIST}, JustRebind, 'script');
+      $('#tagNewCrumbs').append(crumb);
+      Page.updateTags();
+      
       return false;
     },
     
@@ -994,9 +1054,7 @@ var Page = {
       
       // Journal
       $('#userJournalsMore a').click(function(evt) {
-        $.get("/journals", {'offset': Page.JOURNAL_OFFSET}, ResetAndRebind, 'script');
-        
-        Page.JOURNAL_OFFSET += 50;
+        $.get("/journals", {'from': $('#userJournalsMore').attr('from')}, ResetAndRebind, 'script');
         
         return false;
       });
@@ -1120,11 +1178,11 @@ var Page = {
     },
     
     insertWidget: function(resource) {
-        if (PAGE_READONLY)
+        if (Page.READONLY)
             return;
         
         // Insert
-        $.post('/pages/' + PAGE_ID + '/' + resource, 
+        $.post('/pages/' + Page.ID + '/' + resource, 
               {'position[slot]': this.insert_element.attr('slot') , 
                'position[before]': (this.insert_before ? '1' : '0')}, ResetAndRebind, 'script');
     },
@@ -1141,7 +1199,7 @@ var Page = {
     },
     
     makeSortable: function() {
-		if (PAGE_READONLY)
+		if (Page.READONLY)
             return;
         
         var lists = $('.pageList .openItems .listItems');
@@ -1234,7 +1292,7 @@ var Page = {
          update: function(e, ui) {
            if (Page.isSortingWrappedElements)
              Page.stopSortingWrappedElements(ui.item);
-           $.post('/pages/' + PAGE_ID + '/reorder', $('#slots').sortable('serialize', {key: 'slots'}));
+           $.post('/pages/' + Page.ID + '/reorder', $('#slots').sortable('serialize', {key: 'slots'}));
          }
        });                           
     },
@@ -1260,9 +1318,9 @@ var Page = {
             var list = ui.item.parent('.listItems');
             if (list.attr('id') !=
                 ui.element.attr('id'))
-              $.put('/pages/' + PAGE_ID + list.parents('.pageWidget:first').attr('url') + '/transfer', {'list_item[id]': ui.item.attr('item_id')});
+              $.put('/pages/' + Page.ID + list.parents('.pageWidget:first').attr('url') + '/transfer', {'list_item[id]': ui.item.attr('item_id')});
             else
-              $.post('/pages/' + PAGE_ID + list_url + '/reorder', el.sortable('serialize', {key: 'items'}));
+              $.post('/pages/' + Page.ID + list_url + '/reorder', el.sortable('serialize', {key: 'items'}));
           }
         }); 
     }
@@ -1347,8 +1405,11 @@ function RebindAndHover(data) {
 
 function ResetAndRebind(data) {
   // Clean up state
-  InsertionBar.hide();
-  InsertionBar.clearWidgetForm();
+  if (Page.TYPE == 'page')
+  {
+    InsertionBar.hide();
+    InsertionBar.clearWidgetForm();
+  }
   
   Page.rebind();
 }

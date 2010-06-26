@@ -568,14 +568,38 @@ div.pageList
   ul
     list-style-type: none
 
-#tagCrumbsWrapper li, #pageTagsWrapper li
+li.tagCrumb
   display: inline
+  color: #fff
+  font-weight: bold
+  background-color: rgb(255,150,20)
+  border: 1px solid rgb(255,150,20)
+  +border-radius(6px)
+  padding-left: 3px
   padding-right: 3px
+  margin-right: 3px
+  cursor: pointer
+  
+  a, a:hover
+    color: #fff
+    background: none
+    text-decoration: none
+  span.pageTagRemove
 
+#tagCrumbs
+  li.tagCrumb span.pageTagAdd
+    display: none
+
+#tagNewCrumbs
+  li.tagCrumb span.pageTagRemove
+    display: none
+
+#tagNewCrumbs li
+  display: block
+  margin-bottom: 3px
 
 #tagCrumbsWrapper .floatleft
   padding-right: 12px
-
 
 #tagNewCrumbsWrapper
   padding: 4px
@@ -634,11 +658,9 @@ div.pageList
 #pageTable
   margin-top: 8px
   
-  td
+  .pageEntry
+    padding-bottom: 8px
     font-size: 16px
-  .myPageEntry
-    td
-      padding-bottom: 8px
 
 
 /* Reminders */

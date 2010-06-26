@@ -3,6 +3,7 @@
   %head
     %meta{ 'http-equiv' => 'content-type', :content => 'text/html;charset=UTF-8'}/
     %title= "#{site_name} - #{h(@page_title)}"
+    %meta{ :name => 'page-type', :content => 'pages' }
     
     = stylesheet_link_tag 'pages'
     - unless @additional_stylesheets.nil?
@@ -16,14 +17,7 @@
     = javascript_include_tag 'application.js'
     
     - if protect_against_forgery?
-      = javascript_tag "const AUTH_TOKEN = #{form_authenticity_token.inspect};"
-    
-    - if @search_tags.nil?
-      = javascript_tag "var TAG_LIST = []"
-    - else
-      = javascript_tag "var TAG_LIST = [#{@search_tags.collect { |tag| "'#{tag}'" }.join(',')}];"
-    
-    = javascript_tag "var PAGE_READONLY = true; var PAGE_ID = null;"
+      %meta{ :name => 'auth-token', :content => form_authenticity_token }
     
     %style{:type => 'text/css'}= "#tabsWrapper ul li a { color: #{site_account.tab_text_colour}; background: #{site_account.tab_background_colour}; }"
     %style{:type => 'text/css'}= "#tabsWrapper ul li a:hover { color: #{site_account.tab_text_hover_colour}; background: #{site_account.tab_background_hover_colour}; }"
