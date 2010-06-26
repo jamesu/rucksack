@@ -4,7 +4,7 @@
   %ul#stdPageListItems
     %li{:class => "#{(@logged_user.home_page == @page ? 'current' : nil)} std-page-link", :page_id => @logged_user.home_page_id}
       %a{:href => page_path(@logged_user.home_page)}= h @logged_user.home_page.title
-    %li{:class => "#{cclass} std-page-link", :page_id => '0'}
+    %li{:class => "#{cclass} std-page-link", :id => 'all-pages-link', :page_id => '0'}
       %a{:href => pages_path}= :all_pages.l
     %li{:class => "std-page-separator"}
   %ul#usrPageListItems

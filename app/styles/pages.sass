@@ -241,66 +241,67 @@ form div
   padding: 0px
 
 
-#pageListItems li
-  margin-bottom: 1px
+#pageListItems 
+  li
+    margin-bottom: 1px
+    a
+      display: block
+      padding: 4px 4px 4px 12px
+  li:hover
+    background: gray
+    a
+      color: white
+      text-decoration: none
+    a:hover
+      color: white
+      text-decoration: none
+      background-color: gray
+  li.current
+    background: gray
+    a
+      color: white
+      text-decoration: none
+  li.hover
+    background: green
+    a
+      color: white
+  li#all-pages-link
+    background: none
+    a
+      color: #000
+    a:visited
+      color: #666
+  
+  li 
+    .usrPageLink
+      position: relative
+  li:hover
+    .usr_page_handle
+      display: block
 
-
-#pageListItems li a
-  display: block
-  padding: 4px 4px 4px 12px
-
-
-#pageListItems li:hover
-  background: gray
-
-#pageListItems li:hover a
-  color: white
-  text-decoration: none
-
-#pageListItems li:hover a:hover
-  color: white
-  text-decoration: none
-  background-color: gray
-
-#pageListItems li.current
-  background: gray
-
-#pageListItems li.current a
-  color: white
-  text-decoration: none
-
-
-#pageListItems li .usrPageLink
-  position: relative
-
-#pageListItems li:hover .usr_page_handle
-  display: block
-
-#pageListItems li .usr_page_handle
-  cursor: move
-  display: none
-  width: 15px
-  height: 15px
-  background-image: url('/images/icons/drag_handle_white.gif')
-  background-repeat: no-repeat
-  background-position: 2px 2px
-  position: absolute
-  top: 6px
-  right: 5px
-
+  li 
+    .usr_page_handle
+      cursor: move
+      display: none
+      width: 15px
+      height: 15px
+      background-image: url('/images/icons/drag_handle_white.gif')
+      background-repeat: no-repeat
+      background-position: 2px 2px
+      position: absolute
+      top: 6px
+      right: 5px
+      
+  li.std-page-separator
+    background-color: #cecece
+    display: block
+    height: 2px
+    padding: 0px
+    margin: 5px 0px
 
 .std-page-link
   font-weight: bold
   font-size: 120%
-
-
-#pageListItems li.std-page-separator
-  background-color: #cecece
-  display: block
-  height: 2px
-  padding: 0px
-  margin: 5px 0px
-
 
 #slots .ui-sortable-helper
   border-top: 2px solid #ccc

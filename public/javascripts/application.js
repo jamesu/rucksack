@@ -1240,7 +1240,8 @@ var Page = {
     },
     
     moveSlotTo: function(slot_id, page_id) {
-        $.put('/pages/' + page_id + '/' + 'transfer', {'page_slot[id]': slot_id }, null, 'script');
+        if (page_id != '0' && page_id != 0)
+          $.put('/pages/' + page_id + '/' + 'transfer', {'page_slot[id]': slot_id }, null, 'script');
     },
     
     makeListSortable: function(el) {
