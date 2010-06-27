@@ -1,0 +1,1 @@
+page.call 'Page.insertJournalEntries', @grouped_journals.keys.first, render(:partial => 'list', :collection => @grouped_journals), true

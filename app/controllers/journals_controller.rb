@@ -98,12 +98,13 @@ class JournalsController < ApplicationController
     respond_to do |format|
       if @journal.save
         if request.format == :js
-          @journals = get_groups(get_journals(Account.owner.user_ids))
+          @journals = get_journals(Account.owner.user_ids)
+          @grouped_journals = get_groups(@journals)
         end
         
         flash[:notice] = 'Journal was successfully created.'
         format.html { redirect_to(@journal) }
-        format.js { render :action => 'update' }
+        format.js
         format.xml  { render :xml => @journal, :status => :created, :location => @journal }
       else
         format.html { render :action => "new" }

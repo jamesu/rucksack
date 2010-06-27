@@ -191,6 +191,10 @@ module ApplicationHelper
      content = stylesheet_link_tag(sources)
     "<!--[if IE]>\n#{content}\n<![endif]-->\n"
   end
+  
+  def loader_icon
+    return "<img class=\"loader\" src=\"/images/icons/loading.gif\" style=\"display:none;\"/>"
+  end
 
   def if_authorized?(action, resource, &block)
     if authorized?(action, resource)

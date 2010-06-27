@@ -5,7 +5,7 @@ end
 unless @journals.nil?
   unless @journals.empty?
     page.insert_html :bottom, "userJournals", "<hr/>"
-    page.insert_html :bottom, "userJournals", :partial => 'list', :collection => @grouped_journals
+    page.call 'Page.insertJournalEntries', @grouped_journals.keys.first, render(:partial => 'list', :collection => @grouped_journals), false
   end
   if @journals.size >= 25
     page.call "Page.bumpJournalEntries", @journals.last.id

@@ -425,6 +425,21 @@ var Page = {
       $('#userJournalsMore').attr('from', last_id);
     },
     
+    insertJournalEntries: function(header, content, before) {
+      if (before)
+      {
+        var existing_header = $('#userJournals h2:first');
+        if (existing_header.html() == header)
+          existing_header.remove();
+        
+        $('#userJournals').prepend(content);
+      }
+      else
+      {
+        $('#userJournals').append(content);
+      }
+    },
+    
     endJournalEntries: function() {
       $("#userJournalsMore").remove();
     },
@@ -1054,7 +1069,34 @@ var Page = {
       
       // Journal
       $('#userJournalsMore a').click(function(evt) {
-        $.get("/journals", {'from': $('#userJournalsMore').attr('from')}, ResetAndRebind, 'script');
+        var element = $(this);
+        var toggleLoader = function(el, visible){
+            var parent = el.parent();
+            if (visible)
+            {
+                parent.children('a').hide();
+                parent.children('.loader').show();
+            }
+            else
+            {
+                parent.children('a').show();
+                parent.children('.loader').hide();
+            }
+        };
+        
+        toggleLoader(element, true);
+        
+        $.ajax({url: "/journals",
+                data: {'from': $('#userJournalsMore').attr('from')},
+                success: function(data) {
+                    toggleLoader(element, false);
+                    ResetAndRebind(data);
+                },
+                failure: function(data) {
+                    toggleLoader(element, false);
+                    ResetAndRebind(data);
+                },
+                dataType: 'script'});
         
         return false;
       });

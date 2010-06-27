@@ -22,3 +22,4 @@
 - if @journals.length >= 25
   #userJournalsMore.hint{:from => @journals.last.id}
     %a{:href => '#'}= :display_x_more_entries.l_with_args(:num => 25)
+    = loader_icon

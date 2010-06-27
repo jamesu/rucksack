@@ -1,0 +1,5 @@
+%li.journalEntry{:id => "journal_#{journal.id}", :url => journal_path(journal), :hover_handle => "journal_handle_#{journal.id}"}
+  - if journal.can_be_edited_by(@logged_user)
+    = page_handle widget_options(journal), "journal_handle_#{journal.id}", '.journalEntry'
+  = h(journal.content)
+  %span= fancy_journal_time(journal.created_at)
