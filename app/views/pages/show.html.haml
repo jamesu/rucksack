@@ -36,7 +36,7 @@
       #pageTabletContainer
     
   -# Core slots
-  - @page.slots.each do |slot|
+  - @page.slots.with_widgets.each do |slot|
     .pageSlot{:id => "page_slot_#{slot.id}", :slot => slot.id}
       = render :partial => 'slot', :locals => {:object => slot.rel_object, :page_slot => slot}
 

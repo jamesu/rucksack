@@ -1,5 +1,5 @@
 - empty_note = !(object.title? or object.content? or object.show_date)
-- hover_handle = "page_slot_handle_#{object.page_slot.id}"
+- hover_handle = "page_slot_handle_#{page_slot.id}"
 .pageNote
   - if object.title? or object.show_date
     %h2{:hover_handle => hover_handle}

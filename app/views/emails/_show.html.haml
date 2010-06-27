@@ -1,4 +1,4 @@
-- hhandle = "page_slot_handle_#{object.page_slot.id}"
+- hhandle = "page_slot_handle_#{page_slot.id}"
 .pageEmail{:hover_handle => hhandle}
   %h2{:hover_handle => hhandle}
     %a{:href => "/pages/#{object.page_id}/emails/#{object.id}#{@logged_user.is_anonymous? ? '/public' : ''}", :hover_handle => hhandle}=h object.subject

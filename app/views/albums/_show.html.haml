@@ -1,6 +1,6 @@
 .pageAlbum{:id => "album_#{object.id}"}
   .pageAlbumHeader{:id => "album_header_#{object.id}"}
-    %h2{:hover_handle => "page_slot_handle_#{object.page_slot.id}"}= h(object.title)
+    %h2{:hover_handle => "page_slot_handle_#{page_slot.id}"}= h(object.title)
   
   - if object.can_be_edited_by(@logged_user)
     .pageAlbumForm{:id => "album_header_#{object.id}_form", :style => 'display:none'}
