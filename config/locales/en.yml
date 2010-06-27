@@ -274,6 +274,9 @@ en:
   date_format_dmy: "%e %b %Y"
   empty_note: "Empty note"
   
+  # Connector
+  cn_or: "or"
+  
   # Notification
   notifier_donotreply: "DO NOT REPLY TO THIS MESSAGE"
   notifier_reminder: "{content}}"
