@@ -4,7 +4,8 @@ module IOStream
 
   # Returns a Tempfile containing the contents of the readable object.
   def to_tempfile
-    tempfile = Tempfile.new("stream")
+    name = respond_to?(:original_filename) ? original_filename : (respond_to?(:path) ? path : "stream")
+    tempfile = Paperclip::Tempfile.new("stream" + File.extname(name))
     tempfile.binmode
     self.stream_to(tempfile)
   end
@@ -25,12 +26,12 @@ module IOStream
     while self.read(in_blocks_of, buffer) do
       dstio.write(buffer)
     end
-    dstio.rewind    
+    dstio.rewind
     dstio
   end
 end
 
-class IO
+class IO #:nodoc:
   include IOStream
 end
 
@@ -38,6 +39,21 @@ end
   if Object.const_defined? klass
     Object.const_get(klass).class_eval do
       include IOStream
+    end
+  end
+end
+
+# Corrects a bug in Windows when asking for Tempfile size.
+if defined? Tempfile
+  class Tempfile
+    def size
+      if @tmpfile
+        @tmpfile.fsync
+        @tmpfile.flush
+        @tmpfile.stat.size
+      else
+        0
+      end
     end
   end
 end
