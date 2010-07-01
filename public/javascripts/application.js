@@ -369,7 +369,7 @@ var Page = {
       this.TYPE = Page.lookupMeta('page-type', null);
       this.ID = Page.lookupMeta('page-id', null);
       this.READONLY = Page.lookupMeta('page-readonly', false);
-      this.WIDTH = parseInt(Page.lookupMeta('page-width', '0'));
+      this.WIDTH = parseInt(Page.lookupMeta('page-width', '400'));
       
       if (this.TYPE == 'page')
       {
@@ -483,7 +483,7 @@ var Page = {
       $(document).unbind('mouseup', Page.endResize);
       $(document).unbind('mousemove', Page.doResize);
       
-      $.put(Page.buildUrl('/resize'), {'page[width]': Page.WIDTHWIDTH}, null, 'script');
+      $.put(Page.buildUrl('/resize'), {'page[width]': Page.WIDTH}, null, 'script');
     },
     
     doResize: function(e) {
