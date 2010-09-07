@@ -143,7 +143,7 @@ class JournalsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(journals_url) }
-      format.js { @journals = get_groups(get_journals(Account.owner.user_ids)); render :action => 'update' }
+      format.js { }
       format.xml  { head :ok }
     end
   end
