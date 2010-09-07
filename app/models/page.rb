@@ -158,7 +158,7 @@ class Page < ActiveRecord::Base
   
   def title=(value)
     @previous_name = self.title
-    self.write_attribute('title', value)
+    write_attribute('title', value)
   end
   
   def previous_name
@@ -278,7 +278,7 @@ class Page < ActiveRecord::Base
   
   def address=(value)
     new_value = value == 'random' ? generate_address : value
-    self.write_attribute('address', new_value)
+    write_attribute('address', new_value)
   end
   
   def shared_emails
