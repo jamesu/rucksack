@@ -15,13 +15,13 @@ en:
   login_success: Login successful
   login_failure: Invalid login
   logout_success: You have logged out
-  invalid_openid_server: "Unable to find openid server for <q>{openid_url}}</q>"
-  failed_verification_openid_url: "Verification of {{openid_url}} failed"
-  failed_login_openid_url: "Failed login with identity {{openid_url}}"
-  success_login_openid_url: "You have successfully logged in with {{openid_url}} as your identity"
+  invalid_openid_server: "Unable to find openid server for <q>%{openid_url}</q>"
+  failed_verification_openid_url: "Verification of %{openid_url} failed"
+  failed_login_openid_url: "Failed login with identity %{openid_url}"
+  success_login_openid_url: "You have successfully logged in with %{openid_url} as your identity"
   verification_failed: Verification failed
   verification_cancelled: Verification cancelled
-  unknown_response_status: "Unknown response status: {{status}}"
+  unknown_response_status: "Unknown response status: %{status}"
   invalid_email: Invalid email address
   invalid_email_not_in_use: Invalid email address
   invalid_request: Invalid request
@@ -54,12 +54,12 @@ en:
   share_by_email: Share by email
   share_by_email_desc: "For users you don't want to give full access, you can simply allow them to only edit this page by entering their email address above (one per line)."
   users_who_can_see_page: "Users who can edit this page"
-  page_public: "Is publically viewable <br/>(at {{link}})"
+  page_public: "Is publically viewable <br/>(at %{link})"
   change: Change
-  page_is_not_shared: "Page is not shared ({{link}})"
-  page_is_shared: "Page is shared ({{link}})"
+  page_is_not_shared: "Page is not shared (%{link})"
+  page_is_shared: "Page is shared (%{link})"
   duplicate_page: Duplicate
-  email_page: "Email address: <a href=\"mailto:{{email}}\">{{email}}</a>"
+  email_page: "Email address: <a href=\"mailto:%{email}\">%{email}</a>"
   reset: Reset
   page: Page
   pages: Pages
@@ -69,10 +69,10 @@ en:
   my_pages: My pages
   all_pages: All pages
   pages_shared_to_me: Pages shared to me
-  copy_of_page: "{{title}} (Copy)"
+  copy_of_page: "%{title} (Copy)"
   
-  recent_activity_for: "{{page}} feed"
-  recent_activity_info: "Recent activity for {{page}}"
+  recent_activity_for: "%{page} feed"
+  recent_activity_info: "Recent activity for %{page}"
   
   action_add: "Added"
   action_edit: "Edited"
@@ -92,7 +92,7 @@ en:
   
   user_list: Users
   add_user: Add new user
-  show_user: "{{name}}"
+  show_user: "%{name}"
   
   favourite: Show in sidebar
   not_favourite: Hide from sidebar
@@ -123,7 +123,7 @@ en:
   create_user: Create user
   create: Create
   update_profile: Update profile
-  update_user: "Update '{{name}}'"
+  update_user: "Update '%{name}'"
   user_is_admin: Is administrator
   upload: Upload
   
@@ -131,7 +131,7 @@ en:
   email_from: From
   email_subject: Subject
   email_date: Date
-  email_view_from: "from <span class=\"address\">{{name}}</span>"
+  email_view_from: "from <span class=\"address\">%{name}</span>"
   
   # Album
   add_album: Add album
@@ -166,7 +166,7 @@ en:
   date_format_time: "%I:%M %p"
   due_format_hours:
     one: "1 hour"
-    other: "{{count}} hours"
+    other: "%{count} hours"
   due_upcomming: "Within the hour"
   done: "Done"
   snooze: Snooze
@@ -179,7 +179,7 @@ en:
   # Journal / Status
   journal: Journal
   status: Status
-  display_x_more_entries: "Display {{num}} more entries."
+  display_x_more_entries: "Display %{num} more entries."
   
   journal_date_today: "Today"
   journal_date_format: "%a, %b %e"
@@ -188,13 +188,13 @@ en:
   user_journals_desc: What everyone else is doing...
   
   # Activity
-  # activity_[add/edit/delete]_[class] -> {{object}}
-  activity_add_Page: "Created page <a href=\"{{url}}\">{{object_name}}</a>"
-  activity_rename_Page: "Renamed page <a href=\"{{url}}\">{{object_name}}</a> from {{previous_name}}"
-  activity_edit_Page: "Changed page <a href=\"{{url}}\">{{object_name}}</a>"
-  activity_add_Reminder: "Added a reminder: <a href=\"{{url}}\">{{object_name}}</a>"
-  activity_edit_Reminder: "Changed reminder: <a href=\"{{url}}\">{{object_name}}</a>"
-  activity_delete_Reminder: "Removed reminder: <a href=\"{{url}}\">{{object_name}}</a>"
+  # activity_[add/edit/delete]_[class] -> %{object}
+  activity_add_Page: "Created page <a href=\"%{url}\">%{object_name}</a>"
+  activity_rename_Page: "Renamed page <a href=\"%{url}\">%{object_name}</a> from %{previous_name}"
+  activity_edit_Page: "Changed page <a href=\"%{url}\">%{object_name}</a>"
+  activity_add_Reminder: "Added a reminder: <a href=\"%{url}\">%{object_name}</a>"
+  activity_edit_Reminder: "Changed reminder: <a href=\"%{url}\">%{object_name}</a>"
+  activity_delete_Reminder: "Removed reminder: <a href=\"%{url}\">%{object_name}</a>"
   you: You
   
   # Errors
@@ -279,19 +279,19 @@ en:
   
   # Notification
   notifier_donotreply: "DO NOT REPLY TO THIS MESSAGE"
-  notifier_reminder: "{content}}"
+  notifier_reminder: "%{content}"
   notifier_reminder_info: "This reminder can be modified at:"
   
   notifier_password_reset_subject: "Password reset request"
-  notifier_password_reset_info: "{user_name}},\n\nA request to reset the password for your account has been made at {{site}}. Provided you wish to continue with this request, please visit the following url:"
+  notifier_password_reset_info: "%{user_name},\n\nA request to reset the password for your account has been made at %{site}. Provided you wish to continue with this request, please visit the following url:"
   
   notifier_signup_subject: "Welcome"
-  notifier_signup_intro: "{user_name}},\n\nYour account at {{site_name}} has been created."
+  notifier_signup_intro: "%{user_name},\n\nYour account at %{site_name} has been created."
   notifier_signup_location: "Your account can be accessed at the following location:"
   
-  user_wants_to_share_page: "{user}} wants to share \"{page}}\" with you"
-  notifier_page_share: "Hi,\n\n{user_name}} wants to share the following page on {{site_name}} with you:\n\n\"{page_name}}\""
-  notifier_page_share_url: "To access this page, please visit:\n\n{url}}"
+  user_wants_to_share_page: "%{user} wants to share \"%{page}\" with you"
+  notifier_page_share: "Hi,\n\n%{user_name} wants to share the following page on %{site_name} with you:\n\n\"%{page_name}\""
+  notifier_page_share_url: "To access this page, please visit:\n\n%{url}"
     
   product_name: Rucksack
   product_signature: Powered by Rucksack
