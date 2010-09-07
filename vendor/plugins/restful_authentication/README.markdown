@@ -1,4 +1,4 @@
-h1. "Restful Authentication Generator":http://github.com/technoweenie/restful-authentication
+# "Restful Authentication Generator":http://github.com/technoweenie/restful-authentication
 
 This widely-used plugin provides a foundation for securely managing user
 authentication:
@@ -8,17 +8,17 @@ authentication:
 * Account approval / disabling by admin
 * Rudimentary hooks for authorization and access control.
 
-Several features were updated in May, 2008.  
-* "Stable newer version":http://github.com/technoweenie/restful-authentication/tree/master 
+Several features were updated in May, 2008.
+* "Stable newer version":http://github.com/technoweenie/restful-authentication/tree/master
 * "'Classic' (backward-compatible) version":http://github.com/technoweenie/restful-authentication/tree/classic
 * "Experimental version":http://github.com/technoweenie/restful-authentication/tree/modular (Much more modular, needs testing & review)
 
-  !! important: if you upgrade your site, existing user account !!
-  !! passwords will stop working unless you use --old-passwords !!
+> IMPORTANT: if you upgrade your site, existing user account
+> passwords will stop working unless you use --old-passwords
 
 ***************************************************************************
 
-h2. Issue Tracker
+## Issue Tracker
 
 Please submit any bugs or annoyances on the lighthouse tracker at
 * "http://rails_security.lighthouseapp.com/projects/15332-restful_authentication/overview":http://rails_security.lighthouseapp.com/projects/15332-restful_authentication/overview
@@ -29,7 +29,7 @@ For anything simple enough, please github message both maintainers: Rick Olson
 
 ***************************************************************************
 
-h2. Documentation
+## Documentation
 
 This page has notes on
 * "Installation":#INSTALL
@@ -41,39 +41,40 @@ See the "wiki":http://github.com/technoweenie/restful-authentication/wikis/home
 
 * "Extensions, Addons and Alternatives":addons such as HAML templates
 * "Security Design Patterns":security-patterns with "snazzy diagram":http://github.com/technoweenie/restful-authentication/tree/master/notes/SecurityFramework.png
-* [[Authentication]] -- Lets a visitor identify herself (and lay  claim to her corresponding Roles and measure of Trust)
+* Authentication -- Lets a visitor identify herself (and lay  claim to her corresponding Roles and measure of Trust)
 * "Trust Metrics":Trustification -- Confidence we can rely on the outcomes of this visitor's actions.
-* [[Authorization]] and Policy -- Based on trust and identity, what actions may this visitor perform?
-* [[Access Control]] -- How the Authorization policy is actually enforced in your code (A: hopefully without turning it into  a spaghetti of if thens)
-* [[Rails Plugins]] for Authentication, Trust,  Authorization and Access Control
-* [[Tradeoffs]] -- for the paranoid or the curious, a rundown of tradeoffs made in the code
-* [[CHANGELOG]] -- Summary of changes to internals
-* [[TODO]] -- Ideas for how you can help
+* Authorization and Policy -- Based on trust and identity, what actions may this visitor perform?
+* Access Control -- How the Authorization policy is actually enforced in your code (A: hopefully without turning it into  a spaghetti of if thens)
+* Rails Plugins for Authentication, Trust,  Authorization and Access Control
+* Tradeoffs -- for the paranoid or the curious, a rundown of tradeoffs made in the code
+* CHANGELOG -- Summary of changes to internals
+* TODO -- Ideas for how you can help
 
 These best version of the release notes are in the notes/ directory in the
 "source code":http://github.com/technoweenie/restful-authentication/tree/master
 -- look there for the latest version.  The wiki versions are taken (manually)
 from there.
-  
+
 ***************************************************************************
 
 <a id="AWESOME"/> </a>
-h2. Exciting new features
 
-h3. Stories
+## Exciting new features
 
-There are now RSpec stories that allow expressive, enjoyable tests for the
+### Stories
+
+There are now "Cucumber":http://wiki.github.com/aslakhellesoy/cucumber/home features that allow expressive, enjoyable tests for the
 authentication code. The flexible code for resource testing in stories was
 extended from "Ben Mabey's.":http://www.benmabey.com/2008/02/04/rspec-plain-text-stories-webrat-chunky-bacon/
 
-h3. Modularize to match security design patterns:
+### Modularize to match security design patterns:
 
 * Authentication (currently: password, browser cookie token, HTTP basic)
-* Trust metric (email validation) 
+* Trust metric (email validation)
 * Authorization (stateful roles)
 * Leave a flexible framework that will play nicely with other access control / policy definition / trust metric plugins
 
-h3. Other
+### Other
 
 * Added a few helper methods for linking to user pages
 * Uniform handling of logout, remember_token
@@ -82,7 +83,7 @@ h3. Other
 
 ***************************************************************************
 
-h2. Non-backwards compatible Changes
+## Non-backwards compatible Changes
 
 Here are a few changes in the May 2008 release that increase "Defense in Depth"
 but may require changes to existing accounts
@@ -92,27 +93,28 @@ but may require changes to existing accounts
 * If you are generating for a new site, all of these changes are low-impact.
   You should apply them.
 
-h3. Passwords
+### Passwords
 
 The new password encryption (using a site key salt and stretching) will break
 existing user accounts' passwords.  We recommend you use the --old-passwords
 option or write a migration tool and submit it as a patch.  See the
 [[Tradeoffs]] note for more information.
 
-h3. Validations
+### Validations
 
 By default, email and usernames are validated against a somewhat strict pattern; your users' values may be now illegal.  Adjust to suit.
 
 ***************************************************************************
 
-<a id="INSTALL"/> </a>
-h2. Installation
+<a id="INSTALLATION"/> </a>
+
+## Installation
 
 This is a basic restful authentication generator for rails, taken from
 acts as authenticated.  Currently it requires Rails 1.2.6 or above.
 
-**IMPORTANT FOR RAILS > 2.1 USERS** To avoid a @NameError@ exception ("lighthouse tracker ticket":http://rails_security.lighthouseapp.com/projects/15332-restful_authentication/tickets/2-not-a-valid-constant-name-errors#ticket-2-2), check out the code to have an _underscore_ and not _dash_ in its name: 
-* either use <code>git clone git://github.com/technoweenie/restful-authentication.git restful_authentication</code> 
+**IMPORTANT FOR RAILS > 2.1 USERS** To avoid a @NameError@ exception ("lighthouse tracker ticket":http://rails_security.lighthouseapp.com/projects/15332-restful_authentication/tickets/2-not-a-valid-constant-name-errors#ticket-2-2), check out the code to have an _underscore_ and not _dash_ in its name:
+* either use <code>git clone git://github.com/technoweenie/restful-authentication.git restful_authentication</code>
 * or rename the plugin's directory to be <code>restful_authentication</code> after fetching it.
 
 To use the generator:
@@ -140,19 +142,19 @@ To use the generator:
   activation code.  (@--stateful@ implies @--include-activation@). Based on the
   idea at [[http://www.vaporbase.com/postings/stateful_authentication]]. Passing
   @--skip-migration@ will skip the user migration, and @--skip-routes@ will skip
-  resource generation -- both useful if you've already run this generator. 
+  resource generation -- both useful if you've already run this generator.
   (Needs the "acts_as_state_machine plugin":http://elitists.textdriven.com/svn/plugins/acts_as_state_machine/,
   but new installs should probably run with @--aasm@ instead.)
 
 * --aasm: Works the same as stateful but uses the "updated aasm gem":http://github.com/rubyist/aasm/tree/master
-  
+
 * --rspec: Generate RSpec tests and Stories in place of standard rails tests.
   This requires the
     "RSpec and Rspec-on-rails plugins":http://rspec.info/
   (make sure you "./script/generate rspec" after installing RSpec.)  The rspec
   and story suite are much more thorough than the rails tests, and changes are
   unlikely to be backported.
-  
+
 * --old-passwords: Use the older password scheme (see [[#COMPATIBILITY]], above)
 
 * --skip-migration: Don't generate a migration file for this model
@@ -161,7 +163,8 @@ To use the generator:
 
 ***************************************************************************
 <a id="POST-INSTALL"/> </a>
-h2. After installing
+
+## After installing
 
 The below assumes a Model named 'User' and a Controller named 'Session'; please
 alter to suit. There are additional security minutae in @notes/README-Tradeoffs@
@@ -169,30 +172,30 @@ alter to suit. There are additional security minutae in @notes/README-Tradeoffs@
 
 * Add these familiar login URLs to your @config/routes.rb@ if you like:
 
-    <pre><code> 
-    map.signup  '/signup', :controller => 'users',   :action => 'new' 
+    <pre><code>
+    map.signup  '/signup', :controller => 'users',   :action => 'new'
     map.login  '/login',  :controller => 'session', :action => 'new'
-    map.logout '/logout', :controller => 'session', :action => 'destroy' 
+    map.logout '/logout', :controller => 'session', :action => 'destroy'
     </code></pre>
 
 * With @--include-activation@, also add to your @config/routes.rb@:
 
-    <pre><code> 
-    map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil 
-    </code></pre> 
+    <pre><code>
+    map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
+    </code></pre>
 
   and add an observer to @config/environment.rb@:
-  
-    <pre><code> 
+
+    <pre><code>
     config.active_record.observers = :user_observer
-    </code></pre> 
+    </code></pre>
 
   Pay attention, may be this is not an issue for everybody, but if you should
   have problems, that the sent activation_code does match with that in the
   database stored, reload your user object before sending its data through email
   something like:
 
-    <pre><code> 
+    <pre><code>
     class UserObserver < ActiveRecord::Observer
       def after_create(user)
         user.reload
@@ -207,16 +210,16 @@ alter to suit. There are additional security minutae in @notes/README-Tradeoffs@
 
 
 * With @--stateful@, add an observer to config/environment.rb:
-  
-    <pre><code> 
+
+    <pre><code>
     config.active_record.observers = :user_observer
     </code></pre>
-    
+
   and modify the users resource line to read
-  
+
     map.resources :users, :member => { :suspend   => :put,
                                        :unsuspend => :put,
-                                       :purge     => :delete } 
+                                       :purge     => :delete }
 
 * If you use a public repository for your code (such as github, rubyforge,
   gitorious, etc.) make sure to NOT post your site_keys.rb (add a line like

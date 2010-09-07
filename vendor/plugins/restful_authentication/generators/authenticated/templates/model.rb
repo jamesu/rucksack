@@ -45,6 +45,10 @@ class <%= class_name %> < ActiveRecord::Base
   def active?
     # the existence of an activation code means they have not activated yet
     activation_code.nil?
+  end
+  
+  def recently_activated?
+    @activated
   end<% end %>
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
@@ -55,9 +59,9 @@ class <%= class_name %> < ActiveRecord::Base
   #
   def self.authenticate(login, password)
     return nil if login.blank? || password.blank?
-    u = <% if    options[:stateful]           %>find_in_state :first, :active, :conditions => {:login => login}<%
+    u = <% if    options[:stateful]           %>find_in_state :first, :active, :conditions => {:login => login.downcase}<%
            elsif options[:include_activation] %>find :first, :conditions => ['login = ? and activated_at IS NOT NULL', login]<%
-           else %>find_by_login(login)<% end %> # need to get the salt
+           else %>find_by_login(login.downcase)<% end %> # need to get the salt
     u && u.authenticated?(password) ? u : nil
   end
 
@@ -69,15 +73,13 @@ class <%= class_name %> < ActiveRecord::Base
     write_attribute :email, (value ? value.downcase : nil)
   end
 
+  <% if options[:include_activation] -%>
   protected
-    
-<% if options[:include_activation] -%>
-    def make_activation_code
-  <% if options[:stateful] -%>
-      self.deleted_at = nil
-  <% end -%>
-      self.activation_code = self.class.make_token
-    end
-<% end %>
-
+      def make_activation_code
+    <% if options[:stateful] -%>
+        self.deleted_at = nil
+    <% end -%>
+        self.activation_code = self.class.make_token
+      end
+  <% end %>
 end
