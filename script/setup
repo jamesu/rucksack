@@ -6,10 +6,13 @@ def randomize_secret
 end
 
 session_store_file = <<-SESSION_STORE
-ActionController::Base.session = { 
+Rucksack::Application.configure do
+config.action_controller.session = {
   :session_key => '_rucksack_session', 
   :secret => '#{randomize_secret}' 
 }
+config.secret_token = '#{randomize_secret}'
+end
 SESSION_STORE
 
 def write_initializer(filename, data = nil)
@@ -32,5 +35,5 @@ Dir["config/example/*"].each do |file|
 end
 
 
-system "rake gems:install"
+system "bundle install"
 system "rake db:rucksack:install --trace"
