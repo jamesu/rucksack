@@ -27,7 +27,7 @@
 class ListItem < ActiveRecord::Base
   acts_as_ferret :fields => [ 'content' ]
   
-  include ActionController::UrlWriter
+  include Rails.application.routes.url_helpers
   
   belongs_to :list
   def page; self.list.page; end

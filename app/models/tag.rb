@@ -27,7 +27,7 @@
 class Tag < ActiveRecord::Base
   acts_as_ferret :fields => [ 'name' ]
   
-  include ActionController::UrlWriter
+  include Rails.application.routes.url_helpers
   
   belongs_to :page
   belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'

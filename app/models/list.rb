@@ -27,7 +27,7 @@
 class List < ActiveRecord::Base
   acts_as_ferret :fields => [ 'name' ]
   
-  include ActionController::UrlWriter
+  include Rails.application.routes.url_helpers
   
   belongs_to :page
   has_one :page_slot, :as => :rel_object

@@ -1,4 +1,4 @@
-Sass::Plugin.options[:template_location] = File.join(RAILS_ROOT, 'app/styles')
-Sass::Plugin.options[:css_location] = File.join(RAILS_ROOT, 'public/stylesheets')
+Sass::Plugin.options[:template_location] = File.join(::Rails.root.to_s, 'app/styles')
+Sass::Plugin.options[:css_location] = File.join(::Rails.root.to_s, 'public/stylesheets')
 
 Haml::Template.options[:escape_html] = false
