@@ -116,16 +116,16 @@ module ApplicationHelper
   
   def yesno_toggle(object_name, method, options = {})
     radio_button(object_name, method, "true", options.merge({:id => "#{options[:id]}Yes"})) +
-    " <label for=\"#{options[:id]}Yes\" class=\"#{options[:class]}\">#{:yesno_yes.l}</label> " +
+    " <label for=\"#{options[:id]}Yes\" class=\"#{options[:class]}\">#{:yesno_yes.l}</label> ".html_safe +
     radio_button(object_name, method, "false", options.merge({:id => "#{options[:id]}No"})) +
-    " <label for=\"#{options[:id]}No\" class=\"#{options[:class]}\">#{:yesno_no.l}</label>"
+    " <label for=\"#{options[:id]}No\" class=\"#{options[:class]}\">#{:yesno_no.l}</label>".html_safe
   end
   
   def yesno_toggle_tag(name, is_yes, options = {})
     radio_button_tag(name, "1", is_yes, options.merge({:id => "#{options[:id]}Yes"})) +
-    " <label for=\"#{options[:id]}Yes\" class=\"#{options[:class]}\">#{:yesno_yes.l}</label> " +
+    " <label for=\"#{options[:id]}Yes\" class=\"#{options[:class]}\">#{:yesno_yes.l}</label> ".html_safe +
     radio_button_tag(name, "0", !is_yes, options.merge({:id => "#{options[:id]}No"})) +
-    " <label for=\"#{options[:id]}No\" class=\"#{options[:class]}\">#{:yesno_no.l}</label>"
+    " <label for=\"#{options[:id]}No\" class=\"#{options[:class]}\">#{:yesno_no.l}</label>".html_safe
   end
   
   def common_tabs(current)
