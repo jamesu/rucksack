@@ -91,7 +91,9 @@ class User < ActiveRecord::Base
   
   is_gravtastic
   
-  before_validation_on_create :process_create
+  before_validation :on => :create do
+    process_create
+  end
   
   def process_create
     @cached_password ||= ''
