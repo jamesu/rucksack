@@ -2,12 +2,12 @@
   %div
     != text_field 'reminder', 'content', :id => 'reminderFormContent', :class => 'autofocus long'
   %div
-    %label{:for => 'reminderFormTime'}= :at_time.l
+    %label{:for => 'reminderFormTime'}= t('at_time')
     != datetime_select 'reminder', 'at_time', :id => 'reminderFormTime', :use_month_numbers => true
   %div
-    %label{:for => 'reminderFormRepeat'}= :repeat.l
+    %label{:for => 'reminderFormRepeat'}= t('repeat')
     != select 'reminder', 'repeat', Reminder.select_repeat, :id => 'reminderFormRepeat'
   
-  %button{:class => 'submit', :type => 'submit'}= :update.l
+  %button{:class => 'submit', :type => 'submit'}= t('update')
     
-  %a{:href => '#', :class => 'cancel'}= :cancel.l
+  %a{:href => '#', :class => 'cancel'}= t('cancel')

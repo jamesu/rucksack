@@ -2,39 +2,39 @@
 
 - if @logged_user.is_admin
   .hint
-    .header= :user_administration_options.l 
+    .header= t('user_administration_options') 
     .content
       %div
-        %label{:for => 'userFormUserName'}= "#{:username.l} <span class=\"label_required\">*</span>"
+        %label{:for => 'userFormUserName'}= "#{t('username')} <span class=\"label_required\">*</span>"
         = text_field 'user', 'username', :id => 'userFormUserName', :class => 'moderate'
       %fieldset
-        %legend= :options.l
+        %legend= t('options')
         %div
-          %label{:for => 'userFormIsAdmin'}= :user_is_admin.l
+          %label{:for => 'userFormIsAdmin'}= t('user_is_admin')
           = yesno_toggle 'user', 'is_admin', :id => 'userFormIsAdmin', :class => 'yesno'
 
 %div
-  %label{:for => 'userFormDisplayName'}= :display_name.l
+  %label{:for => 'userFormDisplayName'}= t('display_name')
   = text_field 'user', 'display_name', :id => 'userFormDisplayName', :class => 'moderate' 
 
 %div
-  %label{:for => 'userFormEmail'}= :email_address.l
+  %label{:for => 'userFormEmail'}= t('email_address')
   = text_field 'user', 'email', :id => 'userFormEmail', :class => 'moderate'
 
 - if Account.owner.openid_enabled
   %div
-    %label{:for => 'userFormOpenID'}= :openid.l
+    %label{:for => 'userFormOpenID'}= t('openid')
     = text_field 'user', 'identity_url', :id => 'userFormOpenID', :class => 'moderate openid_login' 
-    %p.desc= :openid_info.l
+    %p.desc= t('openid_info')
 
 %div
-  %label{:for => 'userFormPassword'}= :password.l
+  %label{:for => 'userFormPassword'}= t('password')
   = password_field 'user', 'password', :id => 'userFormPassword', :class => 'moderate'
 
 %div
-  %label{:for => 'userFormPasswordAgain'}= :repeat_password.l
+  %label{:for => 'userFormPasswordAgain'}= t('repeat_password')
   = password_field 'user', 'password_confirmation', :id => 'userFormPasswordAgain', :class => 'moderate'
 
 %div
-  %label{:for => 'userFormTimezone'}= :timezone.l
+  %label{:for => 'userFormTimezone'}= t('timezone')
   = time_zone_select 'user', 'time_zone', nil, {}, {:id => 'userFormTimezone', :class => 'moderate'}

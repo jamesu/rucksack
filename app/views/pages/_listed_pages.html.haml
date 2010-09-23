@@ -5,7 +5,7 @@
     %li{:class => "#{(@logged_user.home_page == @page ? 'current' : nil)} std-page-link", :page_id => @logged_user.home_page_id}
       %a{:href => page_path(@logged_user.home_page)}= h @logged_user.home_page.title
     %li{:class => "#{cclass} std-page-link", :id => 'all-pages-link', :page_id => '0'}
-      %a{:href => pages_path}= :all_pages.l
+      %a{:href => pages_path}= t('all_pages')
     %li{:class => "std-page-separator"}
   %ul#usrPageListItems
     - (@logged_user.favourite_pages.sort { |x,y| x.sidebar_order <=> y.sidebar_order }).each do |page|

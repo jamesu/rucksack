@@ -42,10 +42,10 @@ protected
   def error_status(error, message, args={}, continue_ok=true)
     if request.format == :html
       flash[:error] = error
-      flash[:message] = message.l_with_args(args)
+      flash[:message] = t(message, args)
     else
       @flash_error = error
-      @flash_message = message.l_with_args(args)
+      @flash_message = t(message, args)
     end
     
     return unless (error and continue_ok)

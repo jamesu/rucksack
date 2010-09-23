@@ -26,7 +26,7 @@
 class Notifier < ActionMailer::Base
 
   def reminder(reminder, sent_at = Time.now)
-    @subject    = "#{:reminder.l} - #{reminder.content}"
+    @subject    = "#{t('reminder')} - #{reminder.content}"
     @recipients = reminder.created_by.email
     @from       = "noreply@#{Account.owner.host_name}"
     @sent_on    = sent_at
@@ -41,7 +41,7 @@ class Notifier < ActionMailer::Base
   end
   
   def page_share_info(user, page)
-    @subject    = :user_wants_to_share_page.l_with_args(
+    @subject    = t('user_wants_to_share_page', 
                     :user => page.updated_by.display_name, 
                     :page => page.title)
     @recipients = user.email
@@ -59,7 +59,7 @@ class Notifier < ActionMailer::Base
   
   def signup_notification(user)
     setup_email(user)
-    @subject    += :notifier_signup_subject.l
+    @subject    += t('notifier_signup_subject')
     
     @body[:owner] = Account.owner
     @body[:url] = "http://#{Account.owner.host_name}/login"
@@ -67,7 +67,7 @@ class Notifier < ActionMailer::Base
   
   def password_reset(user)
     setup_email(user)
-    @subject    += :notifier_password_reset_subject.l
+    @subject    += t('notifier_password_reset_subject')
     @recipients = user.email
     @from       = "noreply@#{Account.owner.host_name}"
     @sent_on    = Time.now

@@ -1,9 +1,9 @@
-- @page_title = :user_list.l
+- @page_title = t('user_list')
 - @tabbed_navigation_items = common_tabs(nil)
 - @user_navigation_items = user_tabs(:users)
 
 - if User.can_be_created_by(@logged_user)
-  %a{:href => new_user_path}= :add_user.l
+  %a{:href => new_user_path}= t('add_user')
 
 %table#userList
   - @users.each do |user|
@@ -15,6 +15,6 @@
         %td.userAdmin
         %td.userOptions
           - if user.can_be_edited_by(@logged_user)
-            %a{:href => edit_user_path(user)}= :edit.l
+            %a{:href => edit_user_path(user)}= t('edit')
           - if user.can_be_deleted_by(@logged_user)
-            %a.userDelete{:href => '#'}= :delete.l
+            %a.userDelete{:href => '#'}= t('delete')

@@ -164,7 +164,7 @@ class Mailman < ActionMailer::Base
   
   def process_list(name, page, email, responsible_user)
     page_list = page.lists.build(
-      :name => name.nil? ? :list.l : name)
+      :name => name.nil? ? t('list') : name)
     
     page_list.created_by = responsible_user
     

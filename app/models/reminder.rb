@@ -87,7 +87,7 @@ class Reminder < ActiveRecord::Base
     end
   
     def friendly_repeat
-        "reminder_repeat_#{self.repeat}".to_sym.l
+        t "reminder_repeat_#{self.repeat}"
     end
   
     def repeat
@@ -172,7 +172,7 @@ class Reminder < ActiveRecord::Base
     
     def self.select_repeat
         @@repeat_lookup.keys.map do |key|
-            ["reminder_repeat_#{key}".to_sym.l, key]
+            [t("reminder_repeat_#{key}"), key]
         end
     end
   

@@ -18,8 +18,8 @@
   - if @uploaded_file.nil? or @uploaded_file.new_record?
     %input#add_UploadedFileFormBefore{:type => 'hidden', :name=> 'position[before]', :value => '0'}/
     %input#add_UploadedFileFormSlot{:type => 'hidden', :name=> 'position[slot]', :value => '0'}/
-    %button{:class => 'submit', :type => 'submit'}= :upload.l
+    %button{:class => 'submit', :type => 'submit'}= t('upload')
   - else
-    %button{:class => 'submit', :type => 'submit'}= :update.l
+    %button{:class => 'submit', :type => 'submit'}= t('update')
   
-  %a{:href => '#', :class => 'cancel'}= :cancel.l
+  %a{:href => '#', :class => 'cancel'}= t('cancel')

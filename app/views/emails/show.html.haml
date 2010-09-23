@@ -1,5 +1,5 @@
 %pre
-  = "#{:email_from.l}: #{@email.from}\n"
-  = "#{:email_subject.l}: #{@email.subject}\n"
-  = "#{:email_date.l}: #{@email.created_at}\n"
+  = "#{t('email_from')}: #{@email.from}\n"
+  = "#{t('email_subject')}: #{@email.subject}\n"
+  = "#{t('email_date')}: #{@email.created_at}\n"
 = textilize @email.body

@@ -160,9 +160,9 @@ protected
     list.group_by do |journal|
       date = journal.created_at.to_date
       if date == now
-        :journal_date_today.l
+        t('journal_date_today')
       else
-        date.strftime(date.year == now.year ? :journal_date_format.l : :journal_date_format_extended.l)
+        date.strftime(date.year == now.year ? t('journal_date_format') : t('journal_date_format_extended'))
       end
     end
   end

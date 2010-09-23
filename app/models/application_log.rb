@@ -32,7 +32,7 @@ class ApplicationLog < ActiveRecord::Base
   @@action_id_lookup = @@action_lookup.invert
   
   def friendly_action
-    "action_#{self.action}".to_sym.l
+    t "action_#{self.action}"
   end
   
   def action

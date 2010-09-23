@@ -3,7 +3,7 @@
 %li.albumPicture{:id => "album_picture_#{show.id}", :picture_id => show.id, :url => url}
   .albumPictureContent
     - if show.can_be_edited_by(@logged_user)
-      = page_handle [ ['delete', '-'], ['edit', :edit.l], ['handle', '+'] ], "page_picture_handle_#{show.id}", '.albumPicture'
+      = page_handle [ ['delete', '-'], ['edit', t('edit')], ['handle', '+'] ], "page_picture_handle_#{show.id}", '.albumPicture'
     %a{:href => show.picture.url}
       %img{:src => show.picture.url(:album), :hover_handle => "page_picture_handle_#{show.id}"}
     .albumPictureCaption= textilize show.caption, true

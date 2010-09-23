@@ -1,9 +1,9 @@
-- @page_title = :create_user.l
+- @page_title = t('create_user')
 - @tabbed_navigation_items = common_tabs(nil)
 - @user_navigation_items = user_tabs(:users)
 
 #userForm
   - form_tag users_path(), :method => :post do
     = render :partial => 'form'
-    %button.submit{:type => 'submit'}= :save.l
-    %a.cancel{:href => users_path}= :cancel.l
+    %button.submit{:type => 'submit'}= t('save')
+    %a.cancel{:href => users_path}= t('cancel')

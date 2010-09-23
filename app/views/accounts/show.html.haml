@@ -1,4 +1,4 @@
-- @page_title = :settings.l
+- @page_title = t('settings')
 - @tabbed_navigation_items = common_tabs(nil)
 - @user_navigation_items = user_tabs(:settings)
 
@@ -6,6 +6,6 @@
   - form_tag account_path(), :method => :put do
     = render :partial => 'form'
     %div.formSubmit
-      %button.submit{:type => 'submit'}= :save.l
-      %a.cancel{:href => '/'}= :cancel.l
+      %button.submit{:type => 'submit'}= t('save')
+      %a.cancel{:href => '/'}= t('cancel')
 

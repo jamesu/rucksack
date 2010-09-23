@@ -1,5 +1,5 @@
 - form_tag page_list_list_item_path(@page, @list, @list_item), :method => :put do
   %div
     = text_field 'list_item', 'content', :class => 'autofocus moderate'
-  %button.submit{:type => 'submit'}= :rename_item.l
-  %a.cancel{:href => '#'}= :cancel.l
+  %button.submit{:type => 'submit'}= t('rename_item')
+  %a.cancel{:href => '#'}= t('cancel')

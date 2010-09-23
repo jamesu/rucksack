@@ -1,21 +1,21 @@
 - @tabbed_navigation_items = common_tabs(:pages)
 - @user_navigation_items = user_tabs(nil)
-- @page_title = :share_page.l
+- @page_title = t('share_page')
 
 - form_tag hash_for_share_page_path.merge(:id => @page.id, :use_route => nil), :method => :post, :class => 'pageShareForm' do
   != error_messages_for :page
   
   %div.pageShareSection
     != check_box_tag 'page[is_public]', true, @page.is_public, :id => "pageSetPublic"
-    %label.check= :page_public.l_with_args(:link => link_to(public_page_url(@page), public_page_url(@page)))
+    %label.check= t('page_public', :link => link_to(public_page_url(@page), public_page_url(@page)))
   
-  %h2= :share_by_email.l
+  %h2= t('share_by_email')
   %div.pageShareSection
     != text_area 'page', 'shared_emails', :class => 'short', :rows => 10, :cols => 40, :id => 'pageShareEmail'
-    %p.desc= :share_by_email_desc.l
+    %p.desc= t('share_by_email_desc')
   
   %div.pageShareSection
-    %h2= :users_who_can_see_page.l
+    %h2= t('users_who_can_see_page')
     
     %table.pageShareUsers
       - Account.owner.users.each do |user|
@@ -28,5 +28,5 @@
           %td
             != check_box_tag 'page[shared_users][]', user.id, @page.shared_user_ids.include?(user.id), :id => "pageShareUser#{user.id}"
   %div.pageShareSection
-    != submit_tag :update.l
-    %a{:href => url_for(hash_for_page_path.merge(:id => @page.id, :use_route => nil))}= :cancel.l 
+    != submit_tag t('update')
+    %a{:href => url_for(hash_for_page_path.merge(:id => @page.id, :use_route => nil))}= t('cancel') 

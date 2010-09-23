@@ -1,27 +1,27 @@
-- @page_title = :all_pages.l
+- @page_title = t('all_pages')
 - @tabbed_navigation_items = common_tabs(:pages)
 - @user_navigation_items = user_tabs(nil)
 
 #tagCrumbsWrapper
-  %p.floatleft= :current_tags.l
+  %p.floatleft= t('current_tags')
   %ul{:id => 'tagCrumbs'}
     != render :partial => 'tags/crumb', :collection => (@search_tags || [])
 
 .clear
 
 #tagNewCrumbsWrapper
-  %h3= :available_tags.l
+  %h3= t('available_tags')
   %ul{:id => 'tagNewCrumbs'}
     != render :partial => 'tags/crumb', :collection => (@avail_tags || [])
 
 #pageTable
   #myPageHeader
-    %h2= :my_pages.l
+    %h2= t('my_pages')
   
   != render :partial => 'index_page', :collection => @pages, :locals => {:shared => false}
   
   #sharedPageHeader
-    %h2= :pages_shared_to_me.l
+    %h2= t('pages_shared_to_me')
   
   != render :partial => 'index_page', :collection => @shared_pages, :locals => {:shared => true}
 

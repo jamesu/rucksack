@@ -3,8 +3,8 @@ xml.instruct! :xml, :version => "1.0"
 xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
 
   xml.channel do 
-    xml.title :recent_activity_for.l_with_args(:page => @page.title)
-    xml.description :recent_activity_info.l_with_args(:page => @page.title)
+    xml.title t('recent_activity_for', :page => @page.title)
+    xml.description t('recent_activity_info', :page => @page.title)
     xml.link  page_url(@page)
         
     @activity_log.each do |activity|

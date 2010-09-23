@@ -1,31 +1,31 @@
 = error_messages_for :account
 
 %div
-  %label{:for => 'settingsFormSiteName'}= :site_name.l
+  %label{:for => 'settingsFormSiteName'}= t('site_name')
   = text_field 'account', 'site_name', :id => 'settingsFormSiteName', :class => 'long'
-  %p.desc= :site_name_info.l
+  %p.desc= t('site_name_info')
 
 %div
-  %label{:for => 'settingsFormHostName'}= :host_name.l
+  %label{:for => 'settingsFormHostName'}= t('host_name')
   = text_field 'account', 'host_name', :id => 'settingsFormHostName', :class => 'moderate'
-  %p.desc= :host_name_info.l
+  %p.desc= t('host_name_info')
 
 %div
   = check_box 'account', 'openid_enabled', :id => 'settingsFormOpenID'
-  %label.checkbox{:for => 'settingsFormOpenID'}= :openid_enabled.l
-  %p.desc= :openid_info.l
+  %label.checkbox{:for => 'settingsFormOpenID'}= t('openid_enabled')
+  %p.desc= t('openid_info')
 
 %div
   %span{:style => 'display: block;'}
-    %span{:style => 'font-weight: bold;'}= :tabs_visible.l
-    %span{:style => 'font-size: 90%; color: #555555;'}= "(#{:tabs_visible_info.l})"
+    %span{:style => 'font-weight: bold;'}= t('tabs_visible')
+    %span{:style => 'font-size: 90%; color: #555555;'}= "(#{t('tabs_visible_info')})"
   - Account::Tabs.each do |tab|
     = check_box 'account', "#{tab}_hidden", :id => "setting_#{tab}_hidden"
-    %label.checkbox{:for => "setting_#{tab}_hidden"}= tab.to_sym.l
+    %label.checkbox{:for => "setting_#{tab}_hidden"}= t tab
 
 - Account::Colours.each do |colour|
   %div
-    %label= "#{colour.to_sym.l} #{:colour.l}"
+    %label= "#{t(colour)} #{t('colour')}"
     = text_field 'account', "#{colour}_colour", :id => 'setting_#{colour}_colour', :class => 'short'
-    %span{:style => 'font-size: 75%; color: #555555;'}= "(#{:colour_info.l})"
+    %span{:style => 'font-size: 75%; color: #555555;'}= "(#{t('colour_info')})"
     %div{:style => "border: 1px solid #555555; background-color: #{site_account.send("#{colour}_colour")}; float: left; width: 50px; height: 16px; margin-top: 2px; margin-right: 10px;"}

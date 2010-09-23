@@ -29,7 +29,7 @@ module ApplicationHelper
     unless Account.owner.site_name.empty?
       html_escape Account.owner.site_name
     else
-      html_escape "#{Account.owner.owner.display_name.pluralize} #{:product_name.l}"
+      html_escape "#{Account.owner.owner.display_name.pluralize} #{t('product_name')}"
     end
   end
   
@@ -38,7 +38,7 @@ module ApplicationHelper
   end
   
   def product_signature
-    :product_signature.l
+    t('product_signature')
   end
   
   def pagination_links(url, ids)
@@ -46,7 +46,7 @@ module ApplicationHelper
      "<a href=\"#{url}page=#{id}\">#{id}</a>"
    end.join ' | '
    
-   "<div class=\"advancedPagination\"><span>{:page.l} </span><span>(#{values})</span></div>"
+   "<div class=\"advancedPagination\"><span>{t('page')} </span><span>(#{values})</span></div>"
   end
 
   def checkbox_link(link, checked=false, hint=nil, attrs={})
@@ -109,23 +109,23 @@ module ApplicationHelper
   def widget_options(object)
     opts = []
     opts << ['delete', '-'] if object.can_be_deleted_by(@logged_user)
-    opts << ['edit', :edit.l] if object.class != Journal and object.can_be_edited_by(@logged_user)
+    opts << ['edit', t('edit')] if object.class != Journal and object.can_be_edited_by(@logged_user)
     opts << ['handle', '+']  unless [Reminder, Journal].include? object.class
     opts
   end
   
   def yesno_toggle(object_name, method, options = {})
     radio_button(object_name, method, "true", options.merge({:id => "#{options[:id]}Yes"})) +
-    " <label for=\"#{options[:id]}Yes\" class=\"#{options[:class]}\">#{:yesno_yes.l}</label> ".html_safe +
+    " <label for=\"#{options[:id]}Yes\" class=\"#{options[:class]}\">#{t('yesno_yes')}</label> ".html_safe +
     radio_button(object_name, method, "false", options.merge({:id => "#{options[:id]}No"})) +
-    " <label for=\"#{options[:id]}No\" class=\"#{options[:class]}\">#{:yesno_no.l}</label>".html_safe
+    " <label for=\"#{options[:id]}No\" class=\"#{options[:class]}\">#{t('yesno_no')}</label>".html_safe
   end
   
   def yesno_toggle_tag(name, is_yes, options = {})
     radio_button_tag(name, "1", is_yes, options.merge({:id => "#{options[:id]}Yes"})) +
-    " <label for=\"#{options[:id]}Yes\" class=\"#{options[:class]}\">#{:yesno_yes.l}</label> ".html_safe +
+    " <label for=\"#{options[:id]}Yes\" class=\"#{options[:class]}\">#{t('yesno_yes')}</label> ".html_safe +
     radio_button_tag(name, "0", !is_yes, options.merge({:id => "#{options[:id]}No"})) +
-    " <label for=\"#{options[:id]}No\" class=\"#{options[:class]}\">#{:yesno_no.l}</label>".html_safe
+    " <label for=\"#{options[:id]}No\" class=\"#{options[:class]}\">#{t('yesno_no')}</label>".html_safe
   end
   
   def common_tabs(current)
@@ -147,8 +147,8 @@ module ApplicationHelper
   end
   
   def actions_for_reminder(reminder)
-     [{:name => :snooze.l, :class => 'reminderSnooze', :url => '#', :cond => true},
-      {:name => :delete.l, :class => 'reminderDelete', :url => '#', :cond => true}]
+     [{:name => t('snooze'), :class => 'reminderSnooze', :url => '#', :cond => true},
+      {:name => t('delete'), :class => 'reminderDelete', :url => '#', :cond => true}]
   end
   
   def status_bar

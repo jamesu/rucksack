@@ -80,7 +80,7 @@ class ListsController < ApplicationController
     # Make the darn note
     @list = @page.lists.build(params[:list])
     @list.created_by = @logged_user
-    @list.name ||= :List.l
+    @list.name ||= t('List')
     saved = @list.save
     
     # And the slot, don't forget the slot

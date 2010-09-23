@@ -4,10 +4,10 @@
   .listItemContent
     - if show.can_be_completed_by(@logged_user)
       - unless show.is_completed? or !show.can_be_edited_by(@logged_user)
-        = page_handle [ ['delete', '-'], ['edit', :edit.l], ['handle', '+'] ], "page_item_handle_#{show.id}", '.listItem'
+        = page_handle [ ['delete', '-'], ['edit', t('edit')], ['handle', '+'] ], "page_item_handle_#{show.id}", '.listItem'
       %input.checkbox{:type => 'checkbox', :hover_handle => "page_item_handle_#{show.id}", :checked => (show.is_completed? ? 'checked' : nil)}
     - else
-      %span.readCheckbox= show.is_completed? ? render_icon('checked', :list_item_completed.l) : render_icon('not-checked', :list_item_open.l)
+      %span.readCheckbox= show.is_completed? ? render_icon('checked', t('list_item_completed')) : render_icon('not-checked', t('list_item_open'))
     %span.itemText{:hover_handle => "page_item_handle_#{show.id}"}
       = (show.is_completed? and show.can_be_edited_by(@logged_user)) ? render_icon('del_gen', '', {:class => 'itemDelete'}) : ''
       = textilize show.content, true, {'hover_handle' => "page_item_handle_#{show.id}"}

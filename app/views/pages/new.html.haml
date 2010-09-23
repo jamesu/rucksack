@@ -1,4 +1,4 @@
-- @page_title = :new_page.l
+- @page_title = t('new_page')
 - @tabbed_navigation_items = common_tabs(:pages)
 - @user_navigation_items = user_tabs(nil)
 
@@ -8,7 +8,7 @@
     %label{:for => 'newpage_title'}
     != text_field 'page', 'title', :id => 'newpage_title', :class => 'long'
   %p
-    != submit_tag :page_create.l
+    != submit_tag t('page_create')
 
 %p
-  %a{:href => pages_path}= :page_back.l
+  %a{:href => pages_path}= t('page_back')

@@ -9,10 +9,10 @@
         = h reminder.content
       %span.reminderTime
         - if group[0][2] == :due_format_hours
-          = group[0][2].l_with_args(:count => (reminder.at_time.hour - @now.hour))
+          = t(group[0][2], :count => (reminder.at_time.hour - @now.hour))
         - elsif group[0][2] == :due_upcomming
-          = group[0][2].l
+          = t(group[0][2])
         - elsif group[0][2] == :done
           = action_list actions_for_reminder(reminder)
         - else
-          = reminder.at_time.strftime(group[0][2].l)
+          = reminder.at_time.strftime(t(group[0][2]))

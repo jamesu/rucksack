@@ -17,10 +17,10 @@
           %div
             = text_field 'list_item', 'content', :class => 'autofocus moderate'
           %div
-            %button.submit{:type => 'submit'}= :add_item.l
-            %a.cancel{:href => '#'}= :cancel.l
+            %button.submit{:type => 'submit'}= t('add_item')
+            %a.cancel{:href => '#'}= t('cancel')
       .newItem{:style => (@new_list.nil? ? nil : 'display:none')}
-        %a{:href => '#', :hover_handle => "page_slot_handle_#{page_slot.id}"}= :add_item.l
+        %a{:href => '#', :hover_handle => "page_slot_handle_#{page_slot.id}"}= t('add_item')
   
   .completedItems
     - climit = show_item_count
@@ -29,4 +29,4 @@
       = render :partial => 'list_items/show', :collection => citems[0..climit-1]
     - if climit > 0 and citems.length > climit
       .showItems
-        %a{:href => '#'}= :list_item_show.l
+        %a{:href => '#'}= t('list_item_show')

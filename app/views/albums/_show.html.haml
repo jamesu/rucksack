@@ -13,5 +13,5 @@
         .inner{:style => (@new_album.nil? ? 'display:none' : nil)}
           = render :partial => 'album_pictures/form', :locals => {:object => object}
         .newPicture{:style => (@new_album.nil? ? nil : 'display:none')}
-          %a{:href => '#'}= :add_picture.l
+          %a{:href => '#'}= t('add_picture')
   .clear

@@ -1,10 +1,10 @@
-- @page_title = :journal.l
+- @page_title = t('journal')
 - @no_page_tile = true
 - @tabbed_navigation_items = common_tabs(:journal)
 - @user_navigation_items = user_tabs(nil)
 
 #userStatusBlock
-  %h2= :status.l
+  %h2= t('status')
   
   #userStatus
     #user_status.inner= textilize @status.content
@@ -13,7 +13,7 @@
 #userJournal
   .inner
     - form_tag user_journals_path(@user) do
-      %label{:for => 'journalContent'}= :add_entry.l
+      %label{:for => 'journalContent'}= t('add_entry')
       = text_field 'journal', 'content', :class => 'long', :id => 'journalContent'
 
 #userJournals
@@ -21,5 +21,5 @@
 
 - if @journals.length >= 25
   #userJournalsMore.hint{:from => @journals.last.id}
-    %a{:href => '#'}= :display_x_more_entries.l_with_args(:num => 25)
+    %a{:href => '#'}= t('display_x_more_entries', :num => 25)
     = loader_icon

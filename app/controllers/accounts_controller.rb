@@ -44,7 +44,7 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       if @account.update_attributes(params[:account])
-        flash[:notice] = :settings_updated.l
+        flash[:notice] = t('settings_updated')
         format.html { redirect_back_or_default(:action => 'show') }
         format.xml  { head :ok }
       else

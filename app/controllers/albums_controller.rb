@@ -80,7 +80,7 @@ class AlbumsController < ApplicationController
     # Make the darn note
     @album = @page.albums.build(params[:album])
     @album.created_by = @logged_user
-    @album.title ||= :album.l
+    @album.title ||= t('album')
     saved = @album.save
     
     # And the slot, don't forget the slot

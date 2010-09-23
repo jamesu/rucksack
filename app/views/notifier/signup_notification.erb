@@ -1,8 +1,8 @@
-<%= :notifier_signup_intro.l_with_args(:user_name => @user.display_name, :site_name => @owner.site_name) %>
+<%= t('notifier_signup_intro', :user_name => @user.display_name, :site_name => @owner.site_name) %>
 
-  <%= :username.l %>: <%=h @user.login %>
-  <%= :password.l %>: <%=h @user.password %>
+  <%= t('username') %>: <%=h @user.login %>
+  <%= t('password') %>: <%=h @user.password %>
 
-<%= :notifier_signup_location.l %>
+<%= t('notifier_signup_location') %>
 
   <%=h @url %>

@@ -4,17 +4,17 @@
       - @tabbed_navigation_items.each do |item|
         - if !site_account.send("#{item[:id]}_hidden?")
           %li{:id => "item_#{item[:id]}", :class => (item[:id] == @selected_navigation_item ? 'active' : nil)}
-            %a{:href => item[:url]}= item[:id].l
+            %a{:href => item[:url]}= t item[:id]
   
   - if !@user_navigation_items.nil?
     %ul#userTabs
       - @user_navigation_items.each do |item|
         %li{:id => "item_#{item[:id]}", :class => (item[:id] == @selected_user_item ? 'active' : nil)}
-          %a{:href => item[:url]}= item[:id].l
+          %a{:href => item[:url]}= t item[:id]
       - if @logged_user.can_be_edited_by(@logged_user)
         %li{:id => "item_profile", :class => (@selected_user_item == :my_profile ? 'active' : nil)}
-          %a{:href => current_users_path}= :my_profile.l
+          %a{:href => current_users_path}= t('my_profile')
         %li{:id => "item_logout"}
-          %a.userLogout{:href => '/logout'}= :logout.l
+          %a.userLogout{:href => '/logout'}= t('logout')
 
 %div{:style => 'clear:both'}

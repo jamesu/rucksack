@@ -1,11 +1,11 @@
 - if @album_picture.nil? or @album_picture.new_record?
   - url = page_album_album_pictures_path(@page, @album || object)
   - mth = :post
-  - action_name = :add_picture.l
+  - action_name = t('add_picture')
 - else
   - url = page_album_album_picture_path(@page, @album, @album_picture)
   - mth = :put
-  - action_name = :update.l
+  - action_name = t('update')
 
 - form_tag url, :method => mth, :multipart => true do
   %div
@@ -14,4 +14,4 @@
     = text_field 'picture', 'caption', :class => 'autofocus long', :size => 18
   %div
     %button.submit{:type => 'submit'}= action_name
-    %a.cancel{:href => '#'}= :cancel.l
+    %a.cancel{:href => '#'}= t('cancel')

@@ -14,8 +14,8 @@
   - if @separator.nil? or @separator.new_record?
     %input#add_SeparatorFormBefore{:type => 'hidden', :name=> 'position[before]', :value => '0'}/
     %input#add_SeparatorFormSlot{:type => 'hidden', :name=> 'position[slot]', :value => '0'}/
-    %button{:class => 'submit', :type => 'submit'}= :add_separator.l
+    %button{:class => 'submit', :type => 'submit'}= t('add_separator')
   - else
-    %button{:class => 'submit', :type => 'submit'}= :edit_separator.l
+    %button{:class => 'submit', :type => 'submit'}= t('edit_separator')
   
-  %a{:href => '#', :class => 'cancel'}= :cancel.l
+  %a{:href => '#', :class => 'cancel'}= t('cancel')

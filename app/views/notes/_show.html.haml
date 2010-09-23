@@ -6,8 +6,8 @@
       - if object.title?
         = h object.title
       - if object.show_date
-        %span.pageNoteDate{:hover_handle => hover_handle}= object.created_at.strftime(@time_now.year != object.created_at.year ? :date_format_dmy.l : :date_format_dm.l)
+        %span.pageNoteDate{:hover_handle => hover_handle}= object.created_at.strftime(@time_now.year != object.created_at.year ? t('date_format_dmy') : t('date_format_dm'))
   - if empty_note
-    .pageNoteContent{'hover_handle' => hover_handle}= :empty_note.l
+    .pageNoteContent{'hover_handle' => hover_handle}= t('empty_note')
   - else
     .pageNoteContent!= textilize object.content, false, {'hover_handle' => hover_handle}

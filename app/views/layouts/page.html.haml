@@ -3,7 +3,7 @@
   %head
     %meta{ 'http-equiv' => 'content-type', :content => 'text/html;charset=UTF-8'}/
     - if @page.can_be_edited_by @logged_user
-      %link{ 'rel' => 'alternate', 'type' => 'application/x-wiki', 'title' => :edit.l, 'href' => @page.object_url}/
+      %link{ 'rel' => 'alternate', 'type' => 'application/x-wiki', 'title' => t('edit'), 'href' => @page.object_url}/
     - else
       %meta{ :name => 'page-readonly', :content => 'true' }
     %title= "#{site_name} - #{h(@page.title)}"
@@ -56,9 +56,9 @@
                 - if @page.can_be_edited_by(@logged_user)
                   -# Really need to clean this up!
                   #pageResizeHandle
-                  %div= "#{:add_to_page.l} <span> #{ Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s} atTop\" href=\"#\">#{widget.name.to_sym.l}</a>"}.to_sentence(:words_connector => ", ", :last_word_connector => " #{:cn_or.l} ") }</span>"
+                  %div= "#{t('add_to_page')} <span> #{ Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s} atTop\" href=\"#\">#{t(widget.name)}</a>"}.to_sentence(:words_connector => ", ", :last_word_connector => " #{t('cn_or')} ") }</span>"
               .pageHeader{:url => ''}
-                = @page.can_be_edited_by(@logged_user) ? page_handle([ ['edit', :edit.l] ], 'page_header_handle', '.pageHeader') : ''
+                = @page.can_be_edited_by(@logged_user) ? page_handle([ ['edit', t('edit')] ], 'page_header_handle', '.pageHeader') : ''
                 
                 #page_header.inner
                   %h1

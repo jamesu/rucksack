@@ -1,4 +1,4 @@
-- @page_title = :login.l
+- @page_title = t('login')
 
 - form_tag session_path do
   - if Account.owner.openid_enabled
@@ -6,31 +6,31 @@
   
   #normal_login.inner{:style => @use_openid ? 'display:none' : 'display:block'}
     #loginUsernameField
-      %label{:for => 'loginUsername'}= :username.l
+      %label{:for => 'loginUsername'}= t('username')
       != text_field_tag 'login', @login, :size => 30, :id => 'loginUsername', :class => 'medium'
     #loginPasswordField
-      %label{:for => 'loginPassword'}= :password.l
+      %label{:for => 'loginPassword'}= t('password')
       != password_field_tag 'password', nil, :size => 30, :id => 'loginPassword', :class => 'medium'
     #loginCustom
       = check_box_tag 'remember_me', '1', @remember_me
-      %label.checkbox{:for => 'loginRememberMe'}= :remember_me.l
+      %label.checkbox{:for => 'loginRememberMe'}= t('remember_me')
       %div
-        != link_to :forgot_password_q.l , :controller => 'users', :action => 'forgot_password'
+        != link_to t('forgot_password_q') , :controller => 'users', :action => 'forgot_password'
         - if Account.owner.openid_enabled
           |
-          %a{:href => '/login?use_openid=1', :class => 'toggleOpenID'}= :use_openid.l
+          %a{:href => '/login?use_openid=1', :class => 'toggleOpenID'}= t('use_openid')
   
   - if Account.owner.openid_enabled
     #openid_login.inner{:style => @use_openid ? 'display:block' : 'display:none'}
       #loginOpenIDField
-        %label{:for => 'loginOpenIDIdentity'}= :openid.l
+        %label{:for => 'loginOpenIDIdentity'}= t('openid')
         != text_field_tag "openid_url", "", :size => 30, :id => 'loginOpenIDIdentity', :class => 'openid_login'
       #loginCustom
         %div
-          %a{:href => '/login?use_openid=0', :class => 'toggleOpenID'}= :use_login.l
+          %a{:href => '/login?use_openid=0', :class => 'toggleOpenID'}= t('use_login')
       
   
   #dialogSubmit
-    %button.submit{:type => 'submit'}= :login.l
+    %button.submit{:type => 'submit'}= t('login')
     
   

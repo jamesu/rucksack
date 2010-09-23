@@ -157,17 +157,17 @@ protected
         time = obj.at_time
         
         if time.year > @now.year # Distant future
-            [time.strftime(:reminder_due_future.l), 'dueFuture', :date_format_md]
+            [time.strftime(t('reminder_due_future')), 'dueFuture', :date_format_md]
         elsif time.month > @now.month # Rest of year (monthly)
-            [time.strftime(:reminder_due_months.l), "dueMonths#{time.month-@now.month}", :date_format_mwd]
+            [time.strftime(t('reminder_due_months')), "dueMonths#{time.month-@now.month}", :date_format_mwd]
         elsif time.day > @now.day+1 # Rest of the current month (excluding tomorrow)
-            [time.strftime(:reminder_due_days.l), "dueDays#{time.day-@now.day}",  :date_format_time]
+            [time.strftime(t('reminder_due_days')), "dueDays#{time.day-@now.day}",  :date_format_time]
         elsif time.day > @now.day # Tomorrow
-            [:reminder_due_tomorrow.l, 'dueTomorrow', :date_format_time]
+            [t('reminder_due_tomorrow'), 'dueTomorrow', :date_format_time]
         elsif time.day == @now.day and time > @now
-            [:reminder_due_today.l, 'dueToday', (time.hour > @now.hour ? :due_format_hours : :due_upcomming)]
+            [t('reminder_due_today'), 'dueToday', (time.hour > @now.hour ? :due_format_hours : :due_upcomming)]
         else
-            [:reminder_done.l, 'done', :done]
+            [t('reminder_done'), 'done', :done]
         end
     end
   end
