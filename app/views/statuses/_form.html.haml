@@ -1,4 +1,4 @@
-- form_tag status_path(), :method => :put, :id => 'edit_UserStatus' do
+= form_tag status_path(), :method => :put, :id => 'edit_UserStatus' do
   != text_area 'status', 'content', :class => 'long'
   %button{:class => 'submit', :type => 'submit'}= t('update')
   %a{:href => '#', :class => 'cancel'}= t('cancel')

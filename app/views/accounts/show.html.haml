@@ -3,7 +3,7 @@
 - @user_navigation_items = user_tabs(:settings)
 
 #settingsForm
-  - form_tag account_path(), :method => :put do
+  = form_tag account_path(), :method => :put do
     = render :partial => 'form'
     %div.formSubmit
       %button.submit{:type => 'submit'}= t('save')

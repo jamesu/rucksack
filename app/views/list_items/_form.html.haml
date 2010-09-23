@@ -1,4 +1,4 @@
-- form_tag page_list_list_item_path(@page, @list, @list_item), :method => :put do
+= form_tag page_list_list_item_path(@page, @list, @list_item), :method => :put do
   %div
     = text_field 'list_item', 'content', :class => 'autofocus moderate'
   %button.submit{:type => 'submit'}= t('rename_item')

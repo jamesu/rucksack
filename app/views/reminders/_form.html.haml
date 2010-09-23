@@ -1,4 +1,4 @@
-- form_tag( reminder_path(@reminder), :method => :put, :class => 'reminderForm') do
+= form_tag( reminder_path(@reminder), :method => :put, :class => 'reminderForm') do
   %div
     != text_field 'reminder', 'content', :id => 'reminderFormContent', :class => 'autofocus long'
   %div

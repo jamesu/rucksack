@@ -2,7 +2,7 @@
 - @user_navigation_items = user_tabs(nil)
 - @page_title = t('share_page')
 
-- form_tag hash_for_share_page_path.merge(:id => @page.id, :use_route => nil), :method => :post, :class => 'pageShareForm' do
+= form_tag hash_for_share_page_path.merge(:id => @page.id, :use_route => nil), :method => :post, :class => 'pageShareForm' do
   != error_messages_for :page
   
   %div.pageShareSection

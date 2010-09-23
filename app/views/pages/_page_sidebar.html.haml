@@ -1,7 +1,7 @@
 .sidebarBlock
   .addPage
     .inner{:style => 'display:none'}
-      - form_tag pages_path(), :method => :post do
+      = form_tag pages_path(), :method => :post do
         - unless @page.nil?
           = hidden_field_tag 'active_page', @page.id
         %div

@@ -1,6 +1,6 @@
 - @page_title = t('login')
 
-- form_tag session_path do
+= form_tag session_path do
   #normal_login.inner{:style => 'display: block'}
     #loginEmailField
       %label{:for => 'loginEmail'}= t('email_address')

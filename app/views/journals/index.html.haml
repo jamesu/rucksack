@@ -12,7 +12,7 @@
 
 #userJournal
   .inner
-    - form_tag user_journals_path(@user) do
+    = form_tag user_journals_path(@user) do
       %label{:for => 'journalContent'}= t('add_entry')
       = text_field 'journal', 'content', :class => 'long', :id => 'journalContent'
 

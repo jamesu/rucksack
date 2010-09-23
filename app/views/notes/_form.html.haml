@@ -7,7 +7,7 @@
   - fmethod = :put
   - fid = 'widgetForm'
   
-- form_tag( fpath, :method => fmethod, :class => fid) do
+= form_tag( fpath, :method => fmethod, :class => fid) do
   - if @note.nil? or @note.new_record?
     %h2= t('add_note')
   

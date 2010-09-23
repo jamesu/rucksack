@@ -1,6 +1,6 @@
 - @page_title = t('login')
 
-- form_tag session_path do
+= form_tag session_path do
   - if Account.owner.openid_enabled
     != hidden_field_tag 'use_openid', (@use_openid ? '1' : '0'), :id => 'loginOpenID'
   

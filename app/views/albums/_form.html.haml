@@ -7,7 +7,7 @@
   - fmethod = :put
   - fid = 'pageAlbumForm'
 
-- form_tag( fpath, :method => fmethod, :class => fid) do
+= form_tag( fpath, :method => fmethod, :class => fid) do
   - if @album.nil? or @album.new_record?
     %h2= t('add_album')
   

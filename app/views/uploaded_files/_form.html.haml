@@ -7,7 +7,7 @@
   - fmethod = :put
   - fid = 'widgetForm upload'
 
-- form_tag( fpath, :method => fmethod, :class => fid, :multipart => true) do
+= form_tag( fpath, :method => fmethod, :class => fid, :multipart => true) do
   %div
     != file_field 'uploaded_file', 'data', :class => 'uploadedFileFormTitle', :class => 'autofocus long'
   %div

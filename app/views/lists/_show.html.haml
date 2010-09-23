@@ -13,7 +13,7 @@
   - if object.can_be_edited_by(@logged_user)
     .addItem
       .inner{:style => (@new_list.nil? ? 'display:none' : nil)}
-        - form_tag page_list_list_items_path(object.page, object), :method => :post do
+        = form_tag page_list_list_items_path(object.page, object), :method => :post do
           %div
             = text_field 'list_item', 'content', :class => 'autofocus moderate'
           %div
