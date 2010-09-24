@@ -314,7 +314,7 @@ class PagesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { if request.method != :get; redirect_to(page_url(@page)) end }
+      format.html { if request.method_symbol != :get; redirect_to(page_url(@page)) end }
       format.js { }
       format.xml  { head :ok }
     end
