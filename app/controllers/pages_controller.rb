@@ -285,15 +285,15 @@ class PagesController < ApplicationController
     
     set_public = page_attribs.has_key?(:is_public) and page_attribs[:is_public] == 'true'
     
-    case request.method
-    when 'GET'
-    when 'POST'
+    case request.method_symbol
+    when :get
+    when :post
         # Set afresh
         unless set_users.nil?
             guest_users = @page.shared_users.collect { |user| user.account_id.nil? ? user : nil }.compact
             @page.shared_users = guest_users + set_users.collect(&grab_users).compact
         end
-    when 'PUT'
+    when :put
         # Insert into list
         unless set_users.nil?
             set_users.collect(&grab_users).compact.each {|user| @page.shared_users << user unless @page.shared_users_ids.include?(user.id)}
@@ -306,11 +306,11 @@ class PagesController < ApplicationController
     end
     
     # Merge in emails
-    unless request.method == :get
+    unless request.method_symbol == :get
       @page.updated_by = @logged_user
       @page.is_public = set_public
       @page.shared_emails = page_attribs[:shared_emails]
-      @page.save unless request.method == :get
+      @page.save unless request.method_symbol == :get
     end
 
     respond_to do |format|
@@ -366,10 +366,10 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
     return error_status(true, :cannot_edit_page) unless (@page.can_be_edited_by(@logged_user))
     
-    case request.method
-      when 'GET'
+    case request.method_symbol
+      when :get
         @view = 'tags_form'
-      when 'POST'
+      when :post
         @page.tags = params[:page][:tags]
         @view = 'tags'
         @page.save

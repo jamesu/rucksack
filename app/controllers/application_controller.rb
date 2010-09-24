@@ -68,7 +68,7 @@ protected
   
   def user_track
     if not @logged_user.nil?
-      store_location if request.method == :get and request.format == :html
+      store_location if request.method_symbol == :get and request.format == :html
       User.update(@logged_user.id, {:last_visit => Time.now.utc})
     end
     true

@@ -168,8 +168,8 @@ class UsersController < ApplicationController
  
   # GET /users/forgot_password 
   def forgot_password
-    case request.method
-      when 'POST'
+    case request.method_symbol == :get
+      when :post
         @your_email = params[:your_email]
         
         user = User.find(:first, :conditions => ['email = ? AND account_id NOT NULL', @your_email])
@@ -202,8 +202,8 @@ class UsersController < ApplicationController
     
     @initial_signup = params.has_key? :initial
     
-    case request.method
-      when 'POST'
+    case request.method_symbol == :get
+      when :post
         
         @password_data = params[:user]
             
