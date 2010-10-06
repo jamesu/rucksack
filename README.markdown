@@ -29,10 +29,7 @@ In addition there are a few complimentary features, namely:
 
 ## What about a demo?
 
-You can try <a href="http://rucksack.heroku.com">rucksack on heroku</a> with the following credentials:
-
-* username: admin
-* password: password
+Currently there is no demo available. However since rucksack takes mere minutes to install, who needs a demo? :)
 
 ## Sounds great, how do i install it?
 
