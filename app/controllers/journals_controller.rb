@@ -164,6 +164,6 @@ protected
       else
         date.strftime(date.year == now.year ? t('journal_date_format') : t('journal_date_format_extended'))
       end
-    end
+    end.map{|k,v| [k,v]}
   end
 end

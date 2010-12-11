@@ -169,7 +169,7 @@ protected
         else
             [t('reminder_done'), 'done', :done]
         end
-    end
+    end.map{|k,v| [k,v]}
   end
   
   def reminder_layout

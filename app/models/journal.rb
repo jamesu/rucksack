@@ -44,7 +44,7 @@ class Journal < ActiveRecord::Base
   end
   
   def can_be_seen_by(user)
-   return (user.is_admin or user.account_id == self.created_by.account_id)
+   return (user.is_admin or user.account_id == self.user.account_id)
   end
   
   # Accesibility

@@ -31,8 +31,8 @@ class DashboardsController < ApplicationController
     @cached_users = {}
     @recent_activities = ApplicationLog.grouped_nicely(@logged_user).group_by do |obj|
       obj.created_on.to_date.to_s
-    end.map do |date|
-      [date[0], date[1].group_by { |obj| @cached_users[obj.created_by_id] ||= obj.created_by; obj.created_by_id }]
+    end.map do |date, items|
+      [date, items.group_by { |obj| @cached_users[obj.created_by_id] ||= obj.created_by; obj.created_by_id }.map{|k,v|[k,v]}]
     end
     
     respond_to do |format|
