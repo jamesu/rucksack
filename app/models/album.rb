@@ -25,8 +25,6 @@
 #++
 
 class Album < ActiveRecord::Base
-  acts_as_ferret :fields => [ 'title' ]
-  
   belongs_to :page
   has_one :page_slot, :as => :rel_object
   

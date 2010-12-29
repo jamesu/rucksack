@@ -25,8 +25,6 @@
 #++
 
 class Note < ActiveRecord::Base
-  acts_as_ferret :fields => [ 'title', 'content' ]
-  
   belongs_to :page
   has_one :page_slot, :as => :rel_object
   

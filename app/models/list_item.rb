@@ -25,8 +25,6 @@
 #++
 
 class ListItem < ActiveRecord::Base
-  acts_as_ferret :fields => [ 'content' ]
-  
   include Rails.application.routes.url_helpers
   
   belongs_to :list

@@ -25,8 +25,6 @@
 #++
 
 class List < ActiveRecord::Base
-  acts_as_ferret :fields => [ 'name' ]
-  
   include Rails.application.routes.url_helpers
   
   belongs_to :page

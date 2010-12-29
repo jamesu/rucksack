@@ -4,9 +4,8 @@ gem 'rails', '~> 3.0.0', :require => nil
 gem 'sqlite3-ruby', :require => 'sqlite3'
 
 gem 'gravtastic'
-gem 'mojombo-chronic'
+gem 'chronic'
 gem 'RedCloth'
-gem 'ferret'
 gem 'haml'
 gem 'ruby-openid'
 gem 'gravtastic'
