@@ -46,7 +46,7 @@ You can do this by typing in the following command:
 Next, run it either by pointing Phusion Passenger to the 
 public folder, or run the local server, e.g.:
 
-    script/server
+    script/rails server
 
 Finally, login. The default credentials are:
 
