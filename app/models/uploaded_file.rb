@@ -25,8 +25,6 @@
 #++
 
 class UploadedFile < ActiveRecord::Base
-  acts_as_ferret :fields => [ 'data_file_name', 'description' ]
-  
   belongs_to :page
   has_one :page_slot, :as => :rel_object
   
