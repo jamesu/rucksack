@@ -27,8 +27,6 @@
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
-  acts_as_ferret :fields => [ 'username', 'email', 'display_name' ]
-  
   include Rails.application.routes.url_helpers
   include Authentication
   #include Authentication::ByPassword
