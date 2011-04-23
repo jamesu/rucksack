@@ -31,7 +31,7 @@ class Notifier < ActionMailer::Base
     @from       = "noreply@#{Account.owner.host_name}"
     @sent_on    = sent_at
     @headers    = {}
-    
+
     @body       = {
       :site_name => Account.owner.site_name,
       :reminder => reminder,
@@ -39,16 +39,16 @@ class Notifier < ActionMailer::Base
       :sent_on => sent_at
     }
   end
-  
+
   def page_share_info(user, page)
     @subject    = t('user_wants_to_share_page', 
-                    :user => page.updated_by.display_name, 
-                    :page => page.title)
+    :user => page.updated_by.display_name, 
+    :page => page.title)
     @recipients = user.email
     @from       = "noreply@#{Account.owner.host_name}"
     @sent_on    = Time.now
     @headers    = {}
-    
+
     @body       = {
       :site_name => Account.owner.site_name,
       :page => page,
@@ -56,15 +56,15 @@ class Notifier < ActionMailer::Base
       :url => "http://#{Account.owner.host_name}#{page_path({:id => page.id, :token => user.twisted_token})}"
     }
   end
-  
+
   def signup_notification(user)
     setup_email(user)
     @subject    += t('notifier_signup_subject')
-    
+
     @body[:owner] = Account.owner
     @body[:url] = "http://#{Account.owner.host_name}/login"
   end
-  
+
   def password_reset(user)
     setup_email(user)
     @subject    += t('notifier_password_reset_subject')
@@ -77,14 +77,14 @@ class Notifier < ActionMailer::Base
     @body[:sent_on] = @sent_on
     @body[:url] = "http://#{Account.owner.host_name}/users/reset_password/#{user.id}?confirm=#{user.password_reset_key}"
   end
-  
+
   protected
-    def setup_email(user)
-      @recipients  = "#{user.email}"
-      @from        = "noreply@#{Account.owner.host_name}"
-      @subject     = "#{Account.owner.site_name} - "
-      @sent_on     = Time.now
-      
-      @body[:user] = user
-    end
+  def setup_email(user)
+    @recipients  = "#{user.email}"
+    @from        = "noreply@#{Account.owner.host_name}"
+    @subject     = "#{Account.owner.site_name} - "
+    @sent_on     = Time.now
+
+    @body[:user] = user
+  end
 end
