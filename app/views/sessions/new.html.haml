@@ -1,10 +1,8 @@
 - @page_title = t('login')
 
 = form_tag session_path do
-  - if Account.owner.openid_enabled
-    != hidden_field_tag 'use_openid', (@use_openid ? '1' : '0'), :id => 'loginOpenID'
   
-  #normal_login.inner{:style => @use_openid ? 'display:none' : 'display:block'}
+  #normal_login.inner
     #loginUsernameField
       %label{:for => 'loginUsername'}= t('username')
       != text_field_tag 'login', @login, :size => 30, :id => 'loginUsername', :class => 'medium'
@@ -16,19 +14,6 @@
       %label.checkbox{:for => 'loginRememberMe'}= t('remember_me')
       %div
         != link_to t('forgot_password_q') , :controller => 'users', :action => 'forgot_password'
-        - if Account.owner.openid_enabled
-          |
-          %a{:href => '/login?use_openid=1', :class => 'toggleOpenID'}= t('use_openid')
-  
-  - if Account.owner.openid_enabled
-    #openid_login.inner{:style => @use_openid ? 'display:block' : 'display:none'}
-      #loginOpenIDField
-        %label{:for => 'loginOpenIDIdentity'}= t('openid')
-        != text_field_tag "openid_url", "", :size => 30, :id => 'loginOpenIDIdentity', :class => 'openid_login'
-      #loginCustom
-        %div
-          %a{:href => '/login?use_openid=0', :class => 'toggleOpenID'}= t('use_login')
-      
   
   #dialogSubmit
     %button.submit{:type => 'submit'}= t('login')

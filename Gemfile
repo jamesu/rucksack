@@ -7,7 +7,6 @@ gem 'gravtastic'
 gem 'chronic'
 gem 'RedCloth'
 gem 'haml'
-gem 'ruby-openid'
 gem 'gravtastic'
 
 group :development do

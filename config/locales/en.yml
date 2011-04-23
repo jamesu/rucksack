@@ -10,22 +10,16 @@ en:
   forgot_password_q: "Forgot password?"
   send_password: Send password
   use_login: Use username & password
-  use_openid: Use OpenID
   remember_me: Remember me
   login_success: Login successful
   login_failure: Invalid login
   logout_success: You have logged out
-  invalid_openid_server: "Unable to find openid server for <q>%{openid_url}</q>"
-  failed_verification_openid_url: "Verification of %{openid_url} failed"
-  failed_login_openid_url: "Failed login with identity %{openid_url}"
-  success_login_openid_url: "You have successfully logged in with %{openid_url} as your identity"
   verification_failed: Verification failed
   verification_cancelled: Verification cancelled
   unknown_response_status: "Unknown response status: %{status}"
   invalid_email: Invalid email address
   invalid_email_not_in_use: Invalid email address
   invalid_request: Invalid request
-  openid: OpenID
   
   token_login_email_desc: "Please enter your email address in order to continue."
   
@@ -255,8 +249,6 @@ en:
   site_name_info: "The name your RuckSack goes by."
   host_name: Hostname
   host_name_info: "The hostname used by your RuckSack, which is also used for sending emails. e.g. localhost.com."
-  openid_enabled: "Enable OpenID logins"
-  openid_info: "For more information about OpenID, please visit <a href=\"http://openid.net/\">OpenID</a>."
   tabs_visible: "Tabs"
   tabs_visible_info: "Check to hide"
   header: "Site header"

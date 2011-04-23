@@ -11,11 +11,6 @@
   %p.desc= t('host_name_info')
 
 %div
-  = check_box 'account', 'openid_enabled', :id => 'settingsFormOpenID'
-  %label.checkbox{:for => 'settingsFormOpenID'}= t('openid_enabled')
-  %p.desc= t('openid_info')
-
-%div
   %span{:style => 'display: block;'}
     %span{:style => 'font-weight: bold;'}= t('tabs_visible')
     %span{:style => 'font-size: 90%; color: #555555;'}= "(#{t('tabs_visible_info')})"

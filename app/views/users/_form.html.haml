@@ -21,12 +21,6 @@
   %label{:for => 'userFormEmail'}= t('email_address')
   = text_field 'user', 'email', :id => 'userFormEmail', :class => 'moderate'
 
-- if Account.owner.openid_enabled
-  %div
-    %label{:for => 'userFormOpenID'}= t('openid')
-    = text_field 'user', 'identity_url', :id => 'userFormOpenID', :class => 'moderate openid_login' 
-    %p.desc= t('openid_info')
-
 %div
   %label{:for => 'userFormPassword'}= t('password')
   = password_field 'user', 'password', :id => 'userFormPassword', :class => 'moderate'

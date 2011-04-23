@@ -3,4 +3,3 @@ main_account:
   owner_id: 1
   site_name: "Test"
   host_name: "localhost"
-  openid_enabled: false

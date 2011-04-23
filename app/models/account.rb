@@ -33,7 +33,7 @@ class Account < ActiveRecord::Base
     @@cached_owner ||= Account.find(:first)
   end
 
-  attr_accessible :site_name, :host_name, :openid_enabled
+  attr_accessible :site_name, :host_name
 
   Tabs = ['overview', 'pages', 'reminders', 'journal']
 

@@ -1144,24 +1144,6 @@ var Page = {
         
         return false;
       });
-      
-      // Login
-      
-      $('.toggleOpenID').click(function(evt) {
-        var field = $('#loginOpenID');
-        if (field.attr('value') == '1') {
-          field.attr('value', '0');
-          $('#openid_login').hide();
-          $('#normal_login').show();
-        } else {
-          field.attr('value', '1');
-          $('#normal_login').hide();
-          $('#openid_login').show();
-        }
-        
-        return false;
-      });
-    
     },
     
     rebind: function () {

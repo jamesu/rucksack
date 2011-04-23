@@ -186,20 +186,6 @@ class User < ActiveRecord::Base
     return result == self.token
   end
 
-  def self.openid_login(identity_url)
-    user = find(:first, :conditions => ["identity_url = ?", identity_url])
-    if (!user.nil?)
-      now = Time.now.utc
-      user.last_login = now
-      user.last_activity = now
-      user.last_visit = now
-      user.save!
-      return user
-    else
-      return nil
-    end
-  end
-
   def self.authenticate(login, pass)
     user = find(:first, :conditions => ["username = ?", login])
     if (!user.nil?) and (user.valid_password(pass))
