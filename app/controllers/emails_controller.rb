@@ -27,6 +27,7 @@ class EmailsController < ApplicationController
   layout nil
   
   before_filter :grab_page
+  before_filter :load_email, :except => [:index, :new, :create]
   
   cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
   
@@ -44,8 +45,6 @@ class EmailsController < ApplicationController
   # GET /emails/1
   # GET /emails/1.xml
   def show
-    @email = @page.emails.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.js
@@ -68,7 +67,6 @@ class EmailsController < ApplicationController
 
   # GET /emails/1/edit
   def edit
-    @email = @page.emails.find(params[:id])
     return error_status(true, :cannot_edit_email) unless (@email.can_be_edited_by(@logged_user))
 
     respond_to do |format|
@@ -109,7 +107,6 @@ class EmailsController < ApplicationController
   # PUT /emails/1
   # PUT /emails/1.xml
   def update
-    @email = @page.emails.find(params[:id])
     return error_status(true, :cannot_edit_email) unless (@email.can_be_edited_by(@logged_user))
     
     @email.updated_by = @logged_user
@@ -131,7 +128,6 @@ class EmailsController < ApplicationController
   # DELETE /emails/1
   # DELETE /emails/1.xml
   def destroy
-    @email = @page.emails.find(params[:id])
     return error_status(true, :cannot_delete_email) unless (@email.can_be_deleted_by(@logged_user))
     
     @slot_id = @email.page_slot.id
@@ -147,7 +143,6 @@ class EmailsController < ApplicationController
   end
   
   def public
-    @email = @page.emails.find(params[:id])
     return error_status(true, :cannot_see_email) unless (@email.can_be_seen_by(@logged_user))
 
     respond_to do |format|
@@ -164,4 +159,14 @@ protected
       logged_in?
     end
   end
+  
+  def load_email
+    begin
+      @email = @page.emails.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      error_status(true, :cannot_find_email)
+      return false
+    end
+  end
+  
 end
