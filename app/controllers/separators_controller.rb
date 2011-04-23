@@ -25,6 +25,7 @@
 
 class SeparatorsController < ApplicationController
   before_filter :grab_page
+  before_filter :load_separator, :except => [:index, :new, :create]
   
   # GET /separators
   # GET /separators.xml
@@ -40,8 +41,6 @@ class SeparatorsController < ApplicationController
   # GET /separators/1
   # GET /separators/1.xml
   def show
-    @separator = @page.separators.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.js
@@ -64,7 +63,6 @@ class SeparatorsController < ApplicationController
 
   # GET /separators/1/edit
   def edit
-    @separator = @page.separators.find(params[:id])
     return error_status(true, :cannot_edit_separator) unless (@separator.can_be_edited_by(@logged_user))
 
     respond_to do |format|
@@ -105,7 +103,6 @@ class SeparatorsController < ApplicationController
   # PUT /separators/1
   # PUT /separators/1.xml
   def update
-    @separator = @page.separators.find(params[:id])
     return error_status(true, :cannot_edit_separator) unless (@separator.can_be_edited_by(@logged_user))
     
     @separator.updated_by = @logged_user
@@ -127,7 +124,6 @@ class SeparatorsController < ApplicationController
   # DELETE /separators/1
   # DELETE /separators/1.xml
   def destroy
-    @separator = @page.separators.find(params[:id])
     return error_status(true, :cannot_delete_separator) unless (@separator.can_be_deleted_by(@logged_user))
     
     @slot_id = @separator.page_slot.id
@@ -141,4 +137,16 @@ class SeparatorsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+protected
+  
+  def load_separator
+    begin
+      @separator = @page.separators.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      error_status(true, :cannot_find_separator)
+      return false
+    end
+  end
+  
 end

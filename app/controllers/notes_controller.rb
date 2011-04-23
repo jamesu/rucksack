@@ -25,6 +25,7 @@
 
 class NotesController < ApplicationController
   before_filter :grab_page
+  before_filter :load_note, :except => [:index, :new, :create]
   
   cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
   
@@ -42,8 +43,6 @@ class NotesController < ApplicationController
   # GET /notes/1
   # GET /notes/1.xml
   def show
-    @note = @page.notes.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.js
@@ -66,7 +65,6 @@ class NotesController < ApplicationController
 
   # GET /notes/1/edit
   def edit
-    @note = @page.notes.find(params[:id])
     return error_status(true, :cannot_edit_note) unless (@note.can_be_edited_by(@logged_user))
 
     respond_to do |format|
@@ -106,7 +104,6 @@ class NotesController < ApplicationController
   # PUT /notes/1
   # PUT /notes/1.xml
   def update
-    @note = @page.notes.find(params[:id])
     return error_status(true, :cannot_edit_note) unless (@note.can_be_edited_by(@logged_user))
     
     @note.updated_by = @logged_user
@@ -128,7 +125,6 @@ class NotesController < ApplicationController
   # DELETE /notes/1
   # DELETE /notes/1.xml
   def destroy
-    @note = @page.notes.find(params[:id])
     return error_status(true, :cannot_delete_note) unless (@note.can_be_deleted_by(@logged_user))
     
     @slot_id = @note.page_slot.id
@@ -142,4 +138,16 @@ class NotesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+protected
+  
+  def load_note
+    begin
+      @email = @page.notes.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      error_status(true, :cannot_find_note)
+      return false
+    end
+  end
+
 end

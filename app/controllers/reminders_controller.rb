@@ -27,11 +27,12 @@ class RemindersController < ApplicationController
   layout :reminder_layout
   
   before_filter :grab_user
+  before_filter :load_reminder, :except => [:index, :new, :create]
+  
   
   # GET /reminders
   # GET /reminders.xml
   def index
-    #@reminders = @user.reminders
     return error_status(true, :cannot_see_reminders) unless (@user.reminders_can_be_seen_by(@logged_user))
     
     @grouped_reminders = get_groups
@@ -46,7 +47,6 @@ class RemindersController < ApplicationController
   # GET /reminders/1
   # GET /reminders/1.xml
   def show
-    @reminder = @user.reminders.find(params[:id])
     return error_status(true, :cannot_see_reminder) unless (@reminder.can_be_seen_by(@logged_user))
 
     respond_to do |format|
@@ -69,7 +69,6 @@ class RemindersController < ApplicationController
 
   # GET /reminders/1/edit
   def edit
-    @reminder = @user.reminders.find(params[:id])
     return error_status(true, :cannot_edit_reminder) unless (@reminder.can_be_edited_by(@logged_user))
   end
 
@@ -96,7 +95,6 @@ class RemindersController < ApplicationController
   # PUT /reminders/1
   # PUT /reminders/1.xml
   def update
-    @reminder = @user.reminders.find(params[:id])
     return error_status(true, :cannot_edit_reminder) unless (@reminder.can_be_edited_by(@logged_user))
     @reminder.updated_by = @logged_user
 
@@ -116,7 +114,6 @@ class RemindersController < ApplicationController
   # DELETE /reminders/1
   # DELETE /reminders/1.xml
   def destroy
-    @reminder = @user.reminders.find(params[:id])
     return error_status(true, :cannot_delete_reminder) unless (@reminder.can_be_deleted_by(@logged_user))
     @reminder.updated_by = @logged_user
     @reminder.destroy
@@ -129,7 +126,6 @@ class RemindersController < ApplicationController
   end
   
   def snooze
-    @reminder = @user.reminders.find(params[:id])
     return error_status(true, :cannot_edit_reminder) unless (@reminder.can_be_edited_by(@logged_user))
     @reminder.updated_by = @logged_user
     @reminder.snooze
@@ -148,6 +144,17 @@ class RemindersController < ApplicationController
   end
 
 protected
+
+  def load_reminder
+    begin
+      @reminder = @user.reminders.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      error_status(true, :cannot_find_reminder)
+      return false
+    end
+    
+    true
+  end
 
   def get_groups
     groups = []

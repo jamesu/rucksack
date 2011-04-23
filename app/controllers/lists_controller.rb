@@ -25,6 +25,7 @@
 
 class ListsController < ApplicationController
   before_filter :grab_page
+  before_filter :load_list, :except => [:index, :new, :create]
   
   cache_sweeper :page_sweeper, :only => [:create, :update, :destroy, :transfer, :reorder]
   
@@ -42,8 +43,6 @@ class ListsController < ApplicationController
   # GET /lists/1
   # GET /lists/1.xml
   def show
-    @list = @page.lists.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.js
@@ -66,7 +65,6 @@ class ListsController < ApplicationController
 
   # GET /lists/1/edit
   def edit
-    @list = @page.lists.find(params[:id])
     return error_status(true, :cannot_edit_list) unless (@list.can_be_edited_by(@logged_user))
   end
 
@@ -106,7 +104,6 @@ class ListsController < ApplicationController
   # PUT /lists/1
   # PUT /lists/1.xml
   def update
-    @list = @page.lists.find(params[:id])
     return error_status(true, :cannot_edit_list) unless (@list.can_be_edited_by(@logged_user))
     
     @list.updated_by = @logged_user
@@ -128,7 +125,6 @@ class ListsController < ApplicationController
   # DELETE /lists/1
   # DELETE /lists/1.xml
   def destroy
-    @list = @page.lists.find(params[:id])
     return error_status(true, :cannot_delete_list) unless (@list.can_be_deleted_by(@logged_user))
     
     @slot_id = @list.page_slot.id
@@ -145,7 +141,6 @@ class ListsController < ApplicationController
   
   # PUT /lists/1/transfer
   def transfer
-    @list = @page.lists.find(params[:id])
     @item = ListItem.find(params[:list_item][:id])
     
     return error_status(true, :insufficient_permissions) unless (@list.can_be_edited_by(@logged_user) and @item.can_be_edited_by(@logged_user))
@@ -162,26 +157,34 @@ class ListsController < ApplicationController
   
   # POST /lists/1/reorder
   def reorder
-    list = @page.lists.find(params[:id])
-    return error_status(true, :cannot_edit_list) unless (list.can_be_edited_by(@logged_user))
+    return error_status(true, :cannot_edit_list) unless (@list.can_be_edited_by(@logged_user))
     
     order = params[:items].collect { |id| id.to_i }
     
-    list.list_items.each do |item|
+    @list.list_items.each do |item|
         idx = order.index(item.id)
         item.position = idx
-        #puts "pos=#{item.position}"
-        item.position ||= list.list_items.length
-        #puts "pos=#{item.position}"
-        #puts "--"
+        item.position ||= @list.list_items.length
         item.save!
     end
-    #puts "!!"
+    
     respond_to do |format|
       format.html { head :ok }
       format.json { head :ok }
       format.xml  { head :ok }
     end
   end
-  
+
+protected
+
+  def load_list
+    begin
+      @list = @page.lists.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      error_status(true, :cannot_find_list)
+      return false
+    end
+    
+    true
+  end
 end

@@ -26,6 +26,7 @@
 class ListItemsController < ApplicationController
   before_filter :grab_page
   before_filter :grab_list
+  before_filter :load_list_item, :except => [:index, :new, :create]
   
   cache_sweeper :page_sweeper, :only => [:create, :update, :destroy, :status]
   
@@ -52,8 +53,6 @@ class ListItemsController < ApplicationController
   # GET /list_items/1
   # GET /list_items/1.xml
   def show
-    @list_item = @list.list_items.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.js
@@ -76,7 +75,6 @@ class ListItemsController < ApplicationController
 
   # GET /list_items/1/edit
   def edit
-    @list_item = @list.list_items.find(params[:id])
     return error_status(true, :cannot_edit_listitem) unless (@list_item.can_be_edited_by(@logged_user))
   end
 
@@ -105,7 +103,6 @@ class ListItemsController < ApplicationController
   # PUT /list_items/1
   # PUT /list_items/1.xml
   def update
-    @list_item = @list.list_items.find(params[:id])
     return error_status(true, :cannot_edit_listitem) unless (@list_item.can_be_edited_by(@logged_user))
     
     @list_item.updated_by = @logged_user
@@ -127,7 +124,6 @@ class ListItemsController < ApplicationController
   # DELETE /list_items/1
   # DELETE /list_items/1.xml
   def destroy
-    @list_item = @list.list_items.find(params[:id])
     return error_status(true, :cannot_edit_listitem) unless (@list_item.can_be_deleted_by(@logged_user))
     
     @list_item.updated_by = @logged_user
@@ -142,7 +138,6 @@ class ListItemsController < ApplicationController
   
   # PUT /list_items/1
   def status
-    @list_item = @list.list_items.find(params[:id])
     return error_status(true, :cannot_edit_listitem) unless (@list_item.can_be_completed_by(@logged_user))
     
     @list_item.set_completed(params[:list_item][:completed] == 'true', @logged_user)
@@ -158,6 +153,15 @@ class ListItemsController < ApplicationController
   end
 
 protected
+
+  def load_list_item
+    begin
+      @list_item = @list.list_items.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      error_status(true, :cannot_find_listitem)
+      return false
+    end
+  end
 
   def grab_list
     begin

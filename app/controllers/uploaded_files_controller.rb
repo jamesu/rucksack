@@ -25,6 +25,7 @@
 
 class UploadedFilesController < ApplicationController
   before_filter :grab_page, :except => [:icon]
+  before_filter :load_uploaded_file, :except => [:index, :new, :create, :icon]
   
   cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
   
@@ -42,7 +43,6 @@ class UploadedFilesController < ApplicationController
   # GET /uploaded_files/1
   # GET /uploaded_files/1.xml
   def show
-    @uploaded_file = @page.uploaded_files.find(params[:id])
     @new_file = !params[:is_new].nil?
     
     @slot_id = @uploaded_file.page_slot.id
@@ -81,7 +81,6 @@ class UploadedFilesController < ApplicationController
 
   # GET /uploaded_files/1/edit
   def edit
-    @uploaded_file = @page.uploaded_files.find(params[:id])
     return error_status(true, :cannot_edit_uploaded_file) unless (@uploaded_file.can_be_edited_by(@logged_user))
 
     respond_to do |format|
@@ -122,7 +121,6 @@ class UploadedFilesController < ApplicationController
   # PUT /uploaded_files/1
   # PUT /uploaded_files/1.xml
   def update
-    @uploaded_file = @page.uploaded_files.find(params[:id])
     return error_status(true, :cannot_edit_uploaded_file) unless (@uploaded_file.can_be_edited_by(@logged_user))
     
     @uploaded_file.updated_by = @logged_user
@@ -144,7 +142,6 @@ class UploadedFilesController < ApplicationController
   # DELETE /uploaded_files/1
   # DELETE /uploaded_files/1.xml
   def destroy
-    @uploaded_file = @page.uploaded_files.find(params[:id])
     return error_status(true, :cannot_delete_uploaded_file) unless (@uploaded_file.can_be_deleted_by(@logged_user))
     
     @slot_id = @uploaded_file.page_slot.id
@@ -161,5 +158,16 @@ class UploadedFilesController < ApplicationController
   
   def icon
     redirect_to '/images/file_icons/genericGray.png', :status => 301
+  end
+
+protected
+  
+  def load_uploaded_file
+    begin
+      @uploaded_file = @page.uploaded_files.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      error_status(true, :cannot_find_uploaded_file)
+      return false
+    end
   end
 end

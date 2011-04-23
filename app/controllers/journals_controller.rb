@@ -27,6 +27,7 @@ class JournalsController < ApplicationController
   layout 'pages'
   
   before_filter :grab_user
+  before_filter :load_journal, :except => [:index, :new, :create]
   
   # GET /journals
   # GET /journals.xml
@@ -62,7 +63,6 @@ class JournalsController < ApplicationController
   # GET /journals/1
   # GET /journals/1.xml
   def show
-    @journal = @user.journals.find(params[:id])
     return error_status(true, :cannot_see_journal) unless (@journal.can_be_seen_by(@logged_user))
 
     respond_to do |format|
@@ -85,7 +85,6 @@ class JournalsController < ApplicationController
 
   # GET /journals/1/edit
   def edit
-    @journal = @user.journals.find(params[:id])
     return error_status(true, :cannot_edit_journal) unless (@journal.can_be_edited_by(@logged_user))
   end
 
@@ -117,7 +116,6 @@ class JournalsController < ApplicationController
   # PUT /journals/1
   # PUT /journals/1.xml
   def update
-    @journal = @user.journals.find(params[:id])
     return error_status(true, :cannot_edit_journal) unless (@journal.can_be_edited_by(@logged_user))
 
     respond_to do |format|
@@ -137,7 +135,6 @@ class JournalsController < ApplicationController
   # DELETE /journals/1
   # DELETE /journals/1.xml
   def destroy
-    @journal = @user.journals.find(params[:id])
     return error_status(true, :cannot_delete_journal) unless (@journal.can_be_deleted_by(@logged_user))
     @journal.destroy
 
@@ -149,6 +146,15 @@ class JournalsController < ApplicationController
   end
   
 protected
+
+  def load_journal
+    begin
+      @journal = @user.journals.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      error_status(true, :cannot_find_journal)
+      return false
+    end
+  end
 
   def get_journals(users, from=nil)
     conditions = from.nil? ? ['user_id IN (?)', users] : ['user_id IN (?) AND id < ?', users, from]
