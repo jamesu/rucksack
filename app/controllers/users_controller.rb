@@ -198,6 +198,7 @@ class UsersController < ApplicationController
     unless @user.member_of_owner? and @user.password_reset_key == params[:confirm]
       error_status(false, :invalid_request, {}, false)
       redirect_to new_session_path
+      return
     end
     
     @initial_signup = params.has_key? :initial

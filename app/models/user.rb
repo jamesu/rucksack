@@ -29,14 +29,13 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
   include Rails.application.routes.url_helpers
   include Authentication
-  #include Authentication::ByPassword
   include Authentication::ByCookieToken
   include Gravtastic
 
   belongs_to :account
   belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
 
-  gravtastic
+  is_gravtastic
 
   belongs_to :home_page, :class_name => 'Page', :foreign_key => 'home_page_id', :dependent => :destroy
   has_many :pages, :foreign_key => 'created_by_id', :order => 'pages.title ASC', :dependent => :destroy
