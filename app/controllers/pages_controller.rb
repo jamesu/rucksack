@@ -28,7 +28,7 @@ class PagesController < ApplicationController
   layout :page_layout
   
   before_filter :grab_user
-  before_filter :search, :only => :index
+  before_filter :load_page, :except => [:index, :new, :create, :reorder_sidebar, :current]
   after_filter  :user_track, :except => 'public'
   
   caches_page :public
@@ -38,6 +38,8 @@ class PagesController < ApplicationController
   # GET /pages.xml
   def index
     return error_status(true, :cannot_see_pages) unless (@user.pages_can_be_seen_by(@logged_user))
+    
+    search
     
     if @find_opts.nil? or [:html, :js].include?(request.format.to_sym)
       @pages = @user.pages
@@ -59,12 +61,6 @@ class PagesController < ApplicationController
   # GET /pages/1
   # GET /pages/1.xml
   def show
-    begin
-      @page = Page.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      return error_status(true, :page_not_found)
-    end
-    
     return error_status(true, :cannot_see_page) unless (@page.can_be_seen_by(@logged_user))
     
     @content_for_sidebar = 'page_sidebar' if @logged_user.member_of_owner?
@@ -85,11 +81,6 @@ class PagesController < ApplicationController
   
   # GET /pages/1/public(.html)
   def public
-    begin
-      @page = Page.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      return error_status(true, :page_not_found)
-    end
     return error_status(true, :cannot_see_page) unless (@page.can_be_seen_by(@logged_user))
 
     respond_to do |format|
@@ -112,11 +103,6 @@ class PagesController < ApplicationController
 
   # GET /pages/1/edit
   def edit
-    begin
-      @page = Page.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      return error_status(true, :page_not_found)
-    end
     return error_status(true, :cannot_edit_page) unless (@page.can_be_edited_by(@logged_user))
   end
 
@@ -148,11 +134,6 @@ class PagesController < ApplicationController
   # PUT /pages/1
   # PUT /pages/1.xml
   def update
-    begin
-      @page = Page.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      return error_status(true, :page_not_found)
-    end
     return error_status(true, :cannot_edit_page) unless (@page.can_be_edited_by(@logged_user))
 
     respond_to do |format|
@@ -172,12 +153,6 @@ class PagesController < ApplicationController
   # DELETE /pages/1
   # DELETE /pages/1.xml
   def destroy
-    begin
-      @page = Page.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      redirect_to(pages_url)
-    end
-    @page = Page.find(params[:id])
     return error_status(true, :cannot_delete_page) unless (@page.can_be_deleted_by(@logged_user))
     
     @page.destroy
@@ -191,15 +166,14 @@ class PagesController < ApplicationController
   
   # POST /pages/1/reorder
   def reorder
-    page = Page.find(params[:id])
-    return error_status(true, :insufficient_permissions) unless (page.can_be_edited_by(@logged_user))
+    return error_status(true, :insufficient_permissions) unless (@page.can_be_edited_by(@logged_user))
     
     order = params[:slots].collect { |id| id.to_i }
     
-    page.slots.each do |slot|
-        idx = order.index(slot.id)
-        slot.position = idx
-        slot.save!
+    @page.slots.each do |slot|
+      idx = order.index(slot.id)
+      slot.position = idx
+      slot.save!
     end
 
     respond_to do |format|
@@ -211,31 +185,29 @@ class PagesController < ApplicationController
   # POST /pages
   # POST /pages.xml
   def reorder_sidebar
-      index = 0
-      params[:page_ids].each do |page_id|
-          p = Page.find(page_id)
-          p.sidebar_order = index
-          p.save!
-          index += 1
-      end
-      
-      respond_to do |format|
-          format.html { head :ok }
-          format.xml  { head :ok }
-      end
+    index = 0
+    params[:page_ids].each do |page_id|
+        p = Page.find(page_id)
+        p.sidebar_order = index
+        p.save!
+        index += 1
+    end
+    
+    respond_to do |format|
+        format.html { head :ok }
+        format.xml  { head :ok }
+    end
   end
   
-  # PUT /pages/1/transfer
   def transfer
-    page = Page.find(params[:id])
     @slot = PageSlot.find(params[:page_slot][:id])
     
-    return error_status(true, :insufficient_permissions) unless (page.can_be_edited_by(@logged_user) and @slot.page.can_be_edited_by(@logged_user))
+    return error_status(true, :insufficient_permissions) unless (@page.can_be_edited_by(@logged_user) and @slot.page.can_be_edited_by(@logged_user))
     
-    @slot.page = page
-    @slot.rel_object.page = page
+    @slot.page = @page
+    @slot.rel_object.page = @page
     @slot.rel_object.save
-    @slot.position = page.slots.length
+    @slot.position = @page.slots.length
     @slot.save
 
     respond_to do |format|
@@ -246,14 +218,13 @@ class PagesController < ApplicationController
   end
   
   def favourite
-    @page = Page.find(params[:id])
     return error_status(true, :insufficient_permissions) unless (@user.can_add_favourite(@logged_user))
     
     @set_favourite = params[:page][:is_favourite].to_i != 0
     if @set_favourite
-        @user.favourite_pages << @page unless @page.is_favourite?(@user)
+      @user.favourite_pages << @page unless @page.is_favourite?(@user)
     else
-        @user.favourite_pages.delete(@page)
+      @user.favourite_pages.delete(@page)
     end
 
     respond_to do |format|
@@ -264,21 +235,21 @@ class PagesController < ApplicationController
   end
   
   def share
-    @page = Page.find(params[:id])
     return error_status(true, :insufficient_permissions) unless (@page.can_be_shared_by(@logged_user))
     
     grab_users = Proc.new {|sid| 
-        begin
-            User.find(sid)
-        rescue ActiveRecord::RecordNotFound
-            nil
-        end}
+      begin
+        User.find(sid)
+      rescue ActiveRecord::RecordNotFound
+        nil
+      end
+    }
     
     set_users = []
     page_attribs = params[:page]
     unless page_attribs.nil?
-        set_users = page_attribs[:shared_users]
-        set_users ||= []
+      set_users = page_attribs[:shared_users]
+      set_users ||= []
     else
       page_attribs = {}
     end
@@ -288,21 +259,21 @@ class PagesController < ApplicationController
     case request.method_symbol
     when :get
     when :post
-        # Set afresh
-        unless set_users.nil?
-            guest_users = @page.shared_users.collect { |user| user.account_id.nil? ? user : nil }.compact
-            @page.shared_users = guest_users + set_users.collect(&grab_users).compact
-        end
+      # Set afresh
+      unless set_users.nil?
+          guest_users = @page.shared_users.collect { |user| user.account_id.nil? ? user : nil }.compact
+          @page.shared_users = guest_users + set_users.collect(&grab_users).compact
+      end
     when :put
-        # Insert into list
-        unless set_users.nil?
-            set_users.collect(&grab_users).compact.each {|user| @page.shared_users << user unless @page.shared_users_ids.include?(user.id)}
-        end
+      # Insert into list
+      unless set_users.nil?
+          set_users.collect(&grab_users).compact.each {|user| @page.shared_users << user unless @page.shared_users_ids.include?(user.id)}
+      end
     when :delete
-        # Delete from list
-        unless set_users.nil?
-            set_users.collect(&grab_users).compact.each {|user| @page.shared_users.delete(user)}
-        end
+      # Delete from list
+      unless set_users.nil?
+          set_users.collect(&grab_users).compact.each {|user| @page.shared_users.delete(user)}
+      end
     end
     
     # Merge in emails
@@ -344,15 +315,14 @@ class PagesController < ApplicationController
   end
   
   def duplicate
-    @page = Page.find(params[:id])
     return error_status(true, :cannot_duplicate_page) unless (@page.can_be_duplicated_by(@logged_user))
     
     begin
-        @new_page = @page.duplicate(@logged_user)
-        @logged_user.favourite_pages << @new_page
+      @new_page = @page.duplicate(@logged_user)
+      @logged_user.favourite_pages << @new_page
     rescue Object => o
-        logger.warn o
-        return error_status(true, :cannot_duplicate_page)
+      logger.warn o
+      return error_status(true, :cannot_duplicate_page)
     end
     
     respond_to do |format|
@@ -363,7 +333,6 @@ class PagesController < ApplicationController
   end
   
   def tags
-    @page = Page.find(params[:id])
     return error_status(true, :cannot_edit_page) unless (@page.can_be_edited_by(@logged_user))
     
     case request.method_symbol
@@ -383,7 +352,6 @@ class PagesController < ApplicationController
   end
   
   def resize
-    @page = Page.find(params[:id])
     return error_status(true, :cannot_edit_page) unless (@page.can_be_edited_by(@logged_user))
     
     if params.has_key?(:page) and params[:page].has_key?(:width)
@@ -398,7 +366,6 @@ class PagesController < ApplicationController
   end
   
   def reset_address
-    @page = Page.find(params[:id])
     return error_status(true, :cannot_edit_page) unless (@page.can_reset_email(@logged_user))
     
     @page.update_attribute('address', 'random')
@@ -431,6 +398,14 @@ protected
       @avail_tags = Tag.list_in_page(nil) - @search_tags
     else
       @avail_tags = Tag.list_in_page(nil)
+    end
+  end
+  
+  def load_page
+    begin
+      @page = Page.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      return error_status(true, :page_not_found)
     end
   end
   
