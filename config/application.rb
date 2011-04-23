@@ -43,6 +43,7 @@ module Rucksack
     config.time_zone = 'UTC'
     config.i18n.default_locale = :en
     config.encoding = "utf-8"
+    config.filter_parameters += [:password]
   end
 end
 
