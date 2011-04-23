@@ -25,6 +25,7 @@
 
 class AlbumsController < ApplicationController
   before_filter :grab_page
+  before_filter :load_album, :except => [:index, :new, :create]
   
   cache_sweeper :page_sweeper, :only => [:create, :update, :destroy, :transfer, :reorder]
   
@@ -42,8 +43,6 @@ class AlbumsController < ApplicationController
   # GET /albums/1
   # GET /albums/1.xml
   def show
-    @album = @page.albums.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.js
@@ -66,7 +65,6 @@ class AlbumsController < ApplicationController
 
   # GET /albums/1/edit
   def edit
-    @album = @page.albums.find(params[:id])
     return error_status(true, :cannot_edit_album) unless (@album.can_be_edited_by(@logged_user))
   end
 
@@ -106,7 +104,6 @@ class AlbumsController < ApplicationController
   # PUT /albums/1
   # PUT /albums/1.xml
   def update
-    @album = @page.albums.find(params[:id])
     return error_status(true, :cannot_edit_album) unless (@album.can_be_edited_by(@logged_user))
     
     @album.updated_by = @logged_user
@@ -128,7 +125,6 @@ class AlbumsController < ApplicationController
   # DELETE /albums/1
   # DELETE /albums/1.xml
   def destroy
-    @album = @page.albums.find(params[:id])
     return error_status(true, :cannot_delete_album) unless (@album.can_be_deleted_by(@logged_user))
     
     @slot_id = @album.page_slot.id
@@ -145,7 +141,6 @@ class AlbumsController < ApplicationController
   
   # PUT /albums/1/transfer
   def transfer
-    @album = @page.albums.find(params[:id])
     @item = AlbumPicture.find(params[:picture][:id])
     
     return error_status(true, :insufficient_permissions) unless (@album.can_be_edited_by(@logged_user) and @item.can_be_edited_by(@logged_user))
@@ -162,22 +157,32 @@ class AlbumsController < ApplicationController
   
   # POST /albums/1/reorder
   def reorder
-    album = @page.albums.find(params[:id])
-    return error_status(true, :cannot_edit_album) unless (album.can_be_edited_by(@logged_user))
+    return error_status(true, :cannot_edit_album) unless (@album.can_be_edited_by(@logged_user))
     
     order = params[:pictures].collect { |id| id.to_i }
     
-    album.album_items.each do |item|
-        idx = order.index(item.id)
-        item.position = idx
-        item.position ||= album.album_items.length
-        item.save!
+    @album.album_items.each do |item|
+      idx = order.index(item.id)
+      item.position = idx
+      item.position ||= @album.album_items.length
+      item.save!
     end
     
     respond_to do |format|
       format.html { head :ok }
       format.json { head :ok }
       format.xml  { head :ok }
+    end
+  end
+  
+protected
+
+  def load_album
+    begin
+      @album = @page.albums.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      error_status(true, :cannot_find_album)
+      return false
     end
   end
   
