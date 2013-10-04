@@ -50,21 +50,17 @@ module ApplicationHelper
   end
 
   def checkbox_link(link, checked=false, hint=nil, attrs={})
-    icon_url = checked ? "/images/icons/checked.gif" : "/images/icons/not-checked.gif"
+    icon_url = path_to_image(checked ? "icons/checked.gif" : "icons/not-checked.gif")
 
     link_to "<img src='#{icon_url}' alt='' />", link, attrs.merge({:method => :post, :class => 'checkboxLink', :title => ( hint.nil? ? '' : (html_escape hint) )})
   end
 
   def render_icon(filename, alt, attrs={})
-    attr_values = attrs.keys.collect do |a|
-      "#{a}='#{attrs[a]}'"
-    end.join ' '
-
-    "<img src='/images/icons/#{filename}.gif' alt='#{alt}' #{attr_values}/>"
+    image_tag("icons/#{filename}.gif", attrs.merge(:alt => alt))
   end
 
   def file_icon_for(filename, opts={})
-    "/images/file_icons/#{File.extname(filename)[1..-1] || ''}.png"
+    path_to_image("file_icons/#{File.extname(filename)[1..-1] || ''}.png")
   end
 
   def format_size(value)
@@ -103,7 +99,7 @@ module ApplicationHelper
     items = actions.collect do |action|
       "<li class=\"slot_#{action[0]} innerHandle\">#{action[1]}</li>\n"
     end.join('')
-    "<div class=\"pageSlotHandle\" id=\"#{id}\" restype=\"#{resType}\" style=\"display:none\"><div class=\"inner innerHandle\">\n<ul class=\"innerHandle\">#{items}</ul>\n</div></div>"
+    "<div class=\"pageSlotHandle\" id=\"#{id}\" restype=\"#{resType}\" style=\"display:none\"><div class=\"inner innerHandle\">\n<ul class=\"innerHandle\">#{items}</ul>\n</div></div>".html_safe
   end
 
   def widget_options(object)
@@ -157,7 +153,7 @@ module ApplicationHelper
     classes = flash_error ? 'flash error' : 'success'
     styles = flash_message.nil? ? '' : 'display:block' 
 
-    "<div id=\"statusBar\" class=\"#{classes}\" style=\"#{styles}\">#{h(flash_message)}</div>"
+    "<div id=\"statusBar\" class=\"#{classes}\" style=\"#{styles}\">#{h(flash_message)}</div>".html_safe
   end
 
   def forced_user?
@@ -189,11 +185,11 @@ module ApplicationHelper
 
   def ie_stylesheet_link_tag(*sources)
     content = stylesheet_link_tag(sources)
-    "<!--[if IE]>\n#{content}\n<![endif]-->\n"
+    "<!--[if IE]>\n#{content}\n<![endif]-->\n".html_safe
   end
 
   def loader_icon
-    return "<img class=\"loader\" src=\"/images/icons/loading.gif\" style=\"display:none;\"/>"
+    image_tag("icons/loading.gif", :class => 'loader', :style => 'display:none')
   end
 
   def if_authorized?(action, resource, &block)

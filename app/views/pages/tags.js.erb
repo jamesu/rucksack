@@ -1,0 +1,5 @@
+$('#pageTags').html('<%= escape_javascript render(:partial => 'tags/show', :collection => @page.tags_list) %>');
+
+$('#pageTagsForm').hide();
+$('#pageTags').show();
+$('#pageEditTags').show();

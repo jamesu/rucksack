@@ -30,6 +30,7 @@ en:
   password_changed: Password changed
   new_password_required: New password required
   does_not_match: Does not match
+  forgot_password_sent_email: "Instructions have been sent to your email address"
   
   # Tabs
   overview: Overview

@@ -64,7 +64,7 @@ class Album < ActiveRecord::Base
   end
 
   def duplicate(new_page)
-    new_album = self.clone
+    new_album = self.dup
     new_album.created_by = new_page.created_by
     new_album.page = new_page
     new_album.save!

@@ -1,0 +1,3 @@
+$('#<%= "album_header_#{@album.id}_form" %>').html('<%= escape_javascript render(:partial => 'form') %>');
+$('#<%= "album_header_#{@album.id}" %>').hide();
+$('#<%= "album_header_#{@album.id}_form" %>').show().autofocus();

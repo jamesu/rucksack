@@ -7,12 +7,12 @@
   %h2= t('status')
   
   #userStatus
-    #user_status.inner= textilize @status.content
+    #user_status.inner!= textilize h(@status.content)
     #user_status_form.form{:style => 'display:none'}= render :partial => 'statuses/form', :object => @status
 
 #userJournal
   .inner
-    = form_tag user_journals_path(@user) do
+    = form_tag user_journals_path(@user), :remote => true do
       %label{:for => 'journalContent'}= t('add_entry')
       = text_field 'journal', 'content', :class => 'long', :id => 'journalContent'
 

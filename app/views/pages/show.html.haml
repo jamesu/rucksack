@@ -30,7 +30,7 @@
         %a{:href => '#'}= t('cancel')
       #pageInsertItemWidgets
         = "#{t('add_to_page')}:"
-        %span= Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s}\" href=\"#\">#{t(widget.name.to_sym)}</a>"}.to_sentence(:words_connector => ", ", :last_word_connector => " #{t('cn_or')} ")
+        %span!= Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s}\" href=\"#\">#{t(widget.name.to_sym)}</a>"}.to_sentence(:words_connector => ", ", :last_word_connector => " #{t('cn_or')} ")
     
     #pageTablet
       #pageTabletContainer
@@ -49,7 +49,7 @@
   
   - if @page.can_be_shared_by(@logged_user)
     |
-    =  t(@page.is_shared? ? :page_is_shared : :page_is_not_shared, :link => link_to(t('change'), hash_for_share_page_path.merge(:id => @page.id, :use_route => nil)))
+    !=  t(@page.is_shared? ? :page_is_shared : :page_is_not_shared, :link => link_to(t('change'), hash_for_share_page_path.merge(:id => @page.id, :use_route => nil)))
   
   - if @page.can_be_duplicated_by(@logged_user)
     |
@@ -62,8 +62,8 @@
   - if @page.can_be_edited_by(@logged_user)
     %div
       #pageAddress
-        = t('email_page', :email => "#{@page.address}@#{Account.owner.host_name}")
+        != t('email_page', :email => "#{@page.address}@#{Account.owner.host_name}")
         - if @logged_user.member_of_owner?
-          = "(#{link_to t('reset'), page_path(@page), :id => 'pageReset'})"
+          != "(#{link_to t('reset'), page_path(@page), :id => 'pageReset'})"
   
 

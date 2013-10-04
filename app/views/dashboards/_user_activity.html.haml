@@ -10,10 +10,10 @@
       %li.activityEntry
         -# "#{log.action} (#{log.rel_object_id} #{log.rel_object_type}) | p:#{log.page_id} by #{log.created_by_id}"
         - if !log.page_id.nil?
-          = t "activity_edit_Page", :object_name => log.page.object_name, :previous_name => log.previous_name, :url => !log.page.nil? ? url_for(log.page) : '#'
+          != t "activity_edit_Page", :object_name => h(log.page.object_name), :previous_name => h(log.previous_name), :url => !log.page.nil? ? url_for(log.page) : '#'
           -# "(#{log.created_on.to_s})"
         - else
-          = t "activity_#{log.action}_#{log.rel_object_type}", :object_name => log.object_name, :previous_name => log.previous_name, :url => !log.rel_object.nil? ? url_for(log.rel_object) : '#'
+          != t "activity_#{log.action}_#{log.rel_object_type}", :object_name => h(log.object_name), :previous_name => h(log.previous_name), :url => !log.rel_object.nil? ? url_for(log.rel_object) : '#'
           -# "(#{log.created_on.to_s})" 
 
 

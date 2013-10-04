@@ -24,7 +24,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-require File.dirname(__FILE__) + '/../config/environment'
+require File.expand_path('../../config/environment',  __FILE__)
 
 initial_user_name = ENV['RUCKSACK_USER'] || 'admin'
 initial_user_displayname = ENV['RUCKSACK_DISPLAYNAME'] || 'Administrator'
@@ -51,13 +51,11 @@ if owner_user.nil?
     # Try resetting the password
     initial_user = User.find(:first, :conditions => ['username = ?', initial_user_name])
     if initial_user.nil?
-      puts "\nCouldn't create or reset the owner user!\n"
-      return
+      raise Exception, "\nCouldn't create or reset the owner user!\n"
     else
       initial_user.password = initial_user_password
       if not initial_user.save
-        puts "\nCouldn't reset the owner user!\n"
-        return
+        raise Exception, "\nCouldn't reset the owner user!\n"
       end
     end
   else

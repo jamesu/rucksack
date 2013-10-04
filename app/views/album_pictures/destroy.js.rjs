@@ -1,1 +1,0 @@
-page.remove "album_picture_#{@album_picture.id}"

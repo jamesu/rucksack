@@ -1,4 +1,0 @@
-page.replace_html "page_header_form", :partial => 'form'
-
-page["page_header"].hide
-page.call('$(\'#page_header_form\').show().autofocus')

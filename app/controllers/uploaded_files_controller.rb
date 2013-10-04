@@ -157,7 +157,7 @@ class UploadedFilesController < ApplicationController
   end
   
   def icon
-    redirect_to '/images/file_icons/genericGray.png', :status => 301
+    redirect_to path_to_image('file_icons/genericGray.png'), :status => 301
   end
 
 protected

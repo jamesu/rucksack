@@ -128,7 +128,7 @@ class Reminder < ActiveRecord::Base
 
   def dispatch_notification
     #puts ""
-    Notifier.deliver_reminder(self)
+    Notifier.reminder(self).deliver
     self.sent = true
   end
 
@@ -170,7 +170,7 @@ class Reminder < ActiveRecord::Base
 
   def self.select_repeat
     @@repeat_lookup.keys.map do |key|
-      [t("reminder_repeat_#{key}"), key]
+      [I18n.t("reminder_repeat_#{key}").html_safe, key]
     end
   end
 

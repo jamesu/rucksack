@@ -98,7 +98,7 @@ class List < ActiveRecord::Base
     end
 
     def duplicate(new_page)
-      new_list = self.clone
+      new_list = self.dup
       new_list.created_by = new_page.created_by
       new_list.page = new_page
       new_list.save!

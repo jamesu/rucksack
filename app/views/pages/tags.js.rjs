@@ -1,4 +1,0 @@
-page.replace_html "pageTags", :partial => 'tags/show', :collection => @page.tags_list
-page["pageTagsForm"].hide
-page["pageTags"].show
-page["pageEditTags"].show

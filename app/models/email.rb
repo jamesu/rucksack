@@ -61,7 +61,7 @@ class Email < ActiveRecord::Base
   end
 
   def duplicate(new_page)
-    new_email = self.clone
+    new_email = self.dup
     new_email.created_by = new_page.created_by
     new_email.page = new_page
 

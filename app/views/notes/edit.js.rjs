@@ -1,2 +1,0 @@
-page.replace_html "page_slot_#{@note.page_slot.id}", :partial => 'form'
-page["page_slot_#{@note.page_slot.id}"].autofocus

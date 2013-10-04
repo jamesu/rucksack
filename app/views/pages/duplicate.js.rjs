@@ -1,1 +1,0 @@
-page.redirect_to(hash_for_page_path.merge(:id => @new_page.id, :use_route => nil))

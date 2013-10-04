@@ -1,3 +1,0 @@
-page.replace_html "user_status", @user.status.content
-page["user_status_form"].hide
-page["user_status"].show

@@ -1,0 +1,4 @@
+$('#<%= "list_header_#{@list.id}_form" %>').hide();
+$('#<%= "list_header_#{@list.id}_form" %>').replaceWith('');
+$('#<%= "list_header_#{@list.id}" %>').replaceWith('<%= escape_javascript("<h2 hover_handle=\"page_slot_handle_#{@list.page_slot.id}\">#{h(@list.name)}</h2>") %>');
+$('#<%= "list_header_#{@list.id}" %>').show();

@@ -143,7 +143,7 @@ protected
   
   def load_note
     begin
-      @email = @page.notes.find(params[:id])
+      @note = @page.notes.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       error_status(true, :cannot_find_note)
       return false

@@ -1,0 +1,5 @@
+<% if @new_file %>
+  $('#<%= @insert_element %>').before('<%= "<div class=\"pageSlot\" id=\"page_slot_#{@slot_id}\" slot=\"#{@slot_id}\"></div>".html_safe %>');
+<% end %>
+$('#<%= "page_slot_#{@uploaded_file.page_slot.id}" %>').html('<%= escape_javascript render(:partial => 'pages/slot', :locals => {:page_slot => @uploaded_file.page_slot, :object => @uploaded_file}) %>');
+Page.makeSortable();

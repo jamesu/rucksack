@@ -64,7 +64,7 @@ class Note < ActiveRecord::Base
   end
 
   def duplicate(new_page)
-    new_note = self.clone
+    new_note = self.dup
     new_note.created_by = new_page.created_by
     new_note.page = new_page
 

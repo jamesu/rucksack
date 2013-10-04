@@ -17,27 +17,26 @@
     = auto_discovery_link_tag(:rss, {:controller => 'pages', :action => 'show', :id => @page.id, :format => 'rss'})
     
     = javascript_include_tag 'jquery.js' 
-    = javascript_include_tag 'jquery-ui.js'
-    = javascript_include_tag 'jrails.js'
+    = javascript_include_tag 'jquery_ujs.js' 
+    = javascript_include_tag 'jquery.ui.all.js'
     = javascript_include_tag 'application.js'
     
     %meta{ :name => 'page-type', :content => 'page' }
     %meta{ :name => 'page-id', :content => @page.id }
     %meta{ :name => 'page-width', :content => @page.width }
-    
-    - if protect_against_forgery?
-      %meta{ :name => 'auth-token', :content => form_authenticity_token }
+
+    = csrf_meta_tag
     = javascript_tag yield(:js_templates)
     
-    %style{:type => 'text/css'}= ".totalPageWidth { width: #{@page.width+200}px; }\n#content { width: #{@page.width}px; }"
+    %style{:type => 'text/css'}!= ".totalPageWidth { width: #{@page.width+200}px; }\n#content { width: #{@page.width}px; }"
     
-    %style{:type => 'text/css'}= "#tabsWrapper ul li a { color: #{site_account.tab_text_colour}; background: #{site_account.tab_background_colour}; }"
-    %style{:type => 'text/css'}= "#tabsWrapper ul li a:hover { color: #{site_account.tab_text_hover_colour}; background: #{site_account.tab_background_hover_colour}; }"
-    %style{:type => 'text/css'}= "#header { background: #{site_account.header_colour}; }"
-    %style{:type => 'text/css'}= "#pageTools, #pageInsertItemsBar { background-color: #{site_account.page_header_colour}; }"
-    %style{:type => 'text/css'}= "#pageTools, #pageTools a { color: #{site_account.page_header_text_colour}; }"
-    %style{:type => 'text/css'}= "#pageTools a:hover { color: white; }"
-    %style{:type => 'text/css'}= "#pageInsertItemsBar, #pageInsertItemsBar a { color: #{site_account.page_header_text_colour}; }"
+    %style{:type => 'text/css'}!= "#tabsWrapper ul li a { color: #{site_account.tab_text_colour}; background: #{site_account.tab_background_colour}; }"
+    %style{:type => 'text/css'}!= "#tabsWrapper ul li a:hover { color: #{site_account.tab_text_hover_colour}; background: #{site_account.tab_background_hover_colour}; }"
+    %style{:type => 'text/css'}!= "#header { background: #{site_account.header_colour}; }"
+    %style{:type => 'text/css'}!= "#pageTools, #pageInsertItemsBar { background-color: #{site_account.page_header_colour}; }"
+    %style{:type => 'text/css'}!= "#pageTools, #pageTools a { color: #{site_account.page_header_text_colour}; }"
+    %style{:type => 'text/css'}!= "#pageTools a:hover { color: white; }"
+    %style{:type => 'text/css'}!= "#pageInsertItemsBar, #pageInsertItemsBar a { color: #{site_account.page_header_text_colour}; }"
   %body#body
     #wrapper
       
@@ -56,7 +55,7 @@
                 - if @page.can_be_edited_by(@logged_user)
                   -# Really need to clean this up!
                   #pageResizeHandle
-                  %div= "#{t('add_to_page')} <span> #{ Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s} atTop\" href=\"#\">#{t(widget.name)}</a>"}.to_sentence(:words_connector => ", ", :last_word_connector => " #{t('cn_or')} ") }</span>"
+                  %div!= "#{t('add_to_page')} <span> #{ Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s} atTop\" href=\"#\">#{t(widget.name)}</a>"}.to_sentence(:words_connector => ", ", :last_word_connector => " #{t('cn_or')} ") }</span>"
               .pageHeader{:url => ''}
                 = @page.can_be_edited_by(@logged_user) ? page_handle([ ['edit', t('edit')] ], 'page_header_handle', '.pageHeader') : ''
                 

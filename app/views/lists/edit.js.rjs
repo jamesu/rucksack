@@ -1,3 +1,0 @@
-page.replace_html "list_header_#{@list.id}_form", :partial => 'form'
-page["list_header_#{@list.id}"].hide
-page.call("$('#list_header_#{@list.id}_form').show().autofocus")

@@ -1,0 +1,102 @@
+@import "reset";
+@import "css3";
+
+body {
+  margin: 0px;
+  padding: 0px;
+  background-color: white;
+  color: #333333;
+  background: #eeeeee;
+}
+
+body, p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+pre {
+  background-color: #eeeeee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+h1 {
+  font-size: 28px;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  border-bottom: 2px dashed #eeeeee;
+}
+
+#dialog {
+  margin: 60px auto 0px auto;
+  width: 300px;
+  padding: 12px;
+  border-bottom: 3px solid #bbbbbb;
+  border-right: 3px solid #bbbbbb;
+  background: white;
+}
+
+#dialogSubmit {
+  padding-top: 6px;
+  margin-top: 6px;
+  border-top: 2px dashed #eeeeee;
+}
+
+#statusBar {
+  display: none;
+}
+
+#statusBar.success, .flash.error, .flash.success {
+  margin: 10px 0;
+  padding: 5px 10px;
+  border: 1px solid #cccccc;
+  clear: both;
+  cursor: pointer;
+  text-align: left;
+}
+
+.flash.error {
+  background: #ffb0b0;
+  border-color: red;
+}
+
+#statusBar.success, .flash.success {
+  background: #90dc90;
+  border-color: green;
+}
+
+input {
+  font-size: 13px;
+}
+
+label {
+  clear: both;
+  display: block;
+  font-size: 14px;
+}
+
+label.checkbox {
+  clear: none;
+  display: inline;
+}
+
+a {
+  color: black;
+}
+
+a:visited {
+  color: #666666;
+}
+
+a:hover {
+  color: white;
+  background-color: black;
+}
+
+@import "forms";

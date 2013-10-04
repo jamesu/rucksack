@@ -82,17 +82,30 @@ class UsersController < ApplicationController
     return error_status(true, :cannot_create_user) unless (User.can_be_created_by(@logged_user))
     
     user_attribs = params[:user]
-    
-    @user = Account.owner.users.new(user_attribs)
+
+    @user = Account.owner.users.new()
+
     if @logged_user.is_admin
-        @user.is_admin = user_attribs[:is_admin]
-        @user.username = user_attribs[:username]
+      if user_attribs.has_key?('is_admin')
+        set_admin = user_attribs.delete('is_admin')
+        @user.is_admin = Account.owner.owner_id != @user.id ? set_admin : true
+      end
+
+      @user.username = user_attribs.delete('username') if user_attribs.has_key?('username')
+    else
+      user_attribs.delete('is_admin')
+      user_attribs.delete('username')
     end
     
-    if user_attribs.has_key? :password and !user_attribs[:password].empty?
-        @user.password = user_attribs[:password]
-        @user.password_confirmation = user_attribs[:password_confirmation]
+    if user_attribs.has_key? 'password' and !user_attribs['password'].empty?
+      @user.password = user_attribs.delete('password')
+      @user.password_confirmation = user_attribs.delete('password_confirmation')
+    else
+      user_attribs.delete('password')
+      user_attribs.delete('password_confirmation')
     end
+
+    @user.attributes = user_attribs
     
     saved = @user.save
     if saved
@@ -122,14 +135,26 @@ class UsersController < ApplicationController
     
     user_attribs = params[:user]
     if @logged_user.is_admin
-        @user.is_admin = Account.owner.owner_id != @user.id ? user_attribs[:is_admin] : true
-        @user.username = user_attribs[:username]
+      if user_attribs.has_key?('is_admin')
+        set_admin = user_attribs.delete('is_admin')
+        @user.is_admin = Account.owner.owner_id != @user.id ? set_admin : true
+      end
+
+      @user.username = user_attribs.delete('username') if user_attribs.has_key?('username')
+    else
+      user_attribs.delete('is_admin')
+      user_attribs.delete('username')
     end
     
-    if user_attribs.has_key? :password and !user_attribs[:password].empty?
-        @user.password = user_attribs[:password]
-        @user.password_confirmation = user_attribs[:password_confirmation]
+    if user_attribs.has_key? 'password' and !user_attribs['password'].empty?
+      @user.password = user_attribs.delete('password')
+      @user.password_confirmation = user_attribs.delete('password_confirmation')
+    else
+      user_attribs.delete('password')
+      user_attribs.delete('password_confirmation')
     end
+
+    puts "ATTRS TO SET: #{user_attribs.inspect}"
 
     respond_to do |format|
       if @user.update_attributes(user_attribs)
@@ -153,7 +178,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(users_url) }
-      format.js { render :update do |page| page.redirect_to(users_url) end }
+      format.js { }
       format.xml  { head :ok }
     end
   end
@@ -168,11 +193,11 @@ class UsersController < ApplicationController
  
   # GET /users/forgot_password 
   def forgot_password
-    case request.method_symbol == :get
+    case request.method_symbol
       when :post
         @your_email = params[:your_email]
         
-        user = User.find(:first, :conditions => ['email = ? AND account_id NOT NULL', @your_email])
+        user = User.where(:email => @your_email).where('account_id NOT NULL').first
         if user.nil?
           error_status(false, :invalid_email_not_in_use, {}, false)
           return
@@ -203,7 +228,7 @@ class UsersController < ApplicationController
     
     @initial_signup = params.has_key? :initial
     
-    case request.method_symbol == :get
+    case request.method_symbol
       when :post
         
         @password_data = params[:user]
@@ -222,7 +247,7 @@ class UsersController < ApplicationController
         @user.save
         
         error_status(false, :password_changed, {}, false)
-        redirect_to :action => 'login'
+        redirect_to '/login'
         return
     end
   end

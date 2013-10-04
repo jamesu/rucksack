@@ -1,0 +1,10 @@
+<% # Tags %>
+$('#tagCrumbs').html('<%= escape_javascript render(:partial => 'tags/crumb', :collection => (@search_tags || [])) %>');
+$('#tagNewCrumbs').html('<%= escape_javascript render(:partial => 'tags/crumb', :collection => (@avail_tags || [])) %>');
+
+<% # Clear old results %>
+$('.myPageEntry').remove();
+
+<% # Add new results %>
+$('#myPageHeader').insertAfter('<%= escape_javascript render(:partial => 'index_page', :collection => @pages, :locals => {:shared => false}) %>')
+$('#sharedPageHeader').insertAfter('<%= escape_javascript render(:partial => 'index_page', :collection => @shared_pages, :locals => {:shared => true}) %>')

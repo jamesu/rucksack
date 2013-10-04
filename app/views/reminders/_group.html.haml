@@ -13,6 +13,6 @@
         - elsif group[0][2] == :due_upcomming
           = t(group[0][2])
         - elsif group[0][2] == :done
-          = action_list actions_for_reminder(reminder)
+          != action_list actions_for_reminder(reminder)
         - else
           = reminder.at_time.strftime(t(group[0][2]))

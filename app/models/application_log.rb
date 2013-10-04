@@ -65,7 +65,7 @@ class ApplicationLog < ActiveRecord::Base
 
     if action == :delete
       @log.page = obj.page
-      @log.rel_object_id = user
+      @log.rel_object_id = obj.id
       @log.rel_object_type = obj.class.to_s
 
       # Silence all related logs
@@ -86,7 +86,7 @@ class ApplicationLog < ActiveRecord::Base
     end
 
     if not user.nil?
-      User.update(user.id, {:last_activity => Time.now.utc})
+      user.update_attribute(:last_activity, Time.now.utc)
     end
 
     @log.save

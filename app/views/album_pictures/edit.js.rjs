@@ -1,2 +1,0 @@
-page.replace_html("album_picture_#{@album_picture.id}", :partial => 'form' )
-page["album_picture_#{@album_picture.id}"].autofocus

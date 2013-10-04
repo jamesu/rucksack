@@ -62,7 +62,7 @@ class Separator < ActiveRecord::Base
   end
 
   def duplicate(new_page)
-    new_separator = self.clone
+    new_separator = self.dup
     new_separator.created_by = new_page.created_by
     new_separator.page = new_page
 

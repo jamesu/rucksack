@@ -1,1 +1,0 @@
-page.call('Page.setWidth', @page.width) if @saved

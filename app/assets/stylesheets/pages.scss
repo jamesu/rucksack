@@ -1,0 +1,976 @@
+/*
+= require_self
+*/
+
+
+@import "reset";
+@import "css3";
+
+a {
+  color: black;
+}
+
+a:visited {
+  color: #666666;
+}
+
+a:hover {
+  color: white;
+  background-color: black;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: bolder;
+  padding-bottom: 6px;
+}
+
+h2 {
+  font-size: 18px;
+  font-weight: bolder;
+  padding-bottom: 6px;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: bolder;
+  padding-bottom: 6px;
+}
+
+body {
+  margin: 0px;
+  padding: 0px;
+  background-color: #eeeeee;
+  color: black;
+}
+
+label {
+  display: block;
+}
+
+input.checkbox {
+  padding: 0px;
+  margin: 2px;
+}
+
+label.checkbox {
+  clear: none;
+  display: inline;
+}
+
+p.desc {
+  color: #555555;
+}
+
+ul, ol {
+  padding-left: 28px;
+}
+
+pre {
+  overflow: auto;
+}
+
+body, p, ol, ul, td {
+  font-family: lucida grande, verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+pre {
+  background-color: #eeeeee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+form div {
+  margin-bottom: 3px;
+}
+
+.totalPageWidth {
+  width: 600px;
+}
+
+#header {
+  margin: 0pt auto;
+  /* width: 600px; */
+  padding: 8px 6px 0px 6px;
+  text-align: left;
+  background: #007700;
+}
+
+/* outer wrapper for content. contains side background */
+#outerWrapper {}
+
+#innerWrapper {
+  /*margin: 0pt 0pt 0pt 48px; */
+  margin: 0pt auto;
+  text-align: left;
+  padding: 0px 16px 18px 16px;
+}
+
+#pageContent {
+  margin-top: 12px;
+}
+
+#innerContent {
+  padding: 18px 16px 18px 16px;
+}
+
+/* tabs */
+#tabsWrapper {
+  margin: 0pt auto;
+  text-align: left;
+  padding: 12px 6px 0px 6px;
+  ul {
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    margin: 0pt;
+    padding: 0 12px;
+    li {
+      float: left;
+      margin: 0pt 1px;
+      a {
+        display: block;
+        font-size: 12px;
+        font-weight: bold;
+        text-align: center;
+        padding: 2px 12px;
+        color: white;
+        @include border-radius-top(5px);
+      }
+    }
+    li.active {
+      a {
+        background: #eeeeee;
+        text-decoration: none;
+        color: black;
+      }
+    }
+  }
+}
+
+#tabs {
+  float: left;
+}
+
+#userTabs {
+  float: right;
+}
+
+/* content floats left in the main box */
+#content {
+  float: left;
+  width: 400px;
+  background: white;
+  border-right: 2px solid #bbbbbb;
+  border-bottom: 2px solid #bbbbbb;
+  margin: 0px;
+}
+
+/* sidebar floats right in the main box */
+#sidebar {
+  width: 190px;
+  float: right;
+  margin: 0px;
+}
+
+.sidebarBlock {
+  padding-bottom: 3px;
+  margin: 6px 0px 6px 0px;
+}
+
+.newPage {
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+#wrapper {
+  text-align: center;
+}
+
+.pageHeader {
+  padding-left: 14px;
+}
+
+.pageHeader h1 {
+  margin: 0px;
+  padding-bottom: 8px;
+}
+
+#pageTools {
+  margin-bottom: 12px;
+}
+
+#pageTools div {
+  padding: 8px 12px 8px 12px;
+}
+
+#pageTools #pageResizeHandle {
+  margin: 6px;
+  padding: 0px;
+  width: 17px;
+  height: 11px;
+  background-image: asset-url('icons/resize-handler.gif', image);
+  background-position: center center;
+  background-repeat: no-repeat;
+  cursor: move;
+  float: right;
+}
+
+#pageOptions {
+  padding: 12px 12px 8px 12px;
+  border-top: 1px solid #eeeeee;
+  background-color: #fbfbfb;
+  text-align: left;
+  font-size: 85%;
+  color: #555555;
+}
+
+#pageOptions a {
+  color: #555555;
+}
+
+#pageOptions a:hover {
+  color: white;
+  background-color: black;
+}
+
+#stdPageListItems,
+#usrPageListItems,
+#pageListItems {
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+  font-size: 12px;
+  padding: 0px;
+}
+
+#pageListItems {
+  li {
+    margin-bottom: 1px;
+    a {
+      display: block;
+      padding: 4px 4px 4px 12px;
+    }
+  }
+  li:hover {
+    background: gray;
+    a {
+      color: white;
+      text-decoration: none;
+    }
+    a:hover {
+      color: white;
+      text-decoration: none;
+      background-color: gray;
+    }
+  }
+  li.current {
+    background: gray;
+    a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+  li.hover {
+    background: green;
+    a {
+      color: white;
+    }
+  }
+  li#all-pages-link {
+    background: none;
+    a {
+      color: black;
+    }
+    a:visited {
+      color: #666666;
+    }
+  }
+  li {
+    .usrPageLink {
+      position: relative;
+    }
+  }
+  li:hover {
+    .usr_page_handle {
+      display: block;
+    }
+  }
+  li {
+    .usr_page_handle {
+      cursor: move;
+      display: none;
+      width: 15px;
+      height: 15px;
+      background-image: asset-url('icons/drag_handle_white.gif', image);
+      background-repeat: no-repeat;
+      background-position: 2px 2px;
+      position: absolute;
+      top: 6px;
+      right: 5px;
+    }
+  }
+  li.std-page-separator {
+    background-color: #cecece;
+    display: block;
+    height: 2px;
+    padding: 0px;
+    margin: 5px 0px;
+  }
+}
+
+.std-page-link {
+  font-weight: bold;
+  font-size: 120%;
+}
+
+#slots .ui-sortable-helper {
+  border-top: 2px solid #cccccc;
+  border-bottom: 2px solid #cccccc;
+  width: 90%;
+}
+
+ul.albumPictures {
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+  padding: 0px;
+}
+
+li.albumPicture, li.albumPictureForm {
+  display: inline;
+  width: 150px;
+  height: 180px;
+  float: left;
+  margin: 6px;
+  text-align: center;
+}
+
+li.albumPictureForm {
+  height: 60px;
+}
+
+li.albumPicture form, li.albumPictureForm form {
+  border: 1px dashed #cccccc;
+}
+
+li.albumPicture img {
+  border: 1px solid #dedede;
+  padding: 2px;
+}
+
+.albumPictureContent a:hover {
+  background: none;
+  background-color: white;
+  color: black;
+}
+
+.albumPictureCaption {
+  font-weight: bolder;
+}
+
+.pageSlot {
+  position: relative;
+  padding: 16px 18px 0px;
+}
+
+.pageSlots {
+  position: relative;
+}
+
+.pageWidget p {
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+}
+
+/* Page slot handle. This is positioned relative to the containing div,
+ * so it starts at the top left of the widget. In addition width is set to 0
+ * so the right border is also on the left. */
+.pageSlotHandle {
+  position: relative;
+  left: 0pt;
+  width: 0pt;
+  height: 0pt;
+  /* Page slot handle inner. This is positioned absolutely to the right of
+   * the containing div, so we essentially end up with content hanging off the
+   * left of the widget (or the right of the handle). */
+  div.inner {
+    position: absolute;
+    right: 0px;
+    margin: 0px;
+    background: #ffdd1a;
+    width: 58px;
+    text-align: right;
+    line-height: 24px;
+    z-index: 0;
+    @include border-radius-left(10px);
+  }
+  /* Page slot handle list. Inline and semantic */
+  ul {
+    display: inline;
+    padding: 2px;
+  }
+  li {
+    display: inline;
+    padding-right: 1px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .slot_handle {
+    cursor: move;
+  }
+}
+
+/* Page insert bar. Indicates current insertion point */
+#pageInsert {
+  position: relative;
+  /* Page insert bar. Inner p is positioned absolutely to the left of the containing div, so it hangs off the edge */
+  p {
+    background: black;
+    color: #e1e1e1;
+    left: -70px;
+    top: -12px;
+    padding: 5px 5px 0px 5px;
+    position: absolute;
+    height: 25px;
+    z-index: 100;
+    cursor: pointer;
+  }
+}
+
+/* Page insert items bar. Also contains forms for certain items */
+#pageInsertItems {
+  position: relative;
+}
+
+#pageInsertItemsBar {
+  left: -70px;
+  padding-left: 70px;
+  padding-top: 5px;
+  top: 0px;
+  position: relative;
+  height: 25px;
+  z-index: 100;
+  width: 100%;
+  a:hover {
+    background: black;
+    color: white;
+  }
+}
+
+#pageTabletContainer {
+  margin-left: 16px;
+}
+
+#pageInsertItemCancel {
+  position: absolute;
+  left: 15px;
+  a {
+    color: red;
+    font-size: 80%;
+  }
+}
+
+#pageInsertItemWidgets {
+  padding-left: 11px;
+}
+
+/* Hidden forms container */
+#pageWidgetForms {
+  display: none;
+}
+
+/* Generic forms */
+
+.widgetForm, .fixedWidgetForm {
+  padding: 6px;
+  border: 1px solid #dddddd;
+  background-color: #f2f2f2;
+}
+
+input.long, textarea.long {
+  width: 99%;
+}
+
+input.moderate, textarea.moderate {
+  width: 70%;
+}
+
+.fixedWidgetForm {
+  margin-right: 18px;
+}
+
+/* Separator */
+.pageSeparator {
+  border-bottom: 2px solid black;
+}
+
+/* File */
+.pageUploadedFile {
+  font-size: 12px;
+}
+
+.pageUploadedFile:after {
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+.pageUploadedFile img {
+  float: left;
+  padding-right: 6px;
+}
+
+.pageUploadedFile .fileDetails {
+  float: left;
+  width: 90%;
+}
+
+div.fileDetails .fileSize {
+  color: #999999;
+  font-weight: bold;
+  font-size: 10px;
+}
+
+div.fileDetails .fileDescription {
+  color: #999999;
+}
+
+/* Email */
+
+.pageEmail {
+  a {
+    font-size: 14px;
+    background: asset-url('icons/mail.gif', image) no-repeat;
+    background-position: center left;
+    padding-left: 18px;
+    font-weight: normal;
+  }
+  h2 {
+    padding-bottom: 0px;
+  }
+  span.pageEmailFrom {
+    font-size: 12px;
+    font-weight: normal;
+    .address {
+      font-weight: bold;
+    }
+  }
+}
+
+/* Note widget */
+.pageNoteDate, .pageEmailDate {
+  color: #cccccc;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+/* List widget */
+
+div.pageList {
+  .listItems {
+    padding: 0px;
+    list-style-type: none;
+    .listItem {
+      padding-left: 16px;
+    }
+    .completedItems {
+      color: #666666;
+    }
+    .itemDelete {
+      cursor: pointer;
+    }
+  }
+}
+
+/* Page tags */
+
+#tagCrumbsWrapper {
+  padding: 4px;
+  p {
+    font-weight: bolder;
+  }
+  ul {
+    list-style-type: none;
+  }
+}
+
+li.tagCrumb {
+  display: inline;
+  color: white;
+  font-weight: bold;
+  background-color: rgb(255, 150, 20);
+  border: 1px solid rgb(255, 150, 20);
+  @include border-radius(6px);
+  padding-left: 3px;
+  padding-right: 3px;
+  margin-right: 3px;
+  cursor: pointer;
+  a, a:hover {
+    color: white;
+    background: none;
+    text-decoration: none;
+  }
+  span.pageTagRemove {}
+}
+
+#tagCrumbs {
+  li.tagCrumb span.pageTagAdd {
+    display: none;
+  }
+}
+
+#tagNewCrumbs {
+  li.tagCrumb span.pageTagRemove {
+    display: none;
+  }
+}
+
+#tagNewCrumbs li {
+  display: block;
+  margin-bottom: 3px;
+}
+
+#tagCrumbsWrapper .floatleft {
+  padding-right: 12px;
+}
+
+#tagNewCrumbsWrapper {
+  padding: 4px;
+  margin: 4px;
+  float: right;
+  border-left: 1px solid #666666;
+  text-align: right;
+  h3 {
+    font-size: 12px;
+  }
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+    padding: 4px;
+  }
+}
+
+#pageTagsWrapper {
+  padding: 6px 12px 6px 12px;
+}
+
+#pageTagsWrapper span {
+  padding-right: 12px;
+}
+
+.pageTagRemove, .pageTagAdd {
+  cursor: pointer;
+}
+
+/* Sharing */
+
+.pageShareForm {
+  padding: 0px 18px 0px 18px;
+  label {
+    display: inline;
+  }
+}
+
+.pageShareUsers {
+  width: 100%;
+}
+
+.pageShareUsers td {
+  padding: 0px 6px 0px 6px;
+}
+
+.pageShareSection {
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+.floatleft {
+  float: left;
+}
+
+.clear {
+  clear: both;
+}
+
+#pageTable {
+  margin-top: 8px;
+  .pageEntry {
+    padding-bottom: 8px;
+    font-size: 16px;
+  }
+}
+
+/* Reminders */
+#reminderList {
+  padding: 12px;
+}
+
+.reminderGroup h2 {
+  border-bottom: 1px solid #cccccc;
+  padding-bottom: 2px;
+  margin-bottom: 4px;
+}
+
+#newReminderForm {
+  background: white;
+  margin: -16px -14px 0px -14px;
+  padding: 18px 16px 18px 16px;
+  border-bottom: 2px dashed #eeeeee;
+}
+
+#newReminderAtLabel {
+  font-size: 18px;
+}
+
+.reminderForm {
+  background: #eeeeee;
+  padding: 6px 4px 6px 4px;
+  border: 1px dashed darkgrey;
+}
+
+.reminderEntry {
+  margin-bottom: 6px;
+}
+
+.reminderContent {}
+
+.reminderTime {
+  color: #8b8b8b;
+}
+
+/* Journal & Status */
+
+#userJournal {
+  margin: 4px 0px 4px 0px;
+  padding: 4px 0px 4px 0px;
+}
+
+#userJournal input {
+  font-size: 13px;
+}
+
+#userJournal label {
+  clear: both;
+  display: block;
+  font-size: 14px;
+}
+
+#userJournals {
+  margin-top: 12px;
+  h2 {
+    border-bottom: 1px solid #cccccc;
+  }
+}
+
+#userJournalsMore {
+  text-align: center;
+}
+
+#userStatus {
+  border: 1px dashed #cacaca;
+  cursor: pointer;
+}
+
+#userStatusBlock {
+  background: white;
+  margin: -16px -14px 0px -14px;
+  padding: 18px 16px 18px 16px;
+  border-bottom: 2px dashed #eeeeee;
+}
+
+#user_status {
+  padding: 4px 6px 4px 6px;
+  background: white;
+}
+
+h2.userStatusDisplayName {
+  font-size: 13px;
+  font-weight: bolder;
+}
+
+h3.userStatus {
+  font-size: 16px;
+  font-weight: bolder;
+}
+
+ul.userJournalList, #userJournals ul {
+  padding-left: 20px;
+}
+
+.journalEntry span {
+  font-style: italic;
+  font-size: 10px;
+  color: #999999;
+}
+
+.sidebarBlock {
+  border-bottom: 2px solid #cecece;
+}
+
+/* activity log */
+#activityLogs {
+  h2 {
+    padding-bottom: 0px;
+    margin-top: 12px;
+    font-size: 12px;
+    clear: both;
+    border-bottom: 1px solid #cccccc;
+  }
+}
+
+.activityUserAvatar {
+  margin: 4px;
+  font-weight: bolder;
+}
+
+.activityUserEntries li {
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+}
+
+.activityEntry {
+  padding-left: 32px;
+}
+
+/* user list page */
+#userList {
+  margin-top: 6px;
+  margin-bottom: 6px;
+  width: 100%;
+  td {
+    padding: 0px 3px 0px 3px;
+  }
+  td.userAvatar {
+    width: 50px;
+    padding: 0px;
+  }
+  td.userDisplayName {
+    font-weight: bolder;
+  }
+}
+
+/* user form */
+
+#userForm label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+#userForm label.yesno {
+  display: inline;
+}
+
+/* account form */
+
+#settingsForm label {
+  margin-bottom: 4px;
+}
+
+#settingsForm label.yesno {
+  display: inline;
+}
+
+label {
+  font-weight: bolder;
+}
+
+label.yesno {
+  display: inline;
+}
+
+label.check {
+  font-weight: normal;
+  display: inline;
+}
+
+.formSubmit {
+  margin-top: 12px;
+}
+
+.hint {
+  background-color: #ffffcc;
+  border: 2px solid #e9be31;
+  margin: 0 0 5px 0;
+  padding: 5px;
+}
+
+.hint .header {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 3px;
+  border-bottom: 1px solid #e9be31;
+}
+
+#statusBar {
+  display: none;
+}
+
+#statusBar.success,
+.flash.error, .flash.success {
+  margin: 10px 0;
+  padding: 5px 10px;
+  border: 1px solid #cccccc;
+  clear: both;
+  cursor: pointer;
+  text-align: left;
+}
+
+.flash.error {
+  background: #ffb0b0;
+  border-color: red;
+}
+
+#statusBar.success,
+.flash.success {
+  background: #90dc90;
+  border-color: green;
+}
+
+.statusBarContainer {
+  padding-bottom: 10px;
+}
+
+/* Add page
+ * ----------- */
+.addPageLink {
+  display: block;
+  padding: 5px;
+}
+
+.addPageLink .newPage {
+  display: block;
+}
+
+.addPageLink .newPage:hover {
+  background-color: gray;
+}
+
+.addPageLink:hover {
+  background-color: gray;
+}
+
+.addPageLink:hover a {
+  color: white;
+}
+
+#footer {
+  color: #555555;
+  font-size: 80%;
+}
+
+#footer a {
+  color: #555555;
+}
+
+#footer a:hover {
+  color: white;
+  background-color: black;
+}
+
+@import "forms";

@@ -1,0 +1,7 @@
+$('#page_header_form').hide();
+
+$('#page_header_form').html('');
+$('#page_header').html('<%= escape_javascript "<h1><span hover_handle=\"page_header_handle\">#{h(@page.title)}</span></h1>" %>');
+$('#pageListItems').replaceWith('<%= escape_javascript render(:partial => 'listed_pages') %>');
+
+$('page_header').show();

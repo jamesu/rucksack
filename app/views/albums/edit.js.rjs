@@ -1,3 +1,0 @@
-page.replace_html "album_header_#{@album.id}_form", :partial => 'form'
-page["album_header_#{@album.id}"].hide
-page.call("$('#album_header_#{@album.id}_form').show().autofocus")

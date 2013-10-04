@@ -1,1 +1,0 @@
-page.redirect_to(hash_for_pages_path.merge(:use_route => nil))

@@ -1,1 +1,0 @@
-page.remove "reminder_#{@reminder.id}"

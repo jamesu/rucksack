@@ -26,6 +26,6 @@
 class UserObserver < ActiveRecord::Observer
   def after_create(user)
 
-    Notifier.deliver_signup_notification(user)
+    Notifier.signup_notification(user).deliver
   end
 end

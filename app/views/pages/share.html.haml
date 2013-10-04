@@ -7,7 +7,7 @@
   
   %div.pageShareSection
     != check_box_tag 'page[is_public]', true, @page.is_public, :id => "pageSetPublic"
-    %label.check= t('page_public', :link => link_to(public_page_url(@page), public_page_url(@page)))
+    %label.check!= t('page_public', :link => link_to(public_page_url(@page), public_page_url(@page)))
   
   %h2= t('share_by_email')
   %div.pageShareSection

@@ -253,7 +253,7 @@ class Page < ActiveRecord::Base
   def duplicate(new_owner)
     Page.transaction do
 
-      new_page = self.clone
+      new_page = self.dup
       new_page.title = I18n.t('copy_of_page', :title => self.title)
       new_page.created_by = new_owner
       new_page.address = 'random'

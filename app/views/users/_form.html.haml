@@ -5,7 +5,7 @@
     .header= t('user_administration_options') 
     .content
       %div
-        %label{:for => 'userFormUserName'}= "#{t('username')} <span class=\"label_required\">*</span>"
+        %label{:for => 'userFormUserName'}!= "#{t('username')} <span class=\"label_required\">*</span>"
         = text_field 'user', 'username', :id => 'userFormUserName', :class => 'moderate'
       %fieldset
         %legend= t('options')

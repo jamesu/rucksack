@@ -10,4 +10,4 @@
       %span.readCheckbox= show.is_completed? ? render_icon('checked', t('list_item_completed')) : render_icon('not-checked', t('list_item_open'))
     %span.itemText{:hover_handle => "page_item_handle_#{show.id}"}
       = (show.is_completed? and show.can_be_edited_by(@logged_user)) ? render_icon('del_gen', '', {:class => 'itemDelete'}) : ''
-      = textilize show.content, true, {'hover_handle' => "page_item_handle_#{show.id}"}
+      != textilize h(show.content), true, {'hover_handle' => "page_item_handle_#{show.id}"}

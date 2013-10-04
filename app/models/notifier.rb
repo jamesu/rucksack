@@ -24,67 +24,55 @@
 #++
 
 class Notifier < ActionMailer::Base
+  default :sender => Proc.new { "noreply@#{Account.owner.host_name}" }
 
   def reminder(reminder, sent_at = Time.now)
-    @subject    = "#{t('reminder')} - #{reminder.content}"
-    @recipients = reminder.created_by.email
-    @from       = "noreply@#{Account.owner.host_name}"
-    @sent_on    = sent_at
-    @headers    = {}
+    @site_name = real_site_name
+    @reminder = reminder
+    @user = reminder.created_by
+    @sent_on = sent_at
 
-    @body       = {
-      :site_name => Account.owner.site_name,
-      :reminder => reminder,
-      :user => reminder.created_by,
-      :sent_on => sent_at
-    }
+    mail(:to => reminder.created_by.email,
+         :date => sent_at,
+         :subject => "#{t('reminder')} - #{reminder.content}")
   end
 
   def page_share_info(user, page)
-    @subject    = t('user_wants_to_share_page', 
-    :user => page.updated_by.display_name, 
-    :page => page.title)
-    @recipients = user.email
-    @from       = "noreply@#{Account.owner.host_name}"
-    @sent_on    = Time.now
-    @headers    = {}
+    @site_name = real_site_name
+    @page = page
+    @user = page.updated_by
+    @url = "http://#{Account.owner.host_name}#{page_path({:id => page.id, :token => user.twisted_token})}"
 
-    @body       = {
-      :site_name => Account.owner.site_name,
-      :page => page,
-      :user => page.updated_by,
-      :url => "http://#{Account.owner.host_name}#{page_path({:id => page.id, :token => user.twisted_token})}"
-    }
+    mail(:to => user.email,
+         :subject => t('user_wants_to_share_page', :user => page.updated_by.display_name, :page => page.title))
   end
 
   def signup_notification(user)
-    setup_email(user)
-    @subject    += t('notifier_signup_subject')
+    @user = user
+    @owner = Account.owner
+    @url = "http://#{Account.owner.host_name}/login"
 
-    @body[:owner] = Account.owner
-    @body[:url] = "http://#{Account.owner.host_name}/login"
+    mail(:to => user.email,
+         :subject => "#{real_site_name} - #{t('notifier_signup_subject')}")
   end
 
   def password_reset(user)
-    setup_email(user)
-    @subject    += t('notifier_password_reset_subject')
-    @recipients = user.email
-    @from       = "noreply@#{Account.owner.host_name}"
-    @sent_on    = Time.now
-    @headers    = {}
+    @user = user
+    @site_name = real_site_name
+    @sent_on = @sent_on
+    @url = "http://#{Account.owner.host_name}/users/reset_password/#{user.id}?confirm=#{user.password_reset_key}"
 
-    @body[:site_name] = Account.owner.site_name
-    @body[:sent_on] = @sent_on
-    @body[:url] = "http://#{Account.owner.host_name}/users/reset_password/#{user.id}?confirm=#{user.password_reset_key}"
+    mail(:to => user.email,
+         :subject => "#{real_site_name} - #{t('notifier_password_reset_subject')}")
   end
 
   protected
-  def setup_email(user)
-    @recipients  = "#{user.email}"
-    @from        = "noreply@#{Account.owner.host_name}"
-    @subject     = "#{Account.owner.site_name} - "
-    @sent_on     = Time.now
 
-    @body[:user] = user
+  def real_site_name
+    if Account.owner.site_name.empty?
+      "#{Account.owner.owner.display_name.pluralize} #{t('product_name')}"
+    else
+      Account.owner.site_name
+    end
   end
 end

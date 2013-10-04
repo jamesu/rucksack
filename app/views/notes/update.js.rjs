@@ -1,2 +1,0 @@
-page.replace_html "page_slot_#{@note.page_slot.id}", :partial => 'pages/slot', :locals => {:object => @note, :page_slot => @note.page_slot}
-page.call "Page.makeSortable"

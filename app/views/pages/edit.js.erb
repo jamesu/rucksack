@@ -1,0 +1,4 @@
+$('#page_header_form').html('<%= escape_javascript render(:partial => 'form') %>');
+
+$('#page_header').hide();
+$('#page_header_form').show().autofocus();

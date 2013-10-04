@@ -1,0 +1,7 @@
+$('#pageTagsForm').html('<%= escape_javascript render(:partial => 'tags/form') %>');
+
+$('#pageTags').hide();
+$('#pageEditTags').hide();
+$('#pageTagsForm').show();
+
+$('#pageTagsForm form').autofocus();

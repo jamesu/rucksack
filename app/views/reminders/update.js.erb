@@ -1,0 +1,3 @@
+<% unless @grouped_reminders.nil? %>
+$('#reminderList').html('<%= escape_javascript render(:partial => 'group', :collection => @grouped_reminders) %>');
+<% end %>

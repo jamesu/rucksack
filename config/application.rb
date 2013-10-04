@@ -47,8 +47,15 @@ module Rucksack
     config.i18n.default_locale = :en
     config.encoding = "utf-8"
     config.filter_parameters += [:password]
+
+    config.assets.enabled = true
+    config.assets.version = '1.0'
+
+    config.generators.stylesheet_engine = :sass
   end
 end
 
 require 'rucksack_extras'
 require 'authenticated_system'
+require 'authentication'
+require 'authentication/by_cookie_token'

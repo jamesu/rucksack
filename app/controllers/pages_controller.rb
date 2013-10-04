@@ -372,7 +372,7 @@ class PagesController < ApplicationController
     
     respond_to do |format|
       format.html { head :ok }
-      format.js { render :update do |page| page.redirect_to(page_url(@page)) end }
+      format.js
       format.xml  { head :ok }
     end 
   end

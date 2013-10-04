@@ -205,15 +205,15 @@ class User < ActiveRecord::Base
   end
 
   def send_password_reset()
-    Notifier.deliver_password_reset(self)
+    Notifier.password_reset(self).deliver
   end
 
   def send_new_account_info(password=nil)
-    Notifier.deliver_account_new_info(self, password)
+    Notifier.account_new_info(self, password).deliver
   end
 
   def send_page_share_info(page)
-    Notifier.deliver_page_share_info(self, page)
+    Notifier.page_share_info(self, page).deliver
   end
 
   def is_anonymous?

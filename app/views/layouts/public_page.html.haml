@@ -17,7 +17,7 @@
     
     = javascript_tag yield(:js_templates)
     
-    %style= ".totalPageWidth { width: #{@page.width+200}px; }\n#content { width: #{@page.width}px; }"
+    %style!= ".totalPageWidth { width: #{@page.width+200}px; }\n#content { width: #{@page.width}px; }"
   
   %body#body
     #wrapper

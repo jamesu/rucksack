@@ -68,7 +68,7 @@ class UploadedFile < ActiveRecord::Base
   end
 
   def duplicate(new_page)
-    new_file = self.clone
+    new_file = self.dup
     new_file.created_by = new_page.created_by
     new_file.page = new_page
 

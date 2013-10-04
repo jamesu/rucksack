@@ -1,0 +1,2 @@
+$('#<%= "page_slot_#{@separator.page_slot.id}" %>').html('<%= escape_javascript render(:partial => 'pages/slot', :locals => {:object => @separator, :page_slot => @separator.page_slot}) %>');
+Page.makeSortable();

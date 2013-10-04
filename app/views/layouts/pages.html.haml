@@ -12,20 +12,19 @@
     = ie_stylesheet_link_tag 'ie_hack'
     
     = javascript_include_tag 'jquery.js' 
-    = javascript_include_tag 'jquery-ui.js'
-    = javascript_include_tag 'jrails.js'
+    = javascript_include_tag 'jquery_ujs.js' 
+    = javascript_include_tag 'jquery.ui.all.js'
     = javascript_include_tag 'application.js'
     
-    - if protect_against_forgery?
-      %meta{ :name => 'auth-token', :content => form_authenticity_token }
+    = csrf_meta_tag
     
-    %style{:type => 'text/css'}= "#tabsWrapper ul li a { color: #{site_account.tab_text_colour}; background: #{site_account.tab_background_colour}; }"
-    %style{:type => 'text/css'}= "#tabsWrapper ul li a:hover { color: #{site_account.tab_text_hover_colour}; background: #{site_account.tab_background_hover_colour}; }"
-    %style{:type => 'text/css'}= "#header { background: #{site_account.header_colour}; }"
-    %style{:type => 'text/css'}= "#pageTools, #pageInsertItemsBar { background-color: #{site_account.page_header_colour}; }"
-    %style{:type => 'text/css'}= "#pageTools, #pageTools a { color: #{site_account.page_header_text_colour}; }"
-    %style{:type => 'text/css'}= "#pageTools a:hover { color: white; }"
-    %style{:type => 'text/css'}= "#pageInsertItemsBar, #pageInsertItemsBar a { color: #{site_account.page_header_text_colour}; }"
+    %style{:type => 'text/css'}!= "#tabsWrapper ul li a { color: #{site_account.tab_text_colour}; background: #{site_account.tab_background_colour}; }"
+    %style{:type => 'text/css'}!= "#tabsWrapper ul li a:hover { color: #{site_account.tab_text_hover_colour}; background: #{site_account.tab_background_hover_colour}; }"
+    %style{:type => 'text/css'}!= "#header { background: #{site_account.header_colour}; }"
+    %style{:type => 'text/css'}!= "#pageTools, #pageInsertItemsBar { background-color: #{site_account.page_header_colour}; }"
+    %style{:type => 'text/css'}!= "#pageTools, #pageTools a { color: #{site_account.page_header_text_colour}; }"
+    %style{:type => 'text/css'}!= "#pageTools a:hover { color: white; }"
+    %style{:type => 'text/css'}!= "#pageInsertItemsBar, #pageInsertItemsBar a { color: #{site_account.page_header_text_colour}; }"
   %body#body
     #wrapper
       

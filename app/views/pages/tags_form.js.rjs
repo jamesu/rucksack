@@ -1,5 +1,0 @@
-page.replace_html "pageTagsForm", :partial => 'tags/form'
-page["pageTags"].hide
-page["pageEditTags"].hide
-page["pageTagsForm"].show
-page.call '$(\'#pageTagsForm form\').autofocus'

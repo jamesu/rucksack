@@ -1,4 +1,0 @@
-page["album_header_#{@album.id}_form"].hide
-page.replace_html "album_header_#{@album.id}_form", ""
-page.replace_html "album_header_#{@album.id}", "<h2 hover_handle=\"page_slot_handle_#{@album.page_slot.id}\">#{h(@album.title)}</h2>"
-page["album_header_#{@album.id}"].show
