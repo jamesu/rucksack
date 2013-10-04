@@ -10,6 +10,7 @@ gem 'haml'
 gem 'gravtastic'
 gem 'paperclip'
 gem 'sass-rails'
+gem 'dynamic_form'
 
 group :assets do
   gem 'uglifier',     '>= 1.0.3'
