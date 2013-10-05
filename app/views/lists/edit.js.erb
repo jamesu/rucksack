@@ -1,3 +1,3 @@
-$('#<%= "list_header_#{@list.id}_form" %>').replaceWith('<%= escape_javascript(render(:partial => 'form')) %>');
+$('#<%= "list_header_#{@list.id}_form" %>').html('<%= escape_javascript(render(:partial => 'form')) %>');
 $('#<%= "list_header_#{@list.id}" %>').hide();
-$('#<%= "#list_header_#{@list.id}_form" %>').show().autofocus();
+$('#<%= "list_header_#{@list.id}_form" %>').show().autofocus();

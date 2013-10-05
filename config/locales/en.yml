@@ -287,4 +287,4 @@ en:
   notifier_page_share_url: "To access this page, please visit:\n\n%{url}"
     
   product_name: Rucksack
-  product_signature: Powered by Rucksack
+  product_signature: Powered by <a href="https://github.com/jamesu/rucksack">Rucksack</a>
