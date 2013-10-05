@@ -27,5 +27,7 @@ class PageSlot < ActiveRecord::Base
   belongs_to :page
   belongs_to :rel_object, :polymorphic => true
 
-  scope :with_widgets, :include => :rel_object
+  attr_accessible :page, :position, :rel_object
+
+  scope :with_widgets, -> { includes(:rel_object).order('position ASC') }
 end

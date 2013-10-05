@@ -28,6 +28,8 @@ class ApplicationLog < ActiveRecord::Base
   belongs_to :rel_object, :polymorphic => true
   belongs_to :page
 
+  attr_accessible :action, :object_name, :previous_name, :created_by, :is_private, :is_silent
+
   @@action_lookup = {:add => 0, :edit => 1, :delete => 2, :open => 3, :close => 4, :rename => 5}
   @@action_id_lookup = @@action_lookup.invert
 
@@ -110,9 +112,7 @@ class ApplicationLog < ActiveRecord::Base
     found_records = {}
 
     # :group => "created_by_id, #{offset_date}, CASE #{sanitize_sql({'page_id' => nil})} WHEN 1 THEN #{rel_group} ELSE page_id END"
-    find(:all,
-    :conditions => conditions,
-    :order => 'created_on ASC').reject do |item|
+    where(conditions).order('created_on ASC').reject do |item|
 
       obj_key = item.page_id.nil? ? "#{item.rel_object_type}.#{item.rel_object_id}" : item.page_id
       group_key = "#{item.created_by_id}-#{item.created_on.to_date}-#{obj_key}"

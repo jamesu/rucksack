@@ -30,7 +30,7 @@ class Account < ActiveRecord::Base
 
   def self.owner(reload=false)
     @@cached_owner = nil if reload
-    @@cached_owner ||= Account.find(:first)
+    @@cached_owner ||= Account.first
   end
 
   attr_accessible :site_name, :host_name

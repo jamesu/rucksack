@@ -49,7 +49,7 @@
   
   - if @page.can_be_shared_by(@logged_user)
     |
-    !=  t(@page.is_shared? ? :page_is_shared : :page_is_not_shared, :link => link_to(t('change'), hash_for_share_page_path.merge(:id => @page.id, :use_route => nil)))
+    !=  t(@page.is_shared? ? :page_is_shared : :page_is_not_shared, :link => link_to(t('change'), share_page_path(:id => @page.id)))
   
   - if @page.can_be_duplicated_by(@logged_user)
     |

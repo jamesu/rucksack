@@ -36,7 +36,7 @@ class StatusesController < ApplicationController
     @status = @user.status
     return error_status(true, :cannot_see_status) unless (@status.can_be_seen_by(@logged_user))
     
-    @statuses = Status.find(:all, :conditions => {'user_id' => user_ids})
+    @statuses = Status.where({'user_id' => user_ids}).all
 
     respond_to do |format|
       format.html # show.html.erb

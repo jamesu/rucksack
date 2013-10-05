@@ -55,7 +55,7 @@ class ListItem < ActiveRecord::Base
 
   def process_update_params
     if @update_completed.nil?
-      write_attribute("updated_on", Time.now.utc)
+      write_attribute("updated_at", Time.now.utc)
       if @update_is_minor.nil?
         ApplicationLog.new_log(self, self.updated_by, :edit)
       end

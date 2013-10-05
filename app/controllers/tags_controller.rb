@@ -27,7 +27,7 @@ class TagsController < ApplicationController
   # GET /tags
   # GET /tags.xml
   def index
-    @tags = Tag.find(:all, :conditions => {'rel_object_type' => 'Page', 'rel_object_id' => @logged_user.page_ids})
+    @tags = Tag.where({'rel_object_type' => 'Page', 'rel_object_id' => @logged_user.page_ids}).all
 
     respond_to do |format|
       format.html # index.html.erb

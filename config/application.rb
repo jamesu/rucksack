@@ -40,6 +40,8 @@ require 'smtp-tls'
 rescue Exception
 end
 
+require "rails/observers/activerecord/active_record"
+
 
 module Rucksack
   class Application < Rails::Application

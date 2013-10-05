@@ -30,11 +30,11 @@ class Mailman < ActionMailer::Base
   end
 
   def receive(email)
-    page = Page.find :first, :conditions => {'address' => email.to.first.split('@')[0]}
+    page = Page.where({'address' => email.to.first.split('@')[0]}).first
     return if page.nil?
 
     # Find the relevant user. Untrusted users set to anonymous for fwd handler
-    responsible_user = User.find(:first, :conditions => {'email' => email.from})
+    responsible_user = User.where(:email => email.from).first
     if responsible_user.nil?
       responsible_user = page.created_by
       responsible_user.is_anonymous = true

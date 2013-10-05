@@ -40,13 +40,13 @@ class PagesController < ApplicationController
     return error_status(true, :cannot_see_pages) unless (@user.pages_can_be_seen_by(@logged_user))
     
     search
-    
+
     if @find_opts.nil? or [:html, :js].include?(request.format.to_sym)
       @pages = @user.pages
       @shared_pages = @user.shared_pages
     else
-      @pages = @user.pages.find(:all, @find_opts)
-      @shared_pages = @user.shared_pages(:all, @find_opts)
+      @pages = @user.pages.find(:all).where(@find_opts[:conditions]).joins(@find_opts[:joins]).group("pages.id HAVING COUNT(tags.id) = #{params[:tags].length}").all
+      @shared_pages = @user.shared_pages.where(@find_opts[:conditions]).all
     end
     
     @content_for_sidebar = 'page_sidebar'
@@ -73,7 +73,7 @@ class PagesController < ApplicationController
       format.rss { 
         conds = {'page_id' => @page.id}
         conds['is_private'] = false if !@logged_user.member_of_owner?
-        @activity_log = ApplicationLog.find(:all, :conditions => conds, :limit => params[:limit] || 50, :order => 'created_on DESC')
+        @activity_log = ApplicationLog.where(conds).limit(params[:limit] || 50).order('created_on DESC').all
         render :layout => false
       }
     end

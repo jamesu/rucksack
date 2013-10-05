@@ -35,7 +35,7 @@ initial_host_name = ENV['RUCKSACK_HOST_NAME'] || 'localhost'
 
 # Ensure owner user exists
 initial_user = nil
-owner_user = User.find(:first, :conditions => ['users.is_admin'])
+owner_user = User.where(:is_admin => true).first
 if owner_user.nil?
   puts 'Creating owner user...'
   initial_user = User.new(:display_name => initial_user_displayname,
@@ -49,7 +49,7 @@ if owner_user.nil?
   if not initial_user.save
     puts 'User already exists, attempting to reset...'
     # Try resetting the password
-    initial_user = User.find(:first, :conditions => ['username = ?', initial_user_name])
+    initial_user = User.where(:username => initial_user_name).first
     if initial_user.nil?
       raise Exception, "\nCouldn't create or reset the owner user!\n"
     else

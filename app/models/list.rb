@@ -36,7 +36,7 @@ class List < ActiveRecord::Base
   belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
   belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
 
-  has_many :list_items, :order => 'position ASC, completed_on ASC', :dependent => :destroy
+  has_many :list_items, -> { order('position ASC, completed_on ASC') }, :dependent => :destroy
 
   #before_create  :process_params
   after_create   :process_create

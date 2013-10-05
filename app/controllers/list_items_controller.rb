@@ -39,9 +39,7 @@ class ListItemsController < ApplicationController
       conds = nil
     end
     
-    @list_items = @list.list_items.find(:all, :conditions => conds,
-                                              :offset => params[:offset], 
-                                              :limit => params[:limit])
+    @list_items = @list.list_items.where(conds).offset(params[:offset]).limit(params[:limit])
 
     respond_to do |format|
       format.html # index.html.erb

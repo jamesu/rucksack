@@ -49,10 +49,10 @@ class User < ActiveRecord::Base
 
   has_many :reminders, :foreign_key => 'created_by_id', :order => 'at_time ASC', :dependent => :destroy do
     def done()
-      find(:all, :conditions => ['at_time < ?', Time.now.utc])
+      where(['at_time < ?', Time.now.utc])
     end
     def upcomming()
-      find(:all, :conditions => ['at_time > ?', Time.now.utc])
+      where(['at_time > ?', Time.now.utc])
     end
     def today(done=false)
       current = Time.now.utc
@@ -63,25 +63,25 @@ class User < ActiveRecord::Base
         now = Time.now
         now_until = (now.to_date+1).to_time(:utc)
       end
-      find(:all, :conditions => ["(at_time >= ? AND at_time < ?)", now, now_until])
+      where(["(at_time >= ? AND at_time < ?)", now, now_until])
     end
     def in_days(days)
       day = Time.now.utc.to_date + days
-      find(:all, :conditions => ["(at_time >= ? AND at_time < ?)", day, day+1])
+      where(["(at_time >= ? AND at_time < ?)", day, day+1])
     end
     def in_month(month)
       now = Time.now.utc
       month = Time.utc(now.year, month).to_date
-      find(:all, :conditions => ["(at_time >= ? AND at_time < ?)", month, month>>1])
+      where(["(at_time >= ? AND at_time < ?)", month, month>>1])
     end
     def in_months(months)
       puts "in #{months} months"
       month = Time.now.utc.to_date >> months
-      find(:all, :conditions => ["(at_time >= ? AND at_time < ?)", month, month>>1])
+      where(["(at_time >= ? AND at_time < ?)", month, month>>1])
     end
     def on_after(time)
       real_time = time.class == Date ? time.to_time(:utc) : time.utc
-      find(:all, :conditions => ["(at_time >= ?)", real_time])
+      where(["(at_time >= ?)", real_time])
     end
   end
 
@@ -132,7 +132,7 @@ class User < ActiveRecord::Base
       salt = Digest::SHA1.hexdigest(sprintf("%s%08x%05x%.8f", rand(32767), sec, usec, rval))[roffs..roffs+12]
       token = Digest::SHA1.hexdigest(salt + value)
 
-      break if User.find(:first, :conditions => ["token = ?", token]).nil?
+      break if User.where(["token = ?", token]).first.nil?
     end
 
     self.salt = salt
@@ -187,7 +187,7 @@ class User < ActiveRecord::Base
   end
 
   def self.authenticate(login, pass)
-    user = find(:first, :conditions => ["username = ?", login])
+    user = where(["username = ?", login]).first
     if (!user.nil?) and (user.valid_password(pass))
       now = Time.now.utc
       user.last_login = now
@@ -294,7 +294,7 @@ class User < ActiveRecord::Base
     datetime = Time.now.utc # Time.zone.now
     datetime -= (active_in * 60)
 
-    User.find(:all, :conditions => "last_activity > '#{datetime.strftime('%Y-%m-%d %H:%M:%S')}'", :select => "id, company_id, display_name")
+    User.where("last_activity > '#{datetime.strftime('%Y-%m-%d %H:%M:%S')}'").select(:id, :company_id, :display_name)
   end
 
   def self.select_list
@@ -306,7 +306,7 @@ class User < ActiveRecord::Base
   end
 
   def self.owner
-    @@cached_owner ||= User.find(:first, :conditions => ['is_admin = ?', true])
+    @@cached_owner ||= User.where(:is_admin => true).first
   end
 
   def self.make_shared(email, page)
@@ -346,14 +346,14 @@ class User < ActiveRecord::Base
       before_update :process_update_params
 
       def process_params
-        write_attribute("created_on", Time.now.utc)
+        write_attribute("created_at", Time.now.utc)
         write_attribute("last_login", nil)
         write_attribute("last_activity", nil)
         write_attribute("last_visit", nil)
       end
 
       def process_update_params
-        write_attribute("updated_on", Time.now.utc)
+        write_attribute("updated_at", Time.now.utc)
       end
 
       # Accesibility

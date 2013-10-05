@@ -58,7 +58,6 @@ Rucksack::Application.routes.draw do
   resources :pages do
     member do
       post :reorder 
-      post :reorder_sidebar
       put :transfer
       put :favourite
       post :duplicate
@@ -75,6 +74,7 @@ Rucksack::Application.routes.draw do
     
     collection do
       get :current
+      post :reorder_sidebar
     end
     
     resources :lists do
@@ -108,19 +108,19 @@ Rucksack::Application.routes.draw do
   end
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  match '/', :controller => "pages", :action => "current", :as => :root
+  match '/', :controller => "pages", :action => "current", :as => :root, :via => :get
 
   # Restful authentication
   resource :session
-  match '/login',  :controller => 'sessions', :action => 'new', :as => :login
-  match '/logout', :controller => 'sessions', :action => 'destroy', :as => :logout
+  match '/login',  :controller => 'sessions', :action => 'new', :as => :login, :via => :get
+  match '/logout', :controller => 'sessions', :action => 'destroy', :as => :logout, :via => :get
 
   # See how all your routes lay out with "rake routes"
   
   # 404 icons
-  match '/images/file_icons/:id.png', :controller => 'uploaded_files', :action => 'icon'
+  match '/images/file_icons/:id.png', :controller => 'uploaded_files', :action => 'icon', :via => :get
 
   # Install the default routes as the lowest priority.
-  match ':controller/:action/:id'
-  match ':controller/:action/:id.:format'
+  match ':controller/:action/:id', :via => :get
+  match ':controller/:action/:id.:format', :via => :get
 end

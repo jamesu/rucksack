@@ -6,13 +6,10 @@ def randomize_secret
 end
 
 session_store_file = <<-SESSION_STORE
-Rucksack::Application.configure do
-config.action_controller.session = {
-  :session_key => '_rucksack_session', 
-  :secret => '#{randomize_secret}' 
-}
-config.secret_token = '#{randomize_secret}'
-end
+Rucksack::Application.config.session_store :cookie_store, :key => '_rucksack_session'
+Rucksack::Application.config.secret_token = '#{randomize_secret}'
+Rucksack::Application.config.secret_key_base = '#{randomize_secret}'
+
 SESSION_STORE
 
 def write_initializer(filename, data = nil)

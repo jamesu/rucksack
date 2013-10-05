@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'rails', '= 3.2.14'
+gem 'rails', '= 4.0.0'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 
 gem 'gravtastic'
@@ -11,6 +11,10 @@ gem 'gravtastic'
 gem 'paperclip'
 gem 'sass-rails'
 gem 'dynamic_form'
+gem 'protected_attributes'
+gem 'actionpack-page_caching'
+gem 'actionpack-xml_parser'
+gem 'rails-observers'
 
 group :assets do
   gem 'uglifier',     '>= 1.0.3'

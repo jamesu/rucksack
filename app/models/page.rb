@@ -30,7 +30,7 @@ class Page < ActiveRecord::Base
   belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
   belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
 
-  has_many :slots, :class_name => 'PageSlot', :order => 'position ASC', :dependent => :destroy
+  has_many :slots, -> { order('position ASC') }, :class_name => 'PageSlot', :dependent => :destroy
   has_many :linked_tags, :class_name => 'Tag', :as => :rel_object, :dependent => :destroy
 
   has_and_belongs_to_many :shared_users, :class_name => 'User', :join_table => 'shared_pages'
@@ -280,7 +280,7 @@ class Page < ActiveRecord::Base
   end
 
   def shared_emails
-    @update_shared || self.shared_users.find(:all, :conditions => {'account_id' => nil}).map{ |user| user.email }.join("\n")
+    @update_shared || self.shared_users.where({'account_id' => nil}).map{ |user| user.email }.join("\n")
   end
 
   def shared_emails=(value)

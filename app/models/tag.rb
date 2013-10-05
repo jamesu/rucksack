@@ -32,12 +32,14 @@ class Tag < ActiveRecord::Base
 
   belongs_to :rel_object, :polymorphic => true
 
+  attr_accessible :name, :page_id, :rel_object, :created_by
+
   def objects
     return Tag.find_objects(self.name)
   end
 
   def self.find_objects(tag_name, page)
-    Tag.find(:all, :conditions => {'name' => tag_name, 'page_id' => page}).collect do |tag|
+    Tag.where({'name' => tag_name, 'page_id' => page}).collect do |tag|
       tag.rel_object
     end
   end
@@ -60,13 +62,13 @@ class Tag < ActiveRecord::Base
   end
 
   def self.list_by_object(object)
-    Tag.find(:all, :conditions => {'rel_object_type' => object.class.to_s, 'rel_object_id' => object.id}).collect do |tag|
+    Tag.where({'rel_object_type' => object.class.to_s, 'rel_object_id' => object.id}).collect do |tag|
       tag.name
     end
   end
 
   def self.list_in_page(page)
-    Tag.find(:all, :conditions => {'page_id' => page}, :group => 'name').collect do |tag|
+    Tag.where({'page_id' => page}).group('name').collect do |tag|
       tag.name
     end
   end
@@ -76,7 +78,7 @@ class Tag < ActiveRecord::Base
     ["project_id = ? AND is_private = ? AND tag = ?", project.id, false, tag_name] :
     ["project_id = ? AND tag = ?", project.id, tag_name]
 
-    Tag.find(:all, :conditions => {'name' => tag_name, 'page_id' => page}, :select => 'id').length
+    Tag.where({'name' => tag_name, 'page_id' => page}).count
   end
 
   def self.find_object_join(model)

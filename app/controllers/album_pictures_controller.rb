@@ -47,10 +47,7 @@ class AlbumPicturesController < ApplicationController
     @new_picture = !params[:is_new].nil?
     
     if !@new_picture
-      el_id = @album.pictures.find(:first, 
-                                   :conditions => ['position < ?', @album_picture.position], 
-                                   :select => 'id', 
-                                   :order => 'position DESC')
+      el_id = @album.pictures.where(['position < ?', @album_picture.position]).select(:id).order('position DESC').first
       @insert_element = "album_picture_#{el_id}" unless el_id.nil?
     
     elsif params[:el_id]

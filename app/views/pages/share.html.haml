@@ -2,7 +2,7 @@
 - @user_navigation_items = user_tabs(nil)
 - @page_title = t('share_page')
 
-= form_tag hash_for_share_page_path.merge(:id => @page.id, :use_route => nil), :method => :post, :class => 'pageShareForm' do
+= form_tag share_page_path(:id => @page.id), :method => :post, :class => 'pageShareForm' do
   != error_messages_for :page
   
   %div.pageShareSection
@@ -29,4 +29,4 @@
             != check_box_tag 'page[shared_users][]', user.id, @page.shared_user_ids.include?(user.id), :id => "pageShareUser#{user.id}"
   %div.pageShareSection
     != submit_tag t('update')
-    %a{:href => url_for(hash_for_page_path.merge(:id => @page.id, :use_route => nil))}= t('cancel') 
+    %a{:href => page_path(:id => @page.id)}= t('cancel') 

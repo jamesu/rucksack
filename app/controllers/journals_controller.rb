@@ -39,8 +39,7 @@ class JournalsController < ApplicationController
     if query_users
       user_ids = Account.owner.user_ids - [@logged_user.id]
       @user_journals = user_ids.collect do |uid|
-        journals = Journal.find(:all, :conditions => {'user_id' => uid},
-                                :order => 'created_at DESC', :limit => 4)
+        journals = Journal.where('user_id' => uid).order('created_at DESC').limit(4)
         journals.empty? ? nil : [User.find_by_id(uid), journals]
       end.compact
     end
@@ -158,7 +157,7 @@ protected
 
   def get_journals(users, from=nil)
     conditions = from.nil? ? ['user_id IN (?)', users] : ['user_id IN (?) AND id < ?', users, from]
-    Journal.find(:all, :conditions => conditions, :order => 'created_at DESC', :limit => params[:limit] || 25)
+    Journal.where(conditions).order('created_at DESC').limit(params[:limit] || 25).all
   end
   
   def get_groups(list)

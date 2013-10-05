@@ -135,7 +135,7 @@ class Reminder < ActiveRecord::Base
   def self.dispatch_and_clean
     now = Time.now.utc
 
-    Reminder.find(:all, :conditions => ['at_time <= ?', now], :order => 'at_time ASC').each do |reminder|
+    Reminder.where(['at_time <= ?', now]).order('at_time ASC').each do |reminder|
       if reminder.expired?
         #puts "expired, remove!"
         reminder.destroy
