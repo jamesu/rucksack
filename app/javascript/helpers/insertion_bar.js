@@ -1,4 +1,5 @@
 import $ from "cash-dom";
+import Velocity from "velocity-animate";
 
 // Insertion bar which appears between slots
 export default class {
@@ -16,8 +17,20 @@ export default class {
   }
 
   show() {
+    console.log('showin');
     $(this.pageController.insertionMarker.element).before(this.element);
-    this.element_bar.css('height', '0px').show().animate({"height": "25px"}, "fast");
+    this.element_bar.css('height', '0px').show();
+
+    Velocity(this.element_bar[0], {
+      'height': '25px'
+    },
+    {
+      duration: 32,
+      complete: () => {
+        console.log("Animation completed");
+        this.element_bar.css('height', null).show();
+      }
+    });
   }
 
   hide() {
@@ -28,18 +41,15 @@ export default class {
     // Reveal form using an expanding blind effect
     var calc_height = el.height();
     var init = true;
-    el.css({'height': '42px', 'overflow': 'hidden'}).animate(
-      {'height': calc_height + 'px'}, 
-      {'duration': "fast",
-      'step'(evt) {
-             // Hack - this needs to be set after, otherwise headers vanish
-        if (init) {
-          el.css('overflow', 'hidden');
-          init = false;
-        }
+    el.css({'height': '128px', 'overflow': 'hidden'});
+
+    Velocity(this.element_bar[0], {
+      'height': calc_height + 'px'
       },
-      'complete'(evt){
-              // Defaults
+      {
+      duration: 32,
+      complete: (evt) => {
+        // Defaults
         el.css('height', null).css('overflow', 'visible');
       }
     } 
@@ -57,8 +67,8 @@ export default class {
     root.find('#' + id + 'Before').attr('value', this.pageController.insert_before ? '1' : '0');
     root.find('#' + id + 'Slot').attr('value', $(this.pageController.insert_element).attr('slot'));
 
-        // Form should go in the insertion bar, so we can change the insertion location and maintain
-        // state
+    // Form should go in the insertion bar, so we can change the insertion location and maintain
+    // state
     this.element_tablet.append(template);
     this.magicForm(root.find('#' + id));
     this.current_form = template;
@@ -68,7 +78,7 @@ export default class {
     if (!this.current_form)
       return;
 
-    var root = $(pageController.element);
+    var root = $(this.pageController.element);
     this.current_form.children('form')[0].reset();
     root.find('#pageWidgetForms').append(this.current_form);
     this.current_form = null;

@@ -6,6 +6,7 @@ import RucksackHelpers from "helpers/rucksack_helpers";
 import HoverHandle from "helpers/hover_handle";
 import InsertionBar from "helpers/insertion_bar";
 import InsertionMarker from "helpers/insertion_marker";
+import Velocity from "velocity-animate";
 
 // Main page controller
 export default class extends Controller
@@ -37,13 +38,13 @@ export default class extends Controller
     console.log('Connecting page controller....', this.element);
     this.init();
 
-    $('#content').on('mousemove', this.PageHoverHandlerFunc);
-    $('#content').on('mouseout', this.PageHoverHandlerCancelFunc);
-    $('#outerWrapper').on('mousemove', this.InsertionMarkerFunc);
-    $('#pageResizeHandle').on('mousedown', this.startResize);
+    this.bindStaticEvent($('#content'), 'mousemove', this.handlePageHoverHandlerFunc.bind(this));
+    this.bindStaticEvent($('#content'), 'mouseout', this.handlePageHoverHandlerCancelFunc.bind(this));
+    this.bindStaticEvent($('#outerWrapper'), 'mousemove', this.handleInsertionMarkerFunc.bind(this));
+    this.bindStaticEvent($('#pageResizeHandle'), 'mousedown', this.startResize.bind(this));
 
     this.bindStatic();
-    this.bind();
+    this.bindDynamic();
 
     this.TYPE = this.lookupMeta('page-type', null);
     this.ID = this.lookupMeta('page-id', null);
@@ -109,11 +110,6 @@ export default class extends Controller
     this.clearStaticEvents();
 
     window.Page = null;
-
-    $('#content').off('mousemove', this.PageHoverHandlerFunc);
-    $('#content').off('mouseout', this.PageHoverHandlerCancelFunc);
-    $('#outerWrapper').off('mousemove', this.InsertionMarkerFunc);
-    $('#pageResizeHandle').off('mousedown', this.startResize);
   }
 
   bumpJournalEntries(last_id) {
@@ -209,14 +205,18 @@ export default class extends Controller
     //
 
   onHeaderSubmit(evt) {
+    evt.preventDefault();
+    
 
       //await fetch(`/search?query=${query}`);
-    RucksackHelpers.request($(this), this.bind(this.JustRebind));
+    RucksackHelpers.request($(evt.target), this.JustRebind.bind(this));
 
     return false;
   }
 
   onHeaderCancel(evt) {
+    evt.preventDefault();
+    
     $('#page_header_form').hide();
     $('#page_header').show();
 
@@ -224,41 +224,46 @@ export default class extends Controller
   }
 
   onWidgetFormSubmit(evt) {
-    var el = $(this);
+    var el = $(evt.target);
     if (el.hasClass('upload')) {
-      RucksackHelpers.requestIframeScript(el, {}, this.bind(this.JustRebind));
+      RucksackHelpers.requestIframeScript(el, {}, this.JustRebind.bind(this));
       return true;
     }
     else
     {
-      RucksackHelpers.request(el, this.bind(this.JustRebind));
+      evt.preventDefault();
+      RucksackHelpers.request(el, this.JustRebind.bind(this));
     }
 
-      // Loader
-    el.find('.submit:first').attr('disabled', true).html(this.loader());
+    // Loader
+    el.find('.submit').first().attr('disabled', true).html(this.loader());
 
     return false;
   }
 
   onWidgetFormCancel(evt) {
-    var form = $(evt.target).parents('form:first');
+    evt.preventDefault();
+    
+    var form = $(evt.target).parents('form').first();
 
-    RucksackHelpers.get(form.attr('action'), {}, this.bind(this.JustRebind));
+    RucksackHelpers.get(form.attr('action'), {}, this.JustRebind.bind(this));
 
     return false;
   }
 
   onFixedWidgetFormSubmit(evt) {
-    var el = $(this);
-    var submit_button = el.find('.submit:first');
+
+    var el = $(evt.target);
+    var submit_button = el.find('.submit').first();
     var pageController = this;
 
-      // Loader
+    // Loader
     var old_submit = submit_button.html();
     submit_button.attr('disabled', true).html(this.loader());
 
       // Note: closures used here so that submit button can be reset
-    if (el.hasClass('upload')) {
+    if (el.hasClass('upload')) 
+    {
       RucksackHelpers.requestIframeScript(el, {'is_new': 1}, function(data) { 
         submit_button.attr('disabled', false).html(old_submit); 
         pageController.ResetAndRebind(data); 
@@ -266,30 +271,40 @@ export default class extends Controller
       return true;
     }
     else
-      RuckSackHelpers.request(el, function(data) { 
+    {
+      evt.preventDefault();
+      RucksackHelpers.request(el, function(data) { 
         submit_button.attr('disabled', false).html(old_submit); 
         pageController.ResetAndRebind(data); 
       });
+    }
 
     return false;
   }
 
   onFixedWidgetFormCancel(evt) {
+    evt.preventDefault();
+
+    console.log('onFixedWidgetFormCancel')
     this.insertionBar.clearWidgetForm();
 
     return false;
   }
 
   onAddItemSubmit(evt) {
-    var form = $(this);
-    RuckSackHelpers.request(form, this.bind(this.JustRebind))
+    evt.preventDefault();
+    
+    var form = $(evt.target);
+    RucksackHelpers.request(form, this.JustRebind.bind(this))
     form[0].reset();
     return false;
   }
 
   onAddItemCancel(evt) {
-    var addItemInner = $(evt.target).parents('.inner:first');
-    var newItem = addItemInner.parents('.addItem:first').find('.newItem:first');
+    evt.preventDefault();
+    
+    var addItemInner = $(evt.target).parents('.inner').first();
+    var newItem = addItemInner.parents('.addItem').first().find('.newItem').first();
 
     addItemInner.hide();
     addItemInner.children('form')[0].reset();
@@ -299,129 +314,145 @@ export default class extends Controller
   }
 
   onAddItemLink(evt) {
+    evt.preventDefault();
+    
     var newItem = $(evt.target.parentNode);
-    var addItemInner = newItem.parents('.addItem:first').find('.inner:first');
+    var addItemInner = newItem.parents('.addItem').first().find('.inner').first();
 
     addItemInner.show();
-    addItemInner.autofocus();
+    RucksackHelpers.autofocus(addItemInner);
     newItem.hide();
 
     return false;
   }
 
   onListSubmit(evt) {
-    RuckSackHelpers.request($(this), this.bind(this.JustRebind));
+    evt.preventDefault();
+    RucksackHelpers.request($(evt.target), this.JustRebind.bind(this));
 
     return false;
   }
 
   onListCancel(evt) {
+    evt.preventDefault();
     var el = $(evt.target);
-    var list_url = el.parents('.pageWidget:first').attr('url');
-    var item_id = el.parents('.listItem:first').attr('item_id');
+    var list_url = el.parents('.pageWidget').first().attr('url');
+    var item_id = el.parents('.listItem').first().attr('item_id');
 
-    RucksackHelpers.get(this.buildUrl(list_url + '/items/' + item_id), null, this.bind(this.JustRebind));
+    RucksackHelpers.get(this.buildUrl(list_url + '/items/' + item_id), null, this.JustRebind.bind(this));
 
     return false;
   }
 
   onListItemCheck(evt) {
+    evt.preventDefault();
     var el = $(evt.target);
-    var list_url = el.parents('.pageWidget:first').attr('url');
-    var item_id = el.parents('.listItem:first').attr('item_id');
+    var list_url = el.parents('.pageWidget').first().attr('url');
+    var item_id = el.parents('.listItem').first().attr('item_id');
 
       // Loader gif
     el.siblings('.itemText').html(this.loader());
 
-    RucksackHelpers.put(this.buildUrl(list_url + '/items/' + item_id + '/status'), {'list_item[completed]':evt.target.checked}, this.bind(this.JustRebind));
+    RucksackHelpers.put(this.buildUrl(list_url + '/items/' + item_id + '/status'), {'list_item[completed]':evt.target.checked}, this.JustRebind.bind(this));
 
     return false;
   }
 
   onListItemDelete(evt) {
+    evt.preventDefault();
     var el = $(evt.target);
-    var list_url = el.parents('.pageWidget:first').attr('url');
-    var item_id = el.parents('.listItem:first').attr('item_id');
+    var list_url = el.parents('.pageWidget').first().attr('url');
+    var item_id = el.parents('.listItem').first().attr('item_id');
 
-    RucksackHelpers.del(this.buildUrl(list_url + '/items/' + item_id), null, this.bind(this.JustRebind));
+    RucksackHelpers.del(this.buildUrl(list_url + '/items/' + item_id), null, this.JustRebind.bind(this));
 
     return false;
   }
 
   onListItemShowMore(evt) {
+    evt.preventDefault();
     var el = $(evt.target);
-    var list_url = el.parents('.pageWidget:first').attr('url');
+    var list_url = el.parents('.pageWidget').first().attr('url');
 
     el.parent().hide();
-    RucksackHelpers.get(this.buildUrl(list_url + '/items'), {'completed':1, 'limit':-1, 'offset': 5}, this.bind(this.JustRebind));
+    RucksackHelpers.get(this.buildUrl(list_url + '/items'), {'completed':1, 'limit':-1, 'offset': 5}, this.JustRebind.bind(this));
 
     return false;
   }
 
   onListItemSubmit(evt) {
-    RucksackHelpers.request($(this), this.bind(this.JustRebind));
+    evt.preventDefault();
+    RucksackHelpers.request($(evt.target), this.JustRebind.bind(this));
 
     return false;
   }
 
   onListItemCancel(evt) {
+    evt.preventDefault();
     var el = $(evt.target);
-    var pageList = el.parents('.pageList:first');
+    var pageList = el.parents('.pageList').first();
 
-    pageList.find('.pageListForm:first').hide();
-    pageList.find('.pageListHeader:first').show();
+    pageList.find('.pageListForm').first().hide();
+    pageList.find('.pageListHeader').first().show();
 
     return false;
   }
 
   onAlbumSubmit(evt) {
-    RuckSackHelpers.request($(this), this.bind(this.JustRebind));  
+    evt.preventDefault();
+    RucksackHelpers.request($(evt.target), this.JustRebind.bind(this));  
 
     return false;
   }
 
   onAlbumCancel(evt) {
+    evt.preventDefault();
     var el = $(evt.target);
-    var pageAlbum = el.parents('.pageAlbum:first');
+    var pageAlbum = el.parents('.pageAlbum').first();
 
-    pageAlbum.find('.pageAlbumForm:first').hide();
-    pageAlbum.find('.pageAlbumHeader:first').show();
+    pageAlbum.find('.pageAlbumForm').first().hide();
+    pageAlbum.find('.pageAlbumHeader').first().show();
 
     return false;
   }
 
   onAddAlbumPicture(evt) {
+    evt.preventDefault();
     var newPicture = $(evt.target.parentNode);
-    var addPictureInner = newPicture.parents('.albumPictureForm:first').find('.inner:first');
+    var addPictureInner = newPicture.parents('.albumPictureForm').first().find('.inner').first();
 
     addPictureInner.show();
-    addPictureInner.autofocus();
+    RucksackHelpers.autofocus(addPictureInner);
     newPicture.hide();
 
     return false;
   }
 
   onAlbumPictureSubmit(evt) {
-    var el = $(this);
-    RucksackHelpers.requestIframeScript(el, {}, this.bind(this.JustRebind));
+    evt.preventDefault();
+    var el = $(evt.target);
+    RucksackHelpers.requestIframeScript(el, {}, this.JustRebind.bind(this));
     return true;
   }
 
   onAlbumPictureCancel(evt) {
-    var el = $(this);
-    RucksackHelpers.get(el.parents('form:first').attr('action'), null, this.bind(this.JustRebind));
+    evt.preventDefault();
+    var el = $(evt.target);
+    RucksackHelpers.get(el.parents('form').first().attr('action'), null, this.JustRebind.bind(this));
     return false;
   }
 
   onNewAlbumPictureSubmit(evt) {
-    var el = $(this);
-    RucksackHelpers.requestIframeScript(el, {'is_new': 1, 'el_id': $(this).parents(".albumPictureForm:first").attr("id")}, this.bind(this.JustRebind));
+    evt.preventDefault();
+    var el = $(evt.target);
+    RucksackHelpers.requestIframeScript(el, {'is_new': 1, 'el_id': el.parents(".albumPictureForm:first").attr("id")}, this.JustRebind.bind(this));
     return true;
   }
 
   onNewAlbumPictureCancel(evt) {
-    var newPictureInner = $(evt.target).parents('.inner:first');
-    var newPicture = newPictureInner.parents('.albumPictureForm:first:first').find('.newPicture:first');
+    evt.preventDefault();
+    var newPictureInner = $(evt.target).parents('.inner').first();
+    var newPicture = newPictureInner.parents('.albumPictureForm:first').first().find('.newPicture').first();
 
     newPictureInner.hide();
     newPictureInner.children('form')[0].reset();
@@ -431,12 +462,14 @@ export default class extends Controller
   }
 
   onEditTags(evt) {
-    $(this).request(this.bind(this.JustRebind));
+    evt.preventDefault();
+    $(evt.target).request(this.JustRebind.bind(this));
 
     return false;
   }
 
   onEditTagsCancel(evt) {
+    evt.preventDefault();
     $('#pageTagsForm').hide();
     $('#pageTags').show();
     $('#pageEditTags').show();
@@ -445,6 +478,7 @@ export default class extends Controller
   }
 
   onTagAdd(evt) {
+    evt.preventDefault();
     var crumb = $(evt.target.parentNode);
     var tagName = crumb.attr('tag');
     if (this.TAG_LIST.indexOf(tagName) >= 0)
@@ -458,6 +492,7 @@ export default class extends Controller
   }
 
   onTagRemove(evt) {
+    evt.preventDefault();
     var crumb = $(evt.target.parentNode);
     var tagName = crumb.attr('tag');
 
@@ -472,30 +507,34 @@ export default class extends Controller
   }
 
   onReminderSnooze(evt) {
+    evt.preventDefault();
     var el = $(evt.target);
-    var reminder_url = el.parents('.reminderEntry:first').attr('url') + '/snooze';
-    RucksackHelpers.put(reminder_url, {}, this.bind(this.JustRebind));
+    var reminder_url = el.parents('.reminderEntry').first().attr('url') + '/snooze';
+    RucksackHelpers.put(reminder_url, {}, this.JustRebind.bind(this));
 
     return false;
   }
 
   onReminderDelete(evt) {
+    evt.preventDefault();
     var el = $(evt.target);
-    var reminder_url = el.parents('.reminderEntry:first').attr('url');
+    var reminder_url = el.parents('.reminderEntry').first().attr('url');
 
-    RucksackHelpers.del(reminder_url, {}, this.bind(this.JustRebind));
+    RucksackHelpers.del(reminder_url, {}, this.JustRebind.bind(this));
 
     return false;
   }
 
   onReminderSubmit(evt) {
-    RucksackHelpers.request($(this), this.bind(this.RebindAndHover));
+    evt.preventDefault();
+    RucksackHelpers.request($(evt.target), this.RebindAndHover.bind(this));
 
     return false;
   }
 
   onReminderCancel(evt) {
-    RucksackHelpers.get('/reminders', {}, this.bind(this.JustRebind));
+    evt.preventDefault();
+    RucksackHelpers.get('/reminders', {}, this.JustRebind.bind(this));
 
     this.hoverHandle.setEnabled(true);
 
@@ -504,13 +543,14 @@ export default class extends Controller
 
     // User list
   onUserDelete(evt) {
-    var el = $(this);
+    evt.preventDefault();
+    var el = $(evt.target);
 
-    var user_id = el.parents('tr:first').attr('user_id');
+    var user_id = el.parents('tr').first().attr('user_id');
 
     // TODO: need localization
     if (confirm('Are you sure you want to delete this user?'))
-      RucksackHelpers.del('/users/' + user_id, {}, this.bind(this.JustRebind));
+      RucksackHelpers.del('/users/' + user_id, {}, this.JustRebind.bind(this));
 
     return false;
   }
@@ -518,19 +558,25 @@ export default class extends Controller
 
   // Hover bar which appears when hovering over widgets
   handleHoverSlotBar(evt) {
+    evt.preventDefault();
     var el = $(evt.target);
-    var cur = $(this);
+    var cur = el;
 
-    var url = cur.parents(cur.attr('restype') + ':first').attr('url');
+    var root = el.closest('.pageSlotHandle');
+    console.log('root=',root[0]);
+    console.log('restype=', root.attr('restype'));
 
-    if (el.hasClass('slot_delete') && confirm("Are you sure you want to delete this item?"))
-      RucksackHelpers.del(this.buildUrl(url), null, this.bind(this.JustRebind));
-    else if (el.hasClass('slot_edit'))
-      RucksackHelpers.get(this.buildUrl(url + '/edit'), null, this.bind(this.JustRebind));
-    else
-      return false;
+    var url = root.parents(root.attr('restype')).first().attr('url');
+    console.log('url=', root.attr('AAA'));
 
-    return true;
+    if (root.hasClass('slot_delete') && confirm("Are you sure you want to delete this item?"))
+    {
+      RucksackHelpers.del(this.buildUrl(url), null, this.JustRebind.bind(this));
+    }
+    else if (root.hasClass('slot_edit'))
+    {
+      RucksackHelpers.get(this.buildUrl(url + '/edit'), null, this.JustRebind.bind(this));
+    }
   }
 
   bindDynamicEvent(el, name, func) {
@@ -557,77 +603,78 @@ export default class extends Controller
     this.staticBoundEvents = [];
   }
 
-  bind() {
+  bindDynamic() {
 
     this.clearDynamicEvents();
 
       // Page header
-    this.bindDynamicEvent($('#page_header_form form'), 'submit', this.onHeaderSubmit);
-    this.bindDynamicEvent($('#page_header_form .cancel'), 'click', this.onHeaderCancel);
+    this.bindDynamicEvent($('#page_header_form form'), 'submit', this.onHeaderSubmit.bind(this));
+    this.bindDynamicEvent($('#page_header_form .cancel'), 'click', this.onHeaderCancel.bind(this));
 
-    this.bindDynamicEvent($('.pageSlotHandle'), 'click', this.handleHoverSlotBar);
+    this.bindDynamicEvent($('.pageSlotHandle'), 'click', this.handleHoverSlotBar.bind(this));
 
-    this.bindDynamicEvent($('.widgetForm'), 'submit', this.onWidgetFormSubmit);
-    this.bindDynamicEvent($('.widgetForm .cancel'), 'click', this.onWidgetFormCancel);
+    this.bindDynamicEvent($('.widgetForm'), 'submit', this.onWidgetFormSubmit.bind(this));
+    this.bindDynamicEvent($('.widgetForm .cancel'), 'click', this.onWidgetFormCancel.bind(this));
 
-    this.bindDynamicEvent($('.fixedWidgetForm'), 'submit', this.onFixedWidgetFormSubmit);
-    this.bindDynamicEvent($('.fixedWidgetForm .cancel'), 'click', this.onFixedWidgetFormCancel);
+    this.bindDynamicEvent($('.fixedWidgetForm'), 'submit', this.onFixedWidgetFormSubmit.bind(this));
+    this.bindDynamicEvent($('.fixedWidgetForm .cancel'), 'click', this.onFixedWidgetFormCancel.bind(this));
 
       // Popup form for Add Item
-    this.bindDynamicEvent($('.addItem form'), 'submit', this.onAddItemSubmit);
-    this.bindDynamicEvent($('.addItem form .cancel'), 'click', this.onAddItemCancel);
+    this.bindDynamicEvent($('.addItem form'), 'submit', this.onAddItemSubmit.bind(this));
+    this.bindDynamicEvent($('.addItem form .cancel'), 'click', this.onAddItemCancel.bind(this));
 
       // Add Item link
-    this.bindDynamicEvent($('.newItem a'), 'click', this.onAddItemLink);
-    this.bindDynamicEvent($('.listItem form'), 'submit', this.onListSubmit);
-    this.bindDynamicEvent($('.listItem form .cancel'), 'click', this.onListCancel);
+    this.bindDynamicEvent($('.newItem a'), 'click', this.onAddItemLink.bind(this));
+    this.bindDynamicEvent($('.listItem form'), 'submit', this.onListSubmit.bind(this));
+    this.bindDynamicEvent($('.listItem form .cancel'), 'click', this.onListCancel.bind(this));
 
-    this.bindDynamicEvent($('.pageList .checkbox'), 'click', this.onListItemCheck);
-    this.bindDynamicEvent($('.pageList .itemDelete'), 'click', this.onListItemDelete);
+    this.bindDynamicEvent($('.pageList .checkbox'), 'click', this.onListItemCheck.bind(this));
+    this.bindDynamicEvent($('.pageList .itemDelete'), 'click', this.onListItemDelete.bind(this));
 
-    this.bindDynamicEvent($('.pageList .showItems a'), 'click', this.onListItemShowMore);
+    this.bindDynamicEvent($('.pageList .showItems a'), 'click', this.onListItemShowMore.bind(this));
 
-    this.bindDynamicEvent($('.pageListForm form'), 'submit', this.onListItemSubmit);
-    this.bindDynamicEvent($('.pageListForm form .cancel'), 'click', this.onListItemCancel);
+    this.bindDynamicEvent($('.pageListForm form'), 'submit', this.onListItemSubmit.bind(this));
+    this.bindDynamicEvent($('.pageListForm form .cancel'), 'click', this.onListItemCancel.bind(this));
 
       // Page album
-    this.bindDynamicEvent($('.pageAlbumForm'), 'submit', this.onAlbumSubmit);
-    this.bindDynamicEvent($('.pageAlbumForm .cancel'), 'click', this.onAlbumCancel);
+    this.bindDynamicEvent($('.pageAlbumForm'), 'submit', this.onAlbumSubmit.bind(this));
+    this.bindDynamicEvent($('.pageAlbumForm .cancel'), 'click', this.onAlbumCancel.bind(this));
 
-    this.bindDynamicEvent($('.newPicture a'), 'click', this.onAddAlbumPicture);
+    this.bindDynamicEvent($('.newPicture a'), 'click', this.onAddAlbumPicture.bind(this));
 
       // Edit picture form
-    this.bindDynamicEvent($('.albumPicture form'), 'submit', this.onAlbumPictureSubmit);
-    this.bindDynamicEvent($('.albumPicture form .cancel'), 'click', this.onAlbumPictureCancel);
+    this.bindDynamicEvent($('.albumPicture form'), 'submit', this.onAlbumPictureSubmit.bind(this));
+    this.bindDynamicEvent($('.albumPicture form .cancel'), 'click', this.onAlbumPictureCancel.bind(this));
 
       // New picture form
-    this.bindDynamicEvent($('.albumPictureForm form'), 'submit', this.onNewAlbumPictureSubmit);
-    this.bindDynamicEvent($('.albumPictureForm form .cancel'), 'click', this.onNewAlbumPictureCancel);
+    this.bindDynamicEvent($('.albumPictureForm form'), 'submit', this.onNewAlbumPictureSubmit.bind(this));
+    this.bindDynamicEvent($('.albumPictureForm form .cancel'), 'click', this.onNewAlbumPictureCancel.bind(this));
 
       // Page list tags
-    this.bindDynamicEvent($('#pageTagsForm form'), 'submit', this.onEditTags);
-    this.bindDynamicEvent($('#pageTagsForm .cancel'), 'click', this.onEditTagsCancel);  
+    this.bindDynamicEvent($('#pageTagsForm form'), 'submit', this.onEditTags.bind(this));
+    this.bindDynamicEvent($('#pageTagsForm .cancel'), 'click', this.onEditTagsCancel.bind(this));  
 
       // + -
-    this.bindDynamicEvent($('.pageTagAdd'), 'click', this.onTagAdd);
-    this.bindDynamicEvent($('.pageTagRemove'), 'click', this.onTagRemove); 
+    this.bindDynamicEvent($('.pageTagAdd'), 'click', this.onTagAdd.bind(this));
+    this.bindDynamicEvent($('.pageTagRemove'), 'click', this.onTagRemove.bind(this)); 
 
       // Reminder page
 
-    this.bindDynamicEvent($('.reminderSnooze'), 'click', this.onReminderSnooze);
-    this.bindDynamicEvent($('.reminderDelete'), 'click', this.onReminderDelete);
-    this.bindDynamicEvent($('.reminderForm'), 'submit', this.onReminderSubmit);
-    this.bindDynamicEvent($('.reminderForm .cancel'), 'click', this.onReminderCancel);
+    this.bindDynamicEvent($('.reminderSnooze'), 'click', this.onReminderSnooze.bind(this));
+    this.bindDynamicEvent($('.reminderDelete'), 'click', this.onReminderDelete.bind(this));
+    this.bindDynamicEvent($('.reminderForm'), 'submit', this.onReminderSubmit.bind(this));
+    this.bindDynamicEvent($('.reminderForm .cancel'), 'click', this.onReminderCancel.bind(this));
 
       // User list
-    this.bindDynamicEvent($('#userList .userDelete'), 'click', this.onUserDelete);
+    this.bindDynamicEvent($('#userList .userDelete'), 'click', this.onUserDelete.bind(this));
   }
 
     // Handlers
 
   handleAddList(evt) {
-        // Set to top of page if on top toolbar
-    if ($(this).hasClass('atTop'))
+    evt.preventDefault();
+    // Set to top of page if on top toolbar
+    if ($(evt.target).hasClass('atTop'))
       this.insertionMarker.set(null, true);
 
     this.insertWidget('lists');
@@ -674,7 +721,7 @@ export default class extends Controller
       pageController.insertionMarker.setEnabled(true);
       pageController.hoverHandle.setEnabled(true);
 
-      form.autofocus();
+      RucksackHelpers.autofocus(form);
 
       return false;
     });
@@ -693,7 +740,7 @@ export default class extends Controller
       pageController.insertionMarker.setEnabled(true);
       pageController.hoverHandle.setEnabled(true);
 
-      form.autofocus();
+      RucksackHelpers.autofocus(form);
 
       return false;
     });
@@ -712,7 +759,7 @@ export default class extends Controller
       pageController.insertionMarker.setEnabled(true);
       pageController.hoverHandle.setEnabled(true);
 
-      form.autofocus();
+      RucksackHelpers.autofocus(form);
 
       return false;
     });
@@ -731,7 +778,7 @@ export default class extends Controller
       pageController.insertionMarker.setEnabled(true);
       pageController.hoverHandle.setEnabled(true);
 
-      form.autofocus();
+      RucksackHelpers.autofocus(form);
 
       return false;
     });
@@ -806,7 +853,7 @@ export default class extends Controller
     this.bindStaticEvent($('#pageEditTags .edit'), 'click', function(evt) {
       evt.preventDefault();
       console.log('edit...')
-      RucksackHelpers.get(pageController.buildUrl('/tags'), {}, pageController.bind(pageController.JustRebind));
+      RucksackHelpers.get(pageController.buildUrl('/tags'), {}, pageController.JustRebind.bind(pageController));
       return false;
     });
 
@@ -815,7 +862,7 @@ export default class extends Controller
     this.bindStaticEvent($('#add_ReminderForm'), 'submit', function(evt) {
       evt.preventDefault();
       
-      RucksackHelpers.request($(this), this.bind(this.JustRebind));
+      RucksackHelpers.request($(this), this.JustRebind.bind(this));
 
       return false;
     });
@@ -824,7 +871,7 @@ export default class extends Controller
     this.bindStaticEvent($('#edit_UserStatus'), 'submit', function(evt) {
       evt.preventDefault();
       
-      RucksackHelpers.request($(this), pageController.bind(pageController.JustRebind));
+      RucksackHelpers.request($(this), pageController.JustRebind.bind(pageController));
 
       return false;
     });
@@ -857,7 +904,7 @@ export default class extends Controller
       if (!el)
         return false;
 
-      RucksackHelpers.request(el, pageController.bind(pageController.JustRebind));
+      RucksackHelpers.request(el, pageController.JustRebind.bind(pageController));
 
       el[0].reset();
 
@@ -913,10 +960,10 @@ export default class extends Controller
       evt.preventDefault();
       
       var newPage = $(evt.target.parentNode);
-      var addPageInner = newPage.parents('.addPage:first').find('.inner:first');
+      var addPageInner = newPage.parents('.addPage').first().find('.inner').first();
 
       addPageInner.show();
-      addPageInner.autofocus();
+      RucksackHelpers.autofocus(addPageInner);
       newPage.hide();
 
       return false;
@@ -926,14 +973,14 @@ export default class extends Controller
       evt.preventDefault();
       
       var el = $(this);
-      var submit_button = el.find('.submit:first');
-      var root = el.parents('.addPage:first');
-      var newPage = root.find('.addPageLink:first');
-      var addPageInner = root.find('.inner:first');
+      var submit_button = el.find('.submit').first();
+      var root = el.parents('.addPage').first();
+      var newPage = root.find('.addPageLink').first();
+      var addPageInner = root.find('.inner').first();
 
         // Loader
       var old_submit = submit_button.html();
-      submit_button.attr('disabled', true).html(this.loader());
+      submit_button.attr('disabled', true).html(pageController.loader());
 
       RucksackHelpers.request($(this), function(data){
         addPageInner.hide(); 
@@ -948,9 +995,9 @@ export default class extends Controller
     this.bindStaticEvent($('.addPage form .cancel'), 'click', function(evt) {
       evt.preventDefault();
       
-      var root = $(evt.target.parentNode).parents('.addPage:first');
-      var newPage = root.find('.addPageLink:first');
-      var addPageInner = root.find('.inner:first');
+      var root = $(evt.target.parentNode).parents('.addPage').first();
+      var newPage = root.find('.addPageLink').first();
+      var addPageInner = root.find('.inner').first();
 
       addPageInner.hide();
       newPage.show();
@@ -961,7 +1008,7 @@ export default class extends Controller
 
   rebind () {
     this.clearDynamicEvents();
-    this.bind();
+    this.bindDynamic();
   }
 
   setFavourite(favourite) {
@@ -986,13 +1033,13 @@ export default class extends Controller
       return;
 
         // Insert
-    $.post('/pages/' + this.ID + '/' + resource, 
+    RucksackHelpers.post('/pages/' + this.ID + '/' + resource, 
       {'position[slot]': $(this.insert_element).attr('slot') , 
       'position[before]': (this.insert_before ? '1' : '0')}, this.ResetAndRebind);
   }
 
   dropSlotFunction (ev, ui) {
-      // Add all of the wrapped elements
+    // Add all of the wrapped elements
     if (this.isSortingWrappedElements) {
       var page_id = $(this).attr('page_id');
       ui.draggable.children(":last").children().each(function() {
@@ -1115,7 +1162,7 @@ export default class extends Controller
 
   makeListSortable(el) {
     return; // TOFIX
-    var list_url = el.parents('.pageWidget:first').attr('url');
+    var list_url = el.parents('.pageWidget').first().attr('url');
 
     if (el.data('sortable'))
     {
@@ -1133,7 +1180,7 @@ export default class extends Controller
 
         var list = ui.item.parent('.listItems');
         if (list.attr('id') != $(this).attr('id'))
-          RucksackHelpers.put('/pages/' + this.ID + list.parents('.pageWidget:first').attr('url') + '/transfer', {'list_item[id]': ui.item.attr('item_id')});
+          RucksackHelpers.put('/pages/' + this.ID + list.parents('.pageWidget').first().attr('url') + '/transfer', {'list_item[id]': ui.item.attr('item_id')});
         else
           $.post('/pages/' + this.ID + list_url + '/reorder', el.sortable('serialize', {key: 'items[]'}));
       }
@@ -1156,7 +1203,7 @@ export default class extends Controller
     if (handler)
       hover = $('#' + handler);
     else if (el.hasClass('innerHandle'))
-      hover = el.parents('.pageSlotHandle:first');
+      hover = el.parents('.pageSlotHandle')[0];
 
     if (hover)
       this.hoverHandle.setHandle(hover);
@@ -1193,10 +1240,10 @@ export default class extends Controller
           this.insertionMarker.show(el, false);
         else
            this.insertionMarker.hide(); // *poof*           
-      }
-    }
-    else
-    {
+       }
+     }
+     else
+     {
     // Handle offset when hovering over insert bar
       if (el.attr('id') == "cpi") 
       {

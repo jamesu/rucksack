@@ -1,4 +1,5 @@
 import $ from "cash-dom";
+import Velocity from "velocity-animate";
 
 // Handles the hover bar for modifying widgets 
 export default class {
@@ -17,9 +18,18 @@ export default class {
   }
 
   setHandle(handle) {
+    handle = $(handle);
+
     // Cancel any running effects
     if (this.current_handle)
-      this.current_handle.stop().show().css('opacity', 1.0);
+    {
+      if (this.current_handle.hasClass('velocity-animating'))
+      {
+        Velocity(this.current_handle[0], "stop");
+      }
+
+      this.current_handle.show().css('opacity', 1.0);
+    }
 
     var is_new = this.current_handle == null || (this.current_handle[0] != handle[0]);
     //if (is_new)
@@ -30,10 +40,13 @@ export default class {
       this.current_handle.hide();
 
         // Show the new handle
-    if (is_new || handle.is(':hidden'))
+
+    const isHidden = handle.css("display") === "none" || handle.css("visibility") === "hidden";
+
+    if (is_new || isHidden)
       handle.css('opacity', 1.0).show();
 
-        // Disable insertion marker
+    // Disable insertion marker
     if (this.pageController.insertionMarker.enabled)
     {
       this.pageController.insertionMarker.setEnabled(false);
@@ -44,6 +57,7 @@ export default class {
   }
 
   clearHandle() {
+    var us = this;
     if (!this.current_handle)
       return;
 
@@ -53,10 +67,22 @@ export default class {
       return;
     }
 
-        // Make sure the old one vanishes
-    if (!this.current_handle.is(':animated'))
+    // Make sure the old one vanishes
+    var el = this.current_handle[0];
+    if (!this.current_handle.hasClass('velocity-animating'))
     {
-      this.current_handle.fadeOut(800, function() { this.current_handle = null; });
+      Velocity(el, {
+        'opacity': 0.0
+        },
+        {
+          duration: 800,
+          complete: (evt) => {
+            // Defaults
+            $(el).hide();
+            us.current_handle = null;
+          }
+        }
+      );
     }
 
     if (!this.pageController.insertionMarker.enabled)

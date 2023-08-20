@@ -8,8 +8,6 @@ export default class {
   }
 
   init() {
-    console.log('woop',this);
-    console.log("el=",this.pageController.element);
     this.element = $(this.pageController.element).find('#pageInsert');
     this.enabled = true;
     this.visible = false;
@@ -38,7 +36,7 @@ export default class {
   }
 
   set(element, insert_before) {
-    var el = element ? 
+    var el = element != null ? 
       element : 
       $(this.pageController.element).find('#slots').children('.pageSlot')[0];
 
@@ -46,8 +44,8 @@ export default class {
     this.pageController.insert_before = insert_before;
 
     if (insert_before)
-      el.before(this.element);
+      $(el).before(this.element);
     else
-      el.after(this.element);
+      $(el).after(this.element);
   }
 };
