@@ -164,11 +164,10 @@ module ApplicationHelper
     if text.blank?
       ""
     else
-      options = [ :filter_html ]
-      options << :lite_mode if lite
-      textilized = RedCloth.new(text, options)
-      textilized.hard_breaks = true if textilized.respond_to?("hard_breaks=")
-      text = textilized.to_html
+
+      renderer = Redcarpet::Render::HTML.new
+      markdown = Redcarpet::Markdown.new(renderer)
+      text = markdown.render(text).html_safe
 
       unless force_attrs.nil?
         attrs = force_attrs.map{ |key,value| "#{key}='#{value}'"}.join(' ')

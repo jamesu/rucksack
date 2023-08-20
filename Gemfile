@@ -9,6 +9,8 @@ gem "chronic", "~> 0.10.2"
 
 gem 'kt-paperclip', '~> 7.2'
 
+gem 'redcarpet'
+
 gem 'activemodel-serializers-xml'
 
 gem 'actionpack-page_caching'
