@@ -274,6 +274,10 @@ class User < ApplicationRecord
       username
   end
 
+  def gravatar_url(a)
+    ""
+  end
+
   def object_name
     self.display_name
   end

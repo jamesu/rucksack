@@ -197,4 +197,9 @@ module ApplicationHelper
       yield action, resource
     end
   end
+
+  def error_messages_for(key)
+    # TOFIX
+    ""
+  end
 end
