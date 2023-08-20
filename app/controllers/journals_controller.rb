@@ -118,7 +118,7 @@ class JournalsController < ApplicationController
     return error_status(true, :cannot_edit_journal) unless (@journal.can_be_edited_by(@logged_user))
 
     respond_to do |format|
-      if @journal.update_attributes(journal_params)
+      if @journal.update(journal_params)
         flash[:notice] = 'Journal was successfully updated.'
         format.html { redirect_to(@journal) }
         format.js {}

@@ -124,7 +124,7 @@ class UploadedFilesController < ApplicationController
     @uploaded_file.updated_by = @logged_user
 
     respond_to do |format|
-      if @uploaded_file.update_attributes(uploaded_file_params)
+      if @uploaded_file.update(uploaded_file_params)
         flash[:notice] = 'uploaded_file was successfully updated.'
         format.html { redirect_to(@uploaded_file) }
         format.js { render :action => 'update', :content_type => 'text/html'  }

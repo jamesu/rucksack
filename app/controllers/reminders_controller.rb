@@ -99,7 +99,7 @@ class RemindersController < ApplicationController
     @reminder.updated_by = @logged_user
 
     respond_to do |format|
-      if @reminder.update_attributes(reminder_params)
+      if @reminder.update(reminder_params)
         flash[:notice] = 'Reminder was successfully updated.'
         format.html { redirect_to(@reminder) }
         format.js { @grouped_reminders = get_groups; render :action => 'update' }

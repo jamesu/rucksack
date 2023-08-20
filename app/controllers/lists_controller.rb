@@ -107,7 +107,7 @@ class ListsController < ApplicationController
     @list.updated_by = @logged_user
 
     respond_to do |format|
-      if @list.update_attributes(list_params)
+      if @list.update(list_params)
         flash[:notice] = 'List was successfully updated.'
         format.html { redirect_to(@list) }
         format.js {}

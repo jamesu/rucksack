@@ -157,7 +157,7 @@ class UsersController < ApplicationController
     puts "ATTRS TO SET: #{user_attribs.inspect}"
 
     respond_to do |format|
-      if @user.update_attributes(user_attribs)
+      if @user.update(user_attribs)
         flash[:notice] = 'user was successfully updated.'
         format.html { redirect_to(users_path) }
         format.xml  { head :ok }

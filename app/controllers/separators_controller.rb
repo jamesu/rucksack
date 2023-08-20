@@ -108,7 +108,7 @@ class SeparatorsController < ApplicationController
     @separator.updated_by = @logged_user
 
     respond_to do |format|
-      if @separator.update_attributes(separator_params)
+      if @separator.update(separator_params)
         flash[:notice] = 'Separator was successfully updated.'
         format.html { redirect_to(@separator) }
         format.js {}

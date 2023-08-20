@@ -113,7 +113,7 @@ class AlbumPicturesController < ApplicationController
     @album_picture.updated_by = @logged_user
 
     respond_to do |format|
-      if @album_picture.update_attributes(picture_params)
+      if @album_picture.update(picture_params)
         flash[:notice] = 'AlbumPicture was successfully updated.'
         format.html { redirect_to(@album.page) }
         format.js  { render :action => 'update', :content_type => 'text/html'}

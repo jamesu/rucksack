@@ -107,7 +107,7 @@ class NotesController < ApplicationController
     @note.updated_by = @logged_user
 
     respond_to do |format|
-      if @note.update_attributes(note_params)
+      if @note.update(note_params)
         flash[:notice] = 'Note was successfully updated.'
         format.html { redirect_to(@note) }
         format.js {}

@@ -110,7 +110,7 @@ class EmailsController < ApplicationController
     @email.updated_by = @logged_user
 
     respond_to do |format|
-      if @email.update_attributes(email_params)
+      if @email.update(email_params)
         flash[:notice] = 'email was successfully updated.'
         format.html { redirect_to(@email) }
         format.js {}

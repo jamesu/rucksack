@@ -104,7 +104,7 @@ class ListItemsController < ApplicationController
     @list_item.updated_by = @logged_user
 
     respond_to do |format|
-      if @list_item.update_attributes(list_item_params)
+      if @list_item.update(list_item_params)
         flash[:notice] = 'ListItem was successfully updated.'
         format.html { redirect_to(@list_item) }
         format.js

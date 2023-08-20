@@ -134,7 +134,7 @@ class PagesController < ApplicationController
     return error_status(true, :cannot_edit_page) unless (@page.can_be_edited_by(@logged_user))
 
     respond_to do |format|
-      if @page.update_attributes(page_params)
+      if @page.update(page_params)
         flash[:notice] = 'Page was successfully updated.'
         format.html { redirect_to(@page) }
         format.js { }
