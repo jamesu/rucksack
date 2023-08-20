@@ -24,16 +24,16 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class Note < ActiveRecord::Base
+class Note < ApplicationRecord
   belongs_to :page
-  has_one :page_slot, :as => :rel_object
+  has_one :page_slot, as: :rel_object
 
-  has_many :application_logs, :as => :rel_object, :dependent => :nullify
+  has_many :application_logs, as: :rel_object, dependent: :nullify
 
-  belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
-  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
+  belongs_to :created_by, class_name: 'User', foreign_key: 'created_by_id'
+  belongs_to :updated_by, class_name: 'User', foreign_key: 'updated_by_id', optional: true
 
-  has_many :tags, :as => :rel_object, :dependent => :destroy
+  has_many :tags, as: :rel_object, dependent: :destroy
 
   after_create   :process_create
   before_update  :process_update_params
@@ -92,7 +92,7 @@ class Note < ActiveRecord::Base
 
   # Accesibility
 
-  attr_accessible :title, :content, :show_date
+  #attr_accessible :title, :content, :show_date
 
   # Validation
 end

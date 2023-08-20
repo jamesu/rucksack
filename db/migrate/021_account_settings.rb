@@ -1,4 +1,4 @@
-class AccountSettings < ActiveRecord::Migration
+class AccountSettings < ActiveRecord::Migration[4.2]
     def self.up
         add_column :accounts, 'settings', :text
     end

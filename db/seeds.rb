@@ -24,8 +24,6 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-require File.expand_path('../../config/environment',  __FILE__)
-
 initial_user_name = ENV['RUCKSACK_USER'] || 'admin'
 initial_user_displayname = ENV['RUCKSACK_DISPLAYNAME'] || 'Administrator'
 initial_user_password = ENV['RUCKSACK_PASSWORD'] || 'password'
@@ -47,6 +45,12 @@ if owner_user.nil?
   initial_user.time_zone = 'UTC'
 
   if not initial_user.save
+    puts "Errors?! #{User.all.count} users present"
+    initial_user.errors.full_messages.each do |error|
+      puts error
+    end
+    puts "^^^"
+
     puts 'User already exists, attempting to reset...'
     # Try resetting the password
     initial_user = User.where(:username => initial_user_name).first
@@ -70,7 +74,7 @@ if owner_user.nil?
 end
 
 # Ensure the owner account exists
-owner_account = Account.find(:first)
+owner_account = Account.first
 
 if owner_account.nil?
   owner_account = Account.new()

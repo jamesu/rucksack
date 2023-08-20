@@ -24,8 +24,10 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class Journal < ActiveRecord::Base
+class Journal < ApplicationRecord
   belongs_to :user
+
+  scope :sorted_list, -> { order(created_at: :desc) }
 
   # Common permissions
 
@@ -47,7 +49,7 @@ class Journal < ActiveRecord::Base
 
   # Accesibility
 
-  attr_accessible :content
+  #attr_accessible :content
 
   # Validation
 

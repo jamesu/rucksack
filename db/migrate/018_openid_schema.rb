@@ -1,4 +1,4 @@
-class OpenidSchema < ActiveRecord::Migration
+class OpenidSchema < ActiveRecord::Migration[4.2]
   def self.up
     create_table :open_id_authentication_associations do |t|
       t.integer "issued",     :limit => 11

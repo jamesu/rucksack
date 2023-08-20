@@ -1,5 +1,5 @@
 #==
-# Copyright (C) 2010 James S Urquhart
+# Copyright (C) 2023 James S Urquhart
 # 
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -23,28 +23,22 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-require File.expand_path('../boot', __FILE__)
+require_relative "boot"
 
-require 'rails/all'
-require 'yaml'
-YAML::ENGINE.yamler = 'syck'
+require "rails/all"
 
-Bundler.require(:default, Rails.env) if defined?(Bundler)
+# Require the gems listed in Gemfile, including any gems
+# you've limited to :test, :development, or :production.
+Bundler.require(*Rails.groups)
 
 require 'ostruct'
 ::AppConfig = OpenStruct.new()
 
-# SSL SMTP
-begin
-require 'smtp-tls'
-rescue Exception
-end
-
-require "rails/observers/activerecord/active_record"
-
-
 module Rucksack
   class Application < Rails::Application
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 7.0
+
     config.time_zone = 'UTC'
     config.i18n.default_locale = :en
     config.encoding = "utf-8"
@@ -54,8 +48,20 @@ module Rucksack
     config.assets.version = '1.0'
 
     config.generators.stylesheet_engine = :sass
+
+
+    config.action_mailer.default_url_options = { host: 'localhost:3000' }
+
+    # Configuration for the application, engines, and railties goes here.
+    #
+    # These settings can be overridden in specific environments using the files
+    # in config/environments, which are processed later.
+    #
+    # config.time_zone = "Central Time (US & Canada)"
+    # config.eager_load_paths << Rails.root.join("extras")
   end
 end
+
 
 require 'rucksack_extras'
 require 'authenticated_system'

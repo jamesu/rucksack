@@ -24,15 +24,13 @@
 #++
 
 class UploadedFilesController < ApplicationController
-  before_filter :grab_page, :except => [:icon]
-  before_filter :load_uploaded_file, :except => [:index, :new, :create, :icon]
-  
-  cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
-  
+  before_action :grab_page, :except => [:icon]
+  before_action :load_uploaded_file, :except => [:index, :new, :create, :icon]
+    
   # GET /uploaded_files
   # GET /uploaded_files.xml
   def index
-    @uploaded_files = @page.uploaded_files.find(:all)
+    @uploaded_files = @page.uploaded_files.all
 
     respond_to do |format|
       format.html # index.html.erb

@@ -24,12 +24,10 @@
 #++
 
 class ListItemsController < ApplicationController
-  before_filter :grab_page
-  before_filter :grab_list
-  before_filter :load_list_item, :except => [:index, :new, :create]
-  
-  cache_sweeper :page_sweeper, :only => [:create, :update, :destroy, :status]
-  
+  before_action :grab_page
+  before_action :grab_list
+  before_action :load_list_item, :except => [:index, :new, :create]
+    
   # GET /list_items
   # GET /list_items.xml
   def index
@@ -39,7 +37,7 @@ class ListItemsController < ApplicationController
       conds = nil
     end
     
-    @list_items = @list.list_items.where(conds).offset(params[:offset]).limit(params[:limit])
+    @list_items = @list.list_items.sorted_list.where(conds).offset(params[:offset]).limit(params[:limit])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -139,7 +137,7 @@ class ListItemsController < ApplicationController
     return error_status(true, :cannot_edit_listitem) unless (@list_item.can_be_completed_by(@logged_user))
     
     @list_item.set_completed(params[:list_item][:completed] == 'true', @logged_user)
-    @list_item.position = @list.list_items.length
+    @list_item.position = @list.list_items.sorted_list.length
     @list_item.save
 
     respond_to do |format|

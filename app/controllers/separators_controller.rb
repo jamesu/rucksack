@@ -24,13 +24,13 @@
 #++
 
 class SeparatorsController < ApplicationController
-  before_filter :grab_page
-  before_filter :load_separator, :except => [:index, :new, :create]
+  before_action :grab_page
+  before_action :load_separator, :except => [:index, :new, :create]
   
   # GET /separators
   # GET /separators.xml
   def index
-    @separators = @page.separators.find(:all)
+    @separators = @page.separators.all
 
     respond_to do |format|
       format.html # index.html.erb

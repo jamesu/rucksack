@@ -1,4 +1,4 @@
-class AddEmails < ActiveRecord::Migration
+class AddEmails < ActiveRecord::Migration[4.2]
   def self.up
     add_column "pages", "address", :string, :limit => 50
 
@@ -14,7 +14,7 @@ class AddEmails < ActiveRecord::Migration
     end
     
     # Generate addresses for all pages
-    Page.find(:all).each do |page|
+    Page.all.each do |page|
       page.generate_address
       page.save
     end

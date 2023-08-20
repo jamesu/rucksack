@@ -26,8 +26,8 @@
 class RemindersController < ApplicationController
   layout :reminder_layout
   
-  before_filter :grab_user
-  before_filter :load_reminder, :except => [:index, :new, :create]
+  before_action :grab_user
+  before_action :load_reminder, :except => [:index, :new, :create]
   
   
   # GET /reminders
@@ -160,7 +160,7 @@ protected
     groups = []
     
     @now = Time.zone.now
-    return @user.reminders.on_after(@now.to_date).group_by do |obj|
+    return @user.reminders_on_after(@now.to_date).group_by do |obj|
         time = obj.at_time
         
         if time.year > @now.year # Distant future

@@ -26,15 +26,13 @@
 class EmailsController < ApplicationController
   layout nil
   
-  before_filter :grab_page
-  before_filter :load_email, :except => [:index, :new, :create]
-  
-  cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
-  
+  before_action :grab_page
+  before_action :load_email, :except => [:index, :new, :create]
+    
   # GET /emails
   # GET /emails.xml
   def index
-    @emails = @page.emails.find(:all)
+    @emails = @page.emails.all
 
     respond_to do |format|
       format.html # index.html.erb

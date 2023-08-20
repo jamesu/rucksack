@@ -1,4 +1,4 @@
-class PageSettings < ActiveRecord::Migration
+class PageSettings < ActiveRecord::Migration[4.2]
     def self.up
         add_column :pages, 'settings', :text
     end

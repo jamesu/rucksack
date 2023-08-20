@@ -1,4 +1,4 @@
-class Statustables < ActiveRecord::Migration
+class Statustables < ActiveRecord::Migration[4.2]
   def self.up
     create_table :statuses do |t|
       t.integer  "user_id", :limit => 10, :null => false

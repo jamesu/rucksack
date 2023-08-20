@@ -26,8 +26,8 @@
 class JournalsController < ApplicationController
   layout 'pages'
   
-  before_filter :grab_user
-  before_filter :load_journal, :except => [:index, :new, :create]
+  before_action :grab_user
+  before_action :load_journal, :except => [:index, :new, :create]
   
   # GET /journals
   # GET /journals.xml

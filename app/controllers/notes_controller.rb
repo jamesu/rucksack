@@ -24,15 +24,13 @@
 #++
 
 class NotesController < ApplicationController
-  before_filter :grab_page
-  before_filter :load_note, :except => [:index, :new, :create]
-  
-  cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
-  
+  before_action :grab_page
+  before_action :load_note, :except => [:index, :new, :create]
+    
   # GET /notes
   # GET /notes.xml
   def index
-    @notes = @page.notes.find(:all)
+    @notes = @page.notes.all
 
     respond_to do |format|
       format.html # index.html.erb

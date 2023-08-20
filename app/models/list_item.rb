@@ -24,25 +24,26 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class ListItem < ActiveRecord::Base
+class ListItem < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   belongs_to :list
   def page; self.list.page; end
   def page_id; self.list.page_id; end
 
-  has_many :application_logs, :as => :rel_object, :dependent => :nullify
+  has_many :application_logs, as: :rel_object, dependent: :nullify
 
-  belongs_to :completed_by, :class_name => 'User', :foreign_key => 'completed_by_id'
-
-  belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
-  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
+  belongs_to :completed_by, class_name: 'User', foreign_key: 'completed_by_id', optional: true
+  belongs_to :created_by, class_name: 'User', foreign_key: 'created_by_id', optional: true
+  belongs_to :updated_by, class_name: 'User', foreign_key: 'updated_by_id', optional: true
 
   before_create  :process_params
   after_create   :process_create
   before_update  :process_update_params
   after_update   :update_list
   before_destroy :process_destroy
+
+  scope :sorted_list, -> { order('position ASC, completed_on ASC') }
 
   def process_params
     write_attribute("position", self.list.list_items.length)
@@ -127,7 +128,7 @@ class ListItem < ActiveRecord::Base
 
   # Accesibility
 
-  attr_accessible :content
+  #attr_accessible :content
 
   # Validation
 

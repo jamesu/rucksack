@@ -1,4 +1,4 @@
-class FuncExtras < ActiveRecord::Migration
+class FuncExtras < ActiveRecord::Migration[4.2]
   def self.up
     # File descriptions
     add_column :uploaded_files, 'description', :string, :null => false, :default => ''

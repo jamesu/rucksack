@@ -1,4 +1,4 @@
-class FixMissing < ActiveRecord::Migration
+class FixMissing < ActiveRecord::Migration[4.2]
   def self.up
     add_column :pages, 'is_public', :boolean, :default => false, :null => false
     add_column :pages, 'width', :integer, :default => 400, :null => false

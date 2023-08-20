@@ -24,17 +24,17 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class AlbumPicture < ActiveRecord::Base
+class AlbumPicture < ApplicationRecord
   belongs_to :album
   def page; self.album.page; end
   def page_id; self.album.page_id; end
 
-  has_many :application_logs, :as => :rel_object, :dependent => :nullify
+  has_many :application_logs, as: :rel_object, dependent: :nullify
 
   has_attached_file :picture, :styles => { :album => "150x150#" }
 
-  belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
-  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
+  belongs_to :created_by, class_name: 'User', foreign_key: 'created_by_id'
+  belongs_to :updated_by, class_name: 'User', foreign_key: 'updated_by_id', optional: true
 
   after_create   :process_create
   before_update  :process_update_params
@@ -79,7 +79,7 @@ class AlbumPicture < ActiveRecord::Base
     album.can_be_seen_by(user)
   end
 
-  attr_accessible :caption, :picture
+  #attr_accessible :caption, :picture
 
   # Validation
 

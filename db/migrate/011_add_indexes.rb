@@ -1,4 +1,4 @@
-class AddIndexes < ActiveRecord::Migration
+class AddIndexes < ActiveRecord::Migration[4.2]
   def self.up
     # Application logs
     add_index "application_logs", ["rel_object_id", "rel_object_type"]

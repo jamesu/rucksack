@@ -1,4 +1,4 @@
-class Nukeopenid < ActiveRecord::Migration
+class Nukeopenid < ActiveRecord::Migration[4.2]
   def self.up
     drop_table :open_id_authentication_associations
     drop_table :open_id_authentication_nonces

@@ -26,63 +26,60 @@
 
 require 'digest/sha1'
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   include Rails.application.routes.url_helpers
   include Authentication
   include Authentication::ByCookieToken
-  include Gravtastic
 
-  belongs_to :account
-  belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
+  belongs_to :account, optional: true, optional: true
+  belongs_to :created_by, class_name: 'User', foreign_key: 'created_by_id', optional: true
 
-  is_gravtastic
+  belongs_to :home_page, class_name: 'Page', foreign_key: 'home_page_id', dependent: :destroy, optional: true
+  has_many :pages, foreign_key: 'created_by_id', dependent: :destroy
+  has_and_belongs_to_many :shared_pages, class_name: 'Page', join_table: 'shared_pages'
+  has_and_belongs_to_many :favourite_pages, class_name: 'Page', join_table: 'favourite_pages'
 
-  belongs_to :home_page, :class_name => 'Page', :foreign_key => 'home_page_id', :dependent => :destroy
-  has_many :pages, :foreign_key => 'created_by_id', :order => 'pages.title ASC', :dependent => :destroy
-  has_and_belongs_to_many :shared_pages, :class_name => 'Page', :join_table => 'shared_pages', :order => 'pages.title ASC'
-  has_and_belongs_to_many :favourite_pages, :class_name => 'Page', :join_table => 'favourite_pages'
+  has_one :status, dependent: :destroy
+  has_many :journals, dependent: :destroy
 
-  has_one :status, :dependent => :destroy
-  has_many :journals, :order => 'created_at DESC', :dependent => :destroy
+  has_many :application_logs, foreign_key: 'created_by_id', dependent: :destroy
 
-  has_many :application_logs, :foreign_key => 'created_by_id', :dependent => :destroy
+  has_many :reminders, foreign_key: 'created_by_id', dependent: :destroy
 
-  has_many :reminders, :foreign_key => 'created_by_id', :order => 'at_time ASC', :dependent => :destroy do
-    def done()
-      where(['at_time < ?', Time.now.utc])
+  def reminders_done()
+    self.reminders.sorted_list.where(['at_time < ?', Time.now.utc])
+  end
+  def reminders_upcomming()
+    self.reminders.sorted_list.where(['at_time > ?', Time.now.utc])
+  end
+  def reminders_today(done=false)
+    current = Time.now.utc
+    if done
+      now = Time.utc(current.year, current.month, current.day)
+      now_until = current
+    else
+      now = Time.now
+      now_until = (now.to_date+1).to_time(:utc)
     end
-    def upcomming()
-      where(['at_time > ?', Time.now.utc])
-    end
-    def today(done=false)
-      current = Time.now.utc
-      if done
-        now = Time.utc(current.year, current.month, current.day)
-        now_until = current
-      else
-        now = Time.now
-        now_until = (now.to_date+1).to_time(:utc)
-      end
-      where(["(at_time >= ? AND at_time < ?)", now, now_until])
-    end
-    def in_days(days)
-      day = Time.now.utc.to_date + days
-      where(["(at_time >= ? AND at_time < ?)", day, day+1])
-    end
-    def in_month(month)
-      now = Time.now.utc
-      month = Time.utc(now.year, month).to_date
-      where(["(at_time >= ? AND at_time < ?)", month, month>>1])
-    end
-    def in_months(months)
-      puts "in #{months} months"
-      month = Time.now.utc.to_date >> months
-      where(["(at_time >= ? AND at_time < ?)", month, month>>1])
-    end
-    def on_after(time)
-      real_time = time.class == Date ? time.to_time(:utc) : time.utc
-      where(["(at_time >= ?)", real_time])
-    end
+    self.reminders.sorted_list.where(["(at_time >= ? AND at_time < ?)", now, now_until])
+  end
+  def reminders_in_days(days)
+    day = Time.now.utc.to_date + days
+    self.reminders.sorted_list.where(["(at_time >= ? AND at_time < ?)", day, day+1])
+  end
+  def reminders_in_month(month)
+    now = Time.now.utc
+    month = Time.utc(now.year, month).to_date
+    self.reminders.sorted_list.where(["(at_time >= ? AND at_time < ?)", month, month>>1])
+  end
+  def reminders_in_months(months)
+    puts "in #{months} months"
+    month = Time.now.utc.to_date >> months
+    self.reminders.sorted_list.where(["(at_time >= ? AND at_time < ?)", month, month>>1])
+  end
+  def reminders_on_after(time)
+    real_time = time.class == Date ? time.to_time(:utc) : time.utc
+    self.reminders.sorted_list.where(["(at_time >= ?)", real_time])
   end
 
   def available_page_ids
@@ -272,7 +269,9 @@ class User < ActiveRecord::Base
   end
 
   def display_name
-    display_name? ? read_attribute(:display_name) : username
+    self.attributes[:display_name] ? 
+      self.attributes[:display_name] : 
+      username
   end
 
   def object_name
@@ -298,7 +297,7 @@ class User < ActiveRecord::Base
   end
 
   def self.select_list
-    items = self.find(:all).collect do |user|
+    items = self.all.collect do |user|
       [user.username, user.id]
     end
 
@@ -322,8 +321,6 @@ class User < ActiveRecord::Base
   end
 
   # Serialization
-  alias_method :ar_to_xml, :to_xml
-
   def to_xml(options = {}, &block)
     default_options = {
       :except => [
@@ -337,41 +334,44 @@ class User < ActiveRecord::Base
         :last_activity,
         :identity_url
         ]}
-        self.ar_to_xml(options.merge(default_options), &block)
+
+        super(options.merge(default_options), &block)
       end
 
-      protected
+  protected
 
-      before_create :process_params
-      before_update :process_update_params
+  before_create :process_params
+  before_update :process_update_params
 
-      def process_params
-        write_attribute("created_at", Time.now.utc)
-        write_attribute("last_login", nil)
-        write_attribute("last_activity", nil)
-        write_attribute("last_visit", nil)
-      end
+  def process_params
+    puts "process_params"
+    write_attribute("created_at", Time.now.utc)
+    write_attribute("last_login", nil)
+    write_attribute("last_activity", nil)
+    write_attribute("last_visit", nil)
+  end
 
-      def process_update_params
-        write_attribute("updated_at", Time.now.utc)
-      end
+  def process_update_params
+    puts "process_update_params"
+    write_attribute("updated_at", Time.now.utc)
+  end
 
-      # Accesibility
+  # Accesibility
 
-      attr_accessible :display_name, :email, :time_zone, :title, :identity_url, :new_account_notification
+  #attr_accessible :display_name, :email, :time_zone, :title, :identity_url, :new_account_notification
 
-      # Validation
+  # Validation
 
-      validates_presence_of :username, :on => :create
-      validates_length_of :username, :within => 3..40
+  validates_presence_of :username, :on => :create
+  validates_length_of :username, :within => 3..40
 
-      validates_presence_of :password, :if => :password_changed?
-      validates_length_of :password, :minimum => 4, :if => :password_changed?
+  validates_presence_of :password, :if => :password_changed?
+  validates_length_of :password, :minimum => 4, :if => :password_changed?
 
-      validates_confirmation_of :password, :if => :password_changed?
+  validates_confirmation_of :password, :if => :password_changed?
 
-      validates_uniqueness_of :username
-      validates_presence_of :email
-      validates_uniqueness_of :email
-      validates_uniqueness_of :identity_url, :if => Proc.new { |user| !(user.identity_url.nil? or user.identity_url.empty? ) }
-    end
+  validates_uniqueness_of :username
+  validates_presence_of :email
+  validates_uniqueness_of :email
+  validates_uniqueness_of :identity_url, :if => Proc.new { |user| !(user.identity_url.nil? or user.identity_url.empty? ) }
+end

@@ -1,4 +1,4 @@
-class Reminder < ActiveRecord::Migration
+class Reminder < ActiveRecord::Migration[4.2]
   def self.up
     create_table :reminders do |t|
       t.text   "content"

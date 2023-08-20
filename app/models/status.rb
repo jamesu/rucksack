@@ -24,7 +24,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class Status < ActiveRecord::Base
+class Status < ApplicationRecord
   belongs_to :user
 
   # Common permissions
@@ -39,7 +39,7 @@ class Status < ActiveRecord::Base
 
   # Accesibility
 
-  attr_accessible :content
+  #attr_accessible :content
 
   # Validation
 

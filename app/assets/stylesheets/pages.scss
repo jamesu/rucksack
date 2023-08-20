@@ -212,7 +212,7 @@ form div {
   padding: 0px;
   width: 17px;
   height: 11px;
-  background-image: asset-url('icons/resize-handler.gif', image);
+  background-image: image-url('icons/resize-handler.gif');
   background-position: center center;
   background-repeat: no-repeat;
   cursor: move;
@@ -305,7 +305,7 @@ form div {
       display: none;
       width: 15px;
       height: 15px;
-      background-image: asset-url('icons/drag_handle_white.gif', image);
+      background-image: aimage-url('icons/drag_handle_white.gif');
       background-repeat: no-repeat;
       background-position: 2px 2px;
       position: absolute;
@@ -545,7 +545,7 @@ div.fileDetails .fileDescription {
 .pageEmail {
   a {
     font-size: 14px;
-    background: asset-url('icons/mail.gif', image) no-repeat;
+    background: image-url('icons/mail.gif') no-repeat;
     background-position: center left;
     padding-left: 18px;
     font-weight: normal;

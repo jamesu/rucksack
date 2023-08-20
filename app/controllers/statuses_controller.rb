@@ -26,7 +26,7 @@
 class StatusesController < ApplicationController
   layout 'pages'
   
-  before_filter :grab_user
+  before_action :grab_user
 
   # GET /statuses/1
   # GET /statuses/1.xml

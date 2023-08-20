@@ -1,4 +1,4 @@
-class MakeAlbums < ActiveRecord::Migration
+class MakeAlbums < ActiveRecord::Migration[4.2]
   def self.up
     create_table "albums", :force => true do |t|
       t.integer  "page_id",       :limit => 10

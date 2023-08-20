@@ -27,13 +27,10 @@
 class PagesController < ApplicationController
   layout :page_layout
   
-  before_filter :grab_user
-  before_filter :load_page, :except => [:index, :new, :create, :reorder_sidebar, :current]
-  after_filter  :user_track, :except => 'public'
-  
-  caches_page :public
-  cache_sweeper :page_sweeper, :only => [:update, :destroy, :reorder, :reorder_sidebar, :share, :transfer, :tags, :resize]
-  
+  before_action :grab_user
+  before_action :load_page, :except => [:index, :new, :create, :reorder_sidebar, :current]
+  after_action  :user_track, :except => 'public'
+    
   # GET /pages
   # GET /pages.xml
   def index
@@ -42,11 +39,11 @@ class PagesController < ApplicationController
     search
 
     if @find_opts.nil? or [:html, :js].include?(request.format.to_sym)
-      @pages = @user.pages
-      @shared_pages = @user.shared_pages
+      @pages = @user.pages.sorted_list
+      @shared_pages = @user.shared_pages.sorted_list
     else
-      @pages = @user.pages.find(:all).where(@find_opts[:conditions]).joins(@find_opts[:joins]).group("pages.id HAVING COUNT(tags.id) = #{params[:tags].length}").all
-      @shared_pages = @user.shared_pages.where(@find_opts[:conditions]).all
+      @pages = @user.pages.sorted_list.all.where(@find_opts[:conditions]).joins(@find_opts[:joins]).group("pages.id HAVING COUNT(tags.id) = #{params[:tags].length}").all
+      @shared_pages = @user.shared_pages.sorted_list.where(@find_opts[:conditions]).all
     end
     
     @content_for_sidebar = 'page_sidebar'

@@ -26,11 +26,11 @@
 
 require 'chronic'
 
-class Reminder < ActiveRecord::Base
-  belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
-  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
+class Reminder < ApplicationRecord
+  belongs_to :created_by, class_name: 'User', foreign_key: 'created_by_id'
+  belongs_to :updated_by, class_name: 'User', foreign_key: 'updated_by_id', optional: true
 
-  has_many :application_logs, :as => :rel_object#, :dependent => :nullify
+  has_many :application_logs, as: :rel_object#, dependent: :nullify
 
   @@repeat_lookup = {:never => 0, :yearly => 1, :monthly => 2, :fortnightly => 3, :weekly => 4, :daily => 5}
   @@repeat_id_lookup = @@repeat_lookup.invert
@@ -38,6 +38,8 @@ class Reminder < ActiveRecord::Base
   after_create   :process_create
   before_update  :process_update_params
   before_destroy :process_destroy
+
+  scope :sorted_list, -> { order(:at_time, :ASC) }
 
   def process_create
     ApplicationLog.new_log(self, self.created_by, :add)
@@ -176,7 +178,7 @@ class Reminder < ActiveRecord::Base
 
   # Accesibility
 
-  attr_accessible :repeat, :friendly_at_time, :content, :at_time
+  #attr_accessible :repeat, :friendly_at_time, :content, :at_time
 
   # Validation
 

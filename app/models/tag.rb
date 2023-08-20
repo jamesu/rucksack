@@ -24,15 +24,15 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class Tag < ActiveRecord::Base
+class Tag < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   belongs_to :page
-  belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
+  belongs_to :created_by, class_name: 'User', foreign_key: 'created_by_id'
 
   belongs_to :rel_object, :polymorphic => true
 
-  attr_accessible :name, :page_id, :rel_object, :created_by
+  #attr_accessible :name, :page_id, :rel_object, :created_by
 
   def objects
     return Tag.find_objects(self.name)

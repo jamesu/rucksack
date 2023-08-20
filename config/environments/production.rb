@@ -1,69 +1,60 @@
-Rucksack::Application.configure do
-  # Settings specified here will take precedence over those in config/environment.rb
+require "active_support/core_ext/integer/time"
 
-  # The production environment is meant for finished, "live" apps.
-  # Code is not reloaded between requests
+# The test environment is used exclusively to run your application's
+# test suite. You never need to work with it otherwise. Remember that
+# your test database is "scratch space" for the test suite and is wiped
+# and recreated between test runs. Don't rely on the data there!
+
+Rails.application.configure do
+  # Settings specified here will take precedence over those in config/application.rb.
+
+  # Turn false under Spring and add config.action_view.cache_template_loading = true.
   config.cache_classes = true
 
-  # Full error reports are disabled and caching is turned on
-  config.consider_all_requests_local       = false
-  config.action_controller.perform_caching = true
+  # Eager loading loads your whole application. When running a single test locally,
+  # this probably isn't necessary. It's a good idea to do in a continuous integration
+  # system, or in some way before deploying your code.
+  config.eager_load = ENV["CI"].present?
 
-  # Specifies the header that your server uses for sending files
-  config.action_dispatch.x_sendfile_header = "X-Sendfile"
+  # Configure public file server for tests with Cache-Control for performance.
+  config.public_file_server.enabled = true
+  config.public_file_server.headers = {
+    "Cache-Control" => "public, max-age=#{1.hour.to_i}"
+  }
 
-  # For nginx:
-  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
+  # Show full error reports and disable caching.
+  config.consider_all_requests_local       = true
+  config.action_controller.perform_caching = false
+  config.cache_store = :null_store
 
-  # If you have no front-end server that supports something like X-Sendfile,
-  # just comment this out and Rails will serve the files
+  # Raise exceptions instead of rendering exception templates.
+  config.action_dispatch.show_exceptions = false
 
-  # See everything in the log (default is :info)
-  # config.log_level = :debug
+  # Disable request forgery protection in test environment.
+  config.action_controller.allow_forgery_protection = false
 
-  # Use a different logger for distributed setups
-  # config.logger = SyslogLogger.new
+  # Store uploaded files on the local file system in a temporary directory.
+  config.active_storage.service = :test
 
-  # Use a different cache store in production
-  # config.cache_store = :mem_cache_store
+  config.action_mailer.perform_caching = false
 
-  # Disable Rails's static asset server
-  # In production, Apache or nginx will already do this
-  config.serve_static_assets = false
+  # Tell Action Mailer not to deliver emails to the real world.
+  # The :test delivery method accumulates sent emails in the
+  # ActionMailer::Base.deliveries array.
+  config.action_mailer.delivery_method = :test
 
-  # Enable serving of images, stylesheets, and javascripts from an asset server
-  # config.action_controller.asset_host = "http://assets.example.com"
+  # Print deprecation notices to the stderr.
+  config.active_support.deprecation = :stderr
 
-  # Disable delivery errors, bad email addresses will be ignored
-  # config.action_mailer.raise_delivery_errors = false
+  # Raise exceptions for disallowed deprecations.
+  config.active_support.disallowed_deprecation = :raise
 
-  # Enable threaded mode
-  # config.threadsafe!
+  # Tell Active Support which deprecation messages to disallow.
+  config.active_support.disallowed_deprecation_warnings = []
 
-  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
-  # the I18n.default_locale when a translation can not be found)
-  config.i18n.fallbacks = true
+  # Raises error for missing translations.
+  # config.i18n.raise_on_missing_translations = true
 
-  # Send deprecation notices to registered listeners
-  config.active_support.deprecation = :notify
-
-  config.eager_load = true
-
-  # Compress JavaScripts and CSS
-  config.assets.js_compressor = :uglifier
-   
-  # Don't fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = false
-   
-  # Generate digests for assets URLs
-  config.assets.digest = true
-   
-  # Defaults to Rails.root.join("public/assets")
-  # config.assets.manifest = YOUR_PATH
-   
-  # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  # config.assets.precompile += %w( search.js )
-   
-  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  # Annotate rendered view with file names.
+  # config.action_view.annotate_rendered_view_with_filenames = true
 end

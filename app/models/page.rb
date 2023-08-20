@@ -24,24 +24,26 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class Page < ActiveRecord::Base
+class Page < ApplicationRecord
   include Rails.application.routes.url_helpers
 
-  belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
-  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
+  belongs_to :created_by, class_name: 'User', foreign_key: 'created_by_id'
+  belongs_to :updated_by, class_name: 'User', foreign_key: 'updated_by_id', optional: true
 
-  has_many :slots, -> { order('position ASC') }, :class_name => 'PageSlot', :dependent => :destroy
-  has_many :linked_tags, :class_name => 'Tag', :as => :rel_object, :dependent => :destroy
+  has_many :slots, -> { order('position ASC') }, class_name: 'PageSlot', dependent: :destroy
+  has_many :linked_tags, class_name: 'Tag', as: :rel_object, dependent: :destroy
 
-  has_and_belongs_to_many :shared_users, :class_name => 'User', :join_table => 'shared_pages'
-  has_and_belongs_to_many :favourite_users, :class_name => 'User', :join_table => 'favourite_pages'
+  has_and_belongs_to_many :shared_users, class_name: 'User', join_table: 'shared_pages'
+  has_and_belongs_to_many :favourite_users, class_name: 'User', join_table: 'favourite_pages'
 
-  has_many :lists, :dependent => :destroy
-  has_many :notes, :dependent => :destroy
-  has_many :separators, :dependent => :destroy
-  has_many :emails, :dependent => :destroy
-  has_many :uploaded_files, :dependent => :destroy
-  has_many :albums, :dependent => :destroy
+  has_many :lists, dependent: :destroy
+  has_many :notes, dependent: :destroy
+  has_many :separators, dependent: :destroy
+  has_many :emails, dependent: :destroy
+  has_many :uploaded_files, dependent: :destroy
+  has_many :albums, dependent: :destroy
+
+  scope :sorted_list, -> { order(title: :asc) }
 
   before_create  :process_params
   after_create   :process_create
@@ -62,7 +64,7 @@ class Page < ActiveRecord::Base
     users = @update_shared.split($/).collect do |ln|
       email = ln.strip
       if !email.empty?
-        user = User.find(:first, :conditions => {'email' => email})
+        user = User.where({'email' => email}).first
 
         if user.nil?
           # Make the user
@@ -298,13 +300,12 @@ class Page < ActiveRecord::Base
   end
 
   def self.select_list
-    Page.find(:all).collect do |page|
+    Page.all.collect do |page|
       [page.name, page.id]
     end
   end
 
   # Serialization
-  alias_method :ar_to_xml, :to_xml
 
   def to_xml(options = {}, &block)
     default_options = {
@@ -312,12 +313,12 @@ class Page < ActiveRecord::Base
     }
 
     default_options[:include] = { :slots => {:only => [:id, :position, :width, :rel_object_type, :rel_object_id]}  } unless options[:in_list]
-    self.ar_to_xml(options.merge(default_options), &block)
+    super(options.merge(default_options), &block)
   end
 
   # Accesibility
 
-  attr_accessible :title, :tags, :width
+  #attr_accessible :title, :tags, :width
 
   # Validation
 

@@ -24,15 +24,13 @@
 #++
 
 class AlbumPicturesController < ApplicationController
-  before_filter :grab_page
-  before_filter :grab_album
-  
-  cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
+  before_action :grab_page
+  before_action :grab_album
   
   # GET /album_pictures
   # GET /album_pictures.xml
   def index
-    @album_pictures = @album.pictures.find(:all)
+    @album_pictures = @album.pictures.all
 
     respond_to do |format|
       format.html # index.html.erb

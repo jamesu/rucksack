@@ -23,8 +23,8 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class Account < ActiveRecord::Base
-  belongs_to :owner, :class_name => 'User', :foreign_key => 'owner_id'
+class Account < ApplicationRecord
+  belongs_to :owner, class_name: 'User', foreign_key: 'owner_id', optional: true
 
   has_many :users
 
@@ -33,7 +33,7 @@ class Account < ActiveRecord::Base
     @@cached_owner ||= Account.first
   end
 
-  attr_accessible :site_name, :host_name
+  #attr_accessible :site_name, :host_name
 
   Tabs = ['overview', 'pages', 'reminders', 'journal']
 
@@ -51,7 +51,7 @@ class Account < ActiveRecord::Base
       self.set_setting("#{tab}_hidden", value)
     end
 
-    attr_accessible "#{tab}_hidden", "#{tab}_hidden?"
+    #attr_accessible "#{tab}_hidden", "#{tab}_hidden?"
   end
 
   Colours = ['header', 'tab_background', 'tab_text', 'tab_background_hover', 'tab_text_hover', 'page_header', 'page_header_text']
@@ -84,7 +84,7 @@ class Account < ActiveRecord::Base
       end
     end
 
-    attr_accessible "#{colour}_colour"
+    #attr_accessible "#{colour}_colour"
   end
 
   # Settings Serialization

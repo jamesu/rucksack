@@ -28,15 +28,15 @@ class UsersController < ApplicationController
   
   layout :user_layout
   
-  after_filter  :user_track
+  after_action  :user_track
   
-  before_filter :save_user?, :only => :update
+  before_action :save_user?, :only => :update
     
   # GET /users
   # GET /users.xml
   def index
     return error_status(true, :cannot_see_user) unless @logged_user.member_of_owner?
-    @users = Account.owner.users.find(:all)
+    @users = Account.owner.users.all
 
     respond_to do |format|
       format.html # index.html.erb

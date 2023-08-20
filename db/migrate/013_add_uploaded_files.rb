@@ -1,4 +1,4 @@
-class AddUploadedFiles < ActiveRecord::Migration
+class AddUploadedFiles < ActiveRecord::Migration[4.2]
   def self.up
     create_table "uploaded_files", :force => true do |t|
       t.integer  "page_id",       :limit => 10

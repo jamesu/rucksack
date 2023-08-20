@@ -24,19 +24,19 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class List < ActiveRecord::Base
+class List < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   belongs_to :page
-  has_one :page_slot, :as => :rel_object
+  has_one :page_slot, as: :rel_object
 
-  has_many :application_logs, :as => :rel_object, :dependent => :nullify
+  has_many :application_logs, as: :rel_object, dependent: :nullify
 
-  belongs_to :completed_by, :class_name => 'User', :foreign_key => 'completed_by_id'
-  belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
-  belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_id'
+  belongs_to :completed_by, class_name: 'User', foreign_key: 'completed_by_id', optional: true
+  belongs_to :created_by, class_name: 'User', foreign_key: 'created_by_id', optional: true
+  belongs_to :updated_by, class_name: 'User', foreign_key: 'updated_by_id', optional: true
 
-  has_many :list_items, -> { order('position ASC, completed_on ASC') }, :dependent => :destroy
+  has_many :list_items, dependent: :destroy
 
   #before_create  :process_params
   after_create   :process_create
@@ -86,92 +86,92 @@ class List < ActiveRecord::Base
   end
 
   def open_items
-    self.list_items.reject do |item| item.is_completed? end
-    end
-
-    def completed_items
-      self.list_items.reject { |item| !item.is_completed? }
-    end
-
-    def last_edited_by_owner?
-      return (self.created_by.member_of_owner? or (!self.updated_by.nil? and self.updated_by.member_of_owner?))
-    end
-
-    def duplicate(new_page)
-      new_list = self.dup
-      new_list.created_by = new_page.created_by
-      new_list.page = new_page
-      new_list.save!
-
-      new_list.list_items = self.list_items.collect do |item|
-        new_item = item.clone
-        new_item.created_by = new_list.created_by
-        new_item.completed_by = item.completed_by
-        new_item
-      end
-
-      new_list
-    end
-
-    # Common permissions
-
-    def self.can_be_created_by(user, page)
-      page.can_add_widget(user, List)
-    end
-
-    def can_be_edited_by(user)
-      self.page.can_be_edited_by(user)
-    end
-
-    def can_be_deleted_by(user)
-      self.page.can_be_edited_by(user)
-    end
-
-    def can_be_seen_by(user)
-      self.page.can_be_seen_by(user)
-    end
-
-    # Specific permissions
-
-    def can_be_completed_by(user)
-      self.can_be_edited_by(user)
-    end
-
-    def item_can_be_added_by(user)
-      self.can_be_edited_by(user)
-    end
-
-    # Useful
-
-    def finished_all_items?
-      completed_count = 0
-
-      self.list_items.each do |task|
-        completed_count += 1 unless task.completed_on.nil?
-      end
-
-      return (completed_count > 0 and completed_count == self.list_items.length)
-    end
-
-    def view_partial
-      "lists/show"
-    end
-
-    def self.form_partial
-      nil
-    end
-
-    def self.select_list(project)
-      List.find(:all, :select => 'id, name').collect do |list|
-        [list.name, list.id]
-      end
-    end
-
-    # Accesibility
-
-    attr_accessible :name
-
-    # Validation
-
-    validates_presence_of :name
+    self.list_items.sorted_list.reject do |item| item.is_completed? end
   end
+
+  def completed_items
+    self.list_items.sorted_list.reject { |item| !item.is_completed? }
+  end
+
+  def last_edited_by_owner?
+    return (self.created_by.member_of_owner? or (!self.updated_by.nil? and self.updated_by.member_of_owner?))
+  end
+
+  def duplicate(new_page)
+    new_list = self.dup
+    new_list.created_by = new_page.created_by
+    new_list.page = new_page
+    new_list.save!
+
+    new_list.list_items = self.list_items.collect do |item|
+      new_item = item.clone
+      new_item.created_by = new_list.created_by
+      new_item.completed_by = item.completed_by
+      new_item
+    end
+
+    new_list
+  end
+
+  # Common permissions
+
+  def self.can_be_created_by(user, page)
+    page.can_add_widget(user, List)
+  end
+
+  def can_be_edited_by(user)
+    self.page.can_be_edited_by(user)
+  end
+
+  def can_be_deleted_by(user)
+    self.page.can_be_edited_by(user)
+  end
+
+  def can_be_seen_by(user)
+    self.page.can_be_seen_by(user)
+  end
+
+  # Specific permissions
+
+  def can_be_completed_by(user)
+    self.can_be_edited_by(user)
+  end
+
+  def item_can_be_added_by(user)
+    self.can_be_edited_by(user)
+  end
+
+  # Useful
+
+  def finished_all_items?
+    completed_count = 0
+
+    self.list_items.each do |task|
+      completed_count += 1 unless task.completed_on.nil?
+    end
+
+    return (completed_count > 0 and completed_count == self.list_items.length)
+  end
+
+  def view_partial
+    "lists/show"
+  end
+
+  def self.form_partial
+    nil
+  end
+
+  def self.select_list(project)
+    List.find(:all, :select => 'id, name').collect do |list|
+      [list.name, list.id]
+    end
+  end
+
+  # Accesibility
+
+  #attr_accessible :name
+
+  # Validation
+
+  validates_presence_of :name
+end

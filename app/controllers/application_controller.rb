@@ -33,19 +33,19 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery
   
-  before_filter :reload_owner
-  before_filter :login_required
-  before_filter :set_time_zone
+  before_action :reload_owner
+  before_action :login_required
+  before_action :set_time_zone
   
 protected
   
   def error_status(error, message, args={}, continue_ok=true)
     if request.format == :html
       flash[:error] = error
-      flash[:message] = t(message, args)
+      flash[:message] = t(message, *args)
     else
       @flash_error = error
-      @flash_message = t(message, args)
+      @flash_message = t(message, *args)
     end
     
     return unless (error and continue_ok)

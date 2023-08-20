@@ -1,4 +1,4 @@
-class PageTags < ActiveRecord::Migration
+class PageTags < ActiveRecord::Migration[4.2]
   def self.up
     create_table :tags do |t|
       t.integer  "page_id",          :limit => 10,   :default => nil

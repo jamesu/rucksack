@@ -1,4 +1,4 @@
-class Initial < ActiveRecord::Migration
+class Initial < ActiveRecord::Migration[4.2]
   def self.up
     create_table :users do |t|
         t.string   "username",          :limit => 50,  :default => "",    :null => false

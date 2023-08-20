@@ -23,12 +23,10 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class ApplicationLog < ActiveRecord::Base
-  belongs_to :created_by, :class_name => 'User', :foreign_key => 'created_by_id'
+class ApplicationLog < ApplicationRecord
+  belongs_to :created_by, class_name: 'User', foreign_key: 'created_by_id'
   belongs_to :rel_object, :polymorphic => true
-  belongs_to :page
-
-  attr_accessible :action, :object_name, :previous_name, :created_by, :is_private, :is_silent
+  belongs_to :page, optional: true
 
   @@action_lookup = {:add => 0, :edit => 1, :delete => 2, :open => 3, :close => 4, :rename => 5}
   @@action_id_lookup = @@action_lookup.invert

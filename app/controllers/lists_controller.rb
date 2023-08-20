@@ -24,15 +24,13 @@
 #++
 
 class ListsController < ApplicationController
-  before_filter :grab_page
-  before_filter :load_list, :except => [:index, :new, :create]
-  
-  cache_sweeper :page_sweeper, :only => [:create, :update, :destroy, :transfer, :reorder]
-  
+  before_action :grab_page
+  before_action :load_list, :except => [:index, :new, :create]
+    
   # GET /lists
   # GET /lists.xml
   def index
-    @lists = @page.lists.find(:all)
+    @lists = @page.lists.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -161,10 +159,13 @@ class ListsController < ApplicationController
     
     order = params[:items].collect { |id| id.to_i }
     
-    @list.list_items.each do |item|
+    sorted_items = @list.list_items.sorted_list
+    total_index = sorted_items.length
+
+    sorted_items.each do |item|
         idx = order.index(item.id)
         item.position = idx
-        item.position ||= @list.list_items.length
+        item.position ||= total_index
         item.save!
     end
     
