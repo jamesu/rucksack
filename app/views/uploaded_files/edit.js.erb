@@ -1,2 +1,2 @@
-$('#<%= "page_slot_#{@uploaded_file.page_slot.id}" %>').html('<%= escape_javascript render(:partial => 'form') %>');
-$('#<%= "page_slot_#{@uploaded_file.page_slot.id}" %>').autofocus();
+Page.sel('#<%= "page_slot_#{@uploaded_file.page_slot.id}" %>').html('<%= escape_javascript render(:partial => 'form') %>');
+Page.sel('#<%= "page_slot_#{@uploaded_file.page_slot.id}" %>').autofocus();

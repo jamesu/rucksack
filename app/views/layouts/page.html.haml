@@ -15,8 +15,6 @@
         = stylesheet_link_tag ss
     
     = auto_discovery_link_tag(:rss, {:controller => 'pages', :action => 'show', :id => @page.id, :format => 'rss'})
-    
-    = javascript_include_tag 'application.js'
 
     = javascript_importmap_tags
     
@@ -44,7 +42,7 @@
       #header
         != render :partial => 'layouts/tabs'
       
-      #outerWrapper
+      #outerWrapper{'data-controller' => 'page'}
         #innerWrapper.totalPageWidth
           -# Displays general alerts
           = status_bar

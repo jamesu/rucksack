@@ -1,3 +1,3 @@
-$('#<%= "list_header_#{@list.id}_form" %>').html('<%= escape_javascript(render(:partial => 'form')) %>');
-$('#<%= "list_header_#{@list.id}" %>').hide();
-$('#<%= "list_header_#{@list.id}_form" %>').show().autofocus();
+Page.sel('#<%= "list_header_#{@list.id}_form" %>').html('<%= escape_javascript(render(:partial => 'form')) %>');
+Page.sel('#<%= "list_header_#{@list.id}" %>').hide();
+Page.sel('#<%= "list_header_#{@list.id}_form" %>').show().autofocus();

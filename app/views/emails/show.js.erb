@@ -1,2 +1,2 @@
-$('#<%= "email_#{@email.page_slot.id}" %>').html('<%= escape_javascript render(:partial => 'pages/slot', :collection => [@email]) %>');
+Page.sel('#<%= "email_#{@email.page_slot.id}" %>').html('<%= escape_javascript render(:partial => 'pages/slot', :collection => [@email]) %>');
 Page.makeSortable();

@@ -1,10 +1,10 @@
 <% unless @user_journals.nil? %>
-$('#sidebar').html('<%= escape_javascript render(:partial => 'journals/users_sidebar') %>');
+Page.sel('#sidebar').html('<%= escape_javascript render(:partial => 'journals/users_sidebar') %>');
 <% end %>
 
 <% unless @journals.nil? %>
   <% unless @journals.empty? %>
-    $('#userJournals').append('<hr/>');
+    Page.sel('#userJournals').append('<hr/>');
     Page.insertJournalEntries('<%= escape_javascript(@grouped_journals.first[0]) %>', '<%= escape_javascript render(:partial => 'list', :collection => @grouped_journals) %>');
   <% end %>
   <% if @journals.size >= 25 %>

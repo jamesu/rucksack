@@ -1,9 +1,9 @@
 <% ec = escape_javascript("<div class=\"pageSlot\" id=\"page_slot_#{@slot.id}\" slot=\"#{@slot.id}\"></div>").html_safe %>
 <% if @insert_before %>
-$('#<%= @insert_element %>').before('<%= ec %>');
+Page.sel('#<%= @insert_element %>').before('<%= ec %>');
 <% else %>
-$('#<%= @insert_element %>').after('<%= ec %>');
+Page.sel('#<%= @insert_element %>').after('<%= ec %>');
 <% end %>
-$('#<%= "page_slot_#{@slot.id}" %>').html('<%= escape_javascript render(:partial => 'pages/slot', :locals => {:object => @album, :page_slot => @album.page_slot}) %>');
-$('#<%= "page_slot_#{@slot.id}" %>').autofocus();
+Page.sel('#<%= "page_slot_#{@slot.id}" %>').html('<%= escape_javascript render(:partial => 'pages/slot', :locals => {:object => @album, :page_slot => @album.page_slot}) %>');
+Page.sel('#<%= "page_slot_#{@slot.id}" %>').autofocus();
 Page.makeSortable();

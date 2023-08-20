@@ -1,2 +1,2 @@
-$('#<%= "page_slot_#{@note.page_slot.id}" %>').html('<%= escape_javascript render(:partial => 'pages/slot', :locals => {:object => @note, :page_slot => @note.page_slot}) %>');
+Page.sel('#<%= "page_slot_#{@note.page_slot.id}" %>').html('<%= escape_javascript render(:partial => 'pages/slot', :locals => {:object => @note, :page_slot => @note.page_slot}) %>');
 Page.makeSortable();

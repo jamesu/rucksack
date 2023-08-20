@@ -1,2 +1,2 @@
-$('#<%= "list_item_#{@list_item.id}" %>').replaceWith('<%= escape_javascript render(:partial => 'show', :collection => [@list_item]) %>');
+Page.sel('#<%= "list_item_#{@list_item.id}" %>').replaceWith('<%= escape_javascript render(:partial => 'show', :collection => [@list_item]) %>');
 Page.makeSortable();

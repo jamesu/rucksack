@@ -1,10 +1,10 @@
 <% # Tags %>
-$('#tagCrumbs').html('<%= escape_javascript render(:partial => 'tags/crumb', :collection => (@search_tags || [])) %>');
-$('#tagNewCrumbs').html('<%= escape_javascript render(:partial => 'tags/crumb', :collection => (@avail_tags || [])) %>');
+Page.sel('#tagCrumbs').html('<%= escape_javascript render(:partial => 'tags/crumb', :collection => (@search_tags || [])) %>');
+Page.sel('#tagNewCrumbs').html('<%= escape_javascript render(:partial => 'tags/crumb', :collection => (@avail_tags || [])) %>');
 
 <% # Clear old results %>
-$('.myPageEntry').remove();
+Page.sel('.myPageEntry').remove();
 
 <% # Add new results %>
-$('#myPageHeader').insertAfter('<%= escape_javascript render(:partial => 'index_page', :collection => @pages, :locals => {:shared => false}) %>')
-$('#sharedPageHeader').insertAfter('<%= escape_javascript render(:partial => 'index_page', :collection => @shared_pages, :locals => {:shared => true}) %>')
+Page.sel('#myPageHeader').insertAfter('<%= escape_javascript render(:partial => 'index_page', :collection => @pages, :locals => {:shared => false}) %>')
+Page.sel('#sharedPageHeader').insertAfter('<%= escape_javascript render(:partial => 'index_page', :collection => @shared_pages, :locals => {:shared => true}) %>')

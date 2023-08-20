@@ -1,4 +1,4 @@
 <% insert_into = @list_item.is_completed? ? 'completedItems' : 'openItems' %>
-$('#<%= "list_item_#{@list_item.id}" %>').remove(); 
-$('#<%= "list_#{@list.id} .#{insert_into} ul:first" %>').append("<%= escape_javascript render({:partial => 'show', :collection => [@list_item]}) %>") 
+Page.sel('#<%= "list_item_#{@list_item.id}" %>').remove(); 
+Page.sel('#<%= "list_#{@list.id} .#{insert_into} ul:first" %>').append("<%= escape_javascript render({:partial => 'show', :collection => [@list_item]}) %>") 
 Page.makeSortable();

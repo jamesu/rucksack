@@ -1,3 +1,3 @@
 <% unless @set_favourite.nil? %>Page.setFavourite(<%= @set_favourite %>);<% end %>
-$('#pageListItems').replaceWith('<%= escape_javascript render(:partial => 'listed_pages') %>');
+Page.sel('#pageListItems').replaceWith('<%= escape_javascript render(:partial => 'listed_pages') %>');
 Page.makeSortable();

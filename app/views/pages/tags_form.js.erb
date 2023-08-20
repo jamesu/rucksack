@@ -1,7 +1,7 @@
-$('#pageTagsForm').html('<%= escape_javascript render(:partial => 'tags/form') %>');
+Page.sel('#pageTagsForm').html('<%= escape_javascript render(:partial => 'tags/form') %>');
 
-$('#pageTags').hide();
-$('#pageEditTags').hide();
-$('#pageTagsForm').show();
+Page.sel('#pageTags').hide();
+Page.sel('#pageEditTags').hide();
+Page.sel('#pageTagsForm').show();
 
-$('#pageTagsForm form').autofocus();
+Page.sel('#pageTagsForm form').autofocus();

@@ -1,4 +1,4 @@
-]#==
+#==
 # Copyright (C) 2008 James S Urquhart
 # 
 # Permission is hereby granted, free of charge, to any person

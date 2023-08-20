@@ -1,3 +1,3 @@
-$('#user_status').html('<%= escape_javascript(@user.status.content) %>');
-$('#user_status_form').hide();
-$('#user_status').show();
+Page.sel('#user_status').html('<%= escape_javascript(textilize(@user.status.content)) %>');
+Page.sel('#user_status_form').hide();
+Page.sel('#user_status').show();

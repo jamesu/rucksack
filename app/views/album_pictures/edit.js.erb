@@ -1,2 +1,2 @@
-$('#<%= "album_picture_#{@album_picture.id}" %>').html('<%= escape_javascript render(:partial => 'form') %>');
-$('#<%= "album_picture_#{@album_picture.id}" %>').autofocus();
+Page.sel('#<%= "album_picture_#{@album_picture.id}" %>').html('<%= escape_javascript render(:partial => 'form') %>');
+Page.sel('#<%= "album_picture_#{@album_picture.id}" %>').autofocus();

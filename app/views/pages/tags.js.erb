@@ -1,5 +1,5 @@
-$('#pageTags').html('<%= escape_javascript render(:partial => 'tags/show', :collection => @page.tags_list) %>');
+Page.sel('#pageTags').html('<%= escape_javascript render(:partial => 'tags/show', :collection => @page.tags_list) %>');
 
-$('#pageTagsForm').hide();
-$('#pageTags').show();
-$('#pageEditTags').show();
+Page.sel('#pageTagsForm').hide();
+Page.sel('#pageTags').show();
+Page.sel('#pageEditTags').show();
