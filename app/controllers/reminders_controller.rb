@@ -76,7 +76,7 @@ class RemindersController < ApplicationController
   # POST /reminders.xml
   def create
     return error_status(true, :cannot_create_reminder) unless (Reminder.can_be_created_by(@logged_user))
-    @reminder = @user.reminders.new(params[:reminder])
+    @reminder = @user.reminders.new(reminder_params)
 
     respond_to do |format|
       if @reminder.save
@@ -99,7 +99,7 @@ class RemindersController < ApplicationController
     @reminder.updated_by = @logged_user
 
     respond_to do |format|
-      if @reminder.update_attributes(params[:reminder])
+      if @reminder.update_attributes(reminder_params)
         flash[:notice] = 'Reminder was successfully updated.'
         format.html { redirect_to(@reminder) }
         format.js { @grouped_reminders = get_groups; render :action => 'update' }
@@ -144,6 +144,10 @@ class RemindersController < ApplicationController
   end
 
 protected
+
+  def reminder_params
+    params[:reminder].permit(:repeat, :friendly_at_time, :content, :at_time)
+  end
 
   def load_reminder
     begin

@@ -95,7 +95,7 @@ class UploadedFilesController < ApplicationController
     calculate_position
     
     # Make the darn note
-    @uploaded_file = @page.uploaded_files.build(params[:uploaded_file])
+    @uploaded_file = @page.uploaded_files.build(uploaded_file_params)
     @uploaded_file.created_by = @logged_user
     saved = @uploaded_file.save
     
@@ -124,7 +124,7 @@ class UploadedFilesController < ApplicationController
     @uploaded_file.updated_by = @logged_user
 
     respond_to do |format|
-      if @uploaded_file.update_attributes(params[:uploaded_file])
+      if @uploaded_file.update_attributes(uploaded_file_params)
         flash[:notice] = 'uploaded_file was successfully updated.'
         format.html { redirect_to(@uploaded_file) }
         format.js { render :action => 'update', :content_type => 'text/html'  }
@@ -159,6 +159,10 @@ class UploadedFilesController < ApplicationController
   end
 
 protected
+
+  def uploaded_file_params
+    params[:uploaded_file].permit(:data, :description)
+  end
   
   def load_uploaded_file
     begin

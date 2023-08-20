@@ -79,7 +79,7 @@ class NotesController < ApplicationController
     calculate_position
     
     # Make the darn note
-    @note = @page.notes.build(params[:note])
+    @note = @page.notes.build(note_params)
     @note.created_by = @logged_user
     saved = @note.save
     
@@ -107,7 +107,7 @@ class NotesController < ApplicationController
     @note.updated_by = @logged_user
 
     respond_to do |format|
-      if @note.update_attributes(params[:note])
+      if @note.update_attributes(note_params)
         flash[:notice] = 'Note was successfully updated.'
         format.html { redirect_to(@note) }
         format.js {}
@@ -138,6 +138,10 @@ class NotesController < ApplicationController
   end
 
 protected
+
+  def note_params
+    params[:note].permit(:title, :content, :show_date)
+  end
   
   def load_note
     begin

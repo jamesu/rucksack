@@ -81,7 +81,7 @@ class EmailsController < ApplicationController
     calculate_position
     
     # Make the darn note
-    @email = @page.emails.build(params[:email])
+    @email = @page.emails.build(email_params)
     @email.created_by = @logged_user
     saved = @email.save
     
@@ -110,7 +110,7 @@ class EmailsController < ApplicationController
     @email.updated_by = @logged_user
 
     respond_to do |format|
-      if @email.update_attributes(params[:email])
+      if @email.update_attributes(email_params)
         flash[:notice] = 'email was successfully updated.'
         format.html { redirect_to(@email) }
         format.js {}
@@ -149,6 +149,10 @@ class EmailsController < ApplicationController
   end
 
 protected
+
+  def email_params
+    params[:email].permit(:subject, :body, :from)
+  end
  
   def authorized?(action = action_name, resource = nil)
     if action == 'public'

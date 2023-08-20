@@ -1,4 +1,4 @@
-#==
+]#==
 # Copyright (C) 2008 James S Urquhart
 # 
 # Permission is hereby granted, free of charge, to any person
@@ -50,7 +50,7 @@ class StatusesController < ApplicationController
     @status = @user.status || @user.build_status(:content => t('status'))
     return error_status(true, :cannot_edit_status) unless (@status.can_be_edited_by(@logged_user))
     
-    @status.attributes = params[:status]
+    @status.attributes = status_params
 
     respond_to do |format|
       if @status.save
@@ -64,5 +64,10 @@ class StatusesController < ApplicationController
         format.xml  { render :xml => @status.errors, :status => :unprocessable_entity }
       end
     end
+  end
+
+protected
+  def status_params
+    params[:status].permit(:content)
   end
 end

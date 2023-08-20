@@ -81,7 +81,7 @@ class UsersController < ApplicationController
   def create
     return error_status(true, :cannot_create_user) unless (User.can_be_created_by(@logged_user))
     
-    user_attribs = params[:user]
+    user_attribs = user_params
 
     @user = Account.owner.users.new()
 
@@ -133,7 +133,7 @@ class UsersController < ApplicationController
     @user = Account.owner.users.find(params[:id])
     return error_status(true, :cannot_edit_user) unless (@user.can_be_edited_by(@logged_user))
     
-    user_attribs = params[:user]
+    user_attribs = user_params
     if @logged_user.is_admin
       if user_attribs.has_key?('is_admin')
         set_admin = user_attribs.delete('is_admin')
@@ -231,7 +231,7 @@ class UsersController < ApplicationController
     case request.method_symbol
       when :post
         
-        @password_data = params[:user]
+        @password_data = user_params
             
         unless @password_data[:password]
           @user.errors.add(:password, t('new_password_required'))
@@ -253,6 +253,10 @@ class UsersController < ApplicationController
   end
 
 protected
+
+  def user_params
+    params[:user].permit(:display_name, :email, :time_zone, :title, :identity_url, :new_account_notification)
+  end
 
   def user_layout
     ['forgot_password', 'reset_password'].include?(action_name) ? 'dialog' : 'pages'

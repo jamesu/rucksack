@@ -74,7 +74,7 @@ class ListsController < ApplicationController
     calculate_position
     
     # Make the darn note
-    @list = @page.lists.build(params[:list])
+    @list = @page.lists.build(list_params)
     @list.created_by = @logged_user
     @list.name ||= t('List')
     saved = @list.save
@@ -107,7 +107,7 @@ class ListsController < ApplicationController
     @list.updated_by = @logged_user
 
     respond_to do |format|
-      if @list.update_attributes(params[:list])
+      if @list.update_attributes(list_params)
         flash[:notice] = 'List was successfully updated.'
         format.html { redirect_to(@list) }
         format.js {}
@@ -177,6 +177,10 @@ class ListsController < ApplicationController
   end
 
 protected
+
+  def list_params
+    params[:list].permit(:name)
+  end
 
   def load_list
     begin

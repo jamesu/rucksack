@@ -43,7 +43,7 @@ class AccountsController < ApplicationController
     @account = Account.owner
 
     respond_to do |format|
-      if @account.update_attributes(params[:account])
+      if @account.update_attributes(account_params)
         flash[:notice] = t('settings_updated')
         format.html { redirect_back_or_default(:action => 'show') }
         format.xml  { head :ok }
@@ -55,6 +55,10 @@ class AccountsController < ApplicationController
   end
 
 protected
+
+  def account_params
+    params[:account].permit(:site_name, :host_name)
+  end
 
   def authorized?(action = action_name, resource = nil)
     logged_in? and @logged_user.owner_of_owner?

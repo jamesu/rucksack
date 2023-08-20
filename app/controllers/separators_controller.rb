@@ -79,7 +79,7 @@ class SeparatorsController < ApplicationController
     calculate_position
     
     # Make the darn note
-    @separator = @page.separators.build(params[:separator])
+    @separator = @page.separators.build(separator_params)
     @separator.created_by = @logged_user
     saved = @separator.save
     
@@ -108,7 +108,7 @@ class SeparatorsController < ApplicationController
     @separator.updated_by = @logged_user
 
     respond_to do |format|
-      if @separator.update_attributes(params[:separator])
+      if @separator.update_attributes(separator_params)
         flash[:notice] = 'Separator was successfully updated.'
         format.html { redirect_to(@separator) }
         format.js {}
@@ -139,6 +139,10 @@ class SeparatorsController < ApplicationController
   end
 
 protected
+
+  def separator_params
+    params[:separator].permit(:title)
+  end
   
   def load_separator
     begin

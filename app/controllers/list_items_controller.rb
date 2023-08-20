@@ -79,7 +79,7 @@ class ListItemsController < ApplicationController
   def create
     return error_status(true, :cannot_create_listitem) unless (ListItem.can_be_created_by(@logged_user, @list))
     
-    @list_item = @list.list_items.build(params[:list_item])
+    @list_item = @list.list_items.build(list_item_params)
     @list_item.created_by = @logged_user
 
     respond_to do |format|
@@ -104,7 +104,7 @@ class ListItemsController < ApplicationController
     @list_item.updated_by = @logged_user
 
     respond_to do |format|
-      if @list_item.update_attributes(params[:list_item])
+      if @list_item.update_attributes(list_item_params)
         flash[:notice] = 'ListItem was successfully updated.'
         format.html { redirect_to(@list_item) }
         format.js
@@ -149,6 +149,10 @@ class ListItemsController < ApplicationController
   end
 
 protected
+
+  def list_item_params
+    params[:list_item].permit(:content, :completed)
+  end
 
   def load_list_item
     begin

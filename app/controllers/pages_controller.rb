@@ -107,7 +107,7 @@ class PagesController < ApplicationController
   # POST /pages.xml
   def create
     return error_status(true, :cannot_create_page) unless ((@logged_user.id == @user.id) and Page.can_be_created_by(@user))
-    @page = @user.pages.new(params[:page])
+    @page = @user.pages.new(page_params)
 
     respond_to do |format|
       if @page.save
@@ -134,7 +134,7 @@ class PagesController < ApplicationController
     return error_status(true, :cannot_edit_page) unless (@page.can_be_edited_by(@logged_user))
 
     respond_to do |format|
-      if @page.update_attributes(params[:page])
+      if @page.update_attributes(page_params)
         flash[:notice] = 'Page was successfully updated.'
         format.html { redirect_to(@page) }
         format.js { }
@@ -243,7 +243,7 @@ class PagesController < ApplicationController
     }
     
     set_users = []
-    page_attribs = params[:page]
+    page_attribs = page_params
     unless page_attribs.nil?
       set_users = page_attribs[:shared_users]
       set_users ||= []
@@ -336,7 +336,7 @@ class PagesController < ApplicationController
       when :get
         @view = 'tags_form'
       when :post
-        @page.tags = params[:page][:tags]
+        @page.tags = page_params[:tags]
         @view = 'tags'
         @page.save
     end
@@ -351,8 +351,8 @@ class PagesController < ApplicationController
   def resize
     return error_status(true, :cannot_edit_page) unless (@page.can_be_edited_by(@logged_user))
     
-    if params.has_key?(:page) and params[:page].has_key?(:width)
-      @saved = @page.update_attribute('width', params[:page][:width].to_i || 400)
+    if params.has_key?(:page) and page_params.has_key?(:width)
+      @saved = @page.update_attribute('width', page_params[:width].to_i || 400)
     end
     
     respond_to do |format|
@@ -375,6 +375,10 @@ class PagesController < ApplicationController
   end
   
 protected
+
+  def page_params
+    params[:page].permit(:title, :tags, :width)
+  end
   
   def authorized?(action = action_name, resource = nil)
     if action == 'public'

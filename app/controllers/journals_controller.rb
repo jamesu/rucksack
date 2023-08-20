@@ -91,7 +91,7 @@ class JournalsController < ApplicationController
   # POST /journals.xml
   def create
     return error_status(true, :cannot_create_journal) unless (Journal.can_be_created_by(@logged_user))
-    @journal = @user.journals.build(params[:journal])
+    @journal = @user.journals.build(journal_params)
 
     respond_to do |format|
       if @journal.save
@@ -118,7 +118,7 @@ class JournalsController < ApplicationController
     return error_status(true, :cannot_edit_journal) unless (@journal.can_be_edited_by(@logged_user))
 
     respond_to do |format|
-      if @journal.update_attributes(params[:journal])
+      if @journal.update_attributes(journal_params)
         flash[:notice] = 'Journal was successfully updated.'
         format.html { redirect_to(@journal) }
         format.js {}
@@ -145,6 +145,10 @@ class JournalsController < ApplicationController
   end
   
 protected
+
+  def journal_params
+    params[:journal].permit(:content, :created_at)
+  end
 
   def load_journal
     begin

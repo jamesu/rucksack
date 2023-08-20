@@ -74,7 +74,7 @@ class AlbumsController < ApplicationController
     calculate_position
     
     # Make the darn note
-    @album = @page.albums.build(params[:album])
+    @album = @page.albums.build(album_params)
     @album.created_by = @logged_user
     @album.title ||= t('album')
     saved = @album.save
@@ -107,7 +107,7 @@ class AlbumsController < ApplicationController
     @album.updated_by = @logged_user
 
     respond_to do |format|
-      if @album.update_attributes(params[:album])
+      if @album.update_attributes(album_params)
         flash[:notice] = 'Album was successfully updated.'
         format.html { redirect_to(@album) }
         format.js {}
@@ -174,6 +174,10 @@ class AlbumsController < ApplicationController
   end
   
 protected
+
+  def album_params
+    params[:album].permit(:title)
+  end
 
   def load_album
     begin
