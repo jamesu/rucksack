@@ -25,7 +25,7 @@
 
 class ApplicationLog < ApplicationRecord
   belongs_to :created_by, class_name: 'User', foreign_key: 'created_by_id'
-  belongs_to :rel_object, :polymorphic => true
+  belongs_to :rel_object, :polymorphic => true, optional: true
   belongs_to :page, optional: true
 
   @@action_lookup = {:add => 0, :edit => 1, :delete => 2, :open => 3, :close => 4, :rename => 5}
@@ -125,6 +125,6 @@ class ApplicationLog < ApplicationRecord
   end
 
   def self.clear_for_page(page)
-    ApplicationLog.destroy_all(['page_id = ? OR (rel_object_type = ? AND rel_object_id = ?)', page.id, 'Page', page.id])
+    ApplicationLog.where(['page_id = ? OR (rel_object_type = ? AND rel_object_id = ?)', page.id, 'Page', page.id]).destroy_all()
   end
 end

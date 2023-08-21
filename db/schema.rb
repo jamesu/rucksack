@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 23) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_21_190529) do
   create_table "accounts", force: :cascade do |t|
     t.integer "owner_id", limit: 10, null: false
     t.datetime "created_at", precision: nil
@@ -45,7 +45,7 @@ ActiveRecord::Schema[7.0].define(version: 23) do
   end
 
   create_table "application_logs", force: :cascade do |t|
-    t.integer "rel_object_id", limit: 10, default: 0, null: false
+    t.integer "rel_object_id", limit: 10, default: 0
     t.text "object_name"
     t.string "rel_object_type", limit: 50
     t.datetime "created_on", precision: nil, null: false
