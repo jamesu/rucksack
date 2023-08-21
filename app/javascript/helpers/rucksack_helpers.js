@@ -32,7 +32,9 @@ export default {
   },
 
   get: function(url, data, callback) {
-    return fetch(url, {
+    var dataStr = data == null ? "" : "?" + (new URLSearchParams(data)).toString();
+
+    return fetch(url + dataStr, {
       headers: {
         "Accept": "application/javascript"
       }
@@ -48,8 +50,7 @@ export default {
         "Accept": "application/javascript"
       },
       method: "POST",
-      body: formData,
-      success: callback
+      body: formData
     }).then(response => {
       const contentType = response.headers.get("Content-Type");
       if (contentType && contentType.includes("text/javascript")) {
@@ -68,18 +69,16 @@ export default {
     const authenticityToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
 
     data = data == null ? {} : data;
-    if (!data['_method'])
-    {
-      data['_method'] = 'DELETE';
-    }
 
     data['authenticity_token'] = authenticityToken;
 
     return fetch(url, {
-      method: "POST",
-      data: JSON.stringify(data),
-      dataType: 'application/json',
-      success: callback
+      method: "DELETE",
+      body: JSON.stringify(data),
+      headers: {
+        "Accept": "application/javascript",
+        "Content-Type": 'application/json',
+      }
     }).then(response => {
       const contentType = response.headers.get("Content-Type");
       if (contentType && contentType.includes("text/javascript")) {
@@ -98,10 +97,6 @@ export default {
     const authenticityToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
 
     data = data == null ? {} : data;
-    if (!data['_method'])
-    {
-      data['_method'] = 'PUT';
-    }
 
     data['authenticity_token'] = authenticityToken;
 
@@ -109,9 +104,11 @@ export default {
 
     return fetch(url, {
       method: "POST",
-      data: JSON.stringify(data),
-      dataType: 'application/json',
-      success: callback
+      body: JSON.stringify(data),
+      headers: {
+        "Accept": "application/javascript",
+        "Content-Type": 'application/json',
+      }
     }).then(response => {
       const contentType = response.headers.get("Content-Type");
       if (contentType && contentType.includes("text/javascript")) {
@@ -130,18 +127,19 @@ export default {
     const authenticityToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
 
     data = data == null ? {} : data;
-    if (!data['_method'])
-    {
-      data['_method'] = 'PUT';
-    }
 
     data['authenticity_token'] = authenticityToken;
 
+    console.log('put url=', url);
+    console.log('put data:', data);
+
     return fetch(url, {
-      method: "POST",
-      data: JSON.stringify(data),
-      dataType: 'application/json',
-      success: callback
+      method: "PUT",
+      body: JSON.stringify(data),
+      headers: {
+        "Accept": "application/javascript",
+        "Content-Type": 'application/json',
+      }
     }).then(response => {
       const contentType = response.headers.get("Content-Type");
       if (contentType && contentType.includes("text/javascript")) {

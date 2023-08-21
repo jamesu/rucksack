@@ -826,7 +826,7 @@ export default class extends Controller
     this.bindStaticEvent($('#pageDuplicate'), 'click', function(evt) {
       evt.preventDefault();
       
-      $.post(this.buildUrl('/duplicate'), {'foo':1}, null);
+      $.post(pageController.buildUrl('/duplicate'), {'foo':1}, null);
       return false;
     });
 
@@ -862,7 +862,7 @@ export default class extends Controller
     this.bindStaticEvent($('#add_ReminderForm'), 'submit', function(evt) {
       evt.preventDefault();
       
-      RucksackHelpers.request($(this), this.JustRebind.bind(this));
+      RucksackHelpers.request($(this), pageController.JustRebind.bind(pageController));
 
       return false;
     });
@@ -940,17 +940,13 @@ export default class extends Controller
 
       toggleLoader(element, true);
 
-      $.ajax({url: "/journals",
-        data: {'from': this.bindStaticEvent($('#userJournalsMore'), 'attr', 'from')},
-        success(data) {
+      $.get("/journals",
+        {'from': $('#userJournalsMore').attr('from')},
+        function(data) {
           toggleLoader(element, false);
           pageController.ResetAndRebind(data);
-        },
-        failure(data) {
-          toggleLoader(element, false);
-          pageController.ResetAndRebind(data);
-        },
-        dataType: 'script'});
+        }
+      );
 
       return false;
     });
