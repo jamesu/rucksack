@@ -145,7 +145,7 @@ class AlbumPicturesController < ApplicationController
 protected
 
   def picture_params
-    params[:picture].permit(:caption, :picture)
+    params[:picture].nil? ? {} : params[:picture].permit(:caption, :picture)
   end
 
   def grab_album

@@ -179,7 +179,7 @@ class ListsController < ApplicationController
 protected
 
   def list_params
-    params[:list].permit(:name)
+    params[:list].nil? ? {} : params[:list].permit(:name)
   end
 
   def load_list

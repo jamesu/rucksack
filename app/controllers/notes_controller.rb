@@ -140,7 +140,7 @@ class NotesController < ApplicationController
 protected
 
   def note_params
-    params[:note].permit(:title, :content, :show_date)
+    params[:note].nil? ? {} : params[:note].permit(:title, :content, :show_date)
   end
   
   def load_note

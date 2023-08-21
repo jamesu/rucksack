@@ -161,7 +161,7 @@ class UploadedFilesController < ApplicationController
 protected
 
   def uploaded_file_params
-    params[:uploaded_file].permit(:data, :description)
+    params[:uploaded_file].nil? ? {} : params[:uploaded_file].permit(:data, :description)
   end
   
   def load_uploaded_file

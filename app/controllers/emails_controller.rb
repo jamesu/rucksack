@@ -151,7 +151,7 @@ class EmailsController < ApplicationController
 protected
 
   def email_params
-    params[:email].permit(:subject, :body, :from)
+    params[:email].nil? ? {} : params[:email].permit(:subject, :body, :from)
   end
  
   def authorized?(action = action_name, resource = nil)

@@ -151,7 +151,7 @@ class ListItemsController < ApplicationController
 protected
 
   def list_item_params
-    params[:list_item].permit(:content, :completed)
+    params[:list_item].nil? ? {} : params[:list_item].permit(:content, :completed)
   end
 
   def load_list_item

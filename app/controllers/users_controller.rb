@@ -255,7 +255,7 @@ class UsersController < ApplicationController
 protected
 
   def user_params
-    params[:user].permit(:display_name, :email, :time_zone, :title, :identity_url, :new_account_notification)
+    params[:user].nil? ? {} : params[:user].permit(:display_name, :email, :time_zone, :title, :identity_url, :new_account_notification)
   end
 
   def user_layout

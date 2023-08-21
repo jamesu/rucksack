@@ -141,7 +141,7 @@ class SeparatorsController < ApplicationController
 protected
 
   def separator_params
-    params[:separator].permit(:title)
+    params[:separator].nil? ? {} : params[:separator].permit(:title)
   end
   
   def load_separator

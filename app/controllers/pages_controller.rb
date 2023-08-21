@@ -244,7 +244,7 @@ class PagesController < ApplicationController
     
     set_users = []
     page_attribs = page_params
-    unless page_attribs.nil?
+    unless page_attribs.empty?
       set_users = page_attribs[:shared_users]
       set_users ||= []
     else
@@ -377,7 +377,7 @@ class PagesController < ApplicationController
 protected
 
   def page_params
-    params[:page].permit(:title, :tags, :width)
+    params[:page].nil? ? {} : params[:page].permit(:title, :tags, :width)
   end
   
   def authorized?(action = action_name, resource = nil)

@@ -68,6 +68,6 @@ class StatusesController < ApplicationController
 
 protected
   def status_params
-    params[:status].permit(:content)
+    params[:status].nil? ? {} : params[:status].permit(:content)
   end
 end
