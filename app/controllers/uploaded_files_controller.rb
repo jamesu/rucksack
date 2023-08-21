@@ -27,6 +27,8 @@ class UploadedFilesController < ApplicationController
   before_action :grab_page, :except => [:icon]
   before_action :load_uploaded_file, :except => [:index, :new, :create, :icon]
     
+  protect_from_forgery except: [:index, :show, :new, :edit]
+  
   # GET /uploaded_files
   # GET /uploaded_files.xml
   def index

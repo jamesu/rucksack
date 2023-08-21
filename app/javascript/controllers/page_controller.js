@@ -320,7 +320,7 @@ export default class extends Controller
     var addItemInner = newItem.parents('.addItem').first().find('.inner').first();
 
     addItemInner.show();
-    RucksackHelpers.autofocus(addItemInner);
+    addItemInner.autofocus();
     newItem.hide();
 
     return false;
@@ -422,7 +422,7 @@ export default class extends Controller
     var addPictureInner = newPicture.parents('.albumPictureForm').first().find('.inner').first();
 
     addPictureInner.show();
-    RucksackHelpers.autofocus(addPictureInner);
+    addPictureInner.autofocus();
     newPicture.hide();
 
     return false;
@@ -566,14 +566,16 @@ export default class extends Controller
     console.log('root=',root[0]);
     console.log('restype=', root.attr('restype'));
 
-    var url = root.parents(root.attr('restype')).first().attr('url');
-    console.log('url=', root.attr('AAA'));
+    var url_element = root.parents(root.attr('restype')).first();
+    console.log(url_element);
+    var url = url_element.attr('url');
+    console.log('url=', url);
 
-    if (root.hasClass('slot_delete') && confirm("Are you sure you want to delete this item?"))
+    if (el.hasClass('slot_delete') && confirm("Are you sure you want to delete this item?"))
     {
       RucksackHelpers.del(this.buildUrl(url), null, this.JustRebind.bind(this));
     }
-    else if (root.hasClass('slot_edit'))
+    else if (el.hasClass('slot_edit'))
     {
       RucksackHelpers.get(this.buildUrl(url + '/edit'), null, this.JustRebind.bind(this));
     }
@@ -611,7 +613,7 @@ export default class extends Controller
     this.bindDynamicEvent($('#page_header_form form'), 'submit', this.onHeaderSubmit.bind(this));
     this.bindDynamicEvent($('#page_header_form .cancel'), 'click', this.onHeaderCancel.bind(this));
 
-    this.bindDynamicEvent($('.pageSlotHandle'), 'click', this.handleHoverSlotBar.bind(this));
+    this.bindDynamicEvent($('.pageSlotHandle ul.innerHandle li'), 'click', this.handleHoverSlotBar.bind(this));
 
     this.bindDynamicEvent($('.widgetForm'), 'submit', this.onWidgetFormSubmit.bind(this));
     this.bindDynamicEvent($('.widgetForm .cancel'), 'click', this.onWidgetFormCancel.bind(this));
@@ -721,7 +723,7 @@ export default class extends Controller
       pageController.insertionMarker.setEnabled(true);
       pageController.hoverHandle.setEnabled(true);
 
-      RucksackHelpers.autofocus(form);
+      form.autofocus();
 
       return false;
     });
@@ -740,7 +742,7 @@ export default class extends Controller
       pageController.insertionMarker.setEnabled(true);
       pageController.hoverHandle.setEnabled(true);
 
-      RucksackHelpers.autofocus(form);
+      form.autofocus();
 
       return false;
     });
@@ -759,7 +761,7 @@ export default class extends Controller
       pageController.insertionMarker.setEnabled(true);
       pageController.hoverHandle.setEnabled(true);
 
-      RucksackHelpers.autofocus(form);
+      form.autofocus();
 
       return false;
     });
@@ -778,7 +780,7 @@ export default class extends Controller
       pageController.insertionMarker.setEnabled(true);
       pageController.hoverHandle.setEnabled(true);
 
-      RucksackHelpers.autofocus(form);
+      form.autofocus();
 
       return false;
     });
@@ -959,7 +961,7 @@ export default class extends Controller
       var addPageInner = newPage.parents('.addPage').first().find('.inner').first();
 
       addPageInner.show();
-      RucksackHelpers.autofocus(addPageInner);
+      addPageInner.autofocus();
       newPage.hide();
 
       return false;

@@ -1,3 +1,8 @@
+import $ from "cash-dom";
+
+$.fn.autofocus = function() {
+    this.find('.autofocus')[0].focus();
+}
 
 export default {
 
@@ -26,18 +31,27 @@ export default {
     $("body:first").append(jFrame);    
     $(el).attr('target', strName);
   },
-
-  autofocus: function(el) {
-    el.find('.autofocus')[0].focus();
-  },
-
+  
   get: function(url, data, callback) {
+
+    const authenticityToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
     var dataStr = data == null ? "" : "?" + (new URLSearchParams(data)).toString();
 
     return fetch(url + dataStr, {
       headers: {
-        "Accept": "application/javascript"
+        "Accept": "application/javascript",
+        "X-CSRF-Token": authenticityToken
       }
+    }).then(response => {
+      const contentType = response.headers.get("Content-Type");
+      if (contentType && contentType.includes("text/javascript")) {
+        return response.text();
+      } else {
+        throw new Error("Response is not JavaScript");
+      }
+    }).then(jsContent => {
+      // Handle the JavaScript content
+      eval(jsContent); // Example: execute the JavaScript content
     }).then(callback);
   },
 

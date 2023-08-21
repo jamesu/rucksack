@@ -28,6 +28,8 @@ class RemindersController < ApplicationController
   
   before_action :grab_user
   before_action :load_reminder, :except => [:index, :new, :create]
+
+  protect_from_forgery except: [:index, :show, :new, :edit]
   
   
   # GET /reminders

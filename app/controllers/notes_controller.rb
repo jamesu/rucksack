@@ -26,7 +26,9 @@
 class NotesController < ApplicationController
   before_action :grab_page
   before_action :load_note, :except => [:index, :new, :create]
-    
+   
+  protect_from_forgery except: [:index, :show, :new, :edit]
+
   # GET /notes
   # GET /notes.xml
   def index

@@ -26,6 +26,7 @@
 class AlbumPicturesController < ApplicationController
   before_action :grab_page
   before_action :grab_album
+  protect_from_forgery except: [:index, :show, :new, :edit]
   
   # GET /album_pictures
   # GET /album_pictures.xml

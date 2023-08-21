@@ -26,6 +26,8 @@
 class ListsController < ApplicationController
   before_action :grab_page
   before_action :load_list, :except => [:index, :new, :create]
+
+  protect_from_forgery except: [:index, :show, :new, :edit]
     
   # GET /lists
   # GET /lists.xml
