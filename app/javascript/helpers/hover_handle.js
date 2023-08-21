@@ -23,7 +23,7 @@ export default class {
     // Cancel any running effects
     if (this.current_handle)
     {
-      if (this.current_handle.hasClass('velocity-animating'))
+      if (this.current_handle.hasClass('velocity-animating') && this.current_handle[0] != null)
       {
         Velocity(this.current_handle[0], "stop");
       }
@@ -69,7 +69,7 @@ export default class {
 
     // Make sure the old one vanishes
     var el = this.current_handle[0];
-    if (!this.current_handle.hasClass('velocity-animating'))
+    if (!this.current_handle.hasClass('velocity-animating') && el != null)
     {
       Velocity(el, {
         'opacity': 0.0

@@ -83,7 +83,7 @@ en:
   
   list_item_completed: Completed
   list_item_open: Open
-  list_item_show: "&raquo; Show all items"
+  list_item_show: "» Show all items"
   
   user_list: Users
   add_user: Add new user

@@ -27,7 +27,7 @@
 class Tag < ApplicationRecord
   include Rails.application.routes.url_helpers
 
-  belongs_to :page
+  belongs_to :page, optional: true
   belongs_to :created_by, class_name: 'User', foreign_key: 'created_by_id'
 
   belongs_to :rel_object, :polymorphic => true
@@ -45,7 +45,7 @@ class Tag < ApplicationRecord
   end
 
   def self.clear_by_object(object)
-    Tag.delete_all({'rel_object_type' => object.class.to_s, 'rel_object_id' => object.id})
+    Tag.where({'rel_object_type' => object.class.to_s, 'rel_object_id' => object.id}).delete_all()
   end
 
   def self.set_to_object(object, taglist, force_user=0)
@@ -56,7 +56,7 @@ class Tag < ApplicationRecord
 
     Tag.transaction do
       taglist.each do |tag_name|
-        Tag.create(:name => tag_name.strip, :page_id => page_id, :rel_object => object, :created_by => set_user)
+        Tag.create!(:name => tag_name.strip, :page_id => page_id, :rel_object => object, :created_by => set_user)
       end
     end
   end

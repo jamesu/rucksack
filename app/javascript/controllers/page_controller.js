@@ -67,6 +67,15 @@ export default class extends Controller
         //});
     }
 
+    // Set tags if present
+    var meta_tags = $('#tagCrumbsWrapper');
+    if (meta_tags.length > 0)
+    {
+      var tags = JSON.parse(meta_tags.attr('meta-search-tags'));
+      this.TAG_LIST = tags;
+      this.updateTags();
+    }
+
     this.hoverHandle.init();
     this.makeSortable();
   }
@@ -77,7 +86,8 @@ export default class extends Controller
   }
 
   updateTags() {
-    if (this.TAG_LIST.length == 0)
+    var filter_tags = this.TAG_LIST;
+    if (filter_tags.length == 0)
     {
       $('#pageTable .pageEntry').show();
       return;
@@ -85,16 +95,12 @@ export default class extends Controller
 
     $('#pageTable .pageEntry').each(function(){
       var el = $(this);
-      var tags = el.attr('tags').split(',');
+      var element_tags = el.attr('tags').split(',');
       var i=0;
 
-      // NOTE: tags must have all this.PAGE_LIST tags!
-      for (i=0; i<this.TAG_LIST.length ;i++) {
-        if (tags.indexOf(this.TAG_LIST[i]) < 0)
-          break;
-      }
+      var isAnyItemPresent = filter_tags.some(item => element_tags.includes(item));
 
-      if (i >= this.TAG_LIST.length)
+      if (isAnyItemPresent)
       {
         el.show();
       }
@@ -173,7 +179,7 @@ export default class extends Controller
     $(this.element).off('mouseup', this.endResize);
     $(this.element).off('mousemove', this.doResize);
 
-    RucksackHelpers.put(this.buildUrl('/resize'), {'page[width]': this.WIDTH}, null);
+    RucksackHelpers.put(this.buildUrl('/resize'), {'page':{'width': this.WIDTH}}, null);
   }
 
   doResize(e) {
@@ -353,7 +359,7 @@ export default class extends Controller
       // Loader gif
     el.siblings('.itemText').html(this.loader());
 
-    RucksackHelpers.put(this.buildUrl(list_url + '/items/' + item_id + '/status'), {'list_item[completed]':evt.target.checked}, this.JustRebind.bind(this));
+    RucksackHelpers.put(this.buildUrl(list_url + '/items/' + item_id + '/status'), {'list_item': {'completed':evt.target.checked}}, this.JustRebind.bind(this));
 
     return false;
   }
@@ -445,14 +451,14 @@ export default class extends Controller
   onNewAlbumPictureSubmit(evt) {
     evt.preventDefault();
     var el = $(evt.target);
-    RucksackHelpers.requestIframeScript(el, {'is_new': 1, 'el_id': el.parents(".albumPictureForm:first").attr("id")}, this.JustRebind.bind(this));
+    RucksackHelpers.requestIframeScript(el, {'is_new': 1, 'el_id': el.parents(".albumPictureForm").first().attr("id")}, this.JustRebind.bind(this));
     return true;
   }
 
   onNewAlbumPictureCancel(evt) {
     evt.preventDefault();
     var newPictureInner = $(evt.target).parents('.inner').first();
-    var newPicture = newPictureInner.parents('.albumPictureForm:first').first().find('.newPicture').first();
+    var newPicture = newPictureInner.parents('.albumPictureForm').first().find('.newPicture').first();
 
     newPictureInner.hide();
     newPictureInner.children('form')[0].reset();
@@ -463,7 +469,7 @@ export default class extends Controller
 
   onEditTags(evt) {
     evt.preventDefault();
-    $(evt.target).request(this.JustRebind.bind(this));
+    RucksackHelpers.request($(evt.target), this.JustRebind.bind(this));
 
     return false;
   }
@@ -496,7 +502,7 @@ export default class extends Controller
     var crumb = $(evt.target.parentNode);
     var tagName = crumb.attr('tag');
 
-    this.TAG_LIST = $.grep(this.TAG_LIST, function(tag){
+    this.TAG_LIST = this.TAG_LIST.filter((tag) => {
       return (tag != tagName);
     });
 
@@ -814,21 +820,21 @@ export default class extends Controller
     this.bindStaticEvent($('#pageSetFavourite'), 'click', function(evt) {
       evt.preventDefault();
       
-      RucksackHelpers.put(pageController.buildUrl('/favourite'), {'page[is_favourite]': '1'}, null);
+      RucksackHelpers.put(pageController.buildUrl('/favourite'), {'page':{'is_favourite': 1}}, null);
       return false;
     });
 
     this.bindStaticEvent($('#pageSetNotFavourite'), 'click', function(evt) {
       evt.preventDefault();
       
-      RucksackHelpers.put(pageController.buildUrl('/favourite'), {'page[is_favourite]': '0'}, null);
+      RucksackHelpers.put(pageController.buildUrl('/favourite'), {'page':{'is_favourite': 0}}, null);
       return false;
     });
 
     this.bindStaticEvent($('#pageDuplicate'), 'click', function(evt) {
       evt.preventDefault();
       
-      $.post(pageController.buildUrl('/duplicate'), {'foo':1}, null);
+      RucksackHelpers.post(pageController.buildUrl('/duplicate'), {'foo':1}, null);
       return false;
     });
 
@@ -1032,8 +1038,9 @@ export default class extends Controller
 
         // Insert
     RucksackHelpers.post('/pages/' + this.ID + '/' + resource, 
-      {'position[slot]': $(this.insert_element).attr('slot') , 
-      'position[before]': (this.insert_before ? '1' : '0')}, this.ResetAndRebind);
+      {'position': {'slot': $(this.insert_element).attr('slot') , 
+       'before': (this.insert_before ? '1' : '0')}
+      }, this.ResetAndRebind.bind(this));
   }
 
   dropSlotFunction (ev, ui) {
@@ -1094,7 +1101,7 @@ export default class extends Controller
       opacity: 0.75,
       update(e, ui)
       {
-        $.post('/pages/reorder_sidebar', $('#usrPageListItems').sortable('serialize', {key: 'page_ids[]'}));
+        RucksackHelpers.post('/pages/reorder_sidebar', $('#usrPageListItems').sortable('serialize', {key: 'page_ids[]'}));
       }
     });
 
@@ -1148,7 +1155,7 @@ export default class extends Controller
       update(e, ui) {
         if (this.isSortingWrappedElements)
           this.stopSortingWrappedElements(ui.item);
-        $.post('/pages/' + this.ID + '/reorder', $('#slots').sortable('serialize', {key: 'slots[]'}));
+        RucksackHelpers.post('/pages/' + this.ID + '/reorder', $('#slots').sortable('serialize', {key: 'slots[]'}));
       }
     });                           
   }
@@ -1180,7 +1187,7 @@ export default class extends Controller
         if (list.attr('id') != $(this).attr('id'))
           RucksackHelpers.put('/pages/' + this.ID + list.parents('.pageWidget').first().attr('url') + '/transfer', {'list_item[id]': ui.item.attr('item_id')});
         else
-          $.post('/pages/' + this.ID + list_url + '/reorder', el.sortable('serialize', {key: 'items[]'}));
+          RucksackHelpers.post('/pages/' + this.ID + list_url + '/reorder', el.sortable('serialize', {key: 'items[]'}));
       }
     }); 
   }

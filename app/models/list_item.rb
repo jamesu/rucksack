@@ -68,7 +68,7 @@ class ListItem < ApplicationRecord
   end
 
   def process_destroy
-    ApplicationLog.new_log(self, self.updated_by, :delete)
+    #ApplicationLog.new_log(self, self.updated_by, :delete)
   end
 
   def update_list

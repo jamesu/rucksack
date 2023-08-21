@@ -154,8 +154,6 @@ class UsersController < ApplicationController
       user_attribs.delete('password_confirmation')
     end
 
-    puts "ATTRS TO SET: #{user_attribs.inspect}"
-
     respond_to do |format|
       if @user.update(user_attribs)
         flash[:notice] = 'user was successfully updated.'

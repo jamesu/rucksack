@@ -73,7 +73,6 @@ class User < ApplicationRecord
     self.reminders.sorted_list.where(["(at_time >= ? AND at_time < ?)", month, month>>1])
   end
   def reminders_in_months(months)
-    puts "in #{months} months"
     month = Time.now.utc.to_date >> months
     self.reminders.sorted_list.where(["(at_time >= ? AND at_time < ?)", month, month>>1])
   end
@@ -348,7 +347,6 @@ class User < ApplicationRecord
   before_update :process_update_params
 
   def process_params
-    puts "process_params"
     write_attribute("created_at", Time.now.utc)
     write_attribute("last_login", nil)
     write_attribute("last_activity", nil)
@@ -356,7 +354,6 @@ class User < ApplicationRecord
   end
 
   def process_update_params
-    puts "process_update_params"
     write_attribute("updated_at", Time.now.utc)
   end
 

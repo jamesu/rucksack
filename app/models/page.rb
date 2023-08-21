@@ -53,8 +53,8 @@ class Page < ApplicationRecord
 
   def update_tags
     return if @update_tags.nil?
-    Tag.clear_by_object(self)
     Tag.set_to_object(self, @update_tags)
+    nil
   end
 
   # Updates guest users (identified by email address)
@@ -221,6 +221,9 @@ class Page < ApplicationRecord
   # Helpers
 
   def new_slot_at(insert_widget, insert_id, insert_before)
+
+    new_slot = nil
+
     PageSlot.transaction do
 
       # Calculate correct position
@@ -245,14 +248,16 @@ class Page < ApplicationRecord
       end
 
       # Make the new slot, damnit!
-      @slot = PageSlot.new(:page => self, :position => insert_pos, :rel_object => insert_widget)
-      @slot.save
-
-      return @slot
+      new_slot = PageSlot.new(:page => self, :position => insert_pos, :rel_object => insert_widget)
+      new_slot.save!
     end
+
+    return new_slot
   end
 
   def duplicate(new_owner)
+    new_page = nil
+    
     Page.transaction do
 
       new_page = self.dup
@@ -271,9 +276,9 @@ class Page < ApplicationRecord
         new_slot.rel_object = new_obj
         new_slot
       end
-
-      return new_page
     end
+
+    return new_page
   end
 
   def address=(value)

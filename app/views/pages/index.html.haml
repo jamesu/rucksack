@@ -2,7 +2,7 @@
 - @tabbed_navigation_items = common_tabs(:pages)
 - @user_navigation_items = user_tabs(nil)
 
-#tagCrumbsWrapper
+#tagCrumbsWrapper{:'meta-search-tags' => (@search_tags.nil? or @search_tags.empty?) ? "[]" : @search_tags.to_json}
   %p.floatleft= t('current_tags')
   %ul{:id => 'tagCrumbs'}
     != render :partial => 'tags/crumb', :collection => (@search_tags || [])
@@ -25,5 +25,3 @@
   
   != render :partial => 'index_page', :collection => @shared_pages, :locals => {:shared => true}
 
-- unless @search_tags.nil? or @search_tags.empty?
-  = javascript_tag "$(document).ready(function(p){Page.TAG_LIST = Page.TAG_LIST.concat(#{@search_tags.to_json}); Page.updateTags();});"

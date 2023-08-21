@@ -51,6 +51,8 @@ label {
 input.checkbox {
   padding: 0px;
   margin: 2px;
+  float: left;
+  margin-right: 8px;
 }
 
 label.checkbox {
@@ -583,6 +585,8 @@ div.pageList {
     }
     .itemDelete {
       cursor: pointer;
+      float: left;
+      margin-right: 8px;
     }
   }
 }

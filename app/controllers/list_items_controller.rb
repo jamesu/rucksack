@@ -29,7 +29,7 @@ class ListItemsController < ApplicationController
   before_action :load_list_item, :except => [:index, :new, :create]
     
   protect_from_forgery except: [:index, :show, :new, :edit]
-  
+
   # GET /list_items
   # GET /list_items.xml
   def index
@@ -138,7 +138,7 @@ class ListItemsController < ApplicationController
   def status
     return error_status(true, :cannot_edit_listitem) unless (@list_item.can_be_completed_by(@logged_user))
     
-    @list_item.set_completed(params[:list_item][:completed] == 'true', @logged_user)
+    @list_item.set_completed(params[:list_item][:completed], @logged_user)
     @list_item.position = @list.list_items.sorted_list.length
     @list_item.save
 

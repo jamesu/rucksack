@@ -30,6 +30,8 @@ class PagesController < ApplicationController
   before_action :grab_user
   before_action :load_page, :except => [:index, :new, :create, :reorder_sidebar, :current]
   after_action  :user_track, :except => 'public'
+
+  protect_from_forgery except: [:index, :show, :new, :edit, :tags]
     
   # GET /pages
   # GET /pages.xml
@@ -329,6 +331,8 @@ class PagesController < ApplicationController
     end 
   end
   
+  # GET /pages/1/tags
+  # POST /pages/1/tags
   def tags
     return error_status(true, :cannot_edit_page) unless (@page.can_be_edited_by(@logged_user))
     
