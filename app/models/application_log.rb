@@ -70,9 +70,9 @@ class ApplicationLog < ApplicationRecord
 
       # Silence all related logs
       if obj.class == Page
-        ApplicationLog.update_all({'is_silent' => true}, {'page_id' => obj.id})
+        ApplicationLog.where({'page_id' => obj.id}).update_all({'is_silent' => true})
       else
-        ApplicationLog.update_all({'is_silent' => true}, {'rel_object_id' => obj.id, 'rel_object_type' => obj.class.to_s})
+        ApplicationLog.where({'rel_object_id' => obj.id, 'rel_object_type' => obj.class.to_s}).update_all({'is_silent' => true})
       end
     else
       @log.page = obj.page
