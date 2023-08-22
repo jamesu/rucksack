@@ -55,7 +55,7 @@
                   #pageResizeHandle
                   %div!= "#{t('add_to_page')} <span> #{ Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s} atTop\" href=\"#\">#{t(widget.name)}</a>"}.to_sentence(:words_connector => ", ", :last_word_connector => " #{t('cn_or')} ") }</span>"
               .pageHeader{:url => @page.object_url}
-                = @page.can_be_edited_by(@logged_user) ? page_handle([ ['edit', t('edit')] ], 'page_header_handle', '.pageHeader') : ''
+                = @page.can_be_edited_by(@logged_user) ? page_handle([ ['edit', t('edit')] ], 'page_header_handle', '.pageHeader', 'pageSlotHandle') : ''
                 
                 #page_header.inner
                   %h1

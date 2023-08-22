@@ -5,7 +5,7 @@
       - needs_handle = !(group[0][2] == :done) and reminder.can_be_edited_by(@logged_user)
       %span.reminderContent{:hover_handle => needs_handle ? "reminder_handle_#{reminder.id}" : nil}
         - if needs_handle
-          = page_handle widget_options(reminder), "reminder_handle_#{reminder.id}", '.reminderEntry'
+          = page_handle widget_options(reminder), "reminder_handle_#{reminder.id}", '.reminderEntry', 'pageSlotHandle'
         = h reminder.content
       %span.reminderTime
         - if group[0][2] == :due_format_hours

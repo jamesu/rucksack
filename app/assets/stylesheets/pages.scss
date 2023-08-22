@@ -247,6 +247,10 @@ form div {
   list-style-type: none;
   font-size: 12px;
   padding: 0px;
+
+  .sortable-ghost {
+    opacity: 0.5;
+  }
 }
 
 #pageListItems {
@@ -377,6 +381,7 @@ li.albumPicture img {
 .pageSlot {
   position: relative;
   padding: 16px 18px 0px;
+  background: white;
 }
 
 .pageSlots {
@@ -425,6 +430,18 @@ li.albumPicture img {
     cursor: move;
   }
 }
+
+.pageSlot.sortable-ghost {
+  &> .pageSlotHandle {
+    display: none;
+    color: yellow;
+  }
+}
+
+.pageSlotHandle.hidden {
+  display: none;
+}
+
 
 /* Page insert bar. Indicates current insertion point */
 #pageInsert {
@@ -576,9 +593,11 @@ div.fileDetails .fileDescription {
 div.pageList {
   .listItems {
     padding: 0px;
+    padding-bottom: 8px;
     list-style-type: none;
     .listItem {
       padding-left: 16px;
+      background-color: white;
     }
     .completedItems {
       color: #666666;

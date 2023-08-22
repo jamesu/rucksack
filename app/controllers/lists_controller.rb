@@ -161,7 +161,7 @@ class ListsController < ApplicationController
     
     order = params[:items].collect { |id| id.to_i }
     
-    sorted_items = @list.list_items.sorted_list
+    sorted_items = @list.list_items
     total_index = sorted_items.length
 
     sorted_items.each do |item|
@@ -174,6 +174,7 @@ class ListsController < ApplicationController
     respond_to do |format|
       format.html { head :ok }
       format.json { head :ok }
+      format.js   { head :ok }
       format.xml  { head :ok }
     end
   end

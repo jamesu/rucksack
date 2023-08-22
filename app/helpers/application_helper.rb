@@ -95,18 +95,20 @@ module ApplicationHelper
   end
 
   # Accepts a list of actions, [class, representation]
-  def page_handle(actions, id, resType)
+  def page_handle(actions, id, resType, klass)
     items = actions.collect do |action|
       "<li class=\"slot_#{action[0]} innerHandle\">#{action[1]}</li>\n"
     end.join('')
-    "<div class=\"pageSlotHandle\" id=\"#{id}\" restype=\"#{resType}\" style=\"display:none\"><div class=\"inner innerHandle\">\n<ul class=\"innerHandle\">#{items}</ul>\n</div></div>".html_safe
+    "<div class=\"#{klass}\" id=\"#{id}\" restype=\"#{resType}\" style=\"display:none\"><div class=\"inner innerHandle\">\n<ul class=\"innerHandle\">#{items}</ul>\n</div></div>".html_safe
   end
 
   def widget_options(object)
     opts = []
     opts << ['delete', '-'] if object.can_be_deleted_by(@logged_user)
     opts << ['edit', t('edit')] if object.class != Journal and object.can_be_edited_by(@logged_user)
-    opts << ['handle', '+']  unless [Reminder, Journal].include? object.class
+    unless [Reminder, Journal].include? object.class
+      opts << ['handle', '+']
+    end
     opts
   end
 

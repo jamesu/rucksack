@@ -177,6 +177,7 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       format.html { head :ok }
+      format.js { head :ok }
       format.xml  { head :ok }
     end
   end

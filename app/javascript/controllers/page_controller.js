@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
-import { Draggable, Droppable, Sortable } from "@shopify/draggable";
 import $ from "cash-dom";
+import Sortable from 'sortablejs';
 
 import RucksackHelpers from "helpers/rucksack_helpers";
 import HoverHandle from "helpers/hover_handle";
@@ -30,6 +30,7 @@ export default class extends Controller
 
     this.staticBoundEvents = [];
     this.dynamicBoundEvents = [];
+    this.listItemSortables = null;
   }
 
   connect() {
@@ -569,13 +570,9 @@ export default class extends Controller
     var cur = el;
 
     var root = el.closest('.pageSlotHandle');
-    console.log('root=',root[0]);
-    console.log('restype=', root.attr('restype'));
 
     var url_element = root.parents(root.attr('restype')).first();
-    console.log(url_element);
     var url = url_element.attr('url');
-    console.log('url=', url);
 
     if (el.hasClass('slot_delete') && confirm("Are you sure you want to delete this item?"))
     {
@@ -860,7 +857,6 @@ export default class extends Controller
       // Page list tags
     this.bindStaticEvent($('#pageEditTags .edit'), 'click', function(evt) {
       evt.preventDefault();
-      console.log('edit...')
       RucksackHelpers.get(pageController.buildUrl('/tags'), {}, pageController.JustRebind.bind(pageController));
       return false;
     });
@@ -1054,21 +1050,7 @@ export default class extends Controller
     this.moveSlotTo(ui.draggable.attr('slot'), $(this).attr('page_id'));
   }
 
-  makeSortable() {
-    return; // TOFIX
-    if (this.READONLY)
-      return;
-
-    var lists = $('.pageList .openItems .listItems');
-
-    lists.each(function(i) {
-      this.makeListSortable($(this));
-    });
-
-        // Refresh so we can drag between
-    lists.each(function(i) {
-      $(this).sortable('refresh');
-    });
+  makePageItemsSortable() {
 
         // Add droppables
     $('#stdPageListItems li').each(function(i) {
@@ -1088,7 +1070,7 @@ export default class extends Controller
       }
     });
 
-        // Make sidebar sortable
+    // Make sidebar sortable
     if ($('#usrPageListItems').data('sortable'))
     {
       $('#usrPageListItems').sortable('destroy');
@@ -1104,92 +1086,178 @@ export default class extends Controller
         RucksackHelpers.post('/pages/reorder_sidebar', $('#usrPageListItems').sortable('serialize', {key: 'page_ids[]'}));
       }
     });
+  }
 
-        // Make slots sortable
-    if ($('#slots').data('sortable'))
+  makePageSlotsSortable() {
+    var slots = [...$('#slots')];
+    var lists = [...$('.pageList .openItems .listItems')];
+    var pageController = this;
+
+    //slots = slots.concat(lists);
+
+    //el.droppable({ hoverClass:'hover', accept:'.pageSlot', tolerance: 'pointer', drop:this.dropSlotFunction});
+
+    $('#stdPageListItems li').each(function(i, el) {
+      if (!el.classList.contains('current'))
+      {
+        slots.push(el);
+      }
+    });
+
+    $('#usrPageListItems li').each(function(i, el) {
+      if (!el.classList.contains('current'))
+      {
+        slots.push(el);
+      }
+    });
+
+    // Clear out old slots
+    if (this.listItemSortables != null)
     {
-      $('#slots').sortable('destroy');
+      this.listItemSortables.forEach((el) => {
+        el.destroy();
+      });
     }
 
-    $('#slots').sortable({
-      axis: 'y',
-      handle: '.slot_handle',
-      items: '> .pageSlot',
-      opacity: 0.75,
-      start(e, ui) {
-            // Press alt to move everything under separator
-        if (e.originalEvent.altKey) {
-          var separator_index = $("#slots > *").index(ui.item[0]);
-          var elements_after = ui.helper.siblings(":gt(" + separator_index + ")");
+    // Clear out old slots
+    if (this.slotItemSortables != null)
+    {
+      this.slotItemSortables.forEach((el) => {
+        el.destroy();
+      });
+    }
 
-          var found_end = false;
+    this.listItemSortables =  [];
+    this.slotItemSortables =  [];
 
-          var elements_after = elements_after.filter(function() {
-            if (found_end)
-              return false;
+    var slotItems = this.slotItemSortables;
+    var listItems = this.listItemSortables;
 
-            if ($(this).find(".pageWidget .pageSeparator").length == 1)
-            {
-              found_end = true;
-              return false;
-            }
+    var cloneNoHandle = function(evt) {
+      var origEl = evt.item;
+      var cloneEl = evt.clone;
+      var tagToRemove = origEl.querySelector('.pageSlotHandle'); // Select the tag you want to remove
 
-            return true;
-          });
-
-              // Skip if no extra elements are being sorted
-          if (elements_after.length == 0)
-            return;
-
-          ui.item.append("<div class=\"sortableGroup\"></div>");
-          ui.item.children(":last").append(elements_after);
-          ui.helper.append(elements_after.clone());
-
-          this.isSortingWrappedElements = true;
-        }
-      },
-      stop(e, ui) {
-        if (this.isSortingWrappedElements)
-          this.stopSortingWrappedElements(ui.item);
-      },
-      update(e, ui) {
-        if (this.isSortingWrappedElements)
-          this.stopSortingWrappedElements(ui.item);
-        RucksackHelpers.post('/pages/' + this.ID + '/reorder', $('#slots').sortable('serialize', {key: 'slots[]'}));
+      // Make sure tag is off
+      if (tagToRemove) {
+        tagToRemove.classList.add('hidden');
       }
-    });                           
+    };
+
+    var startNoHandle = (event) => {
+      this.hoverHandle.enabled = false;
+    }
+
+    var endListItemNoHandle = (event) => {
+      this.hoverHandle.enabled = true;
+
+      if (event.to.classList.contains('listItems'))
+      {
+        if (event.from == event.to)
+        {
+          var itemID = event.item.getAttribute('item_id');
+          var listID = event.to.getAttribute('list_id');
+          pageController.reorderList(listID);
+        }
+        else
+        {
+          var itemID = event.item.getAttribute('item_id');
+          var listID = event.to.getAttribute('list_id');
+          pageController.moveListItemTo(itemID, listID);
+        }
+      }
+    }
+
+    var endSlotNoHandle = (event) => {
+      this.hoverHandle.enabled = true;
+
+      if (event.to.classList.contains('sidebar_page'))
+      {
+        var toSlotID = event.item.getAttribute('slot');
+        var toPageID = event.to.getAttribute('page_id');
+        pageController.moveSlotTo(toSlotID, toPageID);
+        $(event.item).remove();
+      }
+      else if (event.to.classList.contains('pageSlots'))
+      {
+        pageController.reorderPage();
+      }
+    }
+
+    slots.forEach((slot) => {
+      slotItems.push(new Sortable(slot, {
+            draggable: ".pageSlot",
+            handle: '.slot_handle',
+            group: 'pageSlots',
+            mirror: false,
+            onClone: cloneNoHandle,
+            onStart: startNoHandle,
+            onEnd: endSlotNoHandle
+          }));
+    });
+
+    lists.forEach((slot) => {
+      listItems.push(new Sortable(slot, {
+            draggable: '.listItem',
+            handle: '.slot_list_item_handle',
+            group: 'listItems',
+            mirror: false,
+            onClone: cloneNoHandle,
+            onStart: startNoHandle,
+            onEnd: endListItemNoHandle
+          }));
+    });
+  }
+
+  makeSortable() {
+    if (this.READONLY)
+      return;
+
+    this.makePageSlotsSortable();
+  }
+
+  reorderPage() {
+      // Just reorder whole thing
+      var new_order = [];
+      [...$('.pageSlots').children()].forEach((el) => {
+        if (el.classList.contains('draggable-mirror') || el.classList.contains('draggable--original'))
+        {
+          return;
+        }
+
+        new_order.push(el.getAttribute('slot'));
+      });
+
+      RucksackHelpers.post('/pages/' + this.ID + '/reorder', 
+                          {'slots': new_order});
+  }
+
+  reorderList(list_id) {
+      // Just reorder whole thing
+      var new_order = [];
+      [...$('#list_' + list_id).find('.openItems .listItem')].forEach((el) => {
+        if (el.classList.contains('draggable-mirror') || el.classList.contains('draggable--original'))
+        {
+          return;
+        }
+
+        new_order.push(el.getAttribute('item_id'));
+      });
+
+      RucksackHelpers.post('/pages/' + this.ID + '/lists/' + list_id + '/reorder', 
+                          {'items': new_order});
+  }
+
+  moveListItemTo(item_id, target_list_id) {
+    RucksackHelpers.put('/pages/' + this.ID + '/lists/' + target_list_id + '/transfer', 
+                        {'list_item': {'id': item_id}});
   }
 
   moveSlotTo(slot_id, page_id) {
     if (page_id != '0' && page_id != 0)
-      RucksackHelpers.put('/pages/' + page_id + '/' + 'transfer', {'page_slot[id]': slot_id }, null);
-  }
-
-  makeListSortable(el) {
-    return; // TOFIX
-    var list_url = el.parents('.pageWidget').first().attr('url');
-
-    if (el.data('sortable'))
     {
-      el.sortable('destroy');
+      RucksackHelpers.put('/pages/' + page_id + '/' + 'transfer', {'page_slot': {'id': slot_id } }, null);
     }
-
-    el.sortable({
-      axis: 'y',
-      handle: '.slot_handle',
-      connectWith: ['.pageList .openItems .listItems'],
-      opacity: 0.75,
-      update(e, ui) {
-            // Check for item movement vs item update. Note that the 
-            // list the item is moved to will do its own update after.
-
-        var list = ui.item.parent('.listItems');
-        if (list.attr('id') != $(this).attr('id'))
-          RucksackHelpers.put('/pages/' + this.ID + list.parents('.pageWidget').first().attr('url') + '/transfer', {'list_item[id]': ui.item.attr('item_id')});
-        else
-          RucksackHelpers.post('/pages/' + this.ID + list_url + '/reorder', el.sortable('serialize', {key: 'items[]'}));
-      }
-    }); 
   }
 
 

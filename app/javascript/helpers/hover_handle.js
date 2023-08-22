@@ -45,6 +45,7 @@ export default class {
 
     if (is_new || isHidden)
       handle.css('opacity', 1.0).show();
+    handle.removeClass('hidden');
 
     // Disable insertion marker
     if (this.pageController.insertionMarker.enabled)
