@@ -101,4 +101,7 @@ class UploadedFile < ApplicationRecord
   # Validation
 
   validates_attachment_presence :data
+
+  do_not_validate_attachment_file_type :data
+
 end

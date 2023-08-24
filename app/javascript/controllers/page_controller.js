@@ -233,7 +233,7 @@ export default class extends Controller
   onWidgetFormSubmit(evt) {
     var el = $(evt.target);
     if (el.hasClass('upload')) {
-      RucksackHelpers.requestIframeScript(el, {}, this.JustRebind.bind(this));
+      RucksackHelpers.request(el, {}, this.JustRebind.bind(this));
       return true;
     }
     else
@@ -271,7 +271,7 @@ export default class extends Controller
       // Note: closures used here so that submit button can be reset
     if (el.hasClass('upload')) 
     {
-      RucksackHelpers.requestIframeScript(el, {'is_new': 1}, function(data) { 
+      RucksackHelpers.request(el, {'is_new': 1}, function(data) { 
         submit_button.attr('disabled', false).html(old_submit); 
         pageController.ResetAndRebind(data); 
       });
@@ -438,7 +438,7 @@ export default class extends Controller
   onAlbumPictureSubmit(evt) {
     evt.preventDefault();
     var el = $(evt.target);
-    RucksackHelpers.requestIframeScript(el, {}, this.JustRebind.bind(this));
+    RucksackHelpers.request(el, {}, this.JustRebind.bind(this));
     return true;
   }
 
@@ -452,7 +452,7 @@ export default class extends Controller
   onNewAlbumPictureSubmit(evt) {
     evt.preventDefault();
     var el = $(evt.target);
-    RucksackHelpers.requestIframeScript(el, {'is_new': 1, 'el_id': el.parents(".albumPictureForm").first().attr("id")}, this.JustRebind.bind(this));
+    RucksackHelpers.request(el, {'is_new': 1, 'el_id': el.parents(".albumPictureForm").first().attr("id")}, this.JustRebind.bind(this));
     return true;
   }
 
@@ -944,7 +944,7 @@ export default class extends Controller
 
       toggleLoader(element, true);
 
-      $.get("/journals",
+      RucksackHelpers.get("/journals",
         {'from': $('#userJournalsMore').attr('from')},
         function(data) {
           toggleLoader(element, false);

@@ -84,4 +84,6 @@ class AlbumPicture < ApplicationRecord
   # Validation
 
   validates_attachment_presence :picture
+
+  do_not_validate_attachment_file_type :picture
 end

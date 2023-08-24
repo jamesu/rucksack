@@ -60,7 +60,11 @@ module ApplicationHelper
   end
 
   def file_icon_for(filename, opts={})
-    path_to_image("file_icons/#{File.extname(filename)[1..-1] || ''}.png")
+    begin
+      return path_to_image("file_icons/#{File.extname(filename)[1..-1] || ''}.png")
+    rescue Exception => e
+      return path_to_image('file_icons/genericGray.png')
+    end
   end
 
   def format_size(value)

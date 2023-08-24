@@ -1,0 +1,8 @@
+<% ec = escape_javascript("<div class=\"pageSlot\" id=\"page_slot_#{@slot.id}\" slot=\"#{@slot.id}\"></div>").html_safe %>
+<% if @insert_before %>
+Page.sel('#<%= @insert_element %>').before('<%= ec %>');
+<% else %>
+Page.sel('#<%= @insert_element %>').after('<%= ec %>');
+<% end %>
+Page.sel('#<%= "page_slot_#{@slot.id}" %>').html('<%= escape_javascript render(:partial => 'pages/slot', :locals => {:object => @uploaded_file, :page_slot => @uploaded_file.page_slot}) %>');
+Page.makeSortable();

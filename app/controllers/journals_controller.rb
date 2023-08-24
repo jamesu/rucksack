@@ -29,6 +29,8 @@ class JournalsController < ApplicationController
   before_action :grab_user
   before_action :load_journal, :except => [:index, :new, :create]
   
+  protect_from_forgery except: [:index, :show, :new, :edit]
+  
   # GET /journals
   # GET /journals.xml
   def index
