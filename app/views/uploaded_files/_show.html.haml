@@ -3,6 +3,6 @@
   %img{:src => file_icon_for(object.object_name), :hover_handle => hhandle}
   %div.fileDetails{:style => "float:left; width:90%"}
     %a{:href => object.data.url, :hover_handle => hhandle}= h object.object_name
-    %div.fileSize= format_size(object.data_file_size)
+    %div.fileSize= format_size(object.data.byte_size)
     - if object.description?
       %div.fileDescription= h object.description

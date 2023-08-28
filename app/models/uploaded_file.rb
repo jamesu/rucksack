@@ -30,7 +30,8 @@ class UploadedFile < ApplicationRecord
 
   has_many :application_logs, as: :rel_object, dependent: :nullify
 
-  has_attached_file :data
+  has_one_attached :data do |attachment|
+  end
 
   belongs_to :created_by, class_name: 'User', foreign_key: 'created_by_id'
   belongs_to :updated_by, class_name: 'User', foreign_key: 'updated_by_id', optional: true
@@ -52,7 +53,7 @@ class UploadedFile < ApplicationRecord
   end
 
   def object_name
-    self.data.original_filename
+    self.data.filename
   end
 
   def view_partial
@@ -100,8 +101,5 @@ class UploadedFile < ApplicationRecord
 
   # Validation
 
-  validates_attachment_presence :data
-
-  do_not_validate_attachment_file_type :data
-
+  #validates_attachment_presence :data
 end

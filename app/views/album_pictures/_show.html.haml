@@ -5,5 +5,5 @@
     - if show.can_be_edited_by(@logged_user)
       = page_handle [ ['delete', '-'], ['edit', t('edit')], ['album_picture_handle', '+'] ], "page_picture_handle_#{show.id}", '.albumPicture', 'pageSlotHandle'
     %a{:href => show.picture.url}
-      %img{:src => show.picture.url(:album), :hover_handle => "page_picture_handle_#{show.id}"}
+      %img{:src => url_for(show.picture.variant(:album)), :hover_handle => "page_picture_handle_#{show.id}"}
     .albumPictureCaption= textilize show.caption, true

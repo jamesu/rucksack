@@ -7,8 +7,6 @@ gem "rails", "~> 7.0.7"
 
 gem "chronic", "~> 0.10.2"
 
-gem 'kt-paperclip', '~> 7.2'
-
 gem 'redcarpet'
 
 gem 'activemodel-serializers-xml'
@@ -59,7 +57,7 @@ gem "haml-rails", "~> 2.0"
 gem "sassc-rails"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 1.2"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

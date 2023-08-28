@@ -31,7 +31,9 @@ class AlbumPicture < ApplicationRecord
 
   has_many :application_logs, as: :rel_object, dependent: :nullify
 
-  has_attached_file :picture, :styles => { :album => "150x150#" }
+  has_one_attached :picture do |attachment|
+    attachment.variant :album, resize_to_limit: [150, 150]
+  end
 
   belongs_to :created_by, class_name: 'User', foreign_key: 'created_by_id'
   belongs_to :updated_by, class_name: 'User', foreign_key: 'updated_by_id', optional: true
@@ -53,7 +55,7 @@ class AlbumPicture < ApplicationRecord
   end
 
   def object_name
-    self.caption? ? self.caption : self.picture.original_filename
+    self.caption? ? self.caption : self.picture.filename
   end
 
   def set_position(value, user=nil)
@@ -83,7 +85,5 @@ class AlbumPicture < ApplicationRecord
 
   # Validation
 
-  validates_attachment_presence :picture
-
-  do_not_validate_attachment_file_type :picture
+  #validates_attachment_presence :picture
 end
