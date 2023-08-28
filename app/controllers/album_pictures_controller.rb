@@ -43,7 +43,6 @@ class AlbumPicturesController < ApplicationController
   # GET /album_pictures/1.xml
   def show
     @album_picture = @album.pictures.find(params[:id])
-    @new_picture = !params[:is_new].nil?
     
     if !@new_picture
       el_id = @album.pictures.where(['position < ?', @album_picture.position]).select(:id).order('position DESC').first
@@ -88,6 +87,9 @@ class AlbumPicturesController < ApplicationController
   def create
     return error_status(true, :cannot_create_albumpicture) unless (AlbumPicture.can_be_created_by(@logged_user, @album))
     
+    @new_picture = true
+    @insert_element = params[:el_id]
+
     @album_picture = @album.pictures.build(picture_params)
     @album_picture.created_by = @logged_user
 
@@ -95,7 +97,7 @@ class AlbumPicturesController < ApplicationController
       if @album_picture.save
         flash[:notice] = 'AlbumPicture was successfully created.'
         format.html { redirect_to(@album.page) }
-        format.js { render :action => 'create', :content_type => 'text/html'}
+        format.js { render :action => 'create' }
         format.xml  { render :xml => @album_picture, :status => :created, :location => page_album_album_picture_path(:page_id => @page.id, :album_id => @album.id, :id => @album_picture.id) }
       else
         format.html { render :action => "new" }
@@ -117,7 +119,7 @@ class AlbumPicturesController < ApplicationController
       if @album_picture.update(picture_params)
         flash[:notice] = 'AlbumPicture was successfully updated.'
         format.html { redirect_to(@album.page) }
-        format.js  { render :action => 'update', :content_type => 'text/html'}
+        format.js  { render :action => 'update' }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

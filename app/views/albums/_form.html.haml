@@ -11,6 +11,8 @@
   - if @album.nil? or @album.new_record?
     %h2= t('add_album')
   
+  %input{:type => 'hidden', :name => 'is_new', :value => '0'}
+
   %div
     %label{:for => 'noteFormTitle'}= t('album_title')
     != text_field 'album', 'title', :id => 'albumFormTitle', :class => 'autofocus long'

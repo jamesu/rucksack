@@ -8,6 +8,7 @@
   - fid = 'widgetForm upload'
 
 = form_tag( fpath, :method => fmethod, :class => fid, :multipart => true) do
+  %input{:type => 'hidden', :name => 'is_new', :value => '0'}
   %div
     != file_field 'uploaded_file', 'data', :class => 'uploadedFileFormTitle', :class => 'autofocus long'
   %div

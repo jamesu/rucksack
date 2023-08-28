@@ -1,5 +1,3 @@
-<% if @new_picture %>
-  Page.sel('#<%= @insert_element %>').before('<li id=\'<%= "album_picture_#{@album_picture.id}" %>\'</li>');
-<% end %>
+Page.sel('#<%= @insert_element %>').before('<li id=\'<%= "album_picture_#{@album_picture.id}" %>\'</li>');
 Page.sel('#<%= "album_picture_#{@album_picture.id}" %>').replaceWith('<%= escape_javascript render(:partial => 'show', :collection => [@album_picture]) %>');
 Page.makeSortable();

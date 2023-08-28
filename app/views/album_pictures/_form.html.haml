@@ -8,6 +8,9 @@
   - action_name = t('update')
 
 = form_tag url, :method => mth, :multipart => true do
+  %input{:type => 'hidden', :name => 'is_new', :value => '0'}
+  %input{:type => 'hidden', :name => 'el_id', :value => ''}
+
   %div
     %input{:type => 'hidden', :name=> 'format', :value => 'js'}/
     != file_field 'picture', 'picture', :class => 'pictureFormTitle', :class => 'autofocus long', :size => 8

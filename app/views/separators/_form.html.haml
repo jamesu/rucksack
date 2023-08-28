@@ -8,6 +8,7 @@
   - fid = 'widgetForm'
 
 = form_tag( fpath, :method => fmethod, :class => fid) do
+  %input{:type => 'hidden', :name => 'is_new', :value => '0'}
   %div
     != text_field 'separator', 'title', :class => 'separatorFormTitle', :class => 'autofocus moderate'
   

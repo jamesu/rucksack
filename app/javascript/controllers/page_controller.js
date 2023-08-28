@@ -232,8 +232,11 @@ export default class extends Controller
 
   onWidgetFormSubmit(evt) {
     var el = $(evt.target);
-    if (el.hasClass('upload')) {
-      RucksackHelpers.request(el, {}, this.JustRebind.bind(this));
+    el.find('input[name=is_new]').attr('value', '0');
+
+    if (el.hasClass('upload'))
+    {
+      RucksackHelpers.request(el, this.JustRebind.bind(this));
       return true;
     }
     else
@@ -271,7 +274,9 @@ export default class extends Controller
       // Note: closures used here so that submit button can be reset
     if (el.hasClass('upload')) 
     {
-      RucksackHelpers.request(el, {'is_new': 1}, function(data) { 
+      evt.preventDefault();
+      el.find('input[name=is_new]').attr('value', '1');
+      RucksackHelpers.request(el, function(data) { 
         submit_button.attr('disabled', false).html(old_submit); 
         pageController.ResetAndRebind(data); 
       });
@@ -280,6 +285,7 @@ export default class extends Controller
     else
     {
       evt.preventDefault();
+      el.find('input[name=is_new]').attr('value', '0');
       RucksackHelpers.request(el, function(data) { 
         submit_button.attr('disabled', false).html(old_submit); 
         pageController.ResetAndRebind(data); 
@@ -438,7 +444,9 @@ export default class extends Controller
   onAlbumPictureSubmit(evt) {
     evt.preventDefault();
     var el = $(evt.target);
-    RucksackHelpers.request(el, {}, this.JustRebind.bind(this));
+    el.find('input[name=is_new]').attr('value', '0');
+    el.find('input[name=el_id]').attr('value', '');
+    RucksackHelpers.request(el, this.JustRebind.bind(this));
     return true;
   }
 
@@ -452,7 +460,9 @@ export default class extends Controller
   onNewAlbumPictureSubmit(evt) {
     evt.preventDefault();
     var el = $(evt.target);
-    RucksackHelpers.request(el, {'is_new': 1, 'el_id': el.parents(".albumPictureForm").first().attr("id")}, this.JustRebind.bind(this));
+    el.find('input[name=is_new]').attr('value', '1');
+    el.find('input[name=el_id]').attr('value', el.parents(".albumPictureForm").first().attr("id"));
+    RucksackHelpers.request(el, this.JustRebind.bind(this));
     return true;
   }
 

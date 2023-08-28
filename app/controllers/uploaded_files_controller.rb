@@ -43,8 +43,6 @@ class UploadedFilesController < ApplicationController
   # GET /uploaded_files/1
   # GET /uploaded_files/1.xml
   def show
-    @new_file = !params[:is_new].nil?
-    
     @slot_id = @uploaded_file.page_slot.id
     slots = @page.slot_ids
     @insert_element = 'page_slot_footer'
@@ -108,11 +106,11 @@ class UploadedFilesController < ApplicationController
       if @uploaded_file.save
         flash[:notice] = 'uploaded_file was successfully created.'
         format.html { redirect_to(@uploaded_file.page) }
-        format.js { render :action => 'create', :content_type => 'text/html' }
+        format.js { render :action => 'create' }
         format.xml  { render :xml => @uploaded_file, :status => :created, :location => page_uploaded_file_path(:page_id => @page.id, :id => @uploaded_file.id) }
       else
         format.html { render :action => "new" }
-        format.js { render :action => 'create', :content_type => 'text/html' }
+        format.js { render :action => 'create' }
         format.xml  { render :xml => @uploaded_file.errors, :status => :unprocessable_entity }
       end
     end
@@ -129,11 +127,11 @@ class UploadedFilesController < ApplicationController
       if @uploaded_file.update(uploaded_file_params)
         flash[:notice] = 'uploaded_file was successfully updated.'
         format.html { redirect_to(@uploaded_file) }
-        format.js { render :action => 'update', :content_type => 'text/html'  }
+        format.js { render :action => 'update'  }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.js { render :action => 'update', :content_type => 'text/html' }
+        format.js { render :action => 'update' }
         format.xml  { render :xml => @uploaded_file.errors, :status => :unprocessable_entity }
       end
     end
