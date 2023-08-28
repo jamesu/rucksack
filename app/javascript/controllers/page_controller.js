@@ -153,8 +153,8 @@ export default class extends Controller
     this.isSortingWrappedElements = false;
   }
 
-  startResize(e) {
-    var evt = e.originalEvent;
+  startResize = (evt) => {
+    evt.preventDefault();
     this.lastResizePosition = evt.clientX;
     this.isResizing = true;
 
@@ -164,11 +164,13 @@ export default class extends Controller
     var content = $('#innerWrapper');
     content.css('margin', '0px 0px 0px ' + content.offset().left + 'px');
 
-    $(this.element).on('mouseup', this.endResize);
-    $(this.element).on('mousemove', this.doResize);
+    var el = $(evt.target);
+    this.bindDynamicEvent(el, 'mouseup', this.endResize.bind(this));
+    this.bindDynamicEvent(el, 'mousemove', this.doResize.bind(this));
   }
 
-  endResize(e) {
+  endResize = (evt) => {
+    evt.preventDefault();
     this.isResizing = false;
 
     this.insertionMarker.setEnabled(true);
@@ -177,17 +179,15 @@ export default class extends Controller
     var content = $('#innerWrapper');
     content.css('margin', '0px auto');
 
-    $(this.element).off('mouseup', this.endResize);
-    $(this.element).off('mousemove', this.doResize);
+    this.removeDynamicEvents($(evt.target));
 
     RucksackHelpers.put(this.buildUrl('/resize'), {'page':{'width': this.WIDTH}}, null);
   }
 
-  doResize(e) {
+  doResize(evt) {
     if (!this.isResizing)
       return false;
 
-    var evt = e.originalEvent;
     var delta = evt.clientX - this.lastResizePosition;
     this.setWidth(this.WIDTH + delta);
 
@@ -597,6 +597,20 @@ export default class extends Controller
   bindDynamicEvent(el, name, func) {
     this.dynamicBoundEvents.push([el, name, func]);
     el.on(name, func);
+  }
+
+  removeDynamicEvents(el) {
+    for (var i=this.dynamicBoundEvents.length-1; i>= 0; i--)
+    {
+      var evt = this.dynamicBoundEvents[i];
+      console.log(evt);
+      if (evt[0][0] == el[0])
+      {
+        evt[0].off(evt[1]);
+      }
+
+      this.dynamicBoundEvents.splice(i);
+    }
   }
 
   bindStaticEvent(el, name, func) {
