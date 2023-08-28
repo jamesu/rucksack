@@ -68,6 +68,7 @@ module ApplicationHelper
   end
 
   def format_size(value)
+    value = value || 0
     kbs = value / 1024
     mbs = kbs / 1024
 
