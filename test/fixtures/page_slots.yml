@@ -1,7 +1,31 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+slot_p1_note1:
+  page: main_user_homepage
+  position: 0
+  rel_object: p1_note1
 
-# one:
-#   column: value
-#
-# two:
-#   column: value
+slot_p1_separator1:
+  page: main_user_homepage
+  position: 1
+  rel_object: p1_separator1
+
+slot_p1_list1:
+  page: main_user_homepage
+  position: 2
+  rel_object: p1_list1
+
+# --
+
+slot_p2_separator1:
+  page: normal_user_homepage
+  position: 0
+  rel_object: p2_separator1
+
+slot_p2_note1:
+  page: normal_user_homepage
+  position: 1
+  rel_object: p2_note1
+
+slot_p2_list3:
+  page: normal_user_homepage
+  position: 2
+  rel_object: p2_list3

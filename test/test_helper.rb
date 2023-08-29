@@ -1,7 +1,7 @@
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
-require 'lib/authenticated_test_helper'
+require_relative "../lib/authenticated_test_helper"
 
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers

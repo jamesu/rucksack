@@ -29,11 +29,13 @@ Rucksack::Application.configure do
   # like if you have constraints or database-specific column types
   # config.active_record.schema_format = :sql
 
+  # Store uploaded files on the local file system (see config/storage.yml for options).
+  config.active_storage.service = :local
+
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
-  # Raise exception on mass assignment protection for Active Record models
-  #config.active_record.mass_assignment_sanitizer = :strict
+
 
   # Configure static asset server for tests with Cache-Control for performance
   config.serve_static_assets = true

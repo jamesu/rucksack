@@ -36,3 +36,5 @@ guest_user:
   time_zone: UTC
   is_admin: false
   home_page: normal_user_homepage
+
+

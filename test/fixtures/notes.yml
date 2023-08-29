@@ -5,3 +5,9 @@
 #
 # two:
 #   column: value
+
+p1_note1:
+  page: main_user_homepage
+
+p1_note2:
+  page: normal_user_homepage

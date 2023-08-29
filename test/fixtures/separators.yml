@@ -5,3 +5,10 @@
 #
 # two:
 #   column: value
+
+
+p1_separator1:
+  page: main_user_homepage
+
+p1_separator2:
+  page: normal_user_homepage
