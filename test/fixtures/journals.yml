@@ -5,3 +5,23 @@
 #
 # two:
 #   column: value
+
+journal1_1:
+  user: main_user
+  content: "Bleh bleh bleh bleh"
+  created_at: 2022-01-01 12:00:00
+
+journal1_2:
+  user: main_user
+  content: "Moo"
+  created_at: 2022-01-02 12:00:00
+
+journal2_1:
+  user: normal_user
+  content: "Bla bla bla bla"
+  created_at: 2022-01-01 12:00:01
+
+journal2_2:
+  user: normal_user
+  content: "Woof"
+  created_at: 2022-01-02 12:00:01

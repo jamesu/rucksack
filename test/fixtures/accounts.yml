@@ -1,5 +1,5 @@
 main_account:
   id: 1
-  owner_id: 1
-  site_name: "Test"
+  owner: main_user
+  site_name: "Test Account"
   host_name: "localhost"

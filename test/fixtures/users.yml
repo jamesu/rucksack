@@ -1,5 +1,4 @@
 main_user:
-  id: 1
   username: test
   email: test@localhost
   #password: testing

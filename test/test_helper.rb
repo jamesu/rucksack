@@ -8,7 +8,7 @@ class ActiveSupport::TestCase
   parallelize(workers: :number_of_processors)
 
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  fixtures :all
+  fixtures %w{users accounts albums emails album_pictures pages uploaded_files separators journals list_items lists tags reminders page_slots notes application_logs statuses}
 
   # Add more helper methods to be used by all tests here...
 end
