@@ -201,7 +201,7 @@ export default class extends Controller
   }
 
   buildUrl(resource_url) {
-    if (this.ID != null)
+    if (this.ID != null && !resource_url.includes('/pages/' + this.ID))
       return '/pages/' + this.ID + resource_url;
     else
       return resource_url;
@@ -578,11 +578,14 @@ export default class extends Controller
     evt.preventDefault();
     var el = $(evt.target);
     var cur = el;
+    console.log("HANDLE SLOT HOVER", el[0]);
 
     var root = el.closest('.pageSlotHandle');
 
     var url_element = root.parents(root.attr('restype')).first();
     var url = url_element.attr('url');
+
+    console.log(this.buildUrl(url + '/edit'));
 
     if (el.hasClass('slot_delete') && confirm("Are you sure you want to delete this item?"))
     {
