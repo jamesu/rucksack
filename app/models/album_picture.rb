@@ -1,5 +1,5 @@
 #==
-# Copyright (C) 2008 James S Urquhart
+# Copyright (C) 2008-2023 James S Urquhart
 # Portions Copyright (C) 2009 Qiushi He
 # 
 # Permission is hereby granted, free of charge, to any person

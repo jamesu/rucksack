@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #==
-# Copyright (C) 2008 James S Urquhart
+# Copyright (C) 2008-2023 James S Urquhart
 # 
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
