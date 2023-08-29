@@ -56,19 +56,19 @@ class Account < ApplicationRecord
 
   Colours = ['header', 'tab_background', 'tab_text', 'tab_background_hover', 'tab_text_hover', 'page_header', 'page_header_text']
 
-  Colours.each do |colour|
-    define_method("#{colour}_colour") do
-      value = self.get_setting("#{colour}_colour")
+  Colours.each do |key|
+    define_method("#{key}_colour") do
+      value = self.get_setting("#{key}_colour")
       return value if value != nil && value.length > 0
-      return self.send("default_#{colour}_colour")
+      return self.send("default_#{key}_colour")
     end
 
-    define_method("#{colour}_colour=") do |value|
-      self.set_setting("#{colour}_colour", value)
+    define_method("#{key}_colour=") do |value|
+      self.set_setting("#{key}_colour", value)
     end
 
-    define_method("default_#{colour}_colour") do 
-      case colour
+    define_method("default_#{key}_colour") do 
+      case key
       when "header"
         "#007700"
       when "tab_background"
@@ -83,8 +83,6 @@ class Account < ApplicationRecord
         ""
       end
     end
-
-    #attr_accessible "#{colour}_colour"
   end
 
   # Settings Serialization
@@ -96,6 +94,16 @@ class Account < ApplicationRecord
     hash = self.settings_hash
     hash[key] = value
     self.settings = YAML.dump(hash)
+  end
+
+  def set_defaults
+    Colours.each do |key|
+      set_setting("#{key}_colour", self.send("default_#{key}_colour".to_sym))
+    end
+  end
+
+  def self.setting_fields
+    Colours.map{ |c| "#{c}_colour".to_sym }
   end
 
   def settings_hash

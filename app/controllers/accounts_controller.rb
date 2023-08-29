@@ -57,7 +57,7 @@ class AccountsController < ApplicationController
 protected
 
   def account_params
-    params[:account].nil? ? {} : params[:account].permit(:site_name, :host_name)
+    params[:account].nil? ? {} : params[:account].permit(:site_name, :host_name, *Account.setting_fields)
   end
 
   def authorized?(action = action_name, resource = nil)

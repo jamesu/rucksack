@@ -3,3 +3,9 @@ main_account:
   owner: main_user
   site_name: "Test Account"
   host_name: "localhost"
+
+other__account:
+  id: 2
+  owner: normal_user
+  site_name: "Normal Account"
+  host_name: "localhost"
