@@ -25,7 +25,7 @@ In addition there are a few complimentary features, namely:
 
 ## What does it look like?
 
-<a href="http://cloud.github.com/downloads/jamesu/rucksack/rcks-example-th.png"><img src="http://cloud.github.com/downloads/jamesu/rucksack/rcks-example.png" alt="Rucksack Screenshot"/></a>
+Currently there are no included screenshots... but if you have an imagination, you can imagine it as a web app with tabs, with the main interactive element being a page you can insert content into.
 
 ## What about a demo?
 
@@ -43,10 +43,9 @@ You can do this by typing in the following command:
 
     script/setup
 
-Next, run it either by pointing Phusion Passenger to the 
-public folder, or run the local server, e.g.:
+To run it, refer to your favorite rails setup guide. If you need a simple development instance, executing the following should work:
 
-    script/rails server
+    script/rails server -p <port>
 
 Finally, login. The default credentials are:
 
@@ -58,5 +57,8 @@ Finally, login. The default credentials are:
 The most likely explanation is that the database schema has been updated. You'll need to type in the following command to resolve this:
 
     rake db:migrate
+
+Also note that if you are migrating from the rails 4 version of rucksack, there is currently no migration for file data as it has been refactored to use ActiveStorage.
+
 
 Have fun!
