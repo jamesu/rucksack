@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_28_175127) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_02_210635) do
   create_table "accounts", force: :cascade do |t|
     t.integer "owner_id", limit: 10, null: false
     t.datetime "created_at", precision: nil
@@ -18,6 +18,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_28_175127) do
     t.string "site_name", limit: 255, default: "", null: false
     t.string "host_name", default: "", null: false
     t.text "settings"
+  end
+
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|

@@ -10,4 +10,4 @@
   - if empty_note
     .pageNoteContent{'hover_handle' => hover_handle}= t('empty_note')
   - else
-    .pageNoteContent!= textilize object.content, false, {'hover_handle' => hover_handle}
+    .pageNoteContent{'hover_handle' => hover_handle}= object.rich_content

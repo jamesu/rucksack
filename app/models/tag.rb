@@ -39,13 +39,13 @@ class Tag < ApplicationRecord
   end
 
   def self.find_objects(tag_name, page)
-    Tag.where({'name' => tag_name, 'page_id' => page}).collect do |tag|
+    Tag.where({name: tag_name, page_id: page}).collect do |tag|
       tag.rel_object
     end
   end
 
   def self.clear_by_object(object)
-    Tag.where({'rel_object_type' => object.class.to_s, 'rel_object_id' => object.id}).delete_all()
+    Tag.where({rel_object_type: object.class.to_s, rel_object_id: object.id}).delete_all()
   end
 
   def self.set_to_object(object, taglist, force_user=0)
@@ -62,23 +62,23 @@ class Tag < ApplicationRecord
   end
 
   def self.list_by_object(object)
-    Tag.where({'rel_object_type' => object.class.to_s, 'rel_object_id' => object.id}).collect do |tag|
+    Tag.where({rel_object_type: object.class.to_s, rel_object_id: object.id}).collect do |tag|
       tag.name
     end
   end
 
   def self.list_in_page(page)
-    Tag.where({'page_id' => page}).group('name').collect do |tag|
+    Tag.where({page_id: page}).group('name').collect do |tag|
       tag.name
     end
   end
 
   def self.count_by(tag_name, page)
     tag_conditions = is_public ? 
-    ["project_id = ? AND is_private = ? AND tag = ?", project.id, false, tag_name] :
-    ["project_id = ? AND tag = ?", project.id, tag_name]
+    {project_id: project.id, is_private: false, tag: tag_name} :
+    {project_id: project.id, tag: tag_name}
 
-    Tag.where({'name' => tag_name, 'page_id' => page}).count
+    Tag.where({name: tag_name, page_id: page}).count
   end
 
   def self.find_object_join(model)

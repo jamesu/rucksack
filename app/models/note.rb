@@ -27,6 +27,7 @@
 class Note < ApplicationRecord
   belongs_to :page
   has_one :page_slot, as: :rel_object
+  has_rich_text :rich_content
 
   has_many :application_logs, as: :rel_object, dependent: :nullify
 

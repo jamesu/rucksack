@@ -14,10 +14,10 @@
   %input{:type => 'hidden', :name => 'is_new', :value => '0'}
 
   %div
-    != text_field 'note', 'title', :id => 'noteFormTitle', :class => 'autofocus long'
+    != text_field 'note', 'title', :class => 'noteFormTitle', :class => 'autofocus long'
   %div
     %label{:for => 'noteFormTitle'}
-    != text_area 'note', 'content', :id => 'noteFormContent', :rows => 8, :class => 'long'
+    != rich_text_area 'note', 'rich_content', :class => 'noteFormContent long', :rows => 8
   %div
     != check_box('note', 'show_date')
     %label.check{:for => 'noteFormShowDate'}= "Show date in title"

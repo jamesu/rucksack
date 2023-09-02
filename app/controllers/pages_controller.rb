@@ -357,7 +357,7 @@ class PagesController < ApplicationController
     return error_status(true, :cannot_edit_page) unless (@page.can_be_edited_by(@logged_user))
     
     if params.has_key?(:page) and page_params.has_key?(:width)
-      @saved = @page.update_attribute('width', page_params[:width].to_i || 400)
+      @saved = @page.update_attribute('width', page_params[:width].to_i || 800)
     end
     
     respond_to do |format|

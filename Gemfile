@@ -13,6 +13,8 @@ gem 'activemodel-serializers-xml'
 
 gem 'actionpack-page_caching'
 
+gem 'actiontext'
+
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
