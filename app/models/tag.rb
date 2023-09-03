@@ -83,12 +83,4 @@ class Tag < ApplicationRecord
 
     Tag.where({name: tag_name, page_id: page}).count
   end
-
-  def self.find_object_join(model)
-    "INNER JOIN tags ON tags.rel_object_type = '#{model.to_s}' AND tags.rel_object_id = #{model.table_name}.id"
-  end
-
-  def self.find_page_join
-    'INNER JOIN tags ON tags.page_id = pages.id'
-  end
 end

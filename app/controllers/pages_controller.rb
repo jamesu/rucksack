@@ -40,12 +40,12 @@ class PagesController < ApplicationController
     
     search
 
-    if @find_opts.nil? or [:html, :js].include?(request.format.to_sym)
+    if @search_query.nil? or [:html, :js].include?(request.format.to_sym)
       @pages = @user.pages.sorted_list
       @shared_pages = @user.shared_pages.sorted_list
     else
-      @pages = @user.pages.sorted_list.all.where(@find_opts[:conditions]).joins(@find_opts[:joins]).group("pages.id HAVING COUNT(tags.id) = #{params[:tags].length}").all
-      @shared_pages = @user.shared_pages.sorted_list.where(@find_opts[:conditions]).all
+      @pages = @search_query.group("pages.id HAVING COUNT(tags.id) = #{params[:tags].length}").all
+      @shared_pages = @search_query_shared.all
     end
     
     @content_for_sidebar = 'page_sidebar'
@@ -392,15 +392,15 @@ protected
       logged_in?
     end
   end
-  
+
   def search
     @find_opts = nil
     if !params[:tags].nil? and params[:tags].class == Array
       @search_tags = params[:tags]
-      @find_opts = {:conditions => ['tags.name IN (?)', params[:tags]],
-                    :joins => Tag.find_object_join(Page),
-                    :group => "pages.id HAVING COUNT(tags.id) = #{params[:tags].length}"}
-      
+      @search_query = @logged_user.pages.sorted_list.joins(:linked_tags).where('tags.name' => params[:tags]).group("pages.id HAVING COUNT(tags.id) = #{params[:tags].length}")
+      @search_query_shared = @logged_user.shared_pages.sorted_list.joins(:linked_tags).where('tags.name' => params[:tags]).group("pages.id HAVING COUNT(tags.id) = #{params[:tags].length}")
+      #puts @search_query.to_sql
+      #puts @search_query_shared.to_sql
       @avail_tags = Tag.list_in_page(nil) - @search_tags
     else
       @avail_tags = Tag.list_in_page(nil)
