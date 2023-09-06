@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_02_210635) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_05_201648) do
   create_table "accounts", force: :cascade do |t|
     t.integer "owner_id", limit: 10, null: false
     t.datetime "created_at", precision: nil
@@ -120,6 +120,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_02_210635) do
     t.string "content", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
+    t.datetime "original_start"
+    t.datetime "start_date"
+    t.datetime "done_date"
+    t.integer "seconds", default: 0
+    t.integer "seconds_limit"
     t.index ["user_id"], name: "index_journals_on_user_id"
   end
 

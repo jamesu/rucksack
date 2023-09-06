@@ -43,12 +43,12 @@
         != render :partial => 'layouts/tabs'
       
       #outerWrapper{'data-controller' => 'page'}
-        #innerWrapper.totalPageWidth
+        #innerWrapper.totalPageWidth{:class => controller_name}
           -# Displays general alerts
           = status_bar
           
           #pageContent
-            #content
+            #content{:class => controller_name}
               #pageTools
                 - if @page.can_be_edited_by(@logged_user)
                   -# Really need to clean this up!

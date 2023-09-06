@@ -145,6 +145,38 @@ class JournalsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  # Time management
+  
+  def restart_timer
+    @cloned_journal = @user.journals.build()
+    @cloned_journal.clone_from(@journal)
+    @journal = @cloned_journal
+    
+    respond_to do |f|
+      if @journal.save
+        f.html{ flash.now[:info] = t('response.entry_cloned'); redirect_to(journals_path) }
+        f.js { render :action => :create }
+      else
+        f.html{ flash.now[:info] = t('response.error'); render :action => :edit }
+      end
+    end
+  end
+  
+  def stop_timer
+    return error_status(true, :cannot_edit_journal) if (@journal.start_date.nil? or @journal.done?)
+    @journal.quick_update = true
+    @journal.stop_timer
+    
+    respond_to do |f|
+      if @journal.save
+        f.html{ flash.now[:info] = t('response.entry_stopped'); redirect_to(journals_path) }
+        f.js { render :action => :update }
+      else
+        f.html{ flash.now[:info] = t('response.error'); render :action => :edit }
+      end
+    end
+  end
   
 protected
 

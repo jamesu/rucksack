@@ -30,7 +30,7 @@ class Tag < ApplicationRecord
   belongs_to :page, optional: true
   belongs_to :created_by, class_name: 'User', foreign_key: 'created_by_id'
 
-  belongs_to :rel_object, :polymorphic => true
+  belongs_to :rel_object, :polymorphic => true, touch: false
 
   #attr_accessible :name, :page_id, :rel_object, :created_by
 
@@ -45,15 +45,18 @@ class Tag < ApplicationRecord
   end
 
   def self.clear_by_object(object)
-    Tag.where({rel_object_type: object.class.to_s, rel_object_id: object.id}).delete_all()
+    Tag.unscoped.where({rel_object_type: object.class.to_s, rel_object_id: object.id}).delete_all()
   end
 
   def self.set_to_object(object, taglist, force_user=0)
-    self.clear_by_object(object)
+    if !object.new_record?
+      self.clear_by_object(object)
+    end
 
-    page_id = (object.class == Page) ? nil : object.page_id
+    page_id = (object.class == Page || object.class == Journal) ? nil : object.page_id
     set_user = force_user == 0 ? (object.updated_by.nil? ? object.created_by : object.updated_by) : force_user
 
+    puts "TAG STARTING TRANSACTION FOR SOME REASON? NEW RECORD=#{object.new_record?}"
     Tag.transaction do
       taglist.each do |tag_name|
         Tag.create!(:name => tag_name.strip, :page_id => page_id, :rel_object => object, :created_by => set_user)

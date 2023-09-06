@@ -31,12 +31,12 @@
         != render :partial => 'layouts/tabs'
       
       #outerWrapper{'data-controller' => 'page'}
-        #innerWrapper.totalPageWidth
+        #innerWrapper.totalPageWidth{:class => controller_name}
           -# Displays general alerts
           = status_bar
           
           #pageContent
-            #content
+            #content{:class => controller_name}
               #innerContent
                 - if @no_page_tile.nil?
                   %h1= h @page_title

@@ -31,6 +31,8 @@ export default class extends Controller
     this.staticBoundEvents = [];
     this.dynamicBoundEvents = [];
     this.listItemSortables = null;
+
+    this.activeTimers = [];
   }
 
   connect() {
@@ -115,6 +117,7 @@ export default class extends Controller
   disconnect() {
     this.clearDynamicEvents();
     this.clearStaticEvents();
+    this.clearTimers();
 
     window.Page = null;
   }
@@ -140,6 +143,18 @@ export default class extends Controller
 
   endJournalEntries() {
     $("#userJournalsMore").remove();
+  }
+
+  completeTimer(timerID) {
+    RucksackHelpers.put(this.buildUrl('/journals/' + timerID + '/stop_timer'), {}, null);
+  }
+
+  replaceJournalEntry(elementID, content) {
+    $(elementID).replaceWith(content);
+  }
+
+  clearTimers() {
+
   }
 
   stopSortingWrappedElements(item) {
@@ -699,9 +714,12 @@ export default class extends Controller
 
       // User list
     this.bindDynamicEvent($('#userList .userDelete'), 'click', this.onUserDelete.bind(this));
+
+    // Journal time
+    this.bindDynamicEvent($('.journalEntry .entryTime.active'), 'click', (evt) => { this.completeTimer($(evt.target).parents('.journalEntry').first().attr('journal_id')); } );
   }
 
-    // Handlers
+  // Handlers
 
   handleAddList(evt) {
     evt.preventDefault();

@@ -34,7 +34,12 @@ Rucksack::Application.routes.draw do
   end
   
   resource :status
-  resources :journals
+  resources :journals do
+    member do
+      put :stop_timer
+      put :restart_timer
+    end
+  end
   
   resources :users do
                                   

@@ -126,6 +126,10 @@ form div {
   width: 600px;
 }
 
+.totalPageWidth.journals {
+  width: 800px;
+}
+
 #header {
   margin: 0pt auto;
   /* width: 600px; */
@@ -202,6 +206,10 @@ form div {
   border-right: 2px solid #bbbbbb;
   border-bottom: 2px solid #bbbbbb;
   margin: 0px;
+}
+
+#content.journals {
+  width: 800px;
 }
 
 /* sidebar floats right in the main box */
@@ -859,10 +867,78 @@ ul.userJournalList, #userJournals ul {
   padding-left: 20px;
 }
 
-.journalEntry span {
+.journalEntry {
+  font-size: 12px;
+  color: black;
+  // flex
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px dashed rgb(200,200,200);
+}
+
+.journalEntry .pageSlotHandle {
+  top: -12px;
+}
+
+.journalEntry .content {
+  flex: 1; /* Grow to take available space */
+}
+
+.journalEntry span.journalTimestamp {
   font-style: italic;
   font-size: 10px;
   color: #999999;
+  margin-left: 8px;
+}
+
+.journalEntry span.journalTag {
+  color: #fff;
+  font-weight: bold;
+  background-color: rgb(255,150,20);
+  border: 1px solid rgb(255,150,20);
+  border-radius: 6px;
+  padding-left: 2px;
+  padding-right: 2px;
+  cursor: pointer;
+}
+
+.journalEntry span.journalTime {
+  color: #fff;
+  font-style: normal;
+  font-size: 12px;
+  background-color: rgb(255,100,100); 
+  border: 1px solid rgb(255,100,100);
+  border-radius: 6px;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.journalEntry span.entryTime {
+  color: white;
+  border-radius: 6px;
+  padding-left: 2px;
+  padding-right: 2px;
+  margin-left: 8px;
+}
+
+
+.journalEntry span.entryTime.done {
+  background-color: #438633;
+  border: 1px dashed white;
+}
+
+.journalEntry span.entryTime.active {
+  background-color: rgb(255,20,150);
+  border: 1px dashed white;
+  cursor: pointer;
+}
+
+.userJournalsList {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
 }
 
 .sidebarBlock {

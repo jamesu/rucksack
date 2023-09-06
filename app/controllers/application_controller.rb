@@ -54,10 +54,12 @@ protected
     # Construct a reply with a relevant error
     respond_to do |format|
         format.html { redirect_back_or_default('/') }
-        format.js { render(:update) do |page| 
-                      page.replace_html('statusBar', h(flash[:message]))
-                      page.show 'statusBar'
-                    end }
+        format.js { render(:update) 
+                    # TOFIX do |page| 
+                    #  page.replace_html('statusBar', h(flash[:message]))
+                    #  page.show 'statusBar'
+                    #end 
+                  }
         format.xml  { head(error ? :unprocessable_entity : :ok) }
     end
   end
