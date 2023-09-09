@@ -1,9 +1,9 @@
-.journalEntry{:id => "journal_#{journal.id}", :journal_id => journal.id, :url => journal_path(journal), :hover_handle => "journal_handle_#{journal.id}"}
+.journalEntry{id: "journal_#{journal.id}", journal_id: journal.id, url: journal_path(journal), hover_handle: "journal_handle_#{journal.id}"}
   - if journal.can_be_edited_by(@logged_user)
     = page_handle widget_options(journal), "journal_handle_#{journal.id}", '.journalEntry', 'pageSlotHandle'
   .content
     != journal.content_html
   - if !journal.start_date.nil?
-    %span.entryTime{:class => journal.done? ? 'done' : 'active', :start_date => journal.start_date.utc.iso8601}= friendly_time(journal.current_time.floor, journal.done?)
+    %span.entryTime{class: journal.done? ? 'done' : 'active', start_date: journal.start_date.utc.iso8601}= friendly_time(journal.current_time.floor, journal.done?)
   %span.journalTimestamp= fancy_journal_time(journal.created_at)
   

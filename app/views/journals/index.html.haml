@@ -8,18 +8,18 @@
   
   #userStatus
     #user_status.inner!= textilize h(@status.content)
-    #user_status_form.form{:style => 'display:none'}= render :partial => 'statuses/form', :object => @status
+    #user_status_form.form{style: 'display:none'}= render partial: 'statuses/form', object: @status
 
 #userJournal
   .inner
-    = form_tag user_journals_path(@user), :remote => true do
-      %label{:for => 'journalContent'}= t('add_entry')
-      = text_field 'journal', 'content', :class => 'long', :id => 'journalContent'
+    = form_tag user_journals_path(@user), remote: true do
+      %label{for: 'journalContent'}= t('add_entry')
+      = text_field 'journal', 'content', class: 'long', id: 'journalContent'
 
 #userJournals
-  = render :partial => 'list', :collection => @grouped_journals
+  = render partial: 'list', collection: @grouped_journals
 
 - if @journals.length >= 25
-  #userJournalsMore.hint{:from => @journals.last.id}
-    %a{:href => '#'}= t('display_x_more_entries', :num => 25)
+  #userJournalsMore.hint{from: @journals.last.id}
+    %a{href: '#'}= t('display_x_more_entries', num: 25)
     = loader_icon

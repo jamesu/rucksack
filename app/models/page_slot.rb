@@ -25,7 +25,7 @@
 
 class PageSlot < ApplicationRecord
   belongs_to :page
-  belongs_to :rel_object, :polymorphic => true
+  belongs_to :rel_object, polymorphic: true
 
   #attr_accessible :page, :position, :rel_object
 

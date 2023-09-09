@@ -1,12 +1,12 @@
 !!! Strict
 %html
   %head
-    %meta{ 'http-equiv' => 'content-type', :content => 'text/html;charset=UTF-8'}/
-    %meta{ 'name' => 'viewport', :content => 'width=device-width,initial-scale=1'}/
+    %meta{ 'http-equiv' => 'content-type', content: 'text/html;charset=UTF-8'}/
+    %meta{ 'name' => 'viewport', content: 'width=device-width,initial-scale=1'}/
     - if @page.can_be_edited_by @logged_user
       %link{ 'rel' => 'alternate', 'type' => 'application/x-wiki', 'title' => t('edit'), 'href' => @page.object_url}/
     - else
-      %meta{ :name => 'page-readonly', :content => 'true' }
+      %meta{ name: 'page-readonly', content: 'true' }
     %title= "#{site_name} - #{h(@page.title)}"
     
     = stylesheet_link_tag 'pages'
@@ -14,60 +14,60 @@
       - @additional_stylesheets.each do |ss|
         = stylesheet_link_tag ss
     
-    = auto_discovery_link_tag(:rss, {:controller => 'pages', :action => 'show', :id => @page.id, :format => 'rss'})
+    = auto_discovery_link_tag(:rss, {controller: 'pages', action: 'show', id: @page.id, format: 'rss'})
 
     = javascript_importmap_tags
     
-    %meta{ :name => 'page-type', :content => 'page' }
-    %meta{ :name => 'page-id', :content => @page.id }
-    %meta{ :name => 'page-width', :content => @page.width }
+    %meta{ name: 'page-type', content: 'page' }
+    %meta{ name: 'page-id', content: @page.id }
+    %meta{ name: 'page-width', content: @page.width }
 
     = csrf_meta_tags
     = csp_meta_tag
     = javascript_tag yield(:js_templates)
     
-    %style{:type => 'text/css'}!= ".totalPageWidth { width: #{@page.width+200}px; }\n#content { width: #{@page.width}px; }"
+    %style{type: 'text/css'}!= ".totalPageWidth { width: #{@page.width+200}px; }\n#content { width: #{@page.width}px; }"
     
-    %style{:type => 'text/css'}!= "#tabsWrapper ul li a { color: #{site_account.tab_text_colour}; background: #{site_account.tab_background_colour}; }"
-    %style{:type => 'text/css'}!= "#tabsWrapper ul li a:hover { color: #{site_account.tab_text_hover_colour}; background: #{site_account.tab_background_hover_colour}; }"
-    %style{:type => 'text/css'}!= "#header { background: #{site_account.header_colour}; }"
-    %style{:type => 'text/css'}!= "#pageTools, #pageInsertItemsBar { background-color: #{site_account.page_header_colour}; }"
-    %style{:type => 'text/css'}!= "#pageTools, #pageTools a { color: #{site_account.page_header_text_colour}; }"
-    %style{:type => 'text/css'}!= "#pageTools a:hover { color: white; }"
-    %style{:type => 'text/css'}!= "#pageInsertItemsBar, #pageInsertItemsBar a { color: #{site_account.page_header_text_colour}; }"
+    %style{type: 'text/css'}!= "#tabsWrapper ul li a { color: #{site_account.tab_text_colour}; background: #{site_account.tab_background_colour}; }"
+    %style{type: 'text/css'}!= "#tabsWrapper ul li a:hover { color: #{site_account.tab_text_hover_colour}; background: #{site_account.tab_background_hover_colour}; }"
+    %style{type: 'text/css'}!= "#header { background: #{site_account.header_colour}; }"
+    %style{type: 'text/css'}!= "#pageTools, #pageInsertItemsBar { background-color: #{site_account.page_header_colour}; }"
+    %style{type: 'text/css'}!= "#pageTools, #pageTools a { color: #{site_account.page_header_text_colour}; }"
+    %style{type: 'text/css'}!= "#pageTools a:hover { color: white; }"
+    %style{type: 'text/css'}!= "#pageInsertItemsBar, #pageInsertItemsBar a { color: #{site_account.page_header_text_colour}; }"
   %body#body
     #wrapper
       
       -# Top of page (tabs, user box, etc)
       #header
-        != render :partial => 'layouts/tabs'
+        != render partial: 'layouts/tabs'
       
       #outerWrapper{'data-controller' => 'page'}
-        #innerWrapper.totalPageWidth{:class => controller_name}
+        #innerWrapper.totalPageWidth{class: controller_name}
           -# Displays general alerts
           = status_bar
           
           #pageContent
-            #content{:class => controller_name}
+            #content{class: controller_name}
               #pageTools
                 - if @page.can_be_edited_by(@logged_user)
                   -# Really need to clean this up!
                   #pageResizeHandle
-                  %div!= "#{t('add_to_page')} <span> #{ Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s} atTop\" href=\"#\">#{t(widget.name)}</a>"}.to_sentence(:words_connector => ", ", :last_word_connector => " #{t('cn_or')} ") }</span>"
-              .pageHeader{:url => @page.object_url}
+                  %div!= "#{t('add_to_page')} <span> #{ Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s} atTop\" href=\"#\">#{t(widget.name)}</a>"}.to_sentence(words_connector: ", ", last_word_connector: " #{t('cn_or')} ") }</span>"
+              .pageHeader{url: @page.object_url}
                 = @page.can_be_edited_by(@logged_user) ? page_handle([ ['edit', t('edit')] ], 'page_header_handle', '.pageHeader', 'pageSlotHandle') : ''
                 
                 #page_header.inner
                   %h1
                     %span{'hover_handle' => 'page_header_handle'}= h @page.title
-                #page_header_form.pageHeaderForm{:style => 'display: none'}
+                #page_header_form.pageHeaderForm{style: 'display: none'}
                 
               -# Content
               = yield
             
             #sidebar
-              = render :partial => (@content_for_sidebar.nil? ? 'layouts/blank_sidebar' : @content_for_sidebar )
+              = render partial: (@content_for_sidebar.nil? ? 'layouts/blank_sidebar' : @content_for_sidebar )
             
-            %div{:style => 'clear:both'}
+            %div{style: 'clear:both'}
           
-        = render :partial => 'layouts/footer'
+        = render partial: 'layouts/footer'

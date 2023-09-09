@@ -35,7 +35,7 @@ class AlbumPicturesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @album_pictures }
+      format.xml  { render xml: @album_pictures }
     end
   end
 
@@ -57,7 +57,7 @@ class AlbumPicturesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.js
-      format.xml  { render :xml => @album_picture }
+      format.xml  { render xml: @album_picture }
     end
   end
 
@@ -71,7 +71,7 @@ class AlbumPicturesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @album_picture }
+      format.xml  { render xml: @album_picture }
     end
   end
 
@@ -97,12 +97,12 @@ class AlbumPicturesController < ApplicationController
       if @album_picture.save
         flash[:notice] = 'AlbumPicture was successfully created.'
         format.html { redirect_to(@album.page) }
-        format.js { render :action => 'create' }
-        format.xml  { render :xml => @album_picture, :status => :created, :location => page_album_album_picture_path(:page_id => @page.id, :album_id => @album.id, :id => @album_picture.id) }
+        format.js { render action: 'create' }
+        format.xml  { render xml: @album_picture, status: :created, location: page_album_album_picture_path(page_id: @page.id, album_id: @album.id, id: @album_picture.id) }
       else
-        format.html { render :action => "new" }
+        format.html { render action: "new" }
         format.js
-        format.xml  { render :xml => @album_picture.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @album_picture.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -119,12 +119,12 @@ class AlbumPicturesController < ApplicationController
       if @album_picture.update(picture_params)
         flash[:notice] = 'AlbumPicture was successfully updated.'
         format.html { redirect_to(@album.page) }
-        format.js  { render :action => 'update' }
+        format.js  { render action: 'update' }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render action: "edit" }
         format.js
-        format.xml  { render :xml => @album_picture.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @album_picture.errors, status: :unprocessable_entity }
       end
     end
   end

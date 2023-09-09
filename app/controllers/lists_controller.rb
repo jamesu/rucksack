@@ -25,7 +25,7 @@
 
 class ListsController < ApplicationController
   before_action :grab_page
-  before_action :load_list, :except => [:index, :new, :create]
+  before_action :load_list, except: [:index, :new, :create]
 
   protect_from_forgery except: [:index, :show, :new, :edit]
     
@@ -36,7 +36,7 @@ class ListsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @lists }
+      format.xml  { render xml: @lists }
     end
   end
 
@@ -46,7 +46,7 @@ class ListsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.js
-      format.xml  { render :xml => @list }
+      format.xml  { render xml: @list }
     end
   end
 
@@ -59,7 +59,7 @@ class ListsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @list }
+      format.xml  { render xml: @list }
     end
   end
 
@@ -92,11 +92,11 @@ class ListsController < ApplicationController
         flash[:notice] = 'List was successfully created.'
         format.html { redirect_to(@list) }
         format.js {}
-        format.xml  { render :xml => @list, :status => :created, :location => page_list_path(:page_id => @page.id, :id => @list.id) }
+        format.xml  { render xml: @list, status: :created, location: page_list_path(page_id: @page.id, id: @list.id) }
       else
-        format.html { render :action => "new" }
+        format.html { render action: "new" }
         format.js {}
-        format.xml  { render :xml => @list.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @list.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -115,9 +115,9 @@ class ListsController < ApplicationController
         format.js {}
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render action: "edit" }
         format.js {}
-        format.xml  { render :xml => @list.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @list.errors, status: :unprocessable_entity }
       end
     end
   end

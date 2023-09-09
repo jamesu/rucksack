@@ -7,21 +7,21 @@
   - fmethod = :put
   - fid = 'pageAlbumForm'
 
-= form_tag( fpath, :method => fmethod, :class => fid) do
+= form_tag( fpath, method: fmethod, class: fid) do
   - if @album.nil? or @album.new_record?
     %h2= t('add_album')
   
-  %input{:type => 'hidden', :name => 'is_new', :value => '0'}
+  %input{type: 'hidden', name: 'is_new', value: '0'}
 
   %div
-    %label{:for => 'noteFormTitle'}= t('album_title')
-    != text_field 'album', 'title', :id => 'albumFormTitle', :class => 'autofocus long'
+    %label{for: 'noteFormTitle'}= t('album_title')
+    != text_field 'album', 'title', id: 'albumFormTitle', class: 'autofocus long'
   
   - if @album.nil? or @album.new_record?
-    %input#add_AlbumFormBefore{:type => 'hidden', :name=> 'position[before]', :value => '0'}/
-    %input#add_AlbumFormSlot{:type => 'hidden', :name=> 'position[slot]', :value => '0'}/
-    %button{:class => 'submit', :type => 'submit'}= t('create')
+    %input#add_AlbumFormBefore{type: 'hidden', :name=> 'position[before]', value: '0'}/
+    %input#add_AlbumFormSlot{type: 'hidden', :name=> 'position[slot]', value: '0'}/
+    %button{class: 'submit', type: 'submit'}= t('create')
   - else
-    %button{:class => 'submit', :type => 'submit'}= t('edit_album')
+    %button{class: 'submit', type: 'submit'}= t('edit_album')
   
-  %a{:href => '#', :class => 'cancel'}= t('cancel')
+  %a{href: '#', class: 'cancel'}= t('cancel')

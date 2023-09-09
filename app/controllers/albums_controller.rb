@@ -25,7 +25,7 @@
 
 class AlbumsController < ApplicationController
   before_action :grab_page
-  before_action :load_album, :except => [:index, :new, :create]
+  before_action :load_album, except: [:index, :new, :create]
   protect_from_forgery except: [:index, :show, :new, :edit]
     
   # GET /albums
@@ -35,7 +35,7 @@ class AlbumsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @albums }
+      format.xml  { render xml: @albums }
     end
   end
 
@@ -45,7 +45,7 @@ class AlbumsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.js
-      format.xml  { render :xml => @album }
+      format.xml  { render xml: @album }
     end
   end
 
@@ -58,7 +58,7 @@ class AlbumsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @album }
+      format.xml  { render xml: @album }
     end
   end
 
@@ -91,11 +91,11 @@ class AlbumsController < ApplicationController
         flash[:notice] = 'Album was successfully created.'
         format.html { redirect_to(@album) }
         format.js {}
-        format.xml  { render :xml => @album, :status => :created, :location => page_album_path(:page_id => @page.id, :id => @album.id) }
+        format.xml  { render xml: @album, status: :created, location: page_album_path(page_id: @page.id, id: @album.id) }
       else
-        format.html { render :action => "new" }
+        format.html { render action: "new" }
         format.js {}
-        format.xml  { render :xml => @album.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @album.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -114,9 +114,9 @@ class AlbumsController < ApplicationController
         format.js {}
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render action: "edit" }
         format.js {}
-        format.xml  { render :xml => @album.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @album.errors, status: :unprocessable_entity }
       end
     end
   end

@@ -42,6 +42,6 @@ class PageSweeper < ActionController::Caching::Sweeper
     if record.class != Page
       return unless record.page.is_public
     end
-    ActionController::Base.expire_page(:controller => 'pages', :action => 'public', :id => record.class == Page ? record.id : record.page_id)
+    ActionController::Base.expire_page(controller: 'pages', action: 'public', id: record.class == Page ? record.id : record.page_id)
   end
 end

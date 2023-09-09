@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   
   after_action  :user_track
   
-  before_action :save_user?, :only => :update
+  before_action :save_user?, only: :update
     
   # GET /users
   # GET /users.xml
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @users.to_xml }
+      format.xml  { render xml: @users.to_xml }
     end
   end
 
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(users_path) }
-      format.xml  { render :xml => @user.to_xml }
+      format.xml  { render xml: @user.to_xml }
     end
   end
 
@@ -66,7 +66,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @user.to_xml }
+      format.xml  { render xml: @user.to_xml }
     end
   end
 
@@ -109,7 +109,7 @@ class UsersController < ApplicationController
     
     saved = @user.save
     if saved
-      home_page = Page.new(:title => "#{@user.display_name.pluralize} page")
+      home_page = Page.new(title: "#{@user.display_name.pluralize} page")
       home_page.created_by = @user
       home_page.save
       @user.update_attribute('home_page', home_page)
@@ -119,10 +119,10 @@ class UsersController < ApplicationController
       if saved
         flash[:notice] = 'user was successfully created.'
         format.html { redirect_to(users_path) }
-        format.xml  { render :xml => @user.to_xml, :status => :created, :location => @user }
+        format.xml  { render xml: @user.to_xml, status: :created, location: @user }
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.xml  { render xml: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -160,8 +160,8 @@ class UsersController < ApplicationController
         format.html { redirect_to(users_path) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.xml  { render xml: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -186,7 +186,7 @@ class UsersController < ApplicationController
     @user = @logged_user
     return error_status(true, :cannot_edit_user) unless (@user.can_be_edited_by(@logged_user))
     
-    render :action => 'edit'
+    render action: 'edit'
   end  
  
   # GET /users/forgot_password 
@@ -195,7 +195,7 @@ class UsersController < ApplicationController
       when :post
         @your_email = params[:your_email]
         
-        user = User.where(:email => @your_email).where('account_id NOT NULL').first
+        user = User.where(email: @your_email).where('account_id NOT NULL').first
         if user.nil?
           error_status(false, :invalid_email_not_in_use, {}, false)
           return

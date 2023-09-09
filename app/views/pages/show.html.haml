@@ -7,63 +7,63 @@
   #pageWidgetForms
     - Page.widgets.each do |widget|
       - next if widget.form_partial.nil?
-      %div{:id => "add_#{widget.to_s}Form"}
-        = render :partial => widget.form_partial, :locals => {:widget => widget} unless widget.form_partial.nil?
+      %div{id: "add_#{widget.to_s}Form"}
+        = render partial: widget.form_partial, locals: {widget: widget} unless widget.form_partial.nil?
 
 - if @page.can_be_edited_by(@logged_user)
   #pageTagsWrapper
     %span.floatleft=t('tags')
     %ul#pageTags
-      = render :partial => 'tags/show', :collection => @page.tags_list
+      = render partial: 'tags/show', collection: @page.tags_list
     #pageTagsForm
     #pageEditTags
-      %a.edit{:href => '#'}= t('edit_tags')
+      %a.edit{href: '#'}= t('edit_tags')
 
 #slots.pageSlots
   -# Util widgets
-  #pageInsert{:style => 'display:none'}
+  #pageInsert{style: 'display:none'}
     %p#cpi= t('insert_here')
 
   #pageInsertItems
-    #pageInsertItemsBar{:style => 'display:none'}
+    #pageInsertItemsBar{style: 'display:none'}
       #pageInsertItemCancel
-        %a{:href => '#'}= t('cancel')
+        %a{href: '#'}= t('cancel')
       #pageInsertItemWidgets
         = "#{t('add_to_page')}:"
-        %span!= Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s}\" href=\"#\">#{t(widget.name.to_sym)}</a>"}.to_sentence(:words_connector => ", ", :last_word_connector => " #{t('cn_or')} ")
+        %span!= Page.widgets.collect { |widget| "<a class=\"add_#{widget.name.to_s}\" href=\"#\">#{t(widget.name.to_sym)}</a>"}.to_sentence(words_connector: ", ", last_word_connector: " #{t('cn_or')} ")
     
     #pageTablet
       #pageTabletContainer
     
   -# Core slots
   - @page.slots.with_widgets.each do |slot|
-    .pageSlot.dragPageElement{:id => "page_slot_#{slot.id}", :slot => slot.id}
-      = render :partial => 'slot', :locals => {:object => slot.rel_object, :page_slot => slot}
+    .pageSlot.dragPageElement{id: "page_slot_#{slot.id}", slot: slot.id}
+      = render partial: 'slot', locals: {object: slot.rel_object, page_slot: slot}
 
-  .pageSlot.pageFooter#page_slot_footer{:slot => -1}
+  .pageSlot.pageFooter#page_slot_footer{slot: -1}
 
 #pageOptions
   - if @page.can_be_favourited_by(@logged_user)
-    %a#pageSetFavourite{:href => '#', :style => (@page.is_favourite?(@user) ? 'display:none;' : nil)}= t('favourite')
-    %a#pageSetNotFavourite{:href => '#', :style => (@page.is_favourite?(@user) ? nil : 'display:none;')}= t('not_favourite')
+    %a#pageSetFavourite{href: '#', style: (@page.is_favourite?(@user) ? 'display:none;' : nil)}= t('favourite')
+    %a#pageSetNotFavourite{href: '#', style: (@page.is_favourite?(@user) ? nil : 'display:none;')}= t('not_favourite')
   
   - if @page.can_be_shared_by(@logged_user)
     |
-    !=  t(@page.is_shared? ? :page_is_shared : :page_is_not_shared, :link => link_to(t('change'), share_page_path(:id => @page.id)))
+    !=  t(@page.is_shared? ? :page_is_shared : :page_is_not_shared, link: link_to(t('change'), share_page_path(id: @page.id)))
   
   - if @page.can_be_duplicated_by(@logged_user)
     |
-    %a#pageDuplicate{:href => '#'}= t('duplicate_page')
+    %a#pageDuplicate{href: '#'}= t('duplicate_page')
   
   - if @page.can_be_deleted_by(@logged_user)
     |
-    %a#pageDelete{:href => '#'}= t('delete_page')
+    %a#pageDelete{href: '#'}= t('delete_page')
   
   - if @page.can_be_edited_by(@logged_user)
     %div
       #pageAddress
-        != t('email_page', :email => "#{@page.address}@#{Account.owner.host_name}")
+        != t('email_page', email: "#{@page.address}@#{Account.owner.host_name}")
         - if @logged_user.member_of_owner?
-          != "(#{link_to t('reset'), page_path(@page), :id => 'pageReset'})"
+          != "(#{link_to t('reset'), page_path(@page), id: 'pageReset'})"
   
 

@@ -27,7 +27,7 @@ class EmailsController < ApplicationController
   layout nil
   
   before_action :grab_page
-  before_action :load_email, :except => [:index, :new, :create]
+  before_action :load_email, except: [:index, :new, :create]
   protect_from_forgery except: [:index, :show, :new, :edit]
     
   # GET /emails
@@ -37,7 +37,7 @@ class EmailsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @emails }
+      format.xml  { render xml: @emails }
     end
   end
 
@@ -47,7 +47,7 @@ class EmailsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.js
-      format.xml  { render :xml => @email }
+      format.xml  { render xml: @email }
     end
   end
 
@@ -60,7 +60,7 @@ class EmailsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @email }
+      format.xml  { render xml: @email }
     end
   end
 
@@ -94,11 +94,11 @@ class EmailsController < ApplicationController
         flash[:notice] = 'email was successfully created.'
         format.html { redirect_to(@email) }
         format.js {}
-        format.xml  { render :xml => @email, :status => :created, :location => page_email_path(:page_id => @page.id, :id => @email.id) }
+        format.xml  { render xml: @email, status: :created, location: page_email_path(page_id: @page.id, id: @email.id) }
       else
-        format.html { render :action => "new" }
+        format.html { render action: "new" }
         format.js {}
-        format.xml  { render :xml => @email.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @email.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -117,9 +117,9 @@ class EmailsController < ApplicationController
         format.js {}
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render action: "edit" }
         format.js {}
-        format.xml  { render :xml => @email.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @email.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -145,7 +145,7 @@ class EmailsController < ApplicationController
     return error_status(true, :cannot_see_email) unless (@email.can_be_seen_by(@logged_user))
 
     respond_to do |format|
-      format.html { render :action => 'show' }
+      format.html { render action: 'show' }
     end
   end
 

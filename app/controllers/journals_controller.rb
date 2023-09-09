@@ -27,7 +27,7 @@ class JournalsController < ApplicationController
   layout 'pages'
   
   before_action :grab_user
-  before_action :load_journal, :except => [:index, :new, :create]
+  before_action :load_journal, except: [:index, :new, :create]
   
   protect_from_forgery except: [:index, :show, :new, :edit]
   
@@ -57,7 +57,7 @@ class JournalsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.js
-      format.xml  { render :xml => @journals }
+      format.xml  { render xml: @journals }
     end
   end
 
@@ -68,7 +68,7 @@ class JournalsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @journal }
+      format.xml  { render xml: @journal }
     end
   end
 
@@ -80,7 +80,7 @@ class JournalsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @journal }
+      format.xml  { render xml: @journal }
     end
   end
 
@@ -105,11 +105,11 @@ class JournalsController < ApplicationController
         flash[:notice] = 'Journal was successfully created.'
         format.html { redirect_to(@journal) }
         format.js
-        format.xml  { render :xml => @journal, :status => :created, :location => @journal }
+        format.xml  { render xml: @journal, status: :created, location: @journal }
       else
-        format.html { render :action => "new" }
+        format.html { render action: "new" }
         format.js {}
-        format.xml  { render :xml => @journal.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @journal.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -126,9 +126,9 @@ class JournalsController < ApplicationController
         format.js {}
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render action: "edit" }
         format.js {}
-        format.xml  { render :xml => @journal.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @journal.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -156,9 +156,9 @@ class JournalsController < ApplicationController
     respond_to do |f|
       if @journal.save
         f.html{ flash.now[:info] = t('response.entry_cloned'); redirect_to(journals_path) }
-        f.js { render :action => :create }
+        f.js { render action: :create }
       else
-        f.html{ flash.now[:info] = t('response.error'); render :action => :edit }
+        f.html{ flash.now[:info] = t('response.error'); render action: :edit }
       end
     end
   end
@@ -171,9 +171,9 @@ class JournalsController < ApplicationController
     respond_to do |f|
       if @journal.save
         f.html{ flash.now[:info] = t('response.entry_stopped'); redirect_to(journals_path) }
-        f.js { render :action => :update }
+        f.js { render action: :update }
       else
-        f.html{ flash.now[:info] = t('response.error'); render :action => :edit }
+        f.html{ flash.now[:info] = t('response.error'); render action: :edit }
       end
     end
   end

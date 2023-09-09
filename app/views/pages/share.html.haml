@@ -2,16 +2,16 @@
 - @user_navigation_items = user_tabs(nil)
 - @page_title = t('share_page')
 
-= form_tag share_page_path(:id => @page.id), :method => :post, :class => 'pageShareForm' do
+= form_tag share_page_path(id: @page.id), method: :post, class: 'pageShareForm' do
   != error_messages_for :page
   
   %div.pageShareSection
-    != check_box_tag 'page[is_public]', true, @page.is_public, :id => "pageSetPublic"
-    %label.check!= t('page_public', :link => link_to(public_page_url(@page), public_page_url(@page)))
+    != check_box_tag 'page[is_public]', true, @page.is_public, id: "pageSetPublic"
+    %label.check!= t('page_public', link: link_to(public_page_url(@page), public_page_url(@page)))
   
   %h2= t('share_by_email')
   %div.pageShareSection
-    != text_area 'page', 'shared_emails', :class => 'short', :rows => 10, :cols => 40, :id => 'pageShareEmail'
+    != text_area 'page', 'shared_emails', class: 'short', rows: 10, cols: 40, id: 'pageShareEmail'
     %p.desc= t('share_by_email_desc')
   
   %div.pageShareSection
@@ -22,11 +22,11 @@
         - next if user.id == @page.created_by_id
         %tr
           %td.userAvatar
-            %img{:src => user.gravatar_url(:size => 50)}
+            %img{src: user.gravatar_url(size: 50)}
           %td
             %label= h user.display_name
           %td
-            != check_box_tag 'page[shared_users][]', user.id, @page.shared_user_ids.include?(user.id), :id => "pageShareUser#{user.id}"
+            != check_box_tag 'page[shared_users][]', user.id, @page.shared_user_ids.include?(user.id), id: "pageShareUser#{user.id}"
   %div.pageShareSection
     != submit_tag t('update')
-    %a{:href => page_path(:id => @page.id)}= t('cancel') 
+    %a{href: page_path(id: @page.id)}= t('cancel') 

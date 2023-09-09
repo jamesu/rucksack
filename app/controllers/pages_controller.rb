@@ -28,8 +28,8 @@ class PagesController < ApplicationController
   layout :page_layout
   
   before_action :grab_user
-  before_action :load_page, :except => [:index, :new, :create, :reorder_sidebar, :current]
-  after_action  :user_track, :except => 'public'
+  before_action :load_page, except: [:index, :new, :create, :reorder_sidebar, :current]
+  after_action  :user_track, except: 'public'
 
   protect_from_forgery except: [:index, :show, :new, :edit, :tags]
     
@@ -53,7 +53,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.js
-      format.xml  { render :xml => @pages.to_xml(:in_list => true) }
+      format.xml  { render xml: @pages.to_xml(in_list: true) }
     end
   end
 
@@ -68,12 +68,12 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @page.to_xml }
+      format.xml  { render xml: @page.to_xml }
       format.rss { 
         conds = {'page_id' => @page.id}
         conds['is_private'] = false if !@logged_user.member_of_owner?
         @activity_log = ApplicationLog.where(conds).limit(params[:limit] || 50).order('created_on DESC').all
-        render :layout => false
+        render layout: false
       }
     end
   end
@@ -83,7 +83,7 @@ class PagesController < ApplicationController
     return error_status(true, :cannot_see_page) unless (@page.can_be_seen_by(@logged_user))
 
     respond_to do |format|
-      format.html { render :action => 'show' }
+      format.html { render action: 'show' }
     end
   end
 
@@ -96,7 +96,7 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @page }
+      format.xml  { render xml: @page }
     end
   end
 
@@ -120,12 +120,12 @@ class PagesController < ApplicationController
         format.js   { 
           @page = (!params[:active_page].nil? ? Page.find(params[:active_page]) : nil)
           @pages = [] if @page.nil? 
-          render :action => "favourite" 
+          render action: "favourite" 
         }
-        format.xml  { render :xml => @page, :status => :created, :location => @page }
+        format.xml  { render xml: @page, status: :created, location: @page }
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @page.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.xml  { render xml: @page.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -142,9 +142,9 @@ class PagesController < ApplicationController
         format.js { }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render action: "edit" }
         format.js { }
-        format.xml  { render :xml => @page.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @page.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -348,7 +348,7 @@ class PagesController < ApplicationController
     
     respond_to do |format|
       format.html { head :ok }
-      format.js { render :action => @view }
+      format.js { render action: @view }
       format.xml  { head :ok }
     end 
   end

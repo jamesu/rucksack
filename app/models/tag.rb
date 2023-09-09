@@ -30,7 +30,7 @@ class Tag < ApplicationRecord
   belongs_to :page, optional: true
   belongs_to :created_by, class_name: 'User', foreign_key: 'created_by_id'
 
-  belongs_to :rel_object, :polymorphic => true, touch: false
+  belongs_to :rel_object, polymorphic: true, touch: false
 
   #attr_accessible :name, :page_id, :rel_object, :created_by
 
@@ -59,7 +59,7 @@ class Tag < ApplicationRecord
     puts "TAG STARTING TRANSACTION FOR SOME REASON? NEW RECORD=#{object.new_record?}"
     Tag.transaction do
       taglist.each do |tag_name|
-        Tag.create!(:name => tag_name.strip, :page_id => page_id, :rel_object => object, :created_by => set_user)
+        Tag.create!(name: tag_name.strip, page_id: page_id, rel_object: object, created_by: set_user)
       end
     end
   end

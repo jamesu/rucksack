@@ -31,7 +31,7 @@ class SessionsController < ApplicationController
   # render new.rhtml
   def new
     @login_token = params[:token]
-    render :action => (@login_token.nil? ? 'new' : 'new_token')
+    render action: (@login_token.nil? ? 'new' : 'new_token')
   end
   
   def show
@@ -64,7 +64,7 @@ class SessionsController < ApplicationController
       @remember_me = params[:remember_me]
       @login_token = params[:token]
       @login_email = params[:token_email]
-      render :action => (@login_token.nil? ? 'new' : 'new_token')
+      render action: (@login_token.nil? ? 'new' : 'new_token')
     end
   end
 

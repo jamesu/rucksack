@@ -107,7 +107,7 @@ protected
   
   def public_auth
     # Make a temp anonymous user to check permissions
-    @logged_user = User.new(:display_name => 'Anonymous')
+    @logged_user = User.new(display_name: 'Anonymous')
     @logged_user.username = 'anonymous'
     @logged_user.is_anonymous = true
     return true

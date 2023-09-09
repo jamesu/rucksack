@@ -33,11 +33,11 @@ initial_host_name = ENV['RUCKSACK_HOST_NAME'] || 'localhost'
 
 # Ensure owner user exists
 initial_user = nil
-owner_user = User.where(:is_admin => true).first
+owner_user = User.where(is_admin: true).first
 if owner_user.nil?
   puts 'Creating owner user...'
-  initial_user = User.new(:display_name => initial_user_displayname,
-                          :email => initial_user_email)
+  initial_user = User.new(display_name: initial_user_displayname,
+                          email: initial_user_email)
 
   initial_user.username = initial_user_name
   initial_user.password = initial_user_password
@@ -51,7 +51,7 @@ if owner_user.nil?
 
     puts 'User already exists, attempting to reset...'
     # Try resetting the password
-    initial_user = User.where(:username => initial_user_name).first
+    initial_user = User.where(username: initial_user_name).first
     if initial_user.nil?
       raise Exception, "\nCouldn't create or reset the owner user!\n"
     else
@@ -62,7 +62,7 @@ if owner_user.nil?
     end
   else
     # Make home page
-    home_page = Page.new(:title => "Home Page")
+    home_page = Page.new(title: "Home Page")
     home_page.created_by = initial_user
     home_page.save
     initial_user.update_attribute('home_page', home_page)

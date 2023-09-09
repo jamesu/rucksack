@@ -24,8 +24,8 @@ class AddIndexes < ActiveRecord::Migration[4.2]
     add_index "tags", ["rel_object_id", "rel_object_type"]
     
     # Users
-    add_index "users", ["username"], :unique => true
-    add_index "users", ["email"], :unique => true
+    add_index "users", ["username"], unique: true
+    add_index "users", ["email"], unique: true
     add_index "users", ["account_id"]
   end
 

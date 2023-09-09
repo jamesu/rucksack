@@ -31,7 +31,7 @@ class TagsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @tags }
+      format.xml  { render xml: @tags }
     end
   end
 
@@ -42,7 +42,7 @@ class TagsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @tag }
+      format.xml  { render xml: @tag }
     end
   end
 end

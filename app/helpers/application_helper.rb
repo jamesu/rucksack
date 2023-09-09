@@ -52,11 +52,11 @@ module ApplicationHelper
   def checkbox_link(link, checked=false, hint=nil, attrs={})
     icon_url = path_to_image(checked ? "icons/checked.gif" : "icons/not-checked.gif")
 
-    link_to "<img src='#{icon_url}' alt='' />", link, attrs.merge({:method => :post, :class => 'checkboxLink', :title => ( hint.nil? ? '' : (html_escape hint) )})
+    link_to "<img src='#{icon_url}' alt='' />", link, attrs.merge({method: :post, class: 'checkboxLink', title: ( hint.nil? ? '' : (html_escape hint) )})
   end
 
   def render_icon(filename, alt, attrs={})
-    image_tag("icons/#{filename}.gif", attrs.merge(:alt => alt))
+    image_tag("icons/#{filename}.gif", attrs.merge(alt: alt))
   end
 
   def file_icon_for(filename, opts={})
@@ -86,7 +86,7 @@ module ApplicationHelper
 
         if remote
           extras[:url] = action[:url]
-          link_to_remote action[:name], extras, {:id => action[:id]}
+          link_to_remote action[:name], extras, {id: action[:id]}
         else
           extras[:onclick] = action[:onclick] if action.has_key? :onclick
           extras[:id] = action[:id] if action.has_key? :id
@@ -118,40 +118,40 @@ module ApplicationHelper
   end
 
   def yesno_toggle(object_name, method, options = {})
-    radio_button(object_name, method, "true", options.merge({:id => "#{options[:id]}Yes"})) +
+    radio_button(object_name, method, "true", options.merge({id: "#{options[:id]}Yes"})) +
     " <label for=\"#{options[:id]}Yes\" class=\"#{options[:class]}\">#{t('yesno_yes')}</label> ".html_safe +
-    radio_button(object_name, method, "false", options.merge({:id => "#{options[:id]}No"})) +
+    radio_button(object_name, method, "false", options.merge({id: "#{options[:id]}No"})) +
     " <label for=\"#{options[:id]}No\" class=\"#{options[:class]}\">#{t('yesno_no')}</label>".html_safe
   end
 
   def yesno_toggle_tag(name, is_yes, options = {})
-    radio_button_tag(name, "1", is_yes, options.merge({:id => "#{options[:id]}Yes"})) +
+    radio_button_tag(name, "1", is_yes, options.merge({id: "#{options[:id]}Yes"})) +
     " <label for=\"#{options[:id]}Yes\" class=\"#{options[:class]}\">#{t('yesno_yes')}</label> ".html_safe +
-    radio_button_tag(name, "0", !is_yes, options.merge({:id => "#{options[:id]}No"})) +
+    radio_button_tag(name, "0", !is_yes, options.merge({id: "#{options[:id]}No"})) +
     " <label for=\"#{options[:id]}No\" class=\"#{options[:class]}\">#{t('yesno_no')}</label>".html_safe
   end
 
   def common_tabs(current)
-    items = [{:id => :overview, :url => '/dashboard'},
-      {:id => :pages, :url => '/pages/current'},
-      {:id => :reminders, :url => '/reminders'},
-      {:id => :journal, :url => '/journals'}]
+    items = [{id: :overview, url: '/dashboard'},
+      {id: :pages, url: '/pages/current'},
+      {id: :reminders, url: '/reminders'},
+      {id: :journal, url: '/journals'}]
 
     @selected_navigation_item = current
     return items
   end
 
   def user_tabs(current)
-    items = [{:id => :users, :url => '/users'}]
+    items = [{id: :users, url: '/users'}]
 
-    items = [{:id => :settings, :url => '/settings'}] + items if @logged_user.owner_of_owner?
+    items = [{id: :settings, url: '/settings'}] + items if @logged_user.owner_of_owner?
     @selected_user_item = current
     return items
   end
 
   def actions_for_reminder(reminder)
-    [{:name => t('snooze'), :class => 'reminderSnooze', :url => '#', :cond => true},
-      {:name => t('delete'), :class => 'reminderDelete', :url => '#', :cond => true}]
+    [{name: t('snooze'), class: 'reminderSnooze', url: '#', cond: true},
+      {name: t('delete'), class: 'reminderDelete', url: '#', cond: true}]
   end
 
   def status_bar
@@ -195,7 +195,7 @@ module ApplicationHelper
   end
 
   def loader_icon
-    image_tag("icons/loading.gif", :class => 'loader', :style => 'display:none')
+    image_tag("icons/loading.gif", class: 'loader', style: 'display:none')
   end
 
   def if_authorized?(action, resource, &block)

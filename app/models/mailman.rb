@@ -34,7 +34,7 @@ class Mailman < ActionMailer::Base
     return if page.nil?
 
     # Find the relevant user. Untrusted users set to anonymous for fwd handler
-    responsible_user = User.where(:email => email.from).first
+    responsible_user = User.where(email: email.from).first
     if responsible_user.nil?
       responsible_user = page.created_by
       responsible_user.is_anonymous = true
@@ -43,9 +43,9 @@ class Mailman < ActionMailer::Base
     # Handle email and default case
     unless handle_widgets page, email, responsible_user
       page_email = page.emails.build(
-      :from => email.from[0],
-      :subject => email.subject,
-      :body => email.body
+      from: email.from[0],
+      subject: email.subject,
+      body: email.body
       )
 
       page_email.created_by = responsible_user
@@ -63,7 +63,7 @@ class Mailman < ActionMailer::Base
         if self.is_image?(attachment)
           # Make shared_album
           if shared_album.nil?
-            shared_album = page.albums.build(:title => email.subject)
+            shared_album = page.albums.build(title: email.subject)
             shared_album.created_by = responsible_user
 
             if shared_album.save
@@ -74,13 +74,13 @@ class Mailman < ActionMailer::Base
           end
 
           # Add new album picture
-          picture = shared_album.pictures.build(:picture => attachment)
+          picture = shared_album.pictures.build(picture: attachment)
           picture.created_by = responsible_user
           picture.album = shared_album
           picture.save
         else
           uploaded_file = page.uploaded_files.build(
-          :data => attachment
+          data: attachment
           )
 
           uploaded_file.created_by = responsible_user
@@ -122,9 +122,9 @@ class Mailman < ActionMailer::Base
 
   def process_note(name, page, email, responsible_user)
     page_note = page.notes.build(
-    :title => name,
-    :content => email.body,
-    :show_date => true)
+    title: name,
+    content: email.body,
+    show_date: true)
 
     page_note.created_by = responsible_user
 
@@ -146,9 +146,9 @@ class Mailman < ActionMailer::Base
     real_from ||= email.from[0]
 
     page_email = page.emails.build(
-    :from => real_from,
-    :subject => name,
-    :body => email.body
+    from: real_from,
+    subject: name,
+    body: email.body
     )
 
     page_email.created_by = responsible_user
@@ -164,7 +164,7 @@ class Mailman < ActionMailer::Base
 
   def process_list(name, page, email, responsible_user)
     page_list = page.lists.build(
-    :name => name.nil? ? t('list') : name)
+    name: name.nil? ? t('list') : name)
 
     page_list.created_by = responsible_user
 
@@ -174,7 +174,7 @@ class Mailman < ActionMailer::Base
 
       # Add list items
       email.body.scan(/\* (.*)/).each do |item|
-        list_item = page_list.list_items.build(:content => item.to_s)
+        list_item = page_list.list_items.build(content: item.to_s)
         list_item.created_by = responsible_user
         list_item.save
       end

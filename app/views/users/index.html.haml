@@ -3,18 +3,18 @@
 - @user_navigation_items = user_tabs(:users)
 
 - if User.can_be_created_by(@logged_user)
-  %a{:href => new_user_path}= t('add_user')
+  %a{href: new_user_path}= t('add_user')
 
 %table#userList
   - @users.each do |user|
     %tr{'user_id' => user.id}
       %td.userAvatar
-        %img{:src => user.gravatar_url(:size => 50)}
+        %img{src: user.gravatar_url(size: 50)}
       %td.userDisplayName= h(user.display_name)
       - if @logged_user.is_admin
         %td.userAdmin
         %td.userOptions
           - if user.can_be_edited_by(@logged_user)
-            %a{:href => edit_user_path(user)}= t('edit')
+            %a{href: edit_user_path(user)}= t('edit')
           - if user.can_be_deleted_by(@logged_user)
-            %a.userDelete{:href => '#'}= t('delete')
+            %a.userDelete{href: '#'}= t('delete')

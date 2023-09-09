@@ -35,7 +35,7 @@ class UserTest < ActiveSupport::TestCase
     normal_user = users(:normal_user)
     guest_user = users(:guest_user)
 
-    anonymous_user = User.new(:display_name => 'Anonymous')
+    anonymous_user = User.new(display_name: 'Anonymous')
     anonymous_user.username = 'anonymous'
     anonymous_user.is_anonymous = true
     

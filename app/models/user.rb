@@ -85,7 +85,7 @@ class User < ApplicationRecord
     self.page_ids + self.shared_page_ids
   end
 
-  before_validation :on => :create do
+  before_validation on: :create do
     process_create
   end
 
@@ -282,7 +282,7 @@ class User < ApplicationRecord
   end
 
   def object_url
-    url_for :only_path => true, :controller => 'user', :action => 'card', :id => self.id
+    url_for only_path: true, controller: 'user', action: 'card', id: self.id
   end
 
   def remove_shared
@@ -308,7 +308,7 @@ class User < ApplicationRecord
   end
 
   def self.owner
-    @@cached_owner ||= User.where(:is_admin => true).first
+    @@cached_owner ||= User.where(is_admin: true).first
   end
 
   def self.make_shared(email, page)
@@ -326,7 +326,7 @@ class User < ApplicationRecord
   # Serialization
   def to_xml(options = {}, &block)
     default_options = {
-      :except => [
+      except: [
         :salt,
         :token,
         :twister,
@@ -363,16 +363,16 @@ class User < ApplicationRecord
 
   # Validation
 
-  validates_presence_of :username, :on => :create
-  validates_length_of :username, :within => 3..40
+  validates_presence_of :username, on: :create
+  validates_length_of :username, within: 3..40
 
-  validates_presence_of :password, :if => :password_changed?
-  validates_length_of :password, :minimum => 4, :if => :password_changed?
+  validates_presence_of :password, if: :password_changed?
+  validates_length_of :password, minimum: 4, if: :password_changed?
 
-  validates_confirmation_of :password, :if => :password_changed?
+  validates_confirmation_of :password, if: :password_changed?
 
   validates_uniqueness_of :username
   validates_presence_of :email
   validates_uniqueness_of :email
-  validates_uniqueness_of :identity_url, :if => Proc.new { |user| !(user.identity_url.nil? or user.identity_url.empty? ) }
+  validates_uniqueness_of :identity_url, if: Proc.new { |user| !(user.identity_url.nil? or user.identity_url.empty? ) }
 end

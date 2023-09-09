@@ -4,12 +4,12 @@
 - @user_navigation_items = user_tabs(nil)
 
 #newReminderForm
-  = form_tag reminders_path(), :method => :post, :id => "add_ReminderForm" do
+  = form_tag reminders_path(), method: :post, id: "add_ReminderForm" do
     %div
-      %label{:id => 'newReminderAtLabel', :for => 'newReminderAt'}= t('add_reminder')
-      = text_field 'reminder', 'friendly_at_time', :id => 'newReminderAt', :class => 'long'
+      %label{id: 'newReminderAtLabel', for: 'newReminderAt'}= t('add_reminder')
+      = text_field 'reminder', 'friendly_at_time', id: 'newReminderAt', class: 'long'
     %div
-      %button{:class => 'submit', :type => 'submit'}= t('add_reminder')
+      %button{class: 'submit', type: 'submit'}= t('add_reminder')
 
 #reminderList
-  = render :partial => 'group', :collection => @grouped_reminders
+  = render partial: 'group', collection: @grouped_reminders

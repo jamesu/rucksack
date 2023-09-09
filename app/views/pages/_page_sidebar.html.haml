@@ -1,16 +1,16 @@
 .sidebarBlock
   .addPage
-    .inner{:style => 'display:none'}
-      = form_tag pages_path(), :method => :post do
+    .inner{style: 'display:none'}
+      = form_tag pages_path(), method: :post do
         - unless @page.nil?
           = hidden_field_tag 'active_page', @page.id
         %div
-          = text_field 'page', 'title', :class => 'autofocus moderate'
+          = text_field 'page', 'title', class: 'autofocus moderate'
         %div
-          %button.submit{:type => 'submit'}= t('create_page')
-          %a.cancel{:href => '#'}= t('cancel')
-    .addPageLink{:style => 'display:block'}
-      %a.newPage{:href => new_page_url}="+ #{t('new_page')}"
+          %button.submit{type: 'submit'}= t('create_page')
+          %a.cancel{href: '#'}= t('cancel')
+    .addPageLink{style: 'display:block'}
+      %a.newPage{href: new_page_url}="+ #{t('new_page')}"
 
 .sidebarBlock
-  != render :partial => 'listed_pages'
+  != render partial: 'listed_pages'

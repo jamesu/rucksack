@@ -24,8 +24,8 @@
 #++
 
 class UploadedFilesController < ApplicationController
-  before_action :grab_page, :except => [:icon]
-  before_action :load_uploaded_file, :except => [:index, :new, :create, :icon]
+  before_action :grab_page, except: [:icon]
+  before_action :load_uploaded_file, except: [:index, :new, :create, :icon]
     
   protect_from_forgery except: [:index, :show, :new, :edit]
   
@@ -36,7 +36,7 @@ class UploadedFilesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @uploaded_files }
+      format.xml  { render xml: @uploaded_files }
     end
   end
 
@@ -60,7 +60,7 @@ class UploadedFilesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to @uploaded_file.data.url }
       format.js
-      format.xml  { render :xml => @uploaded_file }
+      format.xml  { render xml: @uploaded_file }
     end
   end
 
@@ -73,7 +73,7 @@ class UploadedFilesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @uploaded_file }
+      format.xml  { render xml: @uploaded_file }
     end
   end
 
@@ -106,12 +106,12 @@ class UploadedFilesController < ApplicationController
       if @uploaded_file.save
         flash[:notice] = 'uploaded_file was successfully created.'
         format.html { redirect_to(@uploaded_file.page) }
-        format.js { render :action => 'create' }
-        format.xml  { render :xml => @uploaded_file, :status => :created, :location => page_uploaded_file_path(:page_id => @page.id, :id => @uploaded_file.id) }
+        format.js { render action: 'create' }
+        format.xml  { render xml: @uploaded_file, status: :created, location: page_uploaded_file_path(page_id: @page.id, id: @uploaded_file.id) }
       else
-        format.html { render :action => "new" }
-        format.js { render :action => 'create' }
-        format.xml  { render :xml => @uploaded_file.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.js { render action: 'create' }
+        format.xml  { render xml: @uploaded_file.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -127,12 +127,12 @@ class UploadedFilesController < ApplicationController
       if @uploaded_file.update(uploaded_file_params)
         flash[:notice] = 'uploaded_file was successfully updated.'
         format.html { redirect_to(@uploaded_file) }
-        format.js { render :action => 'update'  }
+        format.js { render action: 'update'  }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.js { render :action => 'update' }
-        format.xml  { render :xml => @uploaded_file.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.js { render action: 'update' }
+        format.xml  { render xml: @uploaded_file.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -155,7 +155,7 @@ class UploadedFilesController < ApplicationController
   end
   
   def icon
-    redirect_to path_to_image('file_icons/genericGray.png'), :status => 301
+    redirect_to path_to_image('file_icons/genericGray.png'), status: 301
   end
 
 protected

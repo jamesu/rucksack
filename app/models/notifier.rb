@@ -24,7 +24,7 @@
 #++
 
 class Notifier < ActionMailer::Base
-  default :sender => Proc.new { "noreply@#{Account.owner.host_name}" }
+  default sender: Proc.new { "noreply@#{Account.owner.host_name}" }
 
   def reminder(reminder, sent_at = Time.now)
     @site_name = real_site_name
@@ -32,19 +32,19 @@ class Notifier < ActionMailer::Base
     @user = reminder.created_by
     @sent_on = sent_at
 
-    mail(:to => reminder.created_by.email,
-         :date => sent_at,
-         :subject => "#{t('reminder')} - #{reminder.content}")
+    mail(to: reminder.created_by.email,
+         date: sent_at,
+         subject: "#{t('reminder')} - #{reminder.content}")
   end
 
   def page_share_info(user, page)
     @site_name = real_site_name
     @page = page
     @user = page.updated_by
-    @url = "http://#{Account.owner.host_name}#{page_path({:id => page.id, :token => user.twisted_token})}"
+    @url = "http://#{Account.owner.host_name}#{page_path({id: page.id, token: user.twisted_token})}"
 
-    mail(:to => user.email,
-         :subject => t('user_wants_to_share_page', :user => page.updated_by.display_name, :page => page.title))
+    mail(to: user.email,
+         subject: t('user_wants_to_share_page', user: page.updated_by.display_name, page: page.title))
   end
 
   def signup_notification(user)
@@ -52,8 +52,8 @@ class Notifier < ActionMailer::Base
     @owner = Account.owner
     @url = "http://#{Account.owner.host_name}/login"
 
-    mail(:to => user.email,
-         :subject => "#{real_site_name} - #{t('notifier_signup_subject')}")
+    mail(to: user.email,
+         subject: "#{real_site_name} - #{t('notifier_signup_subject')}")
   end
 
   def password_reset(user)
@@ -62,8 +62,8 @@ class Notifier < ActionMailer::Base
     @sent_on = @sent_on
     @url = "http://#{Account.owner.host_name}/users/reset_password/#{user.id}?confirm=#{user.password_reset_key}"
 
-    mail(:to => user.email,
-         :subject => "#{real_site_name} - #{t('notifier_password_reset_subject')}")
+    mail(to: user.email,
+         subject: "#{real_site_name} - #{t('notifier_password_reset_subject')}")
   end
 
   protected

@@ -64,14 +64,14 @@ basecamp_dump_file = File.open(tiddlywiki_location, 'r') do |file|
         puts content_data
         puts "######"
         
-        page = Page.new(:title =>title, :tags => tags.join(','))
+        page = Page.new(:title =>title, tags: tags.join(','))
         page.created_by = owner
         page.save!
         page.created_at = created_on
         page.save!
         
         # One note
-        note = page.notes.build({:title => title, :content => content_data})
+        note = page.notes.build({title: title, content: content_data})
         note.created_by = owner
         note.save!
         note.created_at = created_on

@@ -32,7 +32,7 @@ class Reminder < ApplicationRecord
 
   has_many :application_logs, as: :rel_object#, dependent: :nullify
 
-  @@repeat_lookup = {:never => 0, :yearly => 1, :monthly => 2, :fortnightly => 3, :weekly => 4, :daily => 5}
+  @@repeat_lookup = {never: 0, yearly: 1, monthly: 2, fortnightly: 3, weekly: 4, daily: 5}
   @@repeat_id_lookup = @@repeat_lookup.invert
 
   after_create   :process_create
@@ -67,7 +67,7 @@ class Reminder < ApplicationRecord
 
   def friendly_at_time=(value)
     @cached_friendly_time = value
-    ctime = Chronic.parse(value, :now => Time.zone.now)
+    ctime = Chronic.parse(value, now: Time.zone.now)
     # TODO: possible to extract subject from query?
 
     if !ctime.nil?
@@ -82,7 +82,7 @@ class Reminder < ApplicationRecord
     self.content = value
   end
 
-  def snooze(interval={:minutes => 15})
+  def snooze(interval={minutes: 15})
     self.at_time = Time.zone.now.advance(interval)
   end
 
@@ -148,15 +148,15 @@ class Reminder < ApplicationRecord
           interval = nil
           case reminder.repeat
           when :yearly
-            interval = {:years => 1}
+            interval = {years: 1}
           when :monthly
-            interval = {:months => 1}
+            interval = {months: 1}
           when :fortnightly
-            interval = {:weeks => 2}
+            interval = {weeks: 2}
           when :weekly
-            interval = {:weeks => 1}
+            interval = {weeks: 1}
           when :daily
-            interval = {:days => 1}
+            interval = {days: 1}
           end
 
           unless interval.nil?

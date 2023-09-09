@@ -1,9 +1,9 @@
-- @page_title = (@user == @logged_user) ? t('update_profile') : t('update_user', :name => h(@user.display_name))
+- @page_title = (@user == @logged_user) ? t('update_profile') : t('update_user', name: h(@user.display_name))
 - @tabbed_navigation_items = common_tabs(nil)
 - @user_navigation_items = user_tabs((@user == @logged_user) ? :my_profile : :users)
 
 #userForm
-  = form_tag user_path(@user), :method => :put do
-    = render :partial => 'form'
-    %button.submit{:type => 'submit'}= t('save_changes')
-    %a.cancel{:href => users_path}= t('cancel')
+  = form_tag user_path(@user), method: :put do
+    = render partial: 'form'
+    %button.submit{type: 'submit'}= t('save_changes')
+    %a.cancel{href: users_path}= t('cancel')

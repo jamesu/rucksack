@@ -10,13 +10,13 @@ class SessionsControllerTest < ActionController::TestCase
   fixtures :users
 
   def test_should_login_and_redirect
-    post :create, params: {:login => 'test', :password => 'testing'}
+    post :create, params: {login: 'test', password: 'testing'}
     assert session[:user_id]
     assert_response :redirect
   end
 
   def test_should_fail_login_and_not_redirect
-    post :create, params: {:login => 'test', :password => 'bad password'}
+    post :create, params: {login: 'test', password: 'bad password'}
     assert_nil session[:user_id]
     assert_response :success
   end
@@ -30,13 +30,13 @@ class SessionsControllerTest < ActionController::TestCase
 
   def test_should_remember_me
     cookies[:auth_token] = nil
-    post :create, params: {:login => 'test', :password => 'testing', :remember_me => "1"}
+    post :create, params: {login: 'test', password: 'testing', remember_me: "1"}
     assert_not_nil cookies[:auth_token]
   end
 
   def test_should_not_remember_me
     cookies[:auth_token] = nil
-    post :create, params: {:login => 'test', :password => 'testing', :remember_me => "0"}
+    post :create, params: {login: 'test', password: 'testing', remember_me: "0"}
     puts cookies[:auth_token]
     assert cookies[:auth_token].blank?
   end

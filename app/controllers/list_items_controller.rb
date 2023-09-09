@@ -26,7 +26,7 @@
 class ListItemsController < ApplicationController
   before_action :grab_page
   before_action :grab_list
-  before_action :load_list_item, :except => [:index, :new, :create]
+  before_action :load_list_item, except: [:index, :new, :create]
     
   protect_from_forgery except: [:index, :show, :new, :edit]
 
@@ -44,7 +44,7 @@ class ListItemsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.js
-      format.xml  { render :xml => @list_items }
+      format.xml  { render xml: @list_items }
     end
   end
 
@@ -54,7 +54,7 @@ class ListItemsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.js
-      format.xml  { render :xml => @list_item }
+      format.xml  { render xml: @list_item }
     end
   end
 
@@ -67,7 +67,7 @@ class ListItemsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @list_item }
+      format.xml  { render xml: @list_item }
     end
   end
 
@@ -89,11 +89,11 @@ class ListItemsController < ApplicationController
         flash[:notice] = 'ListItem was successfully created.'
         format.html { redirect_to(@list_item) }
         format.js
-        format.xml  { render :xml => @list_item, :status => :created, :location => page_list_list_item_path(:page_id => @page.id, :list_id => @list.id, :id => @list_item.id) }
+        format.xml  { render xml: @list_item, status: :created, location: page_list_list_item_path(page_id: @page.id, list_id: @list.id, id: @list_item.id) }
       else
-        format.html { render :action => "new" }
+        format.html { render action: "new" }
         format.js
-        format.xml  { render :xml => @list_item.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @list_item.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -112,9 +112,9 @@ class ListItemsController < ApplicationController
         format.js
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render action: "edit" }
         format.js
-        format.xml  { render :xml => @list_item.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @list_item.errors, status: :unprocessable_entity }
       end
     end
   end

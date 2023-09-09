@@ -40,14 +40,14 @@ class StatusesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => [@status] + @statuses }
+      format.xml  { render xml: [@status] + @statuses }
     end
   end
 
   # PUT /statuses/1
   # PUT /statuses/1.xml
   def update
-    @status = @user.status || @user.build_status(:content => t('status'))
+    @status = @user.status || @user.build_status(content: t('status'))
     return error_status(true, :cannot_edit_status) unless (@status.can_be_edited_by(@logged_user))
     
     @status.attributes = status_params
@@ -59,9 +59,9 @@ class StatusesController < ApplicationController
         format.js {}
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render action: "edit" }
         format.js {}
-        format.xml  { render :xml => @status.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @status.errors, status: :unprocessable_entity }
       end
     end
   end

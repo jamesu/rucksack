@@ -1,7 +1,7 @@
 class FuncExtras < ActiveRecord::Migration[4.2]
   def self.up
     # File descriptions
-    add_column :uploaded_files, 'description', :string, :null => false, :default => ''
+    add_column :uploaded_files, 'description', :string, null: false, default: ''
     
     # Some more indexes
     add_index "statuses", ["user_id"]

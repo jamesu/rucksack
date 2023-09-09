@@ -7,14 +7,14 @@
   - mth = :put
   - action_name = t('update')
 
-= form_tag url, :method => mth, :multipart => true do
-  %input{:type => 'hidden', :name => 'is_new', :value => '0'}
-  %input{:type => 'hidden', :name => 'el_id', :value => ''}
+= form_tag url, method: mth, multipart: true do
+  %input{type: 'hidden', name: 'is_new', value: '0'}
+  %input{type: 'hidden', name: 'el_id', value: ''}
 
   %div
-    %input{:type => 'hidden', :name=> 'format', :value => 'js'}/
-    != file_field 'picture', 'picture', :class => 'pictureFormTitle', :class => 'autofocus long', :size => 8
-    = text_field 'picture', 'caption', :class => 'autofocus long', :size => 18
+    %input{type: 'hidden', :name=> 'format', value: 'js'}/
+    != file_field 'picture', 'picture', class: 'pictureFormTitle', class: 'autofocus long', size: 8
+    = text_field 'picture', 'caption', class: 'autofocus long', size: 18
   %div
-    %button.submit{:type => 'submit'}= action_name
-    %a.cancel{:href => '#'}= t('cancel')
+    %button.submit{type: 'submit'}= action_name
+    %a.cancel{href: '#'}= t('cancel')

@@ -2,13 +2,13 @@
 - @tabbed_navigation_items = common_tabs(:pages)
 - @user_navigation_items = user_tabs(nil)
 
-= form_tag pages_path(:use_route => nil) do
+= form_tag pages_path(use_route: nil) do
   != error_messages_for :page
   %p
-    %label{:for => 'newpage_title'}
-    != text_field 'page', 'title', :id => 'newpage_title', :class => 'long'
+    %label{for: 'newpage_title'}
+    != text_field 'page', 'title', id: 'newpage_title', class: 'long'
   %p
     != submit_tag t('page_create')
 
 %p
-  %a{:href => pages_path}= t('page_back')
+  %a{href: pages_path}= t('page_back')

@@ -1,6 +1,6 @@
 - page_url = @page.can_be_edited_by(@logged_user) ? "/#{page_slot.rel_object_type.pluralize.tableize}/#{page_slot.rel_object_id}" : ''
 
-.pageWidget{:url => page_url}
+.pageWidget{url: page_url}
   - if @page.can_be_edited_by(@logged_user)
     != page_handle widget_options(object), "page_slot_handle_#{page_slot.id}", '.pageWidget', 'pageSlotHandle'
-  != render :partial => object.view_partial, :locals => {:object => object, :page_slot => page_slot}
+  != render partial: object.view_partial, locals: {object: object, page_slot: page_slot}

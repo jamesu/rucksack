@@ -166,7 +166,7 @@ class Page < ApplicationRecord
   end
 
   def object_url
-    page_url(:id => self.id, :only_path => true)
+    page_url(id: self.id, only_path: true)
   end
 
   def is_shared?
@@ -248,7 +248,7 @@ class Page < ApplicationRecord
       end
 
       # Make the new slot, damnit!
-      new_slot = PageSlot.new(:page => self, :position => insert_pos, :rel_object => insert_widget)
+      new_slot = PageSlot.new(page: self, position: insert_pos, rel_object: insert_widget)
       new_slot.save!
     end
 
@@ -261,7 +261,7 @@ class Page < ApplicationRecord
     Page.transaction do
 
       new_page = self.dup
-      new_page.title = I18n.t('copy_of_page', :title => self.title)
+      new_page.title = I18n.t('copy_of_page', title: self.title)
       new_page.created_by = new_owner
       new_page.address = 'random'
       new_page.save!
@@ -314,10 +314,10 @@ class Page < ApplicationRecord
 
   def to_xml(options = {}, &block)
     default_options = {
-      :methods => [ :tags ]
+      methods: [ :tags ]
     }
 
-    default_options[:include] = { :slots => {:only => [:id, :position, :width, :rel_object_type, :rel_object_id]}  } unless options[:in_list]
+    default_options[:include] = { slots: {only: [:id, :position, :width, :rel_object_type, :rel_object_id]}  } unless options[:in_list]
     super(options.merge(default_options), &block)
   end
 

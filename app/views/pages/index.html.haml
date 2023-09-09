@@ -4,24 +4,24 @@
 
 #tagCrumbsWrapper{:'meta-search-tags' => (@search_tags.nil? or @search_tags.empty?) ? "[]" : @search_tags.to_json}
   %p.floatleft= t('current_tags')
-  %ul{:id => 'tagCrumbs'}
-    != render :partial => 'tags/crumb', :collection => (@search_tags || [])
+  %ul{id: 'tagCrumbs'}
+    != render partial: 'tags/crumb', collection: (@search_tags || [])
 
 .clear
 
 #tagNewCrumbsWrapper
   %h3= t('available_tags')
-  %ul{:id => 'tagNewCrumbs'}
-    != render :partial => 'tags/crumb', :collection => (@avail_tags || [])
+  %ul{id: 'tagNewCrumbs'}
+    != render partial: 'tags/crumb', collection: (@avail_tags || [])
 
 #pageTable
   #myPageHeader
     %h2= t('my_pages')
   
-  != render :partial => 'index_page', :collection => @pages, :locals => {:shared => false}
+  != render partial: 'index_page', collection: @pages, locals: {shared: false}
   
   #sharedPageHeader
     %h2= t('pages_shared_to_me')
   
-  != render :partial => 'index_page', :collection => @shared_pages, :locals => {:shared => true}
+  != render partial: 'index_page', collection: @shared_pages, locals: {shared: true}
 

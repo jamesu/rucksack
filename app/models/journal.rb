@@ -113,12 +113,12 @@ class Journal < ApplicationRecord
       "<span class=\"journalTime\">#{timeVal}</span>"
     end
     
-    { :start_date => found_start, 
-      :done_date => found_done,
-      :limit => found_limit,
-      :origin_time => time_now,
-      :html => gen,
-      :tags => tag_list }
+    { start_date: found_start, 
+      done_date: found_done,
+      limit: found_limit,
+      origin_time: time_now,
+      html: gen,
+      tags: tag_list }
   end
 
   def content_html

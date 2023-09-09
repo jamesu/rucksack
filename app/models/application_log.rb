@@ -25,10 +25,10 @@
 
 class ApplicationLog < ApplicationRecord
   belongs_to :created_by, class_name: 'User', foreign_key: 'created_by_id'
-  belongs_to :rel_object, :polymorphic => true, optional: true
+  belongs_to :rel_object, polymorphic: true, optional: true
   belongs_to :page, optional: true
 
-  @@action_lookup = {:add => 0, :edit => 1, :delete => 2, :open => 3, :close => 4, :rename => 5}
+  @@action_lookup = {add: 0, edit: 1, delete: 2, open: 3, close: 4, rename: 5}
   @@action_id_lookup = @@action_lookup.invert
 
   def friendly_action
@@ -56,12 +56,12 @@ class ApplicationLog < ApplicationRecord
     return if user.nil?
 
     # Lets go...
-    @log = ApplicationLog.new(:action => action,
-    :object_name => obj.object_name,
-    :previous_name => obj.respond_to?(:previous_name) ? obj.previous_name : nil,
-    :created_by => user,
-    :is_private => private,
-    :is_silent => false)
+    @log = ApplicationLog.new(action: action,
+    object_name: obj.object_name,
+    previous_name: obj.respond_to?(:previous_name) ? obj.previous_name : nil,
+    created_by: user,
+    is_private: private,
+    is_silent: false)
 
     if action == :delete
       @log.page = obj.page
@@ -109,7 +109,7 @@ class ApplicationLog < ApplicationRecord
 
     found_records = {}
 
-    # :group => "created_by_id, #{offset_date}, CASE #{sanitize_sql({'page_id' => nil})} WHEN 1 THEN #{rel_group} ELSE page_id END"
+    # group: "created_by_id, #{offset_date}, CASE #{sanitize_sql({'page_id' => nil})} WHEN 1 THEN #{rel_group} ELSE page_id END"
     where(conditions).order('created_on ASC').reject do |item|
 
       obj_key = item.page_id.nil? ? "#{item.rel_object_type}.#{item.rel_object_id}" : item.page_id

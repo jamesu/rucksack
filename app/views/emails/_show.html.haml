@@ -1,6 +1,6 @@
 - hhandle = "page_slot_handle_#{page_slot.id}"
-.pageEmail{:hover_handle => hhandle}
-  %h2{:hover_handle => hhandle}
-    %a{:href => "/pages/#{object.page_id}/emails/#{object.id}#{@logged_user.is_anonymous? ? '/public' : ''}", :hover_handle => hhandle}=h object.subject
-    %span.pageEmailFrom{:hover_handle => hhandle}= t('email_view_from', :name => object.from)
-    %span.pageEmailDate{:hover_handle => hhandle}= object.created_at.strftime(@time_now.year != object.created_at.year ? t('date_format_dmy') : t('date_format_dm'))
+.pageEmail{hover_handle: hhandle}
+  %h2{hover_handle: hhandle}
+    %a{href: "/pages/#{object.page_id}/emails/#{object.id}#{@logged_user.is_anonymous? ? '/public' : ''}", hover_handle: hhandle}=h object.subject
+    %span.pageEmailFrom{hover_handle: hhandle}= t('email_view_from', name: object.from)
+    %span.pageEmailDate{hover_handle: hhandle}= object.created_at.strftime(@time_now.year != object.created_at.year ? t('date_format_dmy') : t('date_format_dm'))

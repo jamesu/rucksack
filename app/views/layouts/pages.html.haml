@@ -1,10 +1,10 @@
 !!! Strict
 %html
   %head
-    %meta{ 'http-equiv' => 'content-type', :content => 'text/html;charset=UTF-8'}/
-    %meta{ 'name' => 'viewport', :content => 'width=device-width,initial-scale=1'}/
+    %meta{ 'http-equiv' => 'content-type', content: 'text/html;charset=UTF-8'}/
+    %meta{ 'name' => 'viewport', content: 'width=device-width,initial-scale=1'}/
     %title= "#{site_name} - #{h(@page_title)}"
-    %meta{ :name => 'page-type', :content => 'pages' }
+    %meta{ name: 'page-type', content: 'pages' }
     
     = stylesheet_link_tag 'pages'
     - unless @additional_stylesheets.nil?
@@ -16,27 +16,27 @@
     = csrf_meta_tags
     = csp_meta_tag
     
-    %style{:type => 'text/css'}!= "#tabsWrapper ul li a { color: #{site_account.tab_text_colour}; background: #{site_account.tab_background_colour}; }"
-    %style{:type => 'text/css'}!= "#tabsWrapper ul li a:hover { color: #{site_account.tab_text_hover_colour}; background: #{site_account.tab_background_hover_colour}; }"
-    %style{:type => 'text/css'}!= "#header { background: #{site_account.header_colour}; }"
-    %style{:type => 'text/css'}!= "#pageTools, #pageInsertItemsBar { background-color: #{site_account.page_header_colour}; }"
-    %style{:type => 'text/css'}!= "#pageTools, #pageTools a { color: #{site_account.page_header_text_colour}; }"
-    %style{:type => 'text/css'}!= "#pageTools a:hover { color: white; }"
-    %style{:type => 'text/css'}!= "#pageInsertItemsBar, #pageInsertItemsBar a { color: #{site_account.page_header_text_colour}; }"
+    %style{type: 'text/css'}!= "#tabsWrapper ul li a { color: #{site_account.tab_text_colour}; background: #{site_account.tab_background_colour}; }"
+    %style{type: 'text/css'}!= "#tabsWrapper ul li a:hover { color: #{site_account.tab_text_hover_colour}; background: #{site_account.tab_background_hover_colour}; }"
+    %style{type: 'text/css'}!= "#header { background: #{site_account.header_colour}; }"
+    %style{type: 'text/css'}!= "#pageTools, #pageInsertItemsBar { background-color: #{site_account.page_header_colour}; }"
+    %style{type: 'text/css'}!= "#pageTools, #pageTools a { color: #{site_account.page_header_text_colour}; }"
+    %style{type: 'text/css'}!= "#pageTools a:hover { color: white; }"
+    %style{type: 'text/css'}!= "#pageInsertItemsBar, #pageInsertItemsBar a { color: #{site_account.page_header_text_colour}; }"
   %body#body
     #wrapper
       
       -# Top of page (tabs, user box, etc)
       #header
-        != render :partial => 'layouts/tabs'
+        != render partial: 'layouts/tabs'
       
       #outerWrapper{'data-controller' => 'page'}
-        #innerWrapper.totalPageWidth{:class => controller_name}
+        #innerWrapper.totalPageWidth{class: controller_name}
           -# Displays general alerts
           = status_bar
           
           #pageContent
-            #content{:class => controller_name}
+            #content{class: controller_name}
               #innerContent
                 - if @no_page_tile.nil?
                   %h1= h @page_title
@@ -44,8 +44,8 @@
                 = yield
             
             #sidebar
-              = render :partial => (@content_for_sidebar.nil? ? 'layouts/blank_sidebar' : @content_for_sidebar )
+              = render partial: (@content_for_sidebar.nil? ? 'layouts/blank_sidebar' : @content_for_sidebar )
             
-            %div{:style => 'clear:both'}
+            %div{style: 'clear:both'}
           
-        = render :partial => 'layouts/footer'
+        = render partial: 'layouts/footer'

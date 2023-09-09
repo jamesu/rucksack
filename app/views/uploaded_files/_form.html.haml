@@ -7,20 +7,20 @@
   - fmethod = :put
   - fid = 'widgetForm upload'
 
-= form_tag( fpath, :method => fmethod, :class => fid, :multipart => true) do
-  %input{:type => 'hidden', :name => 'is_new', :value => '0'}
+= form_tag( fpath, method: fmethod, class: fid, multipart: true) do
+  %input{type: 'hidden', name: 'is_new', value: '0'}
   %div
-    != file_field 'uploaded_file', 'data', :class => 'uploadedFileFormTitle', :class => 'autofocus long'
+    != file_field 'uploaded_file', 'data', class: 'uploadedFileFormTitle', class: 'autofocus long'
   %div
-    != text_field 'uploaded_file', 'description', :id => 'uploadedFileFormDescription', :class => 'long'
+    != text_field 'uploaded_file', 'description', id: 'uploadedFileFormDescription', class: 'long'
   
-  %input{:type => 'hidden', :name=> 'format', :value => 'js'}/
+  %input{type: 'hidden', :name=> 'format', value: 'js'}/
   
   - if @uploaded_file.nil? or @uploaded_file.new_record?
-    %input#add_UploadedFileFormBefore{:type => 'hidden', :name=> 'position[before]', :value => '0'}/
-    %input#add_UploadedFileFormSlot{:type => 'hidden', :name=> 'position[slot]', :value => '0'}/
-    %button{:class => 'submit', :type => 'submit'}= t('upload')
+    %input#add_UploadedFileFormBefore{type: 'hidden', :name=> 'position[before]', value: '0'}/
+    %input#add_UploadedFileFormSlot{type: 'hidden', :name=> 'position[slot]', value: '0'}/
+    %button{class: 'submit', type: 'submit'}= t('upload')
   - else
-    %button{:class => 'submit', :type => 'submit'}= t('update')
+    %button{class: 'submit', type: 'submit'}= t('update')
   
-  %a{:href => '#', :class => 'cancel'}= t('cancel')
+  %a{href: '#', class: 'cancel'}= t('cancel')

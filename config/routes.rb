@@ -24,7 +24,7 @@
 #++
 
 Rucksack::Application.routes.draw do
-  resource :settings, :controller => 'accounts', :as => :account
+  resource :settings, controller: 'accounts', as: :account
 
   resource :dashboard
   resources :reminders do
@@ -87,7 +87,7 @@ Rucksack::Application.routes.draw do
         post :reorder
         put :transfer
       end
-      resources :items, :controller => 'list_items', :as => 'list_items' do
+      resources :items, controller: 'list_items', as: 'list_items' do
         member do
           put :status
         end
@@ -108,24 +108,24 @@ Rucksack::Application.routes.draw do
         post :reorder
         put :transfer
       end
-      resources :pictures, :controller => 'album_pictures', :as => :album_pictures
+      resources :pictures, controller: 'album_pictures', as: :album_pictures
     end
   end
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  match '/', :controller => "pages", :action => "current", :as => :root, :via => :get
+  match '/', controller: "pages", action: "current", as: :root, via: :get
 
   # Restful authentication
   resource :session
-  match '/login',  :controller => 'sessions', :action => 'new', :as => :login, :via => :get
-  match '/logout', :controller => 'sessions', :action => 'destroy', :as => :logout, :via => :get
+  match '/login',  controller: 'sessions', action: 'new', as: :login, via: :get
+  match '/logout', controller: 'sessions', action: 'destroy', as: :logout, via: :get
 
   # See how all your routes lay out with "rake routes"
   
   # 404 icons
-  match '/images/file_icons/:id.png', :controller => 'uploaded_files', :action => 'icon', :via => :get
+  match '/images/file_icons/:id.png', controller: 'uploaded_files', action: 'icon', via: :get
 
   # Install the default routes as the lowest priority.
-  match ':controller/:action/:id', :via => :get
-  match ':controller/:action/:id.:format', :via => :get
+  match ':controller/:action/:id', via: :get
+  match ':controller/:action/:id.:format', via: :get
 end

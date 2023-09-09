@@ -5,30 +5,30 @@
     .header= t('user_administration_options') 
     .content
       %div
-        %label{:for => 'userFormUserName'}!= "#{t('username')} <span class=\"label_required\">*</span>"
-        = text_field 'user', 'username', :id => 'userFormUserName', :class => 'moderate'
+        %label{for: 'userFormUserName'}!= "#{t('username')} <span class=\"label_required\">*</span>"
+        = text_field 'user', 'username', id: 'userFormUserName', class: 'moderate'
       %fieldset
         %legend= t('options')
         %div
-          %label{:for => 'userFormIsAdmin'}= t('user_is_admin')
-          = yesno_toggle 'user', 'is_admin', :id => 'userFormIsAdmin', :class => 'yesno'
+          %label{for: 'userFormIsAdmin'}= t('user_is_admin')
+          = yesno_toggle 'user', 'is_admin', id: 'userFormIsAdmin', class: 'yesno'
 
 %div
-  %label{:for => 'userFormDisplayName'}= t('display_name')
-  = text_field 'user', 'display_name', :id => 'userFormDisplayName', :class => 'moderate' 
+  %label{for: 'userFormDisplayName'}= t('display_name')
+  = text_field 'user', 'display_name', id: 'userFormDisplayName', class: 'moderate' 
 
 %div
-  %label{:for => 'userFormEmail'}= t('email_address')
-  = text_field 'user', 'email', :id => 'userFormEmail', :class => 'moderate'
+  %label{for: 'userFormEmail'}= t('email_address')
+  = text_field 'user', 'email', id: 'userFormEmail', class: 'moderate'
 
 %div
-  %label{:for => 'userFormPassword'}= t('password')
-  = password_field 'user', 'password', :id => 'userFormPassword', :class => 'moderate'
+  %label{for: 'userFormPassword'}= t('password')
+  = password_field 'user', 'password', id: 'userFormPassword', class: 'moderate'
 
 %div
-  %label{:for => 'userFormPasswordAgain'}= t('repeat_password')
-  = password_field 'user', 'password_confirmation', :id => 'userFormPasswordAgain', :class => 'moderate'
+  %label{for: 'userFormPasswordAgain'}= t('repeat_password')
+  = password_field 'user', 'password_confirmation', id: 'userFormPasswordAgain', class: 'moderate'
 
 %div
-  %label{:for => 'userFormTimezone'}= t('timezone')
-  = time_zone_select 'user', 'time_zone', nil, {}, {:id => 'userFormTimezone', :class => 'moderate'}
+  %label{for: 'userFormTimezone'}= t('timezone')
+  = time_zone_select 'user', 'time_zone', nil, {}, {id: 'userFormTimezone', class: 'moderate'}

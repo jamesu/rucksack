@@ -1,13 +1,13 @@
 - url = show.can_be_completed_by(@logged_user) ? "/lists/#{show.list_id}/items/#{show.id}" : nil
 - cbdrag = !show.is_completed? && show.can_be_edited_by(@logged_user)
-%li.listItem{:class => (cbdrag ? '' : 'dragPageElement'), :id => "list_item_#{show.id}", :list_id => show.list_id, :item_id => show.id, :url => url}
+%li.listItem{class: (cbdrag ? '' : 'dragPageElement'), id: "list_item_#{show.id}", list_id: show.list_id, item_id: show.id, url: url}
   .listItemContent
     - if show.can_be_completed_by(@logged_user)
       - if cbdrag
         = page_handle [ ['delete', '-'], ['edit', t('edit')], ['list_item_handle', '+'] ], "page_item_handle_#{show.id}", '.listItem', 'pageSlotHandle'
-      %input.checkbox{:type => 'checkbox', :hover_handle => "page_item_handle_#{show.id}", :checked => (show.is_completed? ? 'checked' : nil)}
+      %input.checkbox{type: 'checkbox', hover_handle: "page_item_handle_#{show.id}", checked: (show.is_completed? ? 'checked' : nil)}
     - else
       %span.readCheckbox= show.is_completed? ? render_icon('checked', t('list_item_completed')) : render_icon('not-checked', t('list_item_open'))
-    %span.itemText{:hover_handle => "page_item_handle_#{show.id}"}
-      = (show.is_completed? and show.can_be_edited_by(@logged_user)) ? render_icon('del_gen', '', {:class => 'itemDelete'}) : ''
+    %span.itemText{hover_handle: "page_item_handle_#{show.id}"}
+      = (show.is_completed? and show.can_be_edited_by(@logged_user)) ? render_icon('del_gen', '', {class: 'itemDelete'}) : ''
       != textilize h(show.content), true, {'hover_handle' => "page_item_handle_#{show.id}"}

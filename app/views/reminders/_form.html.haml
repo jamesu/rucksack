@@ -1,13 +1,13 @@
-= form_tag( reminder_path(@reminder), :method => :put, :class => 'reminderForm') do
+= form_tag( reminder_path(@reminder), method: :put, class: 'reminderForm') do
   %div
-    != text_field 'reminder', 'content', :id => 'reminderFormContent', :class => 'autofocus long'
+    != text_field 'reminder', 'content', id: 'reminderFormContent', class: 'autofocus long'
   %div
-    %label{:for => 'reminderFormTime'}= t('at_time')
-    != datetime_select 'reminder', 'at_time', :id => 'reminderFormTime', :use_month_numbers => true
+    %label{for: 'reminderFormTime'}= t('at_time')
+    != datetime_select 'reminder', 'at_time', id: 'reminderFormTime', use_month_numbers: true
   %div
-    %label{:for => 'reminderFormRepeat'}= t('repeat')
-    != select 'reminder', 'repeat', Reminder.select_repeat, :id => 'reminderFormRepeat'
+    %label{for: 'reminderFormRepeat'}= t('repeat')
+    != select 'reminder', 'repeat', Reminder.select_repeat, id: 'reminderFormRepeat'
   
-  %button{:class => 'submit', :type => 'submit'}= t('update')
+  %button{class: 'submit', type: 'submit'}= t('update')
     
-  %a{:href => '#', :class => 'cancel'}= t('cancel')
+  %a{href: '#', class: 'cancel'}= t('cancel')

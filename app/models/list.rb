@@ -78,7 +78,7 @@ class List < ApplicationRecord
   end
 
   def object_url
-    url_for :only_path => true, :controller => 'task', :action => 'view_list', :id => self.id, :active_project => self.project_id
+    url_for only_path: true, controller: 'task', action: 'view_list', id: self.id, active_project: self.project_id
   end
 
   def is_completed?
@@ -162,7 +162,7 @@ class List < ApplicationRecord
   end
 
   def self.select_list(project)
-    List.find(:all, :select => 'id, name').collect do |list|
+    List.find(:all, select: 'id, name').collect do |list|
       [list.name, list.id]
     end
   end

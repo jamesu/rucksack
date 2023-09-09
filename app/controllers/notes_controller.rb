@@ -25,7 +25,7 @@
 
 class NotesController < ApplicationController
   before_action :grab_page
-  before_action :load_note, :except => [:index, :new, :create]
+  before_action :load_note, except: [:index, :new, :create]
    
   protect_from_forgery except: [:index, :show, :new, :edit]
 
@@ -36,7 +36,7 @@ class NotesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @notes }
+      format.xml  { render xml: @notes }
     end
   end
 
@@ -46,7 +46,7 @@ class NotesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.js
-      format.xml  { render :xml => @note }
+      format.xml  { render xml: @note }
     end
   end
 
@@ -59,7 +59,7 @@ class NotesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @note }
+      format.xml  { render xml: @note }
     end
   end
 
@@ -93,10 +93,10 @@ class NotesController < ApplicationController
         error_status(false, :success_note_created)
         format.html { redirect_to(@note) }
         format.js {}
-        format.xml  { render :xml => @note, :status => :created, :location => page_note_path(:page_id => @page.id, :id => @note.id) }
+        format.xml  { render xml: @note, status: :created, location: page_note_path(page_id: @page.id, id: @note.id) }
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @note.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.xml  { render xml: @note.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -115,9 +115,9 @@ class NotesController < ApplicationController
         format.js {}
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render action: "edit" }
         format.js {}
-        format.xml  { render :xml => @note.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @note.errors, status: :unprocessable_entity }
       end
     end
   end
