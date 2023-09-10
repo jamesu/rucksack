@@ -181,7 +181,7 @@ class JournalsController < ApplicationController
 protected
 
   def journal_params
-    params[:journal].nil? ? {} : params[:journal].permit(:content, :created_at)
+    params.require(:journal).permit(:content, :created_at)
   end
 
   def load_journal

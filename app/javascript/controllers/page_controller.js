@@ -263,17 +263,18 @@ export default class extends Controller
     var el = $(evt.target);
     el.find('input[name=is_new]').attr('value', '0');
 
-    this.setFormLoading(el, true);
+    var pageController = this;
+    pageController.setFormLoading(el, true);
 
     if (el.hasClass('upload'))
     {
-      RucksackHelpers.request(el, () => {this.setFormLoading(el, false); this.JustRebind.bind(this)});
+      RucksackHelpers.request(el, () => {pageController.setFormLoading(el, false); pageController.JustRebind(this)});
       return true;
     }
     else
     {
       evt.preventDefault();
-      RucksackHelpers.request(el, () => {this.setFormLoading(el, false); this.JustRebind.bind(this)});
+      RucksackHelpers.request(el, () => {pageController.setFormLoading(el, false); pageController.JustRebind(this)});
     }
 
     return false;
@@ -606,7 +607,6 @@ export default class extends Controller
     evt.preventDefault();
     var el = $(evt.target);
     var cur = el;
-    console.log("HANDLE SLOT HOVER", el[0]);
 
     var root = el.closest('.pageSlotHandle');
 
@@ -773,7 +773,7 @@ export default class extends Controller
     this.bindStaticEvent($('.add_Note'), 'click', function(evt) {
       evt.preventDefault();
       
-        // Set to top of page if on top toolbar
+      // Set to top of page if on top toolbar
       if ($(this).hasClass('atTop'))
         pageController.insertionMarker.set(null, true);
 
@@ -792,7 +792,7 @@ export default class extends Controller
     this.bindStaticEvent($('.add_Separator'), 'click', function(evt) {
       evt.preventDefault();
       
-        // Set to top of page if on top toolbar
+      // Set to top of page if on top toolbar
       if ($(this).hasClass('atTop'))
         pageController.insertionMarker.set(null, true);
 
@@ -811,7 +811,7 @@ export default class extends Controller
     this.bindStaticEvent($('.add_UploadedFile'), 'click', function(evt) {
       evt.preventDefault();
       
-        // Set to top of page if on top toolbar
+      // Set to top of page if on top toolbar
       if ($(this).hasClass('atTop'))
         pageController.insertionMarker.set(null, true);
 
@@ -830,7 +830,7 @@ export default class extends Controller
     this.bindStaticEvent($('.add_Album'), 'click', function(evt) {
       evt.preventDefault();
       
-        // Set to top of page if on top toolbar
+      // Set to top of page if on top toolbar
       if ($(this).hasClass('atTop'))
         pageController.insertionMarker.set(null, true);
 
@@ -852,10 +852,8 @@ export default class extends Controller
       evt.preventDefault();
       
       pageController.insertionBar.show();
-        //console.log('IM SET');
       pageController.insertionMarker.setEnabled(false);
       pageController.insertionMarker.hide();
-        //console.log('IM DONE');
       pageController.hoverHandle.setEnabled(false);
       pageController.hoverHandle.clearHandle();
 

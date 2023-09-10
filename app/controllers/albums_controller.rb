@@ -177,7 +177,7 @@ class AlbumsController < ApplicationController
 protected
 
   def album_params
-    params[:album].nil? ? {} : params[:album].permit(:title)
+    params.require(:album).permit(:title)
   end
 
   def load_album

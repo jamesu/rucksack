@@ -7,7 +7,7 @@
   - mth = :put
   - action_name = t('update')
 
-= form_with(model: object, url: url, method: mth, multipart: true) do |form|
+= form_with(model: object, url: url, method: mth, multipart: true, scope: :picture) do |form|
   %input{type: 'hidden', name: 'is_new', value: '0'}
   %input{type: 'hidden', name: 'el_id', value: ''}
 

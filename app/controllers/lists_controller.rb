@@ -182,7 +182,7 @@ class ListsController < ApplicationController
 protected
 
   def list_params
-    params[:list].nil? ? {} : params[:list].permit(:name)
+    params.require(:list).permit(:name)
   end
 
   def load_list

@@ -59,7 +59,7 @@ export default {
 
   request: function(el, callback) {
     var formData = new FormData(el[0]);
-    console.log(formData);
+    //console.log('request', formData, 'cb=', callback);
 
     return fetch(el.attr('action'), {
       headers: {
