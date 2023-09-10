@@ -121,7 +121,7 @@ class UsersController < ApplicationController
         format.html { redirect_to(users_path) }
         format.xml  { render xml: @user.to_xml, status: :created, location: @user }
       else
-        format.html { render action: "new" }
+        format.html { render action: "new", status: :unprocessable_entity }
         format.xml  { render xml: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -134,16 +134,11 @@ class UsersController < ApplicationController
     return error_status(true, :cannot_edit_user) unless (@user.can_be_edited_by(@logged_user))
     
     user_attribs = user_params
-    if @logged_user.is_admin
-      if user_attribs.has_key?('is_admin')
-        set_admin = user_attribs.delete('is_admin')
-        @user.is_admin = Account.owner.owner_id != @user.id ? set_admin : true
+    if Account.owner.owner_id == @user.id
+      if user_attribs.has_key? 'is_admin'
+        user_attribs.delete('is_admin')
       end
-
-      @user.username = user_attribs.delete('username') if user_attribs.has_key?('username')
-    else
-      user_attribs.delete('is_admin')
-      user_attribs.delete('username')
+      @user.is_admin = true
     end
     
     if user_attribs.has_key? 'password' and !user_attribs['password'].empty?
@@ -154,13 +149,14 @@ class UsersController < ApplicationController
       user_attribs.delete('password_confirmation')
     end
 
+
     respond_to do |format|
       if @user.update(user_attribs)
         flash[:notice] = 'user was successfully updated.'
         format.html { redirect_to(users_path) }
         format.xml  { head :ok }
       else
-        format.html { render action: "edit" }
+        format.html { render action: "edit", status: :unprocessable_entity }
         format.xml  { render xml: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -253,7 +249,15 @@ class UsersController < ApplicationController
 protected
 
   def user_params
-    params[:user].nil? ? {} : params[:user].permit(:display_name, :email, :time_zone, :title, :identity_url, :new_account_notification)
+    allowed_params = [:display_name, :email, :time_zone, :title, :identity_url, :new_account_notification, :password, :password_confirmation]
+    if @logged_user.is_admin
+      allowed_params << :is_admin
+      allowed_params << :username
+    elsif @logged_user.new_record?
+      allowed_params << :username
+    end
+
+    params.require(:user).permit(*allowed_params)
   end
 
   def user_layout

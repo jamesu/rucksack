@@ -11,7 +11,7 @@
     - if object.can_be_edited_by(@logged_user)
       %li.albumPictureForm{id: "album_picture_form_#{object.id}"}
         .inner{style: (@new_album.nil? ? 'display:none' : nil)}
-          = render partial: 'album_pictures/form', locals: {object: object}
+          = render partial: 'album_pictures/form', locals: {object: object.pictures.new}
         .newPicture{style: (@new_album.nil? ? nil : 'display:none')}
           %a{href: '#'}= t('add_picture')
   .clear

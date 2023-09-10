@@ -1,4 +1,4 @@
-= form_tag status_path(), method: :put, id: 'edit_UserStatus' do
-  != text_area 'status', 'content', class: 'long'
-  %button{class: 'submit', type: 'submit'}= t('update')
+= form_with(model: @user.status, url:status_path(), method: :put, id: 'edit_UserStatus') do |form|
+  != form.text_area 'content', class: 'long'
+  = submit_button_with_loader t('update')
   %a{href: '#', class: 'cancel'}= t('cancel')

@@ -119,11 +119,11 @@ class AlbumPicturesController < ApplicationController
       if @album_picture.update(picture_params)
         flash[:notice] = 'AlbumPicture was successfully updated.'
         format.html { redirect_to(@album.page) }
-        format.js  { render action: 'update' }
+        format.js  { render action: 'show' }
         format.xml  { head :ok }
       else
         format.html { render action: "edit" }
-        format.js
+        format.js  { render action: 'edit' }
         format.xml  { render xml: @album_picture.errors, status: :unprocessable_entity }
       end
     end
@@ -155,7 +155,8 @@ protected
     begin
       @album = @page.albums.find(params[:album_id])
     rescue ActiveRecord::RecordNotFound
-      error_status(true, :cannot_find_album)
+      error_status(true, :cannot_find_album, {}, false)
+      head :unprocessable_entity
       return false
     end
     

@@ -1,4 +1,5 @@
-- if @separator.nil? or @separator.new_record?
+- @separator ||= @page.separators.new
+- if @separator.new_record?
   - fpath = page_separators_path(@page)
   - fmethod = :post
   - fid = 'fixedWidgetForm'
@@ -7,16 +8,16 @@
   - fmethod = :put
   - fid = 'widgetForm'
 
-= form_tag( fpath, method: fmethod, class: fid) do
+= form_with(model: @separator, url: fpath, method: fmethod, class: fid) do |form|
   %input{type: 'hidden', name: 'is_new', value: '0'}
-  %div
-    != text_field 'separator', 'title', class: 'separatorFormTitle', class: 'autofocus moderate'
+    .form-group.normal
+      = form.text_field 'title', class: 'separatorFormTitle', class: 'autofocus moderate'
   
-  - if @separator.nil? or @separator.new_record?
+  - if @separator.new_record?
     %input#add_SeparatorFormBefore{type: 'hidden', :name=> 'position[before]', value: '0'}/
     %input#add_SeparatorFormSlot{type: 'hidden', :name=> 'position[slot]', value: '0'}/
-    %button{class: 'submit', type: 'submit'}= t('add_separator')
+    = submit_button_with_loader t('add_separator')
   - else
-    %button{class: 'submit', type: 'submit'}= t('edit_separator')
+    = submit_button_with_loader t('edit_separator')
   
   %a{href: '#', class: 'cancel'}= t('cancel')

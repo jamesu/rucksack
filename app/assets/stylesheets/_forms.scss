@@ -30,3 +30,45 @@ div.fieldWithErrors {
     list-style: square;
   }
 }
+
+.form-group.checkbox {
+  display: flex; /* Use flexbox layout */
+  flex-direction: row-reverse;
+  justify-content: left;
+  align-items: center; /* Center vertically */
+  margin-bottom: 15px;
+}
+
+.form-group.normal {
+  display: flex; /* Use flexbox layout */
+  flex-direction: column;
+  justify-content: left;
+  align-items: left; /* Center vertically */
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  width: 150px;
+  font-weight: bold;
+}
+
+.form-group input[type="checkbox"] {
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+fieldset legend {
+  margin-bottom: 5px;
+}
+
+form .field_with_errors label {
+  color: red;
+}
+
+form .field_with_errors input {
+  border-color: red;
+}
+
+form .field_error_description {
+  color: red
+}

@@ -117,20 +117,19 @@ module ApplicationHelper
     opts
   end
 
-  def yesno_toggle(object_name, method, options = {})
-    radio_button(object_name, method, "true", options.merge({id: "#{options[:id]}Yes"})) +
-    " <label for=\"#{options[:id]}Yes\" class=\"#{options[:class]}\">#{t('yesno_yes')}</label> ".html_safe +
-    radio_button(object_name, method, "false", options.merge({id: "#{options[:id]}No"})) +
-    " <label for=\"#{options[:id]}No\" class=\"#{options[:class]}\">#{t('yesno_no')}</label>".html_safe
+  def form_field_errors(f, key)
+    if f.object.errors.has_key?(key)
+      error_list = f.object.errors.full_messages_for(key).map{|a| "<li>#{a}</li>"}.join("")
+      "<ul class=\"field_error_description\">#{error_list}</ul>".html_safe
+    else
+      ""
+    end
   end
 
-  def yesno_toggle_tag(name, is_yes, options = {})
-    radio_button_tag(name, "1", is_yes, options.merge({id: "#{options[:id]}Yes"})) +
-    " <label for=\"#{options[:id]}Yes\" class=\"#{options[:class]}\">#{t('yesno_yes')}</label> ".html_safe +
-    radio_button_tag(name, "0", !is_yes, options.merge({id: "#{options[:id]}No"})) +
-    " <label for=\"#{options[:id]}No\" class=\"#{options[:class]}\">#{t('yesno_no')}</label>".html_safe
+  def submit_button_with_loader(label)
+    "<button class=\"submit\" type=\"submit\"><div class=\"loader\">#{image_tag('icons/loading.gif')}</div><div class=\"submit_label\">#{h(label)}</div></button>".html_safe
   end
-
+  
   def common_tabs(current)
     items = [{id: :overview, url: '/dashboard'},
       {id: :pages, url: '/pages/current'},

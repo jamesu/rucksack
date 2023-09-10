@@ -1,4 +1,5 @@
-- if @album.nil? or @album.new_record?
+- @album ||= @page.albums.new
+- if @album.new_record?
   - fpath = page_albums_path(@page)
   - fmethod = :post
   - fid = 'fixedWidgetForm'
@@ -7,21 +8,21 @@
   - fmethod = :put
   - fid = 'pageAlbumForm'
 
-= form_tag( fpath, method: fmethod, class: fid) do
+= form_with(model: @album, url: fpath, method: fmethod, class: fid) do |form|
   - if @album.nil? or @album.new_record?
     %h2= t('add_album')
   
   %input{type: 'hidden', name: 'is_new', value: '0'}
 
-  %div
+  .form-group.normal
     %label{for: 'noteFormTitle'}= t('album_title')
     != text_field 'album', 'title', id: 'albumFormTitle', class: 'autofocus long'
   
   - if @album.nil? or @album.new_record?
     %input#add_AlbumFormBefore{type: 'hidden', :name=> 'position[before]', value: '0'}/
     %input#add_AlbumFormSlot{type: 'hidden', :name=> 'position[slot]', value: '0'}/
-    %button{class: 'submit', type: 'submit'}= t('create')
+    = submit_button_with_loader t('create')
   - else
-    %button{class: 'submit', type: 'submit'}= t('edit_album')
+    = submit_button_with_loader t('edit_album')
   
   %a{href: '#', class: 'cancel'}= t('cancel')

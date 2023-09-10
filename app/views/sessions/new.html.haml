@@ -1,6 +1,6 @@
 - @page_title = t('login')
 
-= form_tag session_path do
+= form_with(url: session_path) do |form|
   
   #normal_login.inner
     #loginUsernameField

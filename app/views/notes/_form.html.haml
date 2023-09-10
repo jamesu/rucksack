@@ -1,4 +1,5 @@
-- if @note.nil? or @note.new_record?
+- @note ||= @page.notes.new
+- if @note.new_record?
   - fpath = page_notes_path(@page)
   - fmethod = :post
   - fid = 'fixedWidgetForm'
@@ -7,26 +8,27 @@
   - fmethod = :put
   - fid = 'widgetForm'
   
-= form_tag( fpath, method: fmethod, class: fid) do
-  - if @note.nil? or @note.new_record?
+= form_with(model: @note, url: fpath, method: fmethod, class: fid) do |form|
+  - if @note.new_record?
     %h2= t('add_note')
   
   %input{type: 'hidden', name: 'is_new', value: '0'}
 
-  %div
-    != text_field 'note', 'title', class: 'noteFormTitle', class: 'autofocus long'
-  %div
-    %label{for: 'noteFormTitle'}
-    != rich_text_area 'note', 'rich_content', class: 'noteFormContent long', rows: 8
-  %div
-    != check_box('note', 'show_date')
-    %label.check{for: 'noteFormShowDate'}= "Show date in title"
+  .form-group.normal
+    = form.text_field 'title', class: 'noteFormTitle', class: 'autofocus long'
+  .form-group.normal
+    = form.label 'rich_content', "Content"
+    = form.rich_text_area 'rich_content', class: 'noteFormContent long', rows: 8
+  .form-group.checkbox
+    = form.label 'show_date', "Show date in title"
+    != form.check_box 'show_date'
   
-  - if @note.nil? or @note.new_record?
+  - if @note.new_record?
     %input#add_NoteFormBefore{type: 'hidden', :name=> 'position[before]', value: '0'}/
     %input#add_NoteFormSlot{type: 'hidden', :name=> 'position[slot]', value: '0'}/
-    %button{class: 'submit', type: 'submit'}= t('add_note')
+
+    = submit_button_with_loader t('add_note')
   - else
-    %button{class: 'submit', type: 'submit'}= t('edit_note')
+    = submit_button_with_loader t('edit_note')
   
   %a{href: '#', class: 'cancel'}= t('cancel')

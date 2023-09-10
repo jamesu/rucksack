@@ -1,7 +1,9 @@
 import $ from "cash-dom";
 
 $.fn.autofocus = function() {
-    this.find('.autofocus')[0].focus();
+    var el = this.find('.autofocus')[0];
+    if (el != null)
+      el.focus();
 }
 
 export default {

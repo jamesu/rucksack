@@ -48,7 +48,7 @@ class AccountsController < ApplicationController
         format.html { redirect_back_or_default(action: 'show') }
         format.xml  { head :ok }
       else
-        format.html { render action: "show" }
+        format.html { render action: "show", status: :unprocessable_entity }
         format.xml  { render xml: @account.errors, status: :unprocessable_entity }
       end
     end

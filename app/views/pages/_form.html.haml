@@ -1,4 +1,4 @@
-= form_tag page_path(@page), method: :put do
-  != text_field 'page', 'title', class: 'autofocus moderate'
-  %button{class: 'submit', type: 'submit'}= t('rename_page')
+= form_with(model: @page, url:page_path(@page), method: :put) do |form|
+  != form.text_field 'page', 'title', class: 'autofocus moderate'
+  = submit_button_with_loader t('rename_page')
   %a{href: '#', class: 'cancel'}= t('cancel')

@@ -89,11 +89,6 @@ input.checkbox {
   margin-right: 8px;
 }
 
-label.checkbox {
-  clear: none;
-  display: inline;
-}
-
 p.desc {
   color: #555555;
 }
@@ -120,6 +115,22 @@ pre {
 
 form div {
   margin-bottom: 3px;
+}
+
+form.loading .cancel {
+  display: none;
+}
+
+form .loader {
+  display: none;
+}
+
+form.loading .loader {
+  display: block;
+}
+
+form.loading .submit_label {
+  display: none;
 }
 
 .totalPageWidth {
@@ -398,7 +409,7 @@ li.albumPicture, li.albumPictureForm {
 }
 
 li.albumPictureForm {
-  height: 60px;
+  height: 80px;
 }
 
 li.albumPicture form, li.albumPictureForm form {
@@ -990,15 +1001,6 @@ ul.userJournalList, #userJournals ul {
 
 /* user form */
 
-#userForm label {
-  display: block;
-  margin-bottom: 4px;
-}
-
-#userForm label.yesno {
-  display: inline;
-}
-
 /* account form */
 
 #settingsForm label {
@@ -1011,15 +1013,6 @@ ul.userJournalList, #userJournals ul {
 
 label {
   font-weight: bolder;
-}
-
-label.yesno {
-  display: inline;
-}
-
-label.check {
-  font-weight: normal;
-  display: inline;
 }
 
 .formSubmit {

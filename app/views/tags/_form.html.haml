@@ -1,4 +1,4 @@
-= form_tag tags_page_path(@page), method: :post do
-  != text_field 'page', 'tags', class: 'autofocus moderate'
+= form_with(model: @page, url: tags_page_path(@page), method: :post) do |form|
+  != form.text_field 'tags', class: 'autofocus moderate'
   %button{class: 'submit', type: 'submit'}= t('update')
   %a{href: '#', class: 'cancel'}= t('cancel')

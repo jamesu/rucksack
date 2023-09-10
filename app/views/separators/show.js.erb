@@ -1,3 +1,5 @@
-page.replace_html("page_slot_#{@separator.page_slot.id}", {:partial => 'pages/slot', :locals => {:page_slot => @separator.page_slot, :object => @separator}
-} )
-page.call "Page.makeSortable"
+<% if @new_separator %>
+  Page.sel('#<%= @insert_element %>').before('<%= "<div class=\"pageSlot\" id=\"page_slot_#{@slot_id}\" slot=\"#{@slot_id}\"></div>".html_safe %>');
+<% end %>
+Page.sel('#<%= "page_slot_#{@separator.page_slot.id}" %>').html('<%= escape_javascript render(:partial => 'pages/slot', :locals => {:page_slot => @separator.page_slot, :object => @separator}) %>');
+Page.makeSortable();

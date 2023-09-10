@@ -3,7 +3,7 @@
 - @user_navigation_items = user_tabs(:users)
 
 #userForm
-  = form_tag users_path(), method: :post do
-    = render partial: 'form'
+  = form_with(model: @user, url:users_path(), method: :post) do |form|
+    = render partial: 'form', locals: {form: form}
     %button.submit{type: 'submit'}= t('save')
     %a.cancel{href: users_path}= t('cancel')

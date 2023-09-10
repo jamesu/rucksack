@@ -1,20 +1,20 @@
-- if @album_picture.nil? or @album_picture.new_record?
-  - url = page_album_album_pictures_path(@page, @album || object)
+- if object.new_record?
+  - url = page_album_album_pictures_path(@page, object.album)
   - mth = :post
   - action_name = t('add_picture')
 - else
-  - url = page_album_album_picture_path(@page, @album, @album_picture)
+  - url = page_album_album_picture_path(@page, object.album, object)
   - mth = :put
   - action_name = t('update')
 
-= form_tag url, method: mth, multipart: true do
+= form_with(model: object, url: url, method: mth, multipart: true) do |form|
   %input{type: 'hidden', name: 'is_new', value: '0'}
   %input{type: 'hidden', name: 'el_id', value: ''}
 
-  %div
+  .form-group.normal
     %input{type: 'hidden', :name=> 'format', value: 'js'}/
-    != file_field 'picture', 'picture', class: 'pictureFormTitle', class: 'autofocus long', size: 8
-    = text_field 'picture', 'caption', class: 'autofocus long', size: 18
-  %div
-    %button.submit{type: 'submit'}= action_name
+    = form.file_field 'picture', class: 'pictureFormTitle', class: 'autofocus long', size: 8
+    = form.text_field 'caption', class: 'autofocus long', size: 18
+  .form-group.normal
+    = submit_button_with_loader action_name
     %a.cancel{href: '#'}= t('cancel')

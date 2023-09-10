@@ -245,23 +245,36 @@ export default class extends Controller
     return false;
   }
 
+  setFormLoading(form_el, loading) {
+    var submit_button = form_el.find('.submit').first();
+    if (!loading)
+    {
+      submit_button.attr('disabled', false);
+      form_el.removeClass('loading');
+    }
+    else
+    {
+      submit_button.attr('disabled', true);
+      form_el.addClass('loading');
+    }
+  }
+
   onWidgetFormSubmit(evt) {
     var el = $(evt.target);
     el.find('input[name=is_new]').attr('value', '0');
 
+    this.setFormLoading(el, true);
+
     if (el.hasClass('upload'))
     {
-      RucksackHelpers.request(el, this.JustRebind.bind(this));
+      RucksackHelpers.request(el, () => {this.setFormLoading(el, false); this.JustRebind.bind(this)});
       return true;
     }
     else
     {
       evt.preventDefault();
-      RucksackHelpers.request(el, this.JustRebind.bind(this));
+      RucksackHelpers.request(el, () => {this.setFormLoading(el, false); this.JustRebind.bind(this)});
     }
-
-    // Loader
-    el.find('.submit').first().attr('disabled', true).html(this.loader());
 
     return false;
   }
@@ -284,15 +297,15 @@ export default class extends Controller
 
     // Loader
     var old_submit = submit_button.html();
-    submit_button.attr('disabled', true).html(this.loader());
+    pageController.setFormLoading(el, true);
 
-      // Note: closures used here so that submit button can be reset
+    // Note: closures used here so that submit button can be reset
     if (el.hasClass('upload')) 
     {
       evt.preventDefault();
       el.find('input[name=is_new]').attr('value', '1');
       RucksackHelpers.request(el, function(data) { 
-        submit_button.attr('disabled', false).html(old_submit); 
+        pageController.setFormLoading(el, true); 
         pageController.ResetAndRebind(data); 
       });
       return true;
@@ -302,7 +315,7 @@ export default class extends Controller
       evt.preventDefault();
       el.find('input[name=is_new]').attr('value', '0');
       RucksackHelpers.request(el, function(data) { 
-        submit_button.attr('disabled', false).html(old_submit); 
+        pageController.setFormLoading(el, true);
         pageController.ResetAndRebind(data); 
       });
     }
@@ -378,8 +391,8 @@ export default class extends Controller
     var list_url = el.parents('.pageWidget').first().attr('url');
     var item_id = el.parents('.listItem').first().attr('item_id');
 
-      // Loader gif
-    el.siblings('.itemText').html(this.loader());
+    // Loader gif
+    //el.siblings('.itemText').html(this.loader());
 
     RucksackHelpers.put(this.buildUrl(list_url + '/items/' + item_id + '/status'), {'list_item': {'completed':evt.target.checked}}, this.JustRebind.bind(this));
 
@@ -1023,14 +1036,14 @@ export default class extends Controller
       var newPage = root.find('.addPageLink').first();
       var addPageInner = root.find('.inner').first();
 
-        // Loader
+      // Loader
       var old_submit = submit_button.html();
-      submit_button.attr('disabled', true).html(pageController.loader());
+      pageController.setFormLoading(el, true);
 
       RucksackHelpers.request($(this), function(data){
         addPageInner.hide(); 
         newPage.show();
-        submit_button.attr('disabled', false).html(old_submit);
+        pageController.setFormLoading(el, false);
         pageController.ResetAndRebind(data);
       });
 
@@ -1067,10 +1080,6 @@ export default class extends Controller
       $('#pageSetNotFavourite').hide();
       $('#pageSetFavourite').show();
     }
-  }
-
-  loader() {
-    return $('#loader_template').html();
   }
 
   insertWidget(resource) {

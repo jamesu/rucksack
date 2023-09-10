@@ -1,34 +1,37 @@
-= error_messages_for :user
-
 - if @logged_user.is_admin
   .hint
     .header= t('user_administration_options') 
     .content
-      %div
-        %label{for: 'userFormUserName'}!= "#{t('username')} <span class=\"label_required\">*</span>"
-        = text_field 'user', 'username', id: 'userFormUserName', class: 'moderate'
+      .form-group.normal
+        = form.label :username, "#{t('username')} <span class=\"label_required\">*</span>".html_safe
+        = form.text_field :username, id: 'userFormUserName', class: 'moderate'
+        = form_field_errors(form, :username)
       %fieldset
         %legend= t('options')
-        %div
-          %label{for: 'userFormIsAdmin'}= t('user_is_admin')
-          = yesno_toggle 'user', 'is_admin', id: 'userFormIsAdmin', class: 'yesno'
+        .form-group.checkbox
+          = form.label 'is_admin', t('user_is_admin')
+          = form.check_box 'is_admin', id: 'userFormIsAdmin', class: 'yesno'
 
-%div
-  %label{for: 'userFormDisplayName'}= t('display_name')
-  = text_field 'user', 'display_name', id: 'userFormDisplayName', class: 'moderate' 
+.form-group.normal
+  = form.label :display_name, t('display_name')
+  = form.text_field :display_name, id: 'userFormDisplayName', class: 'moderate'
+  = form_field_errors(form, :display_name)
 
-%div
-  %label{for: 'userFormEmail'}= t('email_address')
-  = text_field 'user', 'email', id: 'userFormEmail', class: 'moderate'
+.form-group.normal
+  = form.label :email, t('email_address')
+  = form.text_field :email, id: 'userFormEmail', class: 'moderate'
+  = form_field_errors(form, :email)
 
-%div
-  %label{for: 'userFormPassword'}= t('password')
-  = password_field 'user', 'password', id: 'userFormPassword', class: 'moderate'
+.form-group.normal
+  = form.label :password, t('password')
+  = form.password_field :password, id: 'userFormPassword', class: 'moderate'
+  = form_field_errors(form, :password)
 
-%div
-  %label{for: 'userFormPasswordAgain'}= t('repeat_password')
-  = password_field 'user', 'password_confirmation', id: 'userFormPasswordAgain', class: 'moderate'
+.form-group.normal
+  = form.label :password_confirmation, t('repeat_password')
+  = form.password_field :password_confirmation, id: 'userFormPasswordAgain', class: 'moderate'
+  = form_field_errors(form, :password_confirmation)
 
-%div
-  %label{for: 'userFormTimezone'}= t('timezone')
-  = time_zone_select 'user', 'time_zone', nil, {}, {id: 'userFormTimezone', class: 'moderate'}
+.form-group.normal
+  = form.label :time_zone, t('timezone')
+  = form.time_zone_select :time_zone, nil, {}, {id: 'userFormTimezone', class: 'moderate'}

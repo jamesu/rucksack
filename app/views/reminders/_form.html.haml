@@ -1,13 +1,13 @@
-= form_tag( reminder_path(@reminder), method: :put, class: 'reminderForm') do
-  %div
-    != text_field 'reminder', 'content', id: 'reminderFormContent', class: 'autofocus long'
-  %div
+= form_with(model: @reminder, url: reminder_path(@reminder), method: :put, class: 'reminderForm') do |form|
+  .form-group.normal
+    = form.text_field 'content', id: 'reminderFormContent', class: 'autofocus long'
+  .form-group.normal
     %label{for: 'reminderFormTime'}= t('at_time')
-    != datetime_select 'reminder', 'at_time', id: 'reminderFormTime', use_month_numbers: true
-  %div
+    = form.datetime_field 'at_time', id: 'reminderFormTime', use_month_numbers: true
+  .form-group.normal
     %label{for: 'reminderFormRepeat'}= t('repeat')
-    != select 'reminder', 'repeat', Reminder.select_repeat, id: 'reminderFormRepeat'
+    = form.select 'repeat', Reminder.select_repeat, id: 'reminderFormRepeat'
   
-  %button{class: 'submit', type: 'submit'}= t('update')
+  = submit_button_with_loader t('update')
     
   %a{href: '#', class: 'cancel'}= t('cancel')

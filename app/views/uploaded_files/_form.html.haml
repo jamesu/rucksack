@@ -1,4 +1,5 @@
-- if @uploaded_file.nil? or @uploaded_file.new_record?
+- @uploaded_file ||= @page.uploaded_files.new
+- if @uploaded_file.new_record?
   - fpath = page_uploaded_files_path(@page)
   - fmethod = :post
   - fid = 'fixedWidgetForm upload'
@@ -7,20 +8,20 @@
   - fmethod = :put
   - fid = 'widgetForm upload'
 
-= form_tag( fpath, method: fmethod, class: fid, multipart: true) do
+= form_with(model: @uploaded_file, url:fpath, method: fmethod, class: fid, multipart: true) do |form|
   %input{type: 'hidden', name: 'is_new', value: '0'}
-  %div
+  .form-group.normal
     != file_field 'uploaded_file', 'data', class: 'uploadedFileFormTitle', class: 'autofocus long'
-  %div
+  .form-group.normal
     != text_field 'uploaded_file', 'description', id: 'uploadedFileFormDescription', class: 'long'
   
   %input{type: 'hidden', :name=> 'format', value: 'js'}/
   
-  - if @uploaded_file.nil? or @uploaded_file.new_record?
+  - if @uploaded_file.new_record?
     %input#add_UploadedFileFormBefore{type: 'hidden', :name=> 'position[before]', value: '0'}/
     %input#add_UploadedFileFormSlot{type: 'hidden', :name=> 'position[slot]', value: '0'}/
-    %button{class: 'submit', type: 'submit'}= t('upload')
+    = submit_button_with_loader t('upload')
   - else
-    %button{class: 'submit', type: 'submit'}= t('update')
+    = submit_button_with_loader t('update')
   
   %a{href: '#', class: 'cancel'}= t('cancel')
