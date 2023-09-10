@@ -36,7 +36,7 @@ class ListsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render xml: @lists }
+      format.json { render json: @lists }
     end
   end
 
@@ -46,7 +46,7 @@ class ListsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.js
-      format.xml  { render xml: @list }
+      format.json { render json: @list }
     end
   end
 
@@ -59,7 +59,7 @@ class ListsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render xml: @list }
+      format.json { render json: @list }
     end
   end
 
@@ -92,11 +92,11 @@ class ListsController < ApplicationController
         flash[:notice] = 'List was successfully created.'
         format.html { redirect_to(@list) }
         format.js {}
-        format.xml  { render xml: @list, status: :created, location: page_list_path(page_id: @page.id, id: @list.id) }
+        format.json { render json: @list, status: :created, location: page_list_path(page_id: @page.id, id: @list.id) }
       else
         format.html { render action: "new" }
         format.js {}
-        format.xml  { render xml: @list.errors, status: :unprocessable_entity }
+        format.json { render json: @list.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -113,11 +113,11 @@ class ListsController < ApplicationController
         flash[:notice] = 'List was successfully updated.'
         format.html { redirect_to(@list) }
         format.js {}
-        format.xml  { head :ok }
+        format.json { head :ok }
       else
         format.html { render action: "edit" }
         format.js {}
-        format.xml  { render xml: @list.errors, status: :unprocessable_entity }
+        format.json { render json: @list.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -135,7 +135,7 @@ class ListsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(lists_url) }
       format.js {}
-      format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
   
@@ -151,7 +151,7 @@ class ListsController < ApplicationController
     respond_to do |format|
       format.html { head :ok }
       format.js { head :ok }
-      format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
   
@@ -175,7 +175,7 @@ class ListsController < ApplicationController
       format.html { head :ok }
       format.json { head :ok }
       format.js   { head :ok }
-      format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
 

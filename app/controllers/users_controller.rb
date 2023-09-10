@@ -40,7 +40,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render xml: @users.to_xml }
+      format.json { render json: @users.to_json }
     end
   end
 
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(users_path) }
-      format.xml  { render xml: @user.to_xml }
+      format.json { render json: @user.to_json }
     end
   end
 
@@ -66,7 +66,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render xml: @user.to_xml }
+      format.json { render json: @user.to_json }
     end
   end
 
@@ -119,10 +119,10 @@ class UsersController < ApplicationController
       if saved
         flash[:notice] = 'user was successfully created.'
         format.html { redirect_to(users_path) }
-        format.xml  { render xml: @user.to_xml, status: :created, location: @user }
+        format.json { render json: @user.to_json, status: :created, location: @user }
       else
         format.html { render action: "new", status: :unprocessable_entity }
-        format.xml  { render xml: @user.errors, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -154,10 +154,10 @@ class UsersController < ApplicationController
       if @user.update(user_attribs)
         flash[:notice] = 'user was successfully updated.'
         format.html { redirect_to(users_path) }
-        format.xml  { head :ok }
+        format.json { head :ok }
       else
         format.html { render action: "edit", status: :unprocessable_entity }
-        format.xml  { render xml: @user.errors, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -173,7 +173,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(users_url) }
       format.js { }
-      format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
 

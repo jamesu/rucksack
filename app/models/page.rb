@@ -312,7 +312,7 @@ class Page < ApplicationRecord
 
   # Serialization
 
-  def to_xml(options = {}, &block)
+  def to_json(options = {}, &block)
     default_options = {
       methods: [ :tags ]
     }

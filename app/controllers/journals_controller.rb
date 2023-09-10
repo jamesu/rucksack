@@ -57,7 +57,7 @@ class JournalsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.js
-      format.xml  { render xml: @journals }
+      format.json { render json: @journals }
     end
   end
 
@@ -68,7 +68,7 @@ class JournalsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render xml: @journal }
+      format.json { render json: @journal }
     end
   end
 
@@ -80,7 +80,7 @@ class JournalsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render xml: @journal }
+      format.json { render json: @journal }
     end
   end
 
@@ -105,11 +105,11 @@ class JournalsController < ApplicationController
         flash[:notice] = 'Journal was successfully created.'
         format.html { redirect_to(@journal) }
         format.js
-        format.xml  { render xml: @journal, status: :created, location: @journal }
+        format.json { render json: @journal, status: :created, location: @journal }
       else
         format.html { render action: "new" }
         format.js {}
-        format.xml  { render xml: @journal.errors, status: :unprocessable_entity }
+        format.json { render json: @journal.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -124,11 +124,11 @@ class JournalsController < ApplicationController
         flash[:notice] = 'Journal was successfully updated.'
         format.html { redirect_to(@journal) }
         format.js {}
-        format.xml  { head :ok }
+        format.json { head :ok }
       else
         format.html { render action: "edit" }
         format.js {}
-        format.xml  { render xml: @journal.errors, status: :unprocessable_entity }
+        format.json { render json: @journal.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -142,7 +142,7 @@ class JournalsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(journals_url) }
       format.js { }
-      format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
 

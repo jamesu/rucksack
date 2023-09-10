@@ -36,7 +36,7 @@ class NotesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render xml: @notes }
+      format.json { render json: @notes }
     end
   end
 
@@ -46,7 +46,7 @@ class NotesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.js
-      format.xml  { render xml: @note }
+      format.json { render json: @note }
     end
   end
 
@@ -59,7 +59,7 @@ class NotesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render xml: @note }
+      format.json { render json: @note }
     end
   end
 
@@ -93,10 +93,10 @@ class NotesController < ApplicationController
         error_status(false, :success_note_created)
         format.html { redirect_to(@note) }
         format.js {}
-        format.xml  { render xml: @note, status: :created, location: page_note_path(page_id: @page.id, id: @note.id) }
+        format.json { render json: @note, status: :created, location: page_note_path(page_id: @page.id, id: @note.id) }
       else
         format.html { render action: "new" }
-        format.xml  { render xml: @note.errors, status: :unprocessable_entity }
+        format.json { render json: @note.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -113,11 +113,11 @@ class NotesController < ApplicationController
         flash[:notice] = 'Note was successfully updated.'
         format.html { redirect_to(@note) }
         format.js {}
-        format.xml  { head :ok }
+        format.json { head :ok }
       else
         format.html { render action: "edit" }
         format.js {}
-        format.xml  { render xml: @note.errors, status: :unprocessable_entity }
+        format.json { render json: @note.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -135,7 +135,7 @@ class NotesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(notes_url) }
       format.js {}
-      format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
 

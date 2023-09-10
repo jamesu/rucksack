@@ -36,7 +36,7 @@ class UploadedFilesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render xml: @uploaded_files }
+      format.json { render json: @uploaded_files }
     end
   end
 
@@ -60,7 +60,7 @@ class UploadedFilesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to @uploaded_file.data.url }
       format.js
-      format.xml  { render xml: @uploaded_file }
+      format.json { render json: @uploaded_file }
     end
   end
 
@@ -73,7 +73,7 @@ class UploadedFilesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render xml: @uploaded_file }
+      format.json { render json: @uploaded_file }
     end
   end
 
@@ -107,11 +107,11 @@ class UploadedFilesController < ApplicationController
         flash[:notice] = 'uploaded_file was successfully created.'
         format.html { redirect_to(@uploaded_file.page) }
         format.js { render action: 'create' }
-        format.xml  { render xml: @uploaded_file, status: :created, location: page_uploaded_file_path(page_id: @page.id, id: @uploaded_file.id) }
+        format.json { render json: @uploaded_file, status: :created, location: page_uploaded_file_path(page_id: @page.id, id: @uploaded_file.id) }
       else
         format.html { render action: "new" }
         format.js { render action: 'create' }
-        format.xml  { render xml: @uploaded_file.errors, status: :unprocessable_entity }
+        format.json { render json: @uploaded_file.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -128,11 +128,11 @@ class UploadedFilesController < ApplicationController
         flash[:notice] = 'uploaded_file was successfully updated.'
         format.html { redirect_to(@uploaded_file) }
         format.js { render action: 'update'  }
-        format.xml  { head :ok }
+        format.json { head :ok }
       else
         format.html { render action: "edit" }
         format.js { render action: 'update' }
-        format.xml  { render xml: @uploaded_file.errors, status: :unprocessable_entity }
+        format.json { render json: @uploaded_file.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -150,7 +150,7 @@ class UploadedFilesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(uploaded_files_url) }
       format.js {}
-      format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
   

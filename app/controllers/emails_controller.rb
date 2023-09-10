@@ -37,7 +37,7 @@ class EmailsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render xml: @emails }
+      format.json { render json: @emails }
     end
   end
 
@@ -47,7 +47,7 @@ class EmailsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.js
-      format.xml  { render xml: @email }
+      format.json { render json: @email }
     end
   end
 
@@ -60,7 +60,7 @@ class EmailsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render xml: @email }
+      format.json { render json: @email }
     end
   end
 
@@ -94,11 +94,11 @@ class EmailsController < ApplicationController
         flash[:notice] = 'email was successfully created.'
         format.html { redirect_to(@email) }
         format.js {}
-        format.xml  { render xml: @email, status: :created, location: page_email_path(page_id: @page.id, id: @email.id) }
+        format.json { render json: @email, status: :created, location: page_email_path(page_id: @page.id, id: @email.id) }
       else
         format.html { render action: "new" }
         format.js {}
-        format.xml  { render xml: @email.errors, status: :unprocessable_entity }
+        format.json { render json: @email.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -115,11 +115,11 @@ class EmailsController < ApplicationController
         flash[:notice] = 'email was successfully updated.'
         format.html { redirect_to(@email) }
         format.js {}
-        format.xml  { head :ok }
+        format.json { head :ok }
       else
         format.html { render action: "edit" }
         format.js {}
-        format.xml  { render xml: @email.errors, status: :unprocessable_entity }
+        format.json { render json: @email.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -137,7 +137,7 @@ class EmailsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(emails_url) }
       format.js {}
-      format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
   

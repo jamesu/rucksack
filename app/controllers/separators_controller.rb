@@ -36,7 +36,7 @@ class SeparatorsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render xml: @separators }
+      format.json { render json: @separators }
     end
   end
 
@@ -46,7 +46,7 @@ class SeparatorsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.js
-      format.xml  { render xml: @separator }
+      format.json { render json: @separator }
     end
   end
 
@@ -59,7 +59,7 @@ class SeparatorsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render xml: @separator }
+      format.json { render json: @separator }
     end
   end
 
@@ -93,11 +93,11 @@ class SeparatorsController < ApplicationController
         flash[:notice] = 'Separator was successfully created.'
         format.html { redirect_to(@separator) }
         format.js {}
-        format.xml  { render xml: @separator, status: :created, location: page_separator_path(page_id: @page.id, id: @separator.id) }
+        format.json { render json: @separator, status: :created, location: page_separator_path(page_id: @page.id, id: @separator.id) }
       else
         format.html { render action: "new" }
         format.js {}
-        format.xml  { render xml: @separator.errors, status: :unprocessable_entity }
+        format.json { render json: @separator.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -114,11 +114,11 @@ class SeparatorsController < ApplicationController
         flash[:notice] = 'Separator was successfully updated.'
         format.html { redirect_to(@separator) }
         format.js {}
-        format.xml  { head :ok }
+        format.json { head :ok }
       else
         format.html { render action: "edit" }
         format.js {}
-        format.xml  { render xml: @separator.errors, status: :unprocessable_entity }
+        format.json { render json: @separator.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -136,7 +136,7 @@ class SeparatorsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(separators_url) }
       format.js {}
-      format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
 

@@ -33,7 +33,7 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render xml: @account }
+      format.json { render json: @account }
     end
   end
   
@@ -46,10 +46,10 @@ class AccountsController < ApplicationController
       if @account.update(account_params)
         flash[:notice] = t('settings_updated')
         format.html { redirect_back_or_default(action: 'show') }
-        format.xml  { head :ok }
+        format.json { head :ok }
       else
         format.html { render action: "show", status: :unprocessable_entity }
-        format.xml  { render xml: @account.errors, status: :unprocessable_entity }
+        format.json { render json: @account.errors, status: :unprocessable_entity }
       end
     end
   end

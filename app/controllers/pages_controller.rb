@@ -53,7 +53,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.js
-      format.xml  { render xml: @pages.to_xml(in_list: true) }
+      format.json { render json: @pages.to_json(in_list: true) }
     end
   end
 
@@ -68,7 +68,7 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render xml: @page.to_xml }
+      format.json { render json: @page.to_json }
       format.rss { 
         conds = {'page_id' => @page.id}
         conds['is_private'] = false if !@logged_user.member_of_owner?
@@ -96,7 +96,7 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render xml: @page }
+      format.json { render json: @page }
     end
   end
 
@@ -122,10 +122,10 @@ class PagesController < ApplicationController
           @pages = [] if @page.nil? 
           render action: "favourite" 
         }
-        format.xml  { render xml: @page, status: :created, location: @page }
+        format.json { render json: @page, status: :created, location: @page }
       else
         format.html { render action: "new" }
-        format.xml  { render xml: @page.errors, status: :unprocessable_entity }
+        format.json { render json: @page.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -140,11 +140,11 @@ class PagesController < ApplicationController
         flash[:notice] = 'Page was successfully updated.'
         format.html { redirect_to(@page) }
         format.js { }
-        format.xml  { head :ok }
+        format.json { head :ok }
       else
         format.html { render action: "edit" }
         format.js { }
-        format.xml  { render xml: @page.errors, status: :unprocessable_entity }
+        format.json { render json: @page.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -159,7 +159,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(pages_url) }
       format.js { } # destroy.js.rjs
-      format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
   
@@ -178,7 +178,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html { head :ok }
       format.js { head :ok }
-      format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
   
@@ -195,7 +195,7 @@ class PagesController < ApplicationController
     
     respond_to do |format|
         format.html { head :ok }
-        format.xml  { head :ok }
+        format.json { head :ok }
     end
   end
   
@@ -213,7 +213,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html { head :ok }
       format.js { }
-      format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
   
@@ -230,7 +230,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html { head :ok }
       format.js { }
-      format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
   
@@ -287,7 +287,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html { if request.method_symbol != :get; redirect_to(page_url(@page)) end }
       format.js { }
-      format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
   
@@ -328,7 +328,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html { head :ok }
       format.js { }
-      format.xml  { head :ok }
+      format.json { head :ok }
     end 
   end
   
@@ -349,7 +349,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html { head :ok }
       format.js { render action: @view }
-      format.xml  { head :ok }
+      format.json { head :ok }
     end 
   end
   
@@ -363,7 +363,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html { head :ok }
       format.js { }
-      format.xml  { head :ok }
+      format.json { head :ok }
     end 
   end
   
@@ -375,7 +375,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html { head :ok }
       format.js
-      format.xml  { head :ok }
+      format.json { head :ok }
     end 
   end
   

@@ -60,7 +60,7 @@ protected
                     #  page.show 'statusBar'
                     #end 
                   }
-        format.xml  { head(error ? :unprocessable_entity : :ok) }
+        format.json { head(error ? :unprocessable_entity : :ok) }
     end
   end
   

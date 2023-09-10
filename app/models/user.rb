@@ -324,7 +324,7 @@ class User < ApplicationRecord
   end
 
   # Serialization
-  def to_xml(options = {}, &block)
+  def to_json(options = {}, &block)
     default_options = {
       except: [
         :salt,

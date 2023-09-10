@@ -42,7 +42,7 @@ class RemindersController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.js { render action: 'update' }
-      format.xml  { render xml: @reminders }
+      format.json { render json: @reminders }
     end
   end
 
@@ -53,7 +53,7 @@ class RemindersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to reminders_path } # show.html.erb
-      format.xml  { render xml: @reminder }
+      format.json { render json: @reminder }
     end
   end
 
@@ -65,7 +65,7 @@ class RemindersController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render xml: @reminder }
+      format.json { render json: @reminder }
     end
   end
 
@@ -85,11 +85,11 @@ class RemindersController < ApplicationController
         flash[:notice] = 'Reminder was successfully created.'
         format.html { redirect_to(reminders_path) }
         format.js { @grouped_reminders = get_groups; render action: 'update' }
-        format.xml  { render xml: @reminder, status: :created, location: @reminder }
+        format.json { render json: @reminder, status: :created, location: @reminder }
       else
         format.html { render action: "new" }
         format.js { render action: 'update' }
-        format.xml  { render xml: @reminder.errors, status: :unprocessable_entity }
+        format.json { render json: @reminder.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -105,10 +105,10 @@ class RemindersController < ApplicationController
         flash[:notice] = 'Reminder was successfully updated.'
         format.html { redirect_to(@reminder) }
         format.js { @grouped_reminders = get_groups; render action: 'update' }
-        format.xml  { head :ok }
+        format.json { head :ok }
       else
         format.html { render action: "edit" }
-        format.xml  { render xml: @reminder.errors, status: :unprocessable_entity }
+        format.json { render json: @reminder.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -123,7 +123,7 @@ class RemindersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(reminders_url) }
       format.js
-      format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
   
@@ -137,10 +137,10 @@ class RemindersController < ApplicationController
         flash[:notice] = 'Reminder was successfully updated.'
         format.html { redirect_to(@reminder) }
         format.js { @grouped_reminders = get_groups; render action: 'update' }
-        format.xml  { head :ok }
+        format.json { head :ok }
       else
         format.html { render action: "edit" }
-        format.xml  { render xml: @reminder.errors, status: :unprocessable_entity }
+        format.json { render json: @reminder.errors, status: :unprocessable_entity }
       end
     end
   end

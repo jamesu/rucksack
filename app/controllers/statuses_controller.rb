@@ -40,7 +40,7 @@ class StatusesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render xml: [@status] + @statuses }
+      format.json { render json: [@status] + @statuses }
     end
   end
 
@@ -57,11 +57,11 @@ class StatusesController < ApplicationController
         flash[:notice] = 'Status was successfully updated.'
         format.html { redirect_to(journals_url) }
         format.js {}
-        format.xml  { head :ok }
+        format.json { head :ok }
       else
         format.html { render action: "edit" }
         format.js {}
-        format.xml  { render xml: @status.errors, status: :unprocessable_entity }
+        format.json { render json: @status.errors, status: :unprocessable_entity }
       end
     end
   end
