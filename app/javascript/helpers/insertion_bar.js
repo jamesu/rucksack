@@ -17,7 +17,6 @@ export default class {
   }
 
   show() {
-    console.log('showin');
     $(this.pageController.insertionMarker.element).before(this.element);
     this.element_bar.css('height', '0px').show();
 
@@ -27,7 +26,6 @@ export default class {
     {
       duration: 32,
       complete: () => {
-        console.log("Animation completed");
         this.element_bar.css('height', null).show();
       }
     });

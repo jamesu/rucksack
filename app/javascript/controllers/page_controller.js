@@ -338,7 +338,6 @@ export default class extends Controller
   onFixedWidgetFormCancel(evt) {
     evt.preventDefault();
 
-    console.log('onFixedWidgetFormCancel')
     this.insertionBar.clearWidgetForm();
 
     return false;
@@ -624,8 +623,6 @@ export default class extends Controller
     var url_element = root.parents(root.attr('restype')).first();
     var url = url_element.attr('url');
 
-    console.log(this.buildUrl(url + '/edit'));
-
     if (el.hasClass('slot_delete') && confirm("Are you sure you want to delete this item?"))
     {
       RucksackHelpers.del(this.buildUrl(url), null, this.JustRebind.bind(this));
@@ -645,7 +642,6 @@ export default class extends Controller
     for (var i=this.dynamicBoundEvents.length-1; i>= 0; i--)
     {
       var evt = this.dynamicBoundEvents[i];
-      console.log(evt);
       if (evt[0][0] == el[0])
       {
         evt[0].off(evt[1]);

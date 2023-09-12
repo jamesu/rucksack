@@ -59,7 +59,6 @@ export default {
 
   request: function(el, callback) {
     var formData = new FormData(el[0]);
-    //console.log('request', formData, 'cb=', callback);
 
     return fetch(el.attr('action'), {
       headers: {
@@ -116,8 +115,6 @@ export default {
 
     data['authenticity_token'] = authenticityToken;
 
-    console.log('post', data)
-
     return fetch(url, {
       method: "POST",
       body: JSON.stringify(data),
@@ -145,9 +142,6 @@ export default {
     data = data == null ? {} : data;
 
     data['authenticity_token'] = authenticityToken;
-
-    console.log('put url=', url);
-    console.log('put data:', data);
 
     return fetch(url, {
       method: "PUT",

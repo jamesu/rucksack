@@ -32,8 +32,6 @@ export default class {
     }
 
     var is_new = this.current_handle == null || (this.current_handle[0] != handle[0]);
-    //if (is_new)
-      //console.log('handle=' + handle.attr('id'), 'current_handle=' + (this.current_handle == null ? null : this.current_handle.attr('id')));
 
     // Different handle, make sure the old one is gone
     if (this.current_handle && is_new)
