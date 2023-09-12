@@ -1037,8 +1037,7 @@ label {
   display: none;
 }
 
-#statusBar.success,
-.flash.error, .flash.success {
+#statusBar {
   margin: 10px 0;
   padding: 5px 10px;
   border: 1px solid #cccccc;
@@ -1047,7 +1046,7 @@ label {
   text-align: left;
 }
 
-.flash.error {
+#statusBar.error {
   background: #ffb0b0;
   border-color: red;
 }

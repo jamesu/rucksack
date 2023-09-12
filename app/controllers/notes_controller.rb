@@ -110,7 +110,6 @@ class NotesController < ApplicationController
 
     respond_to do |format|
       if @note.update(note_params)
-        flash[:notice] = 'Note was successfully updated.'
         format.html { redirect_to(@note) }
         format.js {}
         format.json { head :ok }

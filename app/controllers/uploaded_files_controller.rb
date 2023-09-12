@@ -104,7 +104,6 @@ class UploadedFilesController < ApplicationController
 
     respond_to do |format|
       if @uploaded_file.save
-        flash[:notice] = 'uploaded_file was successfully created.'
         format.html { redirect_to(@uploaded_file.page) }
         format.js { render action: 'create' }
         format.json { render json: @uploaded_file, status: :created, location: page_uploaded_file_path(page_id: @page.id, id: @uploaded_file.id) }
@@ -125,7 +124,6 @@ class UploadedFilesController < ApplicationController
 
     respond_to do |format|
       if @uploaded_file.update(uploaded_file_params)
-        flash[:notice] = 'uploaded_file was successfully updated.'
         format.html { redirect_to(@uploaded_file) }
         format.js { render action: 'update'  }
         format.json { head :ok }

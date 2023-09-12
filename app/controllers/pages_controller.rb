@@ -115,7 +115,6 @@ class PagesController < ApplicationController
       if @page.save
         @user.favourite_pages << @page
         
-        flash[:notice] = 'Page was successfully created.'
         format.html { redirect_to(@page) }
         format.js   { 
           @page = (!params[:active_page].nil? ? Page.find(params[:active_page]) : nil)
@@ -137,7 +136,6 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       if @page.update(page_params)
-        flash[:notice] = 'Page was successfully updated.'
         format.html { redirect_to(@page) }
         format.js { }
         format.json { head :ok }

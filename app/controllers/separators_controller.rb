@@ -90,7 +90,6 @@ class SeparatorsController < ApplicationController
 
     respond_to do |format|
       if @separator.save
-        flash[:notice] = 'Separator was successfully created.'
         format.html { redirect_to(@separator) }
         format.js {}
         format.json { render json: @separator, status: :created, location: page_separator_path(page_id: @page.id, id: @separator.id) }
@@ -111,7 +110,6 @@ class SeparatorsController < ApplicationController
 
     respond_to do |format|
       if @separator.update(separator_params)
-        flash[:notice] = 'Separator was successfully updated.'
         format.html { redirect_to(@separator) }
         format.js {}
         format.json { head :ok }

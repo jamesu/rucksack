@@ -86,7 +86,6 @@ class ListItemsController < ApplicationController
 
     respond_to do |format|
       if @list_item.save
-        flash[:notice] = 'ListItem was successfully created.'
         format.html { redirect_to(@list_item) }
         format.js
         format.json { render json: @list_item, status: :created, location: page_list_list_item_path(page_id: @page.id, list_id: @list.id, id: @list_item.id) }
@@ -107,7 +106,6 @@ class ListItemsController < ApplicationController
 
     respond_to do |format|
       if @list_item.update(list_item_params)
-        flash[:notice] = 'ListItem was successfully updated.'
         format.html { redirect_to(@list_item) }
         format.js
         format.json { head :ok }

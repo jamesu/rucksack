@@ -41,12 +41,12 @@ class ApplicationController < ActionController::Base
 protected
   
   def error_status(error, message, args={}, continue_ok=true)
+    @flash_error = error
+    @flash_message = t(message, *args)
+    
     if request.format == :html
-      flash[:error] = error
-      flash[:message] = t(message, *args)
-    else
-      @flash_error = error
-      @flash_message = t(message, *args)
+      flash[:error] = @flash_error
+      flash[:message] = @flash_message
     end
     
     return unless (error and continue_ok)
@@ -54,12 +54,7 @@ protected
     # Construct a reply with a relevant error
     respond_to do |format|
         format.html { redirect_back_or_default('/') }
-        format.js { render(:update) 
-                    # TOFIX do |page| 
-                    #  page.replace_html('statusBar', h(flash[:message]))
-                    #  page.show 'statusBar'
-                    #end 
-                  }
+        format.js   { render template: 'pages/status_update' }
         format.json { head(error ? :unprocessable_entity : :ok) }
     end
   end

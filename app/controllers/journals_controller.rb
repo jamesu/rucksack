@@ -102,7 +102,6 @@ class JournalsController < ApplicationController
           @grouped_journals = get_groups(@journals)
         end
         
-        flash[:notice] = 'Journal was successfully created.'
         format.html { redirect_to(@journal) }
         format.js
         format.json { render json: @journal, status: :created, location: @journal }
@@ -121,7 +120,6 @@ class JournalsController < ApplicationController
 
     respond_to do |format|
       if @journal.update(journal_params)
-        flash[:notice] = 'Journal was successfully updated.'
         format.html { redirect_to(@journal) }
         format.js {}
         format.json { head :ok }

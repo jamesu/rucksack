@@ -117,7 +117,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if saved
-        flash[:notice] = 'user was successfully created.'
+        flash[:notice] = t('user_created')
         format.html { redirect_to(users_path) }
         format.json { render json: @user.to_json, status: :created, location: @user }
       else
@@ -152,7 +152,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update(user_attribs)
-        flash[:notice] = 'user was successfully updated.'
+        flash[:notice] = t('profile_updated')
         format.html { redirect_to(users_path) }
         format.json { head :ok }
       else
@@ -270,7 +270,7 @@ protected
   
   def save_user?
     if admin_in_demo_mode? 
-      flash[:notice] = 'You are not allowed to change admin credentials in this demo, try with a normal user instead.'
+      flash[:notice] = t('demo_mode_locked')
       redirect_to users_url
     end
   end

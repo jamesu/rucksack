@@ -121,6 +121,10 @@ en:
   update_user: "Update '%{name}'"
   user_is_admin: Is administrator
   upload: Upload
+
+  # User
+  user_created: User has been registered
+  profile_updated: Your profile has been updated
   
   # Email
   email_from: From
@@ -261,6 +265,8 @@ en:
   tab_text_hover: "Tabs text hover"
   colour: "colour"
   colour_info: "CSS Colour Code"
+
+  demo_mode_locked: "You are not allowed to change admin credentials in this demo, try with a normal user instead."
   
   # Notes
   date_format_dm: "%e %b"

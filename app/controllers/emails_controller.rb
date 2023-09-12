@@ -91,7 +91,6 @@ class EmailsController < ApplicationController
 
     respond_to do |format|
       if @email.save
-        flash[:notice] = 'email was successfully created.'
         format.html { redirect_to(@email) }
         format.js {}
         format.json { render json: @email, status: :created, location: page_email_path(page_id: @page.id, id: @email.id) }
@@ -112,7 +111,6 @@ class EmailsController < ApplicationController
 
     respond_to do |format|
       if @email.update(email_params)
-        flash[:notice] = 'email was successfully updated.'
         format.html { redirect_to(@email) }
         format.js {}
         format.json { head :ok }

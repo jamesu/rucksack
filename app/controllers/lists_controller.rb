@@ -89,7 +89,6 @@ class ListsController < ApplicationController
 
     respond_to do |format|
       if @list.save
-        flash[:notice] = 'List was successfully created.'
         format.html { redirect_to(@list) }
         format.js {}
         format.json { render json: @list, status: :created, location: page_list_path(page_id: @page.id, id: @list.id) }
@@ -110,7 +109,6 @@ class ListsController < ApplicationController
 
     respond_to do |format|
       if @list.update(list_params)
-        flash[:notice] = 'List was successfully updated.'
         format.html { redirect_to(@list) }
         format.js {}
         format.json { head :ok }
@@ -175,7 +173,6 @@ class ListsController < ApplicationController
       format.html { head :ok }
       format.json { head :ok }
       format.js   { head :ok }
-      format.json { head :ok }
     end
   end
 

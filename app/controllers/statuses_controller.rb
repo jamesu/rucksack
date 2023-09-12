@@ -54,7 +54,6 @@ class StatusesController < ApplicationController
 
     respond_to do |format|
       if @status.save
-        flash[:notice] = 'Status was successfully updated.'
         format.html { redirect_to(journals_url) }
         format.js {}
         format.json { head :ok }

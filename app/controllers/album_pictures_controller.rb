@@ -95,7 +95,6 @@ class AlbumPicturesController < ApplicationController
 
     respond_to do |format|
       if @album_picture.save
-        flash[:notice] = 'AlbumPicture was successfully created.'
         format.html { redirect_to(@album.page) }
         format.js { render action: 'create' }
         format.json { render json: @album_picture, status: :created, location: page_album_album_picture_path(page_id: @page.id, album_id: @album.id, id: @album_picture.id) }
@@ -117,7 +116,6 @@ class AlbumPicturesController < ApplicationController
 
     respond_to do |format|
       if @album_picture.update(picture_params)
-        flash[:notice] = 'AlbumPicture was successfully updated.'
         format.html { redirect_to(@album.page) }
         format.js  { render action: 'show' }
         format.json { head :ok }

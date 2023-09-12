@@ -82,7 +82,6 @@ class RemindersController < ApplicationController
 
     respond_to do |format|
       if @reminder.save
-        flash[:notice] = 'Reminder was successfully created.'
         format.html { redirect_to(reminders_path) }
         format.js { @grouped_reminders = get_groups; render action: 'update' }
         format.json { render json: @reminder, status: :created, location: @reminder }
@@ -102,7 +101,6 @@ class RemindersController < ApplicationController
 
     respond_to do |format|
       if @reminder.update(reminder_params)
-        flash[:notice] = 'Reminder was successfully updated.'
         format.html { redirect_to(@reminder) }
         format.js { @grouped_reminders = get_groups; render action: 'update' }
         format.json { head :ok }
@@ -134,7 +132,6 @@ class RemindersController < ApplicationController
 
     respond_to do |format|
       if @reminder.save
-        flash[:notice] = 'Reminder was successfully updated.'
         format.html { redirect_to(@reminder) }
         format.js { @grouped_reminders = get_groups; render action: 'update' }
         format.json { head :ok }

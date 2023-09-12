@@ -38,7 +38,7 @@ export default class extends Controller
   connect() {
     window.Page = this;
 
-    console.log('Connecting page controller....', this.element);
+    console.log('Connecting page controller');
     this.init();
 
     this.bindStaticEvent($('#content'), 'mousemove', this.handlePageHoverHandlerFunc.bind(this));
@@ -115,11 +115,22 @@ export default class extends Controller
   }
 
   disconnect() {
+    console.log('Disonnecting page controller');
+
     this.clearDynamicEvents();
     this.clearStaticEvents();
     this.clearTimers();
 
     window.Page = null;
+  }
+
+  updateStatusBar(error, message) {
+    var bar = $('#statusBar');
+    bar.removeClass('success');
+    bar.removeClass('error');
+    bar.html(message);
+    bar.addClass(error ? 'error' : 'success');
+    bar.show();
   }
 
   bumpJournalEntries(last_id) {
@@ -751,8 +762,6 @@ export default class extends Controller
   bindStatic() {
 
     var pageController = this;
-
-    console.log('bindStatic called');
 
       // Insert widgets
     this.bindStaticEvent($('.add_List'), 'click', function(evt) {

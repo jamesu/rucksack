@@ -88,7 +88,6 @@ class AlbumsController < ApplicationController
 
     respond_to do |format|
       if @album.save
-        flash[:notice] = 'Album was successfully created.'
         format.html { redirect_to(@album) }
         format.js {}
         format.json { render json: @album, status: :created, location: page_album_path(page_id: @page.id, id: @album.id) }
@@ -109,7 +108,6 @@ class AlbumsController < ApplicationController
 
     respond_to do |format|
       if @album.update(album_params)
-        flash[:notice] = 'Album was successfully updated.'
         format.html { redirect_to(@album) }
         format.js {}
         format.json { head :ok }
@@ -169,7 +167,6 @@ class AlbumsController < ApplicationController
     
     respond_to do |format|
       format.html { head :ok }
-      format.json { head :ok }
       format.json { head :ok }
     end
   end
