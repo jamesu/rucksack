@@ -3,6 +3,7 @@ import $ from "cash-dom";
 import Sortable from 'sortablejs';
 
 import RucksackHelpers from "helpers/rucksack_helpers";
+import JournalHelpers from "helpers/journal_helpers";
 import HoverHandle from "helpers/hover_handle";
 import InsertionBar from "helpers/insertion_bar";
 import InsertionMarker from "helpers/insertion_marker";
@@ -33,6 +34,8 @@ export default class extends Controller
     this.listItemSortables = null;
 
     this.activeTimers = [];
+    this.activeTimeStamps = [];
+    this.timerUpdateSchedule = null;
   }
 
   connect() {
@@ -81,6 +84,7 @@ export default class extends Controller
 
     this.hoverHandle.init();
     this.makeSortable();
+    this.updateTimers();
   }
 
   lookupMeta(key, def) {
@@ -164,8 +168,58 @@ export default class extends Controller
     $(elementID).replaceWith(content);
   }
 
-  clearTimers() {
+  updateTimers() {
+    this.clearTimers();
+    this.activeTimers = $('#userJournals .entryTime.active');
+    this.activeTimeStamps = $('#userJournals .journalTimestamp');
+    if (this.activeTimers.length > 0)
+    {
+      this.updateTimerTimes();
+    }
+    if (this.activeTimeStamps.length > 0)
+    {
+      this.updateTimestampTimes();
+    }
+    //console.log('timer count:', this.activeTimers.length, this.activeTimeStamps.length);
+  }
 
+  updateTimestampTimes() {
+    this.timestampUpdateSchedule = setInterval(() => {
+      var now = new Date();
+      this.activeTimeStamps.each((idx, element) => {
+        var el = $(element);
+        var startDate = new Date(parseInt(el.attr('start_date')) * 1000);
+        el.html(JournalHelpers.fancyJournalTime(startDate));
+      });
+    }, 100);//60000);
+  }
+  
+  updateTimerTimes() {
+    this.timerUpdateSchedule = setInterval(() => {
+      var now = new Date();
+      this.activeTimers.each((idx, element) => {
+        var el = $(element);
+        var startDate = new Date(parseInt(el.attr('start_date')) * 1000);
+        var timeSeconds = (now - startDate) / 1000;
+
+        el.html(JournalHelpers.friendlyTime(timeSeconds, false));
+      });
+    }, 1000);
+  }
+
+  clearTimers() {
+    if (this.timerUpdateSchedule)
+    {
+      clearInterval(this.timerUpdateSchedule);
+      this.timerUpdateSchedule = null;
+    }
+    this.activeTimers = [];
+    if (this.timestampUpdateSchedule)
+    {
+      clearInterval(this.timestampUpdateSchedule);
+      this.timestampUpdateSchedule = null;
+    }
+    this.activeTimeStamps = [];
   }
 
   stopSortingWrappedElements(item) {

@@ -1,1 +1,2 @@
 Page.replaceJournalEntry("#journal_<%= @journal.id %>", "<%= escape_javascript render(:partial => 'journal', :object => @journal) %>", true);
+Page.updateTimers();

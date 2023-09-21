@@ -3,6 +3,9 @@
 - @tabbed_navigation_items = common_tabs(:journal)
 - @user_navigation_items = user_tabs(nil)
 
+- content_for :extra_meta do
+  %meta{name: "journal-locale", value: journal_locale_strings.to_json}/
+
 #userStatusBlock
   %h2= t('status')
   

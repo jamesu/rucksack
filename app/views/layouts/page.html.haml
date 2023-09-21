@@ -22,6 +22,8 @@
     %meta{ name: 'page-id', content: @page.id }
     %meta{ name: 'page-width', content: @page.width }
 
+    = yield :extra_meta
+
     = csrf_meta_tags
     = csp_meta_tag
     = javascript_tag yield(:js_templates)

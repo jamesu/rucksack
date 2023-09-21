@@ -179,10 +179,29 @@ en:
   journal: Journal
   status: Status
   display_x_more_entries: "Display %{num} more entries."
-  
-  journal_date_today: "Today"
+  journal_date_today: Today
   journal_date_format: "%a, %b %e"
   journal_date_format_extended: "%a, %b %e %Y"
+  
+  journal_month_1: Jan
+  journal_month_2: Feb
+  journal_month_3: Mar
+  journal_month_4: Apr
+  journal_month_5: May
+  journal_month_6: Jun
+  journal_month_7: Jul
+  journal_month_8: Aug
+  journal_month_9: Sep
+  journal_month_10: Oct
+  journal_month_11: Nov
+  journal_month_12: Dec
+
+  journal_now_time: "Now"
+  journal_year_time: "%{hours}:%{minutes}"
+  journal_date_time: "%{hours}:%{minutes}"
+  journal_hour_time: "%{hours}H"
+  journal_minute_time: "%{minutes}M"
+
   add_entry: Add entry
   user_journals_desc: What everyone else is doing...
   
