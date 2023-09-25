@@ -18,15 +18,17 @@ module JournalsHelper
   end
 
   def friendly_time(seconds, complete=false)
+    mul = seconds < 0 ? '-' : ''
+    seconds = seconds.abs
     minutes = seconds / 60.0
     hours = minutes / 60.0
     hours = (hours).floor
     minutes = ((minutes - (hours * 60.0))).floor
-    prefix = complete ? "✓" : "⏱"
+    prefix = complete ? "✓#{mul}" : "⏱#{mul}"
     seconds = (seconds).floor
 
-    if (hours < 1.0) then
-      if (minutes < 1) then
+    if (hours.abs < 1.0) then
+      if (minutes.abs < 1) then
         return "#{prefix}#{seconds}S"
       else
         return "#{prefix}#{minutes}M"
@@ -36,8 +38,7 @@ module JournalsHelper
     end
   end
 
-  def fancy_journal_time(date)
-    now = Time.new
+  def fancy_journal_time(date, now=Time.new)
     if (is_now(date, now)) then
       return I18n.t('journal_now_time')
     else
