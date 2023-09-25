@@ -124,8 +124,4 @@ Rucksack::Application.routes.draw do
   
   # 404 icons
   match '/images/file_icons/:id.png', controller: 'uploaded_files', action: 'icon', via: :get
-
-  # Install the default routes as the lowest priority.
-  match ':controller/:action/:id', via: :get
-  match ':controller/:action/:id.:format', via: :get
 end
