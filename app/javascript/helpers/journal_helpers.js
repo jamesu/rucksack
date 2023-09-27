@@ -37,11 +37,13 @@ export default {
   },
 
   friendlyTime(seconds, complete) {
+    var mul = seconds < 0 ? '-' : '';
+    seconds = Math.abs(seconds);
     var minutes = seconds / 60.0;
     var hours = minutes / 60.0;
     hours = Math.floor(hours);
     minutes = Math.floor((minutes - (hours * 60.0)));
-    var prefix = complete ? "✓" : "⏱";
+    var prefix = complete ? "✓" + mul : "⏱" + mul;
     seconds = Math.floor(seconds);
 
     if (hours < 1.0) 
@@ -61,8 +63,14 @@ export default {
     }
   },
 
-  fancyJournalTime(date) {
-    var now = new Date();
+  incSecs(date, amount) {
+    date.setSeconds(date.getSeconds() + amount);
+  },
+
+  fancyJournalTime(date, now) {
+    if (now == undefined)
+      now = new Date();
+    
     if (this.isNow(date, now))
     {
       return this.journalLocale('journal_now_time', {});

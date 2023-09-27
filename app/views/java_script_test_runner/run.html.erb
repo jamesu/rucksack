@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<title>Test Suite</title>
+<meta name="journal-locale" value="<%= journal_locale_strings.to_json %>"/>
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script type="text/javascript">
+    exports = {};
+
+    QUnit = {
+      config: {
+        autostart: false
+      }
+    };
+  </script>
+  <%= javascript_importmap_tags "test", shim: false %>
+</body>

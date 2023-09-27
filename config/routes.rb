@@ -124,4 +124,8 @@ Rucksack::Application.routes.draw do
   
   # 404 icons
   match '/images/file_icons/:id.png', controller: 'uploaded_files', action: 'icon', via: :get
+
+  if Rails.env.test?
+    match '/run_js_test', controller: "java_script_test_runner", action: 'run', as: :java_script_test_runner, via: :get
+  end
 end
