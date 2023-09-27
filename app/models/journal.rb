@@ -213,6 +213,14 @@ class Journal < ApplicationRecord
   def date
     self.start_date.to_date
   end
+
+  def date_limit
+    if self.seconds_limit.nil? or self.seconds_limit <= 0
+      nil
+    else
+      self.start_date + self.seconds_limit
+    end
+  end
   
   def hours
     (self.seconds || 0) / 60.0 / 60.0

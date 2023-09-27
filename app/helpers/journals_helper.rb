@@ -17,24 +17,33 @@ module JournalsHelper
     return (now - date) < 60
   end
 
-  def friendly_time(seconds, complete=false)
+  def friendly_time(seconds, seconds_limit=nil, complete=false)
+    prefix = complete ? "✓" : "⏱"
+
+    if complete or seconds_limit.nil? or seconds_limit == 0
+      return prefix + friendly_time_part(seconds)
+    else
+      return prefix + friendly_time_part(seconds) + '/' + friendly_time_part(seconds_limit)
+    end
+  end
+
+  def friendly_time_part(seconds)
     mul = seconds < 0 ? '-' : ''
     seconds = seconds.abs
     minutes = seconds / 60.0
     hours = minutes / 60.0
     hours = (hours).floor
     minutes = ((minutes - (hours * 60.0))).floor
-    prefix = complete ? "✓#{mul}" : "⏱#{mul}"
     seconds = (seconds).floor
 
     if (hours.abs < 1.0) then
       if (minutes.abs < 1) then
-        return "#{prefix}#{seconds}S"
+        return "#{mul}#{seconds}S"
       else
-        return "#{prefix}#{minutes}M"
+        return "#{mul}#{minutes}M"
       end
     else
-      return "#{prefix}#{hours}H#{minutes}M"
+      return "#{mul}#{hours}H#{minutes}M"
     end
   end
 

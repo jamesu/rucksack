@@ -38,17 +38,29 @@ class JournalsHelperTest < ActionView::TestCase
   end
 
   def test_friendly_time
-    assert_equal "✓-1S", friendly_time(-1, true)
-    assert_equal "⏱-1S", friendly_time(-1, false)
+    assert_equal "✓-1S", friendly_time(-1, nil, true)
+    assert_equal "⏱-1S", friendly_time(-1, nil, false)
 
-    assert_equal "✓1S", friendly_time(1, true)
-    assert_equal "✓59S", friendly_time(59, true)
-    assert_equal "✓1M", friendly_time(60, true)
-    assert_equal "✓1M", friendly_time(61, true)
+    assert_equal "✓1S", friendly_time(1, nil, true)
+    assert_equal "✓59S", friendly_time(59, nil, true)
+    assert_equal "✓1M", friendly_time(60, nil, true)
+    assert_equal "✓1M", friendly_time(61, nil, true)
 
-    assert_equal "✓59M", friendly_time(60*59, true)
-    assert_equal "✓1H0M", friendly_time(60*60, true)
-    assert_equal "✓1H1M", friendly_time(60*61, true)
+    assert_equal "✓59M", friendly_time(60*59, nil, true)
+    assert_equal "✓1H0M", friendly_time(60*60, nil, true)
+    assert_equal "✓1H1M", friendly_time(60*61, nil, true)
+
+    # /
+
+    assert_equal "✓1S", friendly_time(1, 1, true)
+    assert_equal "⏱1S/1S", friendly_time(1, 1, false)
+    assert_equal "⏱25S/59S", friendly_time(25, 59, false)
+    assert_equal "⏱30S/1M", friendly_time(30, 60, false)
+    assert_equal "⏱1M/1M", friendly_time(62, 61, false)
+
+    assert_equal "⏱30M/59M", friendly_time(60*30, 60*59, false)
+    assert_equal "⏱30M/1H0M", friendly_time(60*30, 60*60, false)
+    assert_equal "⏱30M/1H1M", friendly_time(60*30, 60*61, false)
   end
 
   def test_fancy_journal_time

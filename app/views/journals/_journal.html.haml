@@ -4,6 +4,6 @@
   .content
     != journal.content_html
   - if !journal.start_date.nil?
-    %span.entryTime{class: journal.done? ? 'done' : 'active', start_date: journal.start_date.utc.to_i}= friendly_time(journal.current_time.floor, journal.done?)
+    %span.entryTime{class: journal.done? ? 'done' : 'active', start_date: journal.start_date.utc.to_i, limit_date: journal.date_limit.nil? ? nil : journal.date_limit.utc.to_i}= friendly_time(journal.current_time.floor, journal.seconds_limit, journal.done?)
   %span.journalTimestamp{start_date: journal.created_at.utc.to_i}= fancy_journal_time(journal.created_at)
   

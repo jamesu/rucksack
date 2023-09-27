@@ -200,9 +200,11 @@ export default class extends Controller
       this.activeTimers.each((idx, element) => {
         var el = $(element);
         var startDate = new Date(parseInt(el.attr('start_date')) * 1000);
+        var limitDate = (el.attr('limit_date') == '') ? null : new Date(parseInt(el.attr('limit_date')) * 1000);
         var timeSeconds = (now - startDate) / 1000;
+        var totalSeconds = limitDate == null ? null : (limitDate - startDate) / 1000;
 
-        el.html(JournalHelpers.friendlyTime(timeSeconds, false));
+        el.html(JournalHelpers.friendlyTime(timeSeconds, totalSeconds, false));
       });
     }, 1000);
   }

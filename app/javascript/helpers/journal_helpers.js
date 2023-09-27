@@ -36,30 +36,41 @@ export default {
     return this.substituteLocaleString(this.journalStrings[key], substitutions);
   },
 
-  friendlyTime(seconds, complete) {
+  friendlyTimePart(seconds) {
     var mul = seconds < 0 ? '-' : '';
     seconds = Math.abs(seconds);
     var minutes = seconds / 60.0;
     var hours = minutes / 60.0;
     hours = Math.floor(hours);
     minutes = Math.floor((minutes - (hours * 60.0)));
-    var prefix = complete ? "✓" + mul : "⏱" + mul;
     seconds = Math.floor(seconds);
 
     if (hours < 1.0) 
     {
       if (minutes < 1) 
       {
-        return prefix + seconds.toString() + "S";
+        return mul + seconds.toString() + "S";
       } 
       else 
       {
-        return prefix + minutes.toString() + "M";
+        return mul + minutes.toString() + "M";
       }
     } 
     else
     {
-      return prefix + hours.toString() + "H" + minutes.toString() + "M";
+      return mul + hours.toString() + "H" + minutes.toString() + "M";
+    }
+  },
+
+  friendlyTime(seconds, seconds_limit, complete) {
+    var prefix = complete ? "✓" : "⏱";
+    if (complete || seconds_limit == null || seconds_limit == 0)
+    {
+      return prefix + this.friendlyTimePart(seconds);
+    }
+    else
+    {
+      return prefix + this.friendlyTimePart(seconds) + '/' + this.friendlyTimePart(seconds_limit);
     }
   },
 
@@ -70,7 +81,7 @@ export default {
   fancyJournalTime(date, now) {
     if (now == undefined)
       now = new Date();
-    
+
     if (this.isNow(date, now))
     {
       return this.journalLocale('journal_now_time', {});

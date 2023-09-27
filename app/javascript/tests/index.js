@@ -9,7 +9,6 @@ window.tests = [
 
 
 document.addEventListener('DOMContentLoaded', () => {
-	console.log('READY', window.QUnit)
 	TestJournalHelpers(window.QUnit);
 
 	window.QUnit.start();

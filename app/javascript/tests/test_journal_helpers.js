@@ -43,17 +43,29 @@ export default function runTests(QUnit) {
     });
 
     QUnit.test('friendlyTime', assert => {
-      assert.equal(JournalHelpers.friendlyTime(-1, true),    "✓-1S");
-      assert.equal(JournalHelpers.friendlyTime(-1, false),   "⏱-1S");
+      assert.equal(JournalHelpers.friendlyTime(-1, null, true),    "✓-1S");
+      assert.equal(JournalHelpers.friendlyTime(-1, null, false),   "⏱-1S");
 
-      assert.equal(JournalHelpers.friendlyTime(1, true),     "✓1S");
-      assert.equal(JournalHelpers.friendlyTime(59, true),    "✓59S");
-      assert.equal(JournalHelpers.friendlyTime(60, true),    "✓1M");
-      assert.equal(JournalHelpers.friendlyTime(61, true),    "✓1M");
+      assert.equal(JournalHelpers.friendlyTime(1, null, true),     "✓1S");
+      assert.equal(JournalHelpers.friendlyTime(59, null, true),    "✓59S");
+      assert.equal(JournalHelpers.friendlyTime(60, null, true),    "✓1M");
+      assert.equal(JournalHelpers.friendlyTime(61, null, true),    "✓1M");
 
-      assert.equal(JournalHelpers.friendlyTime(60*59, true), "✓59M");
-      assert.equal(JournalHelpers.friendlyTime(60*60, true), "✓1H0M");
-      assert.equal(JournalHelpers.friendlyTime(60*61, true), "✓1H1M");
+      assert.equal(JournalHelpers.friendlyTime(60*59, null, true), "✓59M");
+      assert.equal(JournalHelpers.friendlyTime(60*60, null, true), "✓1H0M");
+      assert.equal(JournalHelpers.friendlyTime(60*61, null, true), "✓1H1M");
+    
+      // /
+      
+      assert.equal(JournalHelpers.friendlyTime(1, 1, true),     "✓1S");
+      assert.equal(JournalHelpers.friendlyTime(1, 1, false),     "⏱1S/1S");
+      assert.equal(JournalHelpers.friendlyTime(25, 59, false),    "⏱25S/59S");
+      assert.equal(JournalHelpers.friendlyTime(30, 60, false),    "⏱30S/1M");
+      assert.equal(JournalHelpers.friendlyTime(62, 61, false),    "⏱1M/1M");
+
+      assert.equal(JournalHelpers.friendlyTime(60*30, 60*59, false), "⏱30M/59M");
+      assert.equal(JournalHelpers.friendlyTime(60*30, 60*60, false), "⏱30M/1H0M");
+      assert.equal(JournalHelpers.friendlyTime(60*30, 60*61, false), "⏱30M/1H1M");
     });
 
     QUnit.test('fancyJournalTime', assert => {
