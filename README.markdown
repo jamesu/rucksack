@@ -41,7 +41,7 @@ use a local SQLite database.
 Next, you'll want to actually install the initial content. 
 You can do this by typing in the following command: 
 
-    script/setup
+    bin/setup
 
 To run it, refer to your favorite rails setup guide. If you need a simple development instance, executing the following should work:
 
