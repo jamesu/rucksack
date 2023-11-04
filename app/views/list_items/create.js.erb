@@ -1,3 +1,5 @@
+<% unless @list_item.new_record? %>
 <% select_class = @list_item.is_completed? ? 'completedItems' : 'openItems' %>
 Page.sel('#<%= "list_#{@list.id} .#{select_class} .listItems" %>').first().append('<%= escape_javascript render({:partial => 'show', :collection => [@list_item]}) %>')
 Page.makeSortable();
+<% end %>

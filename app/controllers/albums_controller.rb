@@ -174,7 +174,7 @@ class AlbumsController < ApplicationController
 protected
 
   def album_params
-    params.require(:album).permit(:title)
+    params.fetch(:album, {}).permit(:title)
   end
 
   def load_album

@@ -141,7 +141,7 @@ class SeparatorsController < ApplicationController
 protected
 
   def separator_params
-    params.require(:separator).permit(:title)
+    params.fetch(:separator, {}).permit(:title)
   end
   
   def load_separator

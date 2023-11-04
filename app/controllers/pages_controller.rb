@@ -380,7 +380,7 @@ class PagesController < ApplicationController
 protected
 
   def page_params
-    params.require(:page).permit(:title, :tags, :width)
+    params.fetch(:page, {}).permit(:title, :tags, :width)
   end
   
   def authorized?(action = action_name, resource = nil)

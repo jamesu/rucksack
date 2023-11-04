@@ -141,7 +141,7 @@ class NotesController < ApplicationController
 protected
 
   def note_params
-    params.require(:note).permit(:title, :rich_content, :content, :show_date)
+    params.fetch(:note, {}).permit(:title, :rich_content, :content, :show_date)
   end
   
   def load_note

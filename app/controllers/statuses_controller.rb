@@ -67,6 +67,6 @@ class StatusesController < ApplicationController
 
 protected
   def status_params
-    params.require(:status).permit(:content)
+    params.fetch(:status, {}).permit(:content)
   end
 end

@@ -145,7 +145,7 @@ class RemindersController < ApplicationController
 protected
 
   def reminder_params
-    params.require(:reminder).permit(:repeat, :friendly_at_time, :content, :at_time)
+    params.fetch(:reminder, {}).permit(:repeat, :friendly_at_time, :content, :at_time)
   end
 
   def load_reminder

@@ -257,7 +257,7 @@ protected
       allowed_params << :username
     end
 
-    params.require(:user).permit(*allowed_params)
+    params.fetch(:user, {}).permit(*allowed_params)
   end
 
   def user_layout

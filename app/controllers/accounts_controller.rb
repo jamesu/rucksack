@@ -57,7 +57,7 @@ class AccountsController < ApplicationController
 protected
 
   def account_params
-    params.require(:account).permit(:site_name, :host_name, *Account.setting_fields)
+    params.fetch(:account, {}).permit(:site_name, :host_name, *Account.setting_fields)
   end
 
   def authorized?(action = action_name, resource = nil)

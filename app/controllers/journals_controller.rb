@@ -179,7 +179,7 @@ class JournalsController < ApplicationController
 protected
 
   def journal_params
-    params.require(:journal).permit(:content, :created_at)
+    params.fetch(:journal, {}).permit(:content, :created_at)
   end
 
   def load_journal

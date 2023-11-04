@@ -150,7 +150,7 @@ class EmailsController < ApplicationController
 protected
 
   def email_params
-    params.require(:email).permit(:subject, :body, :from)
+    params.fetch(:email, {}).permit(:subject, :body, :from)
   end
  
   def authorized?(action = action_name, resource = nil)
