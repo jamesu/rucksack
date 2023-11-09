@@ -85,5 +85,6 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
   gem "nokogiri"
+  gem "minitest-reporters"
 end
 
